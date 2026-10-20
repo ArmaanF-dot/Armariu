@@ -2,13 +2,15 @@
   "start": "2026-10-19",
   "end": "2026-10-20",
   "partial": true,
+  "coverage": "incomplete",
+  "coverage_note": "The radar started watching on 2026-10-20, after this window began, so filings before then are missing. Counts are not a true weekly total.",
   "counts": {
     "A": 0,
-    "B": 0,
+    "B": 2,
     "C": 0,
-    "D": 0,
-    "E": 0
+    "D": 16,
+    "E": 3
   },
-  "total": 0,
+  "total": 21,
   "satisfactions": 0
 }
