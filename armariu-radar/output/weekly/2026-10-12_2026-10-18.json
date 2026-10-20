@@ -1,0 +1,14 @@
+{
+  "start": "2026-10-12",
+  "end": "2026-10-18",
+  "partial": false,
+  "counts": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 3,
+    "E": 2
+  },
+  "total": 5,
+  "satisfactions": 0
+}
