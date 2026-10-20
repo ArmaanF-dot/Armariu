@@ -284,7 +284,7 @@ def charges(conn, q: str = "", tier: str = "", category: str = "", check: str = 
         "FROM charges c LEFT JOIN companies co ON co.company_number = c.company_number "
         f"WHERE {' AND '.join(where)} ORDER BY c.delivered_on DESC, c.company_number LIMIT 5000",
         params).fetchall()
-    out = []
+    out, tier_counts = [], {}
     for c in rows:
         persons = conn.execute(
             "SELECT p.name_raw, p.name_norm, lc.category, lc.review_status FROM charge_persons p "
@@ -297,11 +297,12 @@ def charges(conn, q: str = "", tier: str = "", category: str = "", check: str = 
         primary = export._primary(cats)
         t = export._tier(primary, worst, cats)
         needs_check = worst != "ok"
-        if tier and t != tier:
-            continue
         if category and primary != category:
             continue
         if check == "yes" and not needs_check or check == "no" and needs_check:
+            continue
+        tier_counts[t] = tier_counts.get(t, 0) + 1
+        if tier and t != tier:
             continue
         out.append({
             "tier": t, "delivered_on": c["delivered_on"], "created_on": c["created_on"],
@@ -315,7 +316,8 @@ def charges(conn, q: str = "", tier: str = "", category: str = "", check: str = 
                          for p in persons],
             "filing_url": config.FILING_URL.format(company=c["company_number"], charge_id=c["charge_id"]),
         })
-    return {"total": len(out), "rows": out[offset:offset + limit], "offset": offset, "limit": limit}
+    return {"total": len(out), "rows": out[offset:offset + limit], "offset": offset, "limit": limit,
+            "tier_counts": {t: tier_counts.get(t, 0) for t in "ABCDE"}}
 
 
 def lenders(conn, q: str = "", category: str = "", status: str = "") -> dict:

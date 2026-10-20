@@ -130,6 +130,21 @@ const reasonText = (r, source) => {
   const who = source === "human" ? "your rule" : "the starter rule";
   return m[1] === "exact" ? `Matched ${who} for this exact name.` : `Matched ${who} for names containing ${m[2]}.`;
 };
+const catKey = (k) => (k && CATEGORY_KEYS.includes(k) ? k : "unknown");
+const CATEGORY_KEYS = ["direct_lender", "bank", "security_agent", "abl_specialist", "asset_finance", "public_sector", "individual", "other", "unknown"];
+const catChip = (k, label) => `<span class="cat" data-cat="${catKey(k)}">${esc(label || labelFor(k) || "Can't tell")}</span>`;
+// The tier bar: every charge in view, split by tier, each segment in its tier's colour.
+function tierBar(counts, opts = {}) {
+  const total = Object.values(counts || {}).reduce((a, n) => a + n, 0);
+  if (!total) return "";
+  const seg = Object.entries(counts).filter(([, n]) => n).map(([t, n]) =>
+    `<span class="t-${t}" style="flex:${n}" title="Tier ${t}: ${n}"></span>`).join("");
+  const legend = Object.entries(counts).map(([t, n]) => opts.clickable
+    ? `<button type="button" data-tierpick="${t}" aria-pressed="${opts.selected === t}"><span class="sw t-${t}"></span>${esc(TIER_LABELS[t])} <b class="num">${n}</b></button>`
+    : `<button type="button" disabled><span class="sw t-${t}"></span>${t} <b class="num">${n}</b></button>`).join("");
+  return `<div class="tierbar"><div class="bar" role="img" aria-label="${Object.entries(counts).map(([t, n]) => `Tier ${t}: ${n}`).join(", ")}">${seg}</div>
+    ${opts.legend === false ? "" : `<div class="legend">${legend}</div>`}</div>`;
+}
 const sic = (codes) => (codes && codes.length ? codes.map(esc).join(", ") : "");
 
 // ------------------------------------------------------------------ routing
@@ -260,17 +275,19 @@ async function renderDecisions() {
   const L = d.lenders;
   const items = queueItems();
   if (!items.find((x) => x.name === S.current)) S.current = items.length ? items[0].name : null;
-  const tabs = [
-    ["lenders", "Lenders", L.review.length + L.confirm.length],
-    ["messages", "Messages from agents", d.messages.length],
-    ["drafts", "Newsletter drafts", d.drafts.length],
+  const tiles = [
+    ["lenders", "review", L.review.length + L.confirm.length, "Lenders to classify",
+      L.waiting.length ? `${L.waiting.length} more waiting for the classifier` : "None waiting for the classifier"],
+    ["messages", "message", d.messages.length, "Messages from the agents", d.messages.length ? "Read, then mark as done" : "Nothing new"],
+    ["drafts", "draft", d.drafts.length, "Newsletter drafts", d.drafts.length ? "Edit, then mark as published" : "None to edit"],
   ];
   main.innerHTML = `
     <div class="page-head"><div><h1>Decisions</h1><p class="finding">${decisionsFinding(d)}</p></div></div>
-    <div class="tabs" role="tablist">${tabs.map(([k, label, n]) =>
-      `<button role="tab" aria-selected="${S.decTab === k}" data-tab="${k}">${label}${n ? ` <span class="tab-n">${n}</span>` : ""}</button>`).join("")}</div>
+    <div class="qtiles" role="tablist" aria-label="What needs you">${tiles.map(([k, cat, n, label, sub]) =>
+      `<button class="qtile" role="tab" data-cat="${cat}" data-tab="${k}" aria-selected="${S.decTab === k}">
+         <span class="qn num">${n}</span><span class="ql">${label}</span><span class="qs">${sub}</span></button>`).join("")}</div>
     <div id="dec-body"></div>`;
-  main.querySelectorAll(".tabs button").forEach((b) => (b.onclick = () => { S.decTab = b.dataset.tab; renderDecisions(); }));
+  main.querySelectorAll(".qtile").forEach((b) => (b.onclick = () => { S.decTab = b.dataset.tab; renderDecisions(); }));
   const body = document.getElementById("dec-body");
   if (S.decTab === "messages") return renderMessages(body, d.messages);
   if (S.decTab === "drafts") return renderDraftDecisions(body, d.drafts);
@@ -287,9 +304,10 @@ function decisionCard(it) {
   const pick = S.picks[it.name] || { category: it.source === "agent" && it.category !== "unknown" ? it.category : "", parent: it.parent || "" };
   S.picks[it.name] = pick;
   const state = { review: "Needs your call", confirm: "Agent's answer to check", waiting: "Not classified yet" }[it.group];
+  const cat = it.source === "agent" ? catKey(it.category) : "unknown";
   const conf = it.confidence != null ? `${Math.round(it.confidence * 100)}% sure` : "";
   const agent = it.source === "agent"
-    ? `<div class="agent"><p class="says">The classifier agent says ${esc(labelFor(it.category).toLowerCase())}${conf ? `, ${conf}` : ""}${it.parent ? `, part of ${esc(it.parent)}` : ""}.</p><p class="why">${esc(reasonText(it.reason, it.source))}</p></div>`
+    ? `<div class="agent" data-cat="${cat}"><p class="says">The classifier agent says ${esc(labelFor(it.category).toLowerCase())}${conf ? `, ${conf}` : ""}${it.parent ? `, part of ${esc(it.parent)}` : ""}.</p><p class="why">${esc(reasonText(it.reason, it.source))}</p></div>`
     : `<div class="agent"><p class="why">The classifier agent hasn't looked at this name yet. It will on its next run, or you can decide now.</p></div>`;
   const rows = it.examples.map((e) => `<tr>
       <td class="lead">${esc(e.company_name || "Name not fetched yet")}<span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
@@ -299,16 +317,16 @@ function decisionCard(it) {
       <td class="act"><a href="${esc(e.filing_url)}" target="_blank" rel="noopener">View filing</a></td></tr>`).join("");
   const agentAnswer = it.source === "agent" && it.category && it.category !== "unknown" ? it.category : null;
   return `
-    <div class="facts"><span class="state">${state}</span><span>${plural(it.charges, "charge")}</span>${it.latest ? `<span>Latest filing ${fmtDate(it.latest)}</span>` : ""}</div>
+    <div class="facts"><span class="state ${it.group}">${state}</span><span>${plural(it.charges, "charge")}</span>${it.latest ? `<span>Latest filing ${fmtDate(it.latest)}</span>` : ""}</div>
     <h2 class="lender-name">${esc(it.display)}</h2>
     ${agent}
-    ${historyStrip(it.history)}
+    <div data-cat="${cat}">${historyStrip(it.history)}</div>
     <div class="evidence"><h3>Charges in their favour</h3>
       <div class="table-wrap"><table class="stack"><thead><tr><th>Borrower</th><th class="num">Delivered</th><th>Other chargees</th><th>Security</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
     </div>
     <h3>What kind of lender is this?</h3>
     <div class="picker" role="group" aria-label="Lender category">${S.choices.map((c, i) => `
-      <button type="button" class="choice" data-key="${c.key}" aria-pressed="${pick.category === c.key}">
+      <button type="button" class="choice" data-key="${c.key}" data-cat="${c.key}" aria-pressed="${pick.category === c.key}">
         <span class="top"><span>${esc(c.label)}</span><span class="key" aria-hidden="true">${i + 1}</span></span>
         <span class="help">${esc(c.help)}</span>${agentAnswer === c.key ? `<span class="agent-pick">The agent's answer</span>` : ""}
       </button>`).join("")}</div>
@@ -323,7 +341,7 @@ function decisionCard(it) {
 function queueList(L) {
   const group = (title, list, bulk) => !list.length ? "" : `<h3>${title}</h3>
     ${bulk && list.length > 1 ? `<div class="bulk"><button class="btn secondary" id="approve-all">Approve all ${list.length}</button></div>` : ""}
-    ${list.map((x) => `<button class="q" data-name="${esc(x.name)}" aria-current="${x.name === S.current}"><span>${esc(x.display)}</span><span class="n num">${x.charges}</span></button>`).join("")}`;
+    ${list.map((x) => `<button class="q" data-name="${esc(x.name)}" data-cat="${x.source === "agent" ? catKey(x.category) : "unknown"}" aria-current="${x.name === S.current}"><span>${esc(x.display)}</span><span class="n num">${x.charges}</span></button>`).join("")}`;
   return group(`Needs your call, ${L.review.length}`, L.review) + group(`Agent's answer to check, ${L.confirm.length}`, L.confirm, true) + group(`Not classified yet, ${L.waiting.length}`, L.waiting);
 }
 function wireDecision(it) {
@@ -460,7 +478,7 @@ async function renderCharges() {
       <td class="side-fact">${tierBadge(r.tier)}</td>
       <td class="lead">${esc(r.company_name || "Name not fetched yet")}<span class="sub id">${esc(r.company_number)}</span></td>
       <td class="meta">${r.chargees.map((c) => `<button class="linkish" data-lender="${esc(c.name)}">${esc(c.display)}</button>`).join("<br>")}</td>
-      <td class="meta">${esc(r.primary_label)}</td>
+      <td class="meta">${catChip(r.primary, r.primary_label)}</td>
       <td class="num meta">${isoDate(r.delivered_on)}</td>
       <td class="meta">${statusPill(r.status)}${r.satisfied_on ? `<span class="sub">${isoDate(r.satisfied_on)}</span>` : ""}</td>
       <td class="meta">${r.needs_check ? '<span class="pill warn">Check</span>' : '<span class="pill good">Confirmed</span>'}</td>
@@ -479,11 +497,13 @@ async function renderCharges() {
       <label class="field">Delivered to<input type="date" name="to" value="${esc(q.to)}"></label>
       <button class="btn secondary" type="submit">Apply</button>
     </form>
+    ${tierBar(data.tier_counts, { clickable: true, selected: q.tier })}
     <div class="table-wrap"><table class="stack"><thead><tr><th>Tier</th><th>Borrower</th><th>Chargees</th><th>Lender type</th><th class="num">Delivered</th><th>Status</th><th>Checked</th><th></th></tr></thead>
       <tbody id="crows">${rowsHtml(data.rows) || `<tr><td colspan="8" class="muted">No charges match these filters.</td></tr>`}</tbody></table></div>
     ${data.total > data.rows.length ? `<button class="btn secondary more" id="cmore">Show more</button>` : ""}`;
   const form = document.getElementById("cf");
   form.onsubmit = (e) => { e.preventDefault(); Object.assign(q, Object.fromEntries(new FormData(form))); renderCharges(); };
+  main.querySelectorAll("[data-tierpick]").forEach((b) => (b.onclick = () => { q.tier = q.tier === b.dataset.tierpick ? "" : b.dataset.tierpick; renderCharges(); }));
   const onlyA = document.getElementById("only-a"), showAll = document.getElementById("show-all");
   if (onlyA) onlyA.onclick = () => { q.tier = "A"; renderCharges(); };
   if (showAll) showAll.onclick = () => { q.tier = ""; renderCharges(); };
@@ -528,7 +548,7 @@ async function renderLenders() {
     </form>
     <div class="table-wrap"><table class="stack"><thead><tr><th>Lender</th><th>Type</th><th>Parent firm</th><th>Decided by</th><th>Status</th><th class="num">Charges</th><th class="num">Latest</th></tr></thead><tbody>
       ${data.rows.map((r) => `<tr class="clickable" data-lender="${esc(r.name)}" tabindex="0">
-        <td class="lead">${esc(r.display)}</td><td class="meta">${r.category === "direct_lender" ? `<span class="tier A" aria-hidden="true">A</span> ` : ""}${esc(r.category_label || "—")}</td><td class="meta">${esc(r.parent || "") || '<span class="muted">—</span>'}</td>
+        <td class="lead">${esc(r.display)}</td><td class="meta">${r.category ? catChip(r.category, r.category_label) : '<span class="muted">Not classified yet</span>'}</td><td class="meta">${esc(r.parent || "") || '<span class="muted">—</span>'}</td>
         <td class="meta">${esc(r.source_label)}</td><td class="meta">${statusPillFor(r)}</td><td class="num side-fact">${r.charges}</td><td class="num meta">${isoDate(r.latest)}</td></tr>`).join("")
         || `<tr><td colspan="7" class="muted">No lenders match these filters.</td></tr>`}
     </tbody></table></div>`;
@@ -549,12 +569,12 @@ async function openLender(name) {
   const body = document.getElementById("drawer-body");
   const pick = { category: it.category && it.category !== "unknown" ? it.category : "", parent: it.parent || "" };
   body.innerHTML = `
-    <div class="facts"><span class="state">${esc(it.source_label)}${it.category ? `: ${esc(labelFor(it.category))}` : ""}</span>${it.confidence != null && it.source === "agent" ? `<span>${Math.round(it.confidence * 100)}% sure</span>` : ""}</div>
+    <div class="facts"><span class="muted">${esc(it.source_label)}</span>${it.category ? catChip(it.category) : ""}${it.confidence != null && it.source === "agent" ? `<span>${Math.round(it.confidence * 100)}% sure</span>` : ""}</div>
     <h2 class="lender-name" id="drawer-title">${esc(it.display)}</h2>
-    ${it.reason ? `<div class="agent"><p class="why">${esc(reasonText(it.reason, it.source))}</p></div>` : ""}
-    ${historyStrip(it.history)}
+    ${it.reason ? `<div class="agent" data-cat="${catKey(it.category)}"><p class="why">${esc(reasonText(it.reason, it.source))}</p></div>` : ""}
+    <div data-cat="${catKey(it.category)}">${historyStrip(it.history)}</div>
     <h3>Change the type</h3>
-    <div class="picker">${S.choices.map((c) => `<button type="button" class="choice" data-key="${c.key}" aria-pressed="${pick.category === c.key}"><span class="top"><span>${esc(c.label)}</span></span><span class="help">${esc(c.help)}</span></button>`).join("")}</div>
+    <div class="picker">${S.choices.map((c) => `<button type="button" class="choice" data-key="${c.key}" data-cat="${c.key}" aria-pressed="${pick.category === c.key}"><span class="top"><span>${esc(c.label)}</span></span><span class="help">${esc(c.help)}</span></button>`).join("")}</div>
     <div class="decide-row"><label class="field">Parent firm, if it's part of a group<input class="input" id="dparent" value="${esc(pick.parent)}" maxlength="100"></label>
       <button class="btn primary" id="dsave">Save decision</button></div>
     <div class="evidence" style="margin-top:24px"><h3>${plural(it.charges, "charge")} in their favour</h3>
@@ -614,8 +634,8 @@ async function renderReports() {
 // ------------------------------------------------------------------ status
 async function renderStatus() {
   const [s, d] = await Promise.all([get("/api/summary"), loadDecisions()]);
-  const waiting = { rows: [["Lenders that need your call", d.lenders.review.length], ["Agent answers to check", d.lenders.confirm.length],
-    ["Messages from the agents", d.messages.length], ["Newsletter drafts", d.drafts.length]] };
+  const waiting = { rows: [["Lenders that need your call", d.lenders.review.length, "alert"], ["Agent answers to check", d.lenders.confirm.length, "direct_lender"],
+    ["Messages from the agents", d.messages.length, "message"], ["Newsletter drafts", d.drafts.length, "draft"]] };
   waiting.total = waiting.rows.reduce((a, [, n]) => a + n, 0);
   const w = s.this_week, lw = s.last_week;
   const tierLine = (t) => Object.entries(t).filter(([, n]) => n).map(([k, n]) => `${n} in tier ${k}`).join(", ") || "None";
@@ -633,8 +653,8 @@ async function renderStatus() {
     ${notices.join("")}
     <dl class="panel kpis">
       <div class="kpi"><dt>Charges collected</dt><dd class="lead num">${s.charges.toLocaleString("en-GB")}</dd><div class="sub">${plural(s.lenders, "lender name")}</div></div>
-      <div class="kpi"><dt>This week so far</dt><dd class="num">${w.total.toLocaleString("en-GB")}</dd><div class="sub">${tierLine(w.tiers)}</div></div>
-      <div class="kpi"><dt>Last week</dt><dd class="num">${lw.total.toLocaleString("en-GB")}</dd><div class="sub">${tierLine(lw.tiers)}</div></div>
+      <div class="kpi"><dt>This week so far</dt><dd class="num">${w.total.toLocaleString("en-GB")}</dd>${tierBar(w.tiers)}</div>
+      <div class="kpi"><dt>Last week</dt><dd class="num">${lw.total.toLocaleString("en-GB")}</dd>${tierBar(lw.tiers) || '<div class="sub">None</div>'}</div>
       <div class="kpi"><dt>Watching since</dt><dd>${s.coverage_start ? fmtDate(s.coverage_start) : "—"}</dd><div class="sub">Newest filing ${s.latest_delivered ? fmtDate(s.latest_delivered) : "none yet"}</div></div>
       <div class="kpi"><dt>Data on this PC</dt><dd>${s.sync.mode === "cloud" ? "Cloud copy" : "Local"}</dd><div class="sub">${esc(s.sync.message || "")}${s.sync.at ? `, ${fmtTime(s.sync.at)}` : ""}</div></div>
       <div class="kpi"><dt>Stream position</dt><dd class="num">${s.stream_timepoint ? Number(s.stream_timepoint).toLocaleString("en-GB") : "—"}</dd><div class="sub">${s.repo.has_remote ? "Decisions are saved to GitHub" : "No GitHub remote: decisions stay on this PC"}</div></div>
@@ -643,7 +663,7 @@ async function renderStatus() {
       <section class="panel"><h2>Recent activity</h2>${s.activity.length
         ? `<table><tbody>${s.activity.slice(0, 6).map((a) => `<tr><td class="num" title="${esc(a.at)}">${fmtTime(a.at)}</td><td>${esc(a.text)}</td></tr>`).join("")}</tbody></table>`
         : `<p class="muted">No activity yet. Cloud runs, agent runs and your decisions appear here once this folder is linked to your GitHub repo.</p>`}</section>
-      <section class="panel waiting"><h2>Waiting for you</h2><ul class="waiting-list">${waiting.rows.map(([label, n]) => `<li class="${n ? "" : "zero"}"><span>${label}</span><span class="num">${n}</span></li>`).join("")}</ul>
+      <section class="panel waiting"><h2>Waiting for you</h2><ul class="waiting-list">${waiting.rows.map(([label, n, cat]) => `<li class="${n ? "" : "zero"}"><span>${label}</span>${n ? `<span class="tab-n num" data-cat="${cat}">${n}</span>` : `<span class="num">0</span>`}</li>`).join("")}</ul>
         ${waiting.total ? `<a class="btn primary" href="#/decisions">Open decisions</a>` : `<p class="muted">Nothing needs you. New items appear as the radar runs.</p>`}</section>
     </div>`;
   document.getElementById("syncnow").onclick = async () => { await post("/api/sync", {}); toast("Checking for updates"); };

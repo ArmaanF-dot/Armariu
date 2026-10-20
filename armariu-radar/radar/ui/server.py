@@ -7,7 +7,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import secrets
+import socket
 import threading
 import webbrowser
 from http import HTTPStatus
@@ -153,9 +155,33 @@ def make_handler(app: App, port: int):
     return Handler
 
 
+class Server(ThreadingHTTPServer):
+    """Claims its port exclusively. On Windows a plain HTTPServer may bind a port another copy is
+    already listening on, and the browser then keeps talking to the old copy."""
+    daemon_threads = True
+    allow_reuse_address = os.name != "nt"
+
+    def server_bind(self):
+        if os.name == "nt" and hasattr(socket, "SO_EXCLUSIVEADDRUSE"):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
+
+
 def serve(port: int = 8765, open_browser: bool = True, sync: bool = True):
     app = App(sync_enabled=sync)
-    server = ThreadingHTTPServer(("127.0.0.1", port), make_handler(app, port))
+    server = None
+    for p in range(port, port + 10):
+        try:
+            server = Server(("127.0.0.1", p), make_handler(app, p))
+            break
+        except OSError:
+            continue
+    if server is None:
+        raise SystemExit(f"Ports {port}-{port + 9} are all in use. Close the other review app windows and try again.")
+    if p != port:
+        print(f"Another copy of the review app is still running on port {port} (probably an old black window).\n"
+              "Close that window when you can. This copy uses the next free port instead.\n")
+    port = p
     app.start_sync()
     url = f"http://127.0.0.1:{port}/"
     print(f"Armariu review app running at {url}\nLeave this window open while you use it. "
