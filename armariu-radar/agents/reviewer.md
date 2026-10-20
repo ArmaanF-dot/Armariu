@@ -17,6 +17,8 @@ is to catch mistakes, not to approve things: a person makes the final call.
      match the CSV.
 2. **Patterns**: the same lender category assigned inconsistently, banks appearing in Tier A,
    individuals or intra-group lenders treated as private credit.
+   Owner decision (2026-10-20): a bank acting as security trustee or agent stays in Tier B by
+   design, because a fund may be the main lender behind it. Don't flag that on its own.
 3. **Data problems**: empty borrower names, dates that look wrong, duplicate rows, counts in the
    Markdown that don't match the CSV.
 
