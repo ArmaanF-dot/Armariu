@@ -266,12 +266,17 @@ def documents() -> dict:
 
 
 def charges(conn, q: str = "", tier: str = "", category: str = "", check: str = "",
-            date_from: str = "", date_to: str = "", limit: int = 100, offset: int = 0) -> dict:
+            date_from: str = "", date_to: str = "", limit: int = 100, offset: int = 0,
+            status: str = "") -> dict:
     where, params = ["c.deleted = 0"], []
     if date_from:
         where.append("c.delivered_on >= ?"); params.append(date_from)
     if date_to:
         where.append("c.delivered_on <= ?"); params.append(date_to)
+    if status == "repaid":
+        where.append("c.status != 'outstanding'")
+    elif status == "outstanding":
+        where.append("c.status = 'outstanding'")
     if q:
         like = f"%{q.strip()}%"
         where.append("(co.name LIKE ? OR c.company_number LIKE ? OR EXISTS (SELECT 1 FROM charge_persons pp "
@@ -374,6 +379,66 @@ def activity(git: Git, limit: int = 8) -> list[dict]:
         if len(items) >= limit:
             break
     return items
+
+
+def overview(conn, git: Git) -> dict:
+    """Everything the Overview page draws, computed from the same rows the Charges page lists."""
+    from datetime import timedelta
+    rows = charges(conn, limit=5000)["rows"]
+    today = date.today()
+    day0 = today - timedelta(days=29)
+    days = {(day0 + timedelta(days=i)).isoformat(): dict.fromkeys("ABCDE", 0) for i in range(30)}
+    week0 = today - timedelta(days=today.weekday() + 7 * 11)
+    weeks = {(week0 + timedelta(days=7 * i)).isoformat(): dict.fromkeys("ABCDE", 0) for i in range(12)}
+    mix, tiers = {}, dict.fromkeys("ABCDE", 0)
+    for r in rows:
+        tiers[r["tier"]] += 1
+        mix[r["primary"]] = mix.get(r["primary"], 0) + 1
+        d = r["delivered_on"]
+        if not d:
+            continue
+        if d in days:
+            days[d][r["tier"]] += 1
+        dd = date.fromisoformat(d[:10])
+        wk = (dd - timedelta(days=dd.weekday())).isoformat()
+        if wk in weeks:
+            weeks[wk][r["tier"]] += 1
+    since = (today - timedelta(days=29)).isoformat()
+    repaid_30 = sum(1 for r in rows if r["status"] != "outstanding" and (r["satisfied_on"] or "") >= since)
+    (ls, le), (ts, te) = export.week_bounds(today)
+    this_week = [r for r in rows if r["delivered_on"] and ts.isoformat() <= r["delivered_on"] <= te.isoformat()]
+    one = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
+    waiting = {
+        "review": one("SELECT COUNT(*) FROM lender_classifications WHERE review_status = 'needs_review'"),
+        "confirm": one("SELECT COUNT(*) FROM lender_classifications WHERE source = 'agent' AND review_status = 'auto_ok'"),
+        "unclassified": one("SELECT COUNT(DISTINCT p.name_norm) FROM charge_persons p LEFT JOIN lender_classifications lc "
+                            "ON lc.name_norm = p.name_norm WHERE lc.name_norm IS NULL"),
+        "messages": len(list((config.ROOT / "inbox" / "maintainer").glob("*.md"))),
+        "drafts": sum(1 for d in _md_files("drafts", "*-draft.md")
+                      if _draft_status().get(d["name"], {}).get("status", "new") != "published"),
+    }
+    covered, note = export.coverage(conn, ts, te)
+    began = (get_meta(conn, "coverage_start") or (one("SELECT MIN(first_seen_at) FROM charges") or "")[:10] or None)
+    last_run = None
+    if git.in_repo:
+        try:
+            last_run = git.run("log", "-1", "--format=%cI", "--grep=^pipeline:") or None
+        except RuntimeError:
+            pass
+    return {
+        "today": today.isoformat(), "coverage_start": began,
+        "daily": [{"date": k, **v} for k, v in days.items()],
+        "weekly": [{"date": k, **v} for k, v in weeks.items()],
+        "mix": [{"key": k, "label": CATEGORY_LABELS.get(k, k), "count": n}
+                for k, n in sorted(mix.items(), key=lambda kv: -kv[1])],
+        "tiers": tiers, "total": len(rows), "repaid_30": repaid_30,
+        "repaid_total": sum(1 for r in rows if r["status"] != "outstanding"),
+        "this_week": {"start": ts.isoformat(), "end": te.isoformat(), "total": len(this_week),
+                      "direct": sum(1 for r in this_week if r["tier"] == "A"), "covered": covered, "note": note},
+        "lenders": one("SELECT COUNT(DISTINCT name_norm) FROM charge_persons"),
+        "latest": sorted((r for r in rows if r["delivered_on"]), key=lambda r: r["delivered_on"], reverse=True)[:6],
+        "waiting": waiting, "activity": activity(git, 6), "last_pipeline_commit": last_run,
+    }
 
 
 def summary(conn, git: Git, sync: Sync) -> dict:

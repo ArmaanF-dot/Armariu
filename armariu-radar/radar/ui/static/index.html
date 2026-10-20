@@ -5,51 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="radar-token" content="__TOKEN__">
 <title>Armariu review</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141414'/%3E%3Cpath d='M8 23 16 9l8 14M11.5 17h9' stroke='white' stroke-width='2.6' fill='none' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%233b5bfd'/%3E%3Cpath d='M8 23 16 9l8 14M11.5 17h9' stroke='white' stroke-width='2.6' fill='none' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/style.css">
 <script src="/static/app.js" defer></script>
 </head>
 <body>
-<header class="mbar">
-  <a class="mark" href="#/decisions" aria-label="Armariu deal radar"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M8 23 16 9l8 14M11.5 17h9"/></svg></a>
-  <span class="mbar-title" id="mbar-title">Decisions</span>
-  <button class="btn ghost" id="menu-open" aria-expanded="false" aria-controls="side">Menu</button>
-</header>
 <div class="shell">
   <nav class="side" id="side" aria-label="Main">
     <div class="side-head">
-      <a class="brand" href="#/decisions">
-        <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M8 23 16 9l8 14M11.5 17h9"/></svg>
+      <a class="brand" href="#/overview">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9"/><path d="M8 23 16 9l8 14M11.5 17h9"/></svg>
         <span>Armariu<small>UK private credit radar</small></span>
       </a>
-      <button class="btn ghost close-menu" id="menu-close" aria-label="Close menu">Close</button>
+      <button class="icon-btn close-menu" id="menu-close" aria-label="Close menu"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
-    <p class="group">Review</p>
-    <ul class="nav">
-      <li><a href="#/decisions" data-view="decisions"><span>Decisions</span><span class="count" id="nav-decisions" aria-label="items waiting"></span></a></li>
-      <li><a href="#/reports" data-view="reports">Reports and drafts</a></li>
-    </ul>
-    <p class="group">Register</p>
-    <ul class="nav">
-      <li><a href="#/charges" data-view="charges">Charges</a></li>
-      <li><a href="#/lenders" data-view="lenders">Lenders</a></li>
-    </ul>
+    <ul class="nav" id="nav"></ul>
     <div class="side-foot">
-      <a class="nav-status" href="#/status" data-view="status">Status</a>
       <div class="sync" id="sync" role="status" aria-live="polite"><span class="dot"></span><span class="sync-text">Starting</span></div>
     </div>
   </nav>
-  <main id="main" tabindex="-1"></main>
+  <div class="work">
+    <header class="topbar">
+      <button class="icon-btn menu-btn" id="menu-open" aria-label="Open menu" aria-expanded="false" aria-controls="side"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <div class="crumbs"><span class="crumb-title" id="crumb-title">Overview</span><span class="crumb-sub" id="crumb-sub"></span></div>
+      <form class="search" id="search" role="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <input type="search" id="search-q" placeholder="Search borrowers, lenders or company numbers" aria-label="Search the register">
+      </form>
+      <button class="icon-btn" id="refresh" title="Check for updates now" aria-label="Check for updates now"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></svg></button>
+    </header>
+    <main id="main" tabindex="-1"></main>
+  </div>
 </div>
+<div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-hidden="true">
   <div class="drawer-inner" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
-    <button class="btn ghost close" id="drawer-close">Close</button>
+    <button class="icon-btn close" id="drawer-close" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div id="drawer-body"></div>
   </div>
 </aside>
+<div class="tip" id="tip" role="tooltip"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

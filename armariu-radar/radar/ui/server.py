@@ -98,6 +98,8 @@ def make_handler(app: App, port: int):
                                        "git": app.git.status})
                 if url.path == "/api/summary":
                     return self._json(app.with_db(api.summary, app.git, app.sync))
+                if url.path == "/api/overview":
+                    return self._json(app.with_db(api.overview, app.git))
                 if url.path == "/api/decisions":
                     return self._json(app.with_db(api.decisions))
                 if url.path == "/api/documents":
@@ -106,7 +108,7 @@ def make_handler(app: App, port: int):
                     return self._json(app.with_db(
                         api.charges, q=q.get("q", ""), tier=q.get("tier", ""),
                         category=q.get("category", ""), check=q.get("check", ""),
-                        date_from=q.get("from", ""), date_to=q.get("to", ""),
+                        date_from=q.get("from", ""), date_to=q.get("to", ""), status=q.get("status", ""),
                         limit=min(int(q.get("limit", 100)), 500), offset=int(q.get("offset", 0))))
                 if url.path == "/api/lenders":
                     return self._json(app.with_db(api.lenders, q=q.get("q", ""),
