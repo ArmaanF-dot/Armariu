@@ -1,0 +1,92 @@
+# Curated lender rules for the deal radar.
+# match_type: exact | contains (whole-word match) | regex.  Patterns are matched against the
+# NORMALISED name (uppercase, punctuation removed, trailing LIMITED/PLC/LLP stripped).
+# source=human rows beat source=seed rows. Add your own rows with: python -m radar.review set ...
+# The seed rows below are a starting point written from general knowledge. Review them.
+# Rows with category direct_lender drive the headline tier, so only add names you are confident about.
+match_type,pattern,category,parent_firm,confidence,source,note
+contains,SECURITY TRUSTEE,security_agent,,0.95,seed,real lender may be hidden behind the agent
+contains,SECURITY AGENT,security_agent,,0.95,seed,real lender may be hidden behind the agent
+contains,AS AGENT,security_agent,,0.80,seed,
+contains,GLAS TRUST,security_agent,GLAS,0.90,seed,
+contains,WILMINGTON TRUST,security_agent,Wilmington Trust,0.85,seed,
+contains,DIRECT LENDING,direct_lender,,0.90,seed,generic fund-name phrase
+contains,PRIVATE CREDIT,direct_lender,,0.90,seed,generic fund-name phrase
+contains,PRIVATE DEBT,direct_lender,,0.85,seed,generic fund-name phrase
+contains,CREDIT OPPORTUNITIES,direct_lender,,0.85,seed,generic fund-name phrase
+contains,SENIOR DEBT FUND,direct_lender,,0.90,seed,generic fund-name phrase
+contains,DEBT FUND,direct_lender,,0.80,seed,generic fund-name phrase
+contains,CREDIT FUND,direct_lender,,0.80,seed,generic fund-name phrase
+contains,MEZZANINE,direct_lender,,0.80,seed,generic phrase
+contains,ARES MANAGEMENT,direct_lender,Ares,0.90,seed,verify
+contains,ARES CAPITAL,direct_lender,Ares,0.90,seed,verify
+contains,ALCENTRA,direct_lender,Alcentra,0.90,seed,verify
+contains,INTERMEDIATE CAPITAL,direct_lender,ICG,0.90,seed,verify
+contains,ICG,direct_lender,ICG,0.85,seed,verify
+contains,HAYFIN,direct_lender,Hayfin,0.90,seed,verify
+contains,HPS INVESTMENT,direct_lender,HPS,0.90,seed,verify
+contains,ARCMONT,direct_lender,Arcmont,0.90,seed,verify
+contains,OAKTREE,direct_lender,Oaktree,0.90,seed,verify
+contains,KKR,direct_lender,KKR,0.85,seed,verify
+contains,CVC CREDIT,direct_lender,CVC,0.90,seed,verify
+contains,CAPITAL FOUR,direct_lender,Capital Four,0.90,seed,verify
+contains,TIKEHAU,direct_lender,Tikehau,0.90,seed,verify
+contains,PARTNERS GROUP,direct_lender,Partners Group,0.85,seed,verify
+contains,BLUEBAY,direct_lender,BlueBay,0.85,seed,verify
+contains,GOLUB,direct_lender,Golub,0.90,seed,verify
+contains,BLUE OWL,direct_lender,Blue Owl,0.90,seed,verify
+contains,OWL ROCK,direct_lender,Blue Owl,0.90,seed,verify
+contains,SIXTH STREET,direct_lender,Sixth Street,0.90,seed,verify
+contains,MARBLE POINT,direct_lender,Marble Point,0.90,seed,verify
+contains,PGIM,direct_lender,PGIM,0.85,seed,verify
+contains,MONROE CAPITAL,direct_lender,Monroe,0.90,seed,verify
+contains,BARCLAYS BANK,bank,Barclays,0.95,seed,
+contains,HSBC,bank,HSBC,0.95,seed,
+contains,LLOYDS BANK,bank,Lloyds,0.95,seed,
+contains,NATIONAL WESTMINSTER BANK,bank,NatWest,0.95,seed,
+contains,NATWEST,bank,NatWest,0.95,seed,
+contains,ROYAL BANK OF SCOTLAND,bank,NatWest,0.95,seed,
+contains,BANK OF SCOTLAND,bank,Lloyds,0.95,seed,
+contains,SANTANDER UK,bank,Santander,0.95,seed,
+contains,METRO BANK,bank,Metro Bank,0.95,seed,
+contains,SHAWBROOK BANK,bank,Shawbrook,0.95,seed,
+contains,HANDELSBANKEN,bank,Handelsbanken,0.95,seed,
+contains,ALLIED IRISH BANKS,bank,AIB,0.95,seed,
+contains,BANK OF IRELAND,bank,Bank of Ireland,0.95,seed,
+contains,CLYDESDALE BANK,bank,Virgin Money,0.95,seed,
+contains,VIRGIN MONEY,bank,Virgin Money,0.95,seed,
+contains,TSB BANK,bank,TSB,0.95,seed,
+contains,COUTTS,bank,NatWest,0.90,seed,
+contains,OAKNORTH BANK,bank,OakNorth,0.95,seed,
+contains,ALDERMORE,bank,Aldermore,0.95,seed,
+contains,STANDARD CHARTERED,bank,Standard Chartered,0.95,seed,
+contains,CITIBANK,bank,Citi,0.95,seed,
+contains,JPMORGAN,bank,JPMorgan,0.95,seed,
+contains,JP MORGAN,bank,JPMorgan,0.95,seed,
+contains,DEUTSCHE BANK,bank,Deutsche Bank,0.95,seed,
+contains,BNP PARIBAS,bank,BNP Paribas,0.95,seed,
+contains,SOCIETE GENERALE,bank,Societe Generale,0.95,seed,
+contains,ING BANK,bank,ING,0.95,seed,
+contains,ABN AMRO,bank,ABN AMRO,0.95,seed,
+contains,COMMERZBANK,bank,Commerzbank,0.95,seed,
+contains,UNICREDIT,bank,UniCredit,0.95,seed,
+contains,NATIXIS,bank,Natixis,0.95,seed,
+contains,CREDIT AGRICOLE,bank,Credit Agricole,0.95,seed,
+contains,MIZUHO,bank,Mizuho,0.95,seed,
+contains,SUMITOMO MITSUI,bank,SMBC,0.95,seed,
+contains,MUFG,bank,MUFG,0.95,seed,
+contains,BANK OF AMERICA,bank,Bank of America,0.95,seed,
+contains,NATIONWIDE BUILDING SOCIETY,bank,Nationwide,0.95,seed,
+contains,BIBBY FINANCIAL,abl_specialist,Bibby,0.95,seed,
+contains,CLOSE BROTHERS,abl_specialist,Close Brothers,0.90,seed,
+contains,INVOICE FINANCE,abl_specialist,,0.80,seed,
+contains,ASSET BASED,abl_specialist,,0.85,seed,
+contains,FACTORING,abl_specialist,,0.80,seed,
+contains,ASSET FINANCE,asset_finance,,0.80,seed,
+contains,LEASING,asset_finance,,0.80,seed,
+contains,VEHICLE FINANCE,asset_finance,,0.80,seed,
+contains,EQUIPMENT FINANCE,asset_finance,,0.80,seed,
+contains,HIRE PURCHASE,asset_finance,,0.80,seed,
+contains,SECRETARY OF STATE,public_sector,,0.85,seed,
+contains,BRITISH BUSINESS BANK,public_sector,British Business Bank,0.90,seed,
+contains,UK EXPORT FINANCE,public_sector,UK Export Finance,0.90,seed,
