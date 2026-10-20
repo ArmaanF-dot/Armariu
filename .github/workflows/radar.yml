@@ -1,0 +1,127 @@
+# Runs the Armariu deal radar on GitHub's servers, so your PC can be off.
+#   1. Downloads the database from the 'radar-data' branch
+#   2. Runs the pipeline (Companies House stream + company lookups, no AI)
+#   3. Saves the database back and commits the queue and weekly digests
+#   4. Runs the Claude agents that have work, on your Claude plan (CLAUDE_CODE_OAUTH_TOKEN)
+#
+# Needs three repository secrets: CH_REST_KEY, CH_STREAM_KEY, CLAUDE_CODE_OAUTH_TOKEN.
+# Run it by hand from the Actions tab: "radar" -> "Run workflow".
+name: radar
+
+on:
+  schedule:
+    - cron: "23 */3 * * *"   # every 3 hours at :23 (UTC). Change to */2 once you have GitHub Pro.
+  workflow_dispatch:
+    inputs:
+      stream_minutes:
+        description: "Minutes to listen to the Companies House stream"
+        default: "2"
+      run_agents:
+        description: "Run the Claude agents after the pipeline"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: armariu-radar
+    env:
+      CH_REST_KEY: ${{ secrets.CH_REST_KEY }}
+      CH_STREAM_KEY: ${{ secrets.CH_STREAM_KEY }}
+      RADAR_STORE_RAW: "0"
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          pip install --quiet -r requirements.txt
+          git config user.name "armariu-radar[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Check secrets
+        run: |
+          missing=""
+          [ -n "$CH_REST_KEY" ] || missing="$missing CH_REST_KEY"
+          [ -n "$CH_STREAM_KEY" ] || missing="$missing CH_STREAM_KEY"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secrets:$missing (Settings -> Secrets and variables -> Actions)"
+            exit 1
+          fi
+
+      - name: Restore database
+        run: python -m radar.dbsync pull || echo "Starting with a fresh database"
+
+      - name: Pipeline
+        run: python -m radar.pipeline run --minutes "${{ inputs.stream_minutes || '2' }}" --enrich-limit 150
+
+      - name: Save database
+        if: ${{ !cancelled() }}
+        run: |
+          if [ -f data/radar.db ]; then python -m radar.dbsync push; fi
+
+      - name: Commit queue and digests
+        if: ${{ !cancelled() }}
+        run: |
+          git add -- classify/queue.jsonl output/weekly
+          if ! git diff --cached --quiet; then
+            git commit --quiet -m "pipeline: update queue and digests"
+            git pull --rebase --quiet && git push --quiet
+          fi
+
+      - name: Check which agents have work
+        id: work
+        if: ${{ github.event_name == 'schedule' || inputs.run_agents }}
+        run: |
+          agents=""
+          for a in classifier reviewer newsletter; do
+            if python -m radar.agentcheck prepare "$a"; then agents="$agents $a"; fi
+          done
+          echo "Agents with work:${agents:- none}"
+          echo "agents=$agents" >> "$GITHUB_OUTPUT"
+
+      - name: Install Claude Code
+        if: ${{ steps.work.outputs.agents != '' }}
+        run: npm install -g @anthropic-ai/claude-code --silent
+
+      - name: Run agents
+        if: ${{ steps.work.outputs.agents != '' }}
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            echo "::error::Missing secret CLAUDE_CODE_OAUTH_TOKEN (run 'claude setup-token' on your PC)"
+            exit 1
+          fi
+          status=0
+          for a in ${{ steps.work.outputs.agents }}; do
+            echo "::group::$a"
+            bash scripts/run_agent.sh "$a" || { echo "::warning::$a agent failed, see the logs artifact"; status=1; }
+            echo "::endgroup::"
+          done
+          exit $status
+
+      - name: Upload logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ github.run_id }}
+          path: armariu-radar/logs/
+          retention-days: 14
+          if-no-files-found: ignore

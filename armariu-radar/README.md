@@ -36,8 +36,8 @@ can run on its own schedule. Everything runs on one PC with one Claude Pro plan.
    python -m radar.demo            # offline demo on fake data; read demo_output/weekly/*.md
    ```
 3. **Companies House keys.** Register free at
-   https://developer.company-information.service.gov.uk, then create two applications: one
-   **REST** key and one **Stream** key. Copy `.env.example` to `.env` and paste both keys in.
+   https://developer.company-information.service.gov.uk, create a Live application, and add two
+   keys: an **API key** (REST) and a **Stream key**. Copy `.env.example` to `.env` and paste both keys in.
    `.env` is git-ignored. Never commit it.
 4. **Claude Code.** Install Claude Code, run `claude` once in the folder and sign in with your
    Claude account. The scheduled agents use that login.
@@ -61,7 +61,51 @@ Most of the usage is the classifier in your first couple of weeks, while the len
 (up to 60 names per run). It drops off once most lenders are known. If you hit limits, raise the
 classifier interval in `install_tasks.ps1` or lower `CLASSIFIER_BATCH` in `radar/agentcheck.py`.
 
+## Run it in the cloud (PC can be off)
+
+`.github/workflows/radar.yml` (at the top level of the repo) runs everything on GitHub's servers
+every 3 hours: restore the database, run the pipeline, save the database, commit the outputs, then
+run whichever agents have work. The database lives on a separate branch called `radar-data`
+(one compressed file, overwritten each run, so the repo doesn't grow).
+
+**One-time setup:**
+
+1. **Get a Claude token.** In PowerShell on your PC, run `claude setup-token`. Approve it in the
+   browser, then copy the long token it prints. It lasts one year and uses your Claude plan.
+2. **Add three secrets on GitHub.** In the repo, go to **Settings → Secrets and variables →
+   Actions → New repository secret** and add:
+   - `CH_REST_KEY`: your Companies House API key
+   - `CH_STREAM_KEY`: your Companies House stream key
+   - `CLAUDE_CODE_OAUTH_TOKEN`: the token from step 1
+3. **Stop the PC tasks**, so two copies don't run with separate databases:
+   `powershell -ExecutionPolicy Bypass -File scripts\install_tasks.ps1 -Uninstall`
+4. **Start the first run by hand:** **Actions** tab → **radar** → **Run workflow**. Watch it
+   finish (about 3 to 5 minutes). After that it runs on its own every 3 hours.
+
+**GitHub minutes:** private repos get 2,000 free minutes a month (3,000 with GitHub Pro, free
+for students). This setup uses roughly 1,000 to 1,500. Each run's minutes are shown in the
+Actions tab. Once you have GitHub Pro, you can change `*/3` to `*/2` in `radar.yml` for runs
+every 2 hours.
+
+**When something fails:** GitHub emails you. Open the run in the Actions tab: the step that
+failed is marked red, and the full agent logs are attached at the bottom as **logs-…**.
+
+**Working on your PC while it runs in the cloud:**
+```
+git pull                                   # get the latest outputs, results and drafts
+.venv\Scripts\python.exe -m radar.dbsync pull   # download the latest database (for review/status)
+.venv\Scripts\python.exe -m radar.review list
+```
+After `review set` or `review approve`, commit and push `data/lenders.csv`. The next cloud run
+uses your decisions. Don't run `radar.pipeline run` locally while the cloud is running it: your
+local database would drift away from the cloud one (the next `dbsync pull` overwrites it anyway).
+
+To go back to running on your PC: disable the workflow (Actions → radar → ⋯ → Disable
+workflow), run `radar.dbsync pull`, then `install_tasks.ps1` again.
+
 ## Your weekly routine (about 15 minutes)
+
+If the cloud workflow is running, start with `git pull` and `python -m radar.dbsync pull`.
 
 1. `python -m radar.review list` shows the lender names the agents weren't sure about. For each one:
    `python -m radar.review approve "NAME"` if the agent was right, or

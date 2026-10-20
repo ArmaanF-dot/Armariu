@@ -103,7 +103,10 @@ def upsert_charge(
         "first_seen_at": now,
         "last_event_at": now,
         "last_timepoint": timepoint,
-        "raw_json": json.dumps(data, separators=(",", ":"), sort_keys=True),
+        # The full API response, for debugging. RADAR_STORE_RAW=0 skips it to keep the database
+        # small (the GitHub Actions setup does this, as the database is uploaded every run).
+        "raw_json": (json.dumps(data, separators=(",", ":"), sort_keys=True)
+                     if os.environ.get("RADAR_STORE_RAW", "1") != "0" else None),
     }
     cols = ", ".join(row)
     marks = ", ".join(f":{k}" for k in row)

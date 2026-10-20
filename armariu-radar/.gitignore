@@ -10,3 +10,4 @@ classify/queue.tmp
 __pycache__/
 *.pyc
 .venv/
+data/*.download

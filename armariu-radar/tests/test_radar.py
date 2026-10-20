@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import contextlib
 import csv
+import shutil
+import subprocess
 import io
 import json
 import sys
@@ -14,7 +16,7 @@ from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from radar import agentcheck, classify, config, export, ingest  # noqa: E402
+from radar import agentcheck, classify, config, dbsync, export, ingest  # noqa: E402
 from radar.db import connect, get_meta  # noqa: E402
 from radar.normalise import normalise_name  # noqa: E402
 from radar.review import add_human_rule  # noqa: E402
@@ -357,6 +359,49 @@ class AgentCheckTests(TempDirTest):
         self.assertEqual(self.run_quiet("prepare", "newsletter"), 0)
         (self.root / "drafts/2026-10-12_2026-10-18-draft.md").write_text("d", encoding="utf-8")
         self.assertEqual(self.run_quiet("prepare", "newsletter"), agentcheck.NO_WORK)
+
+
+@unittest.skipUnless(shutil.which("git"), "git not installed")
+class DbSyncTests(TempDirTest):
+    def git(self, *args, cwd=None):
+        return subprocess.run(["git", *args], cwd=cwd or self.repo, check=True,
+                              capture_output=True, text=True).stdout.strip()
+
+    def setUp(self):
+        super().setUp()
+        self.remote = self.tmp / "remote.git"
+        self.repo = self.tmp / "repo"
+        subprocess.run(["git", "init", "-q", "--bare", str(self.remote)], check=True)
+        subprocess.run(["git", "init", "-q", str(self.repo)], check=True)
+        self.git("config", "user.email", "t@t"); self.git("config", "user.name", "t")
+        self.git("remote", "add", "origin", str(self.remote))
+        p = mock.patch.object(config, "ROOT", self.repo); p.start(); self.addCleanup(p.stop)
+        self.db = self.repo / "data" / "radar.db"
+        conn = connect(self.db)
+        for ev in sample_events(WEEK):
+            ingest.process_event(conn, ev)
+        conn.commit(); conn.close()
+
+    def run_quiet(self, fn, *args):
+        with contextlib.redirect_stdout(io.StringIO()):
+            return fn(*args)
+
+    def test_pull_without_branch(self):
+        self.assertEqual(self.run_quiet(dbsync.pull, self.db), 1)
+
+    def test_round_trip_and_single_commit(self):
+        original = self.db.read_bytes()
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)   # force-push replaces
+        self.assertEqual(self.git("rev-list", "--count", "radar-data", cwd=self.remote), "1")
+        self.db.unlink()
+        self.assertEqual(self.run_quiet(dbsync.pull, self.db), 0)
+        self.assertEqual(self.db.read_bytes(), original)
+        conn = connect(self.db)
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM charges").fetchone()[0], 10)
+        conn.close()
+        # The working folder and current branch are untouched.
+        self.assertEqual(self.git("status", "--porcelain"), "?? data/")
 
 
 if __name__ == "__main__":
