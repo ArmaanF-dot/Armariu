@@ -103,9 +103,32 @@ local database would drift away from the cloud one (the next `dbsync pull` overw
 To go back to running on your PC: disable the workflow (Actions → radar → ⋯ → Disable
 workflow), run `radar.dbsync pull`, then `install_tasks.ps1` again.
 
+## The review app
+
+Everything that needs your judgement, in one place, in your browser:
+
+- **Decisions:** lender names to classify (one at a time, with the filings as evidence),
+  agent answers to confirm, messages the agents left for you, and newsletter drafts.
+  Press `1`–`8` to pick a category and `Enter` to save.
+- **Charges** and **Lenders:** the whole database, searchable and filterable. Click any lender to
+  change how it's classified.
+- **Reports and drafts:** reviewer reports, weekly digests, and drafts you can edit and mark as
+  ready or published.
+- **Status:** when the cloud last ran, how much it has collected, and any coverage gaps.
+
+Start it by double-clicking **`Open review app.cmd`** in the `armariu-radar` folder, or run
+`.venv\Scripts\python.exe -m radar.ui`. It opens at http://127.0.0.1:8765 and only works on this
+PC. Keep the black window open while you use it.
+
+It updates live: every 3 minutes it pulls the repo and downloads the latest cloud database, and
+the page refreshes within seconds of any change. Every decision is written to `data/lenders.csv`
+and pushed to GitHub straight away, so the next cloud run uses it. The bottom-left corner shows
+whether it's up to date and whether your last decision reached GitHub.
+
 ## Your weekly routine (about 15 minutes)
 
-If the cloud workflow is running, start with `git pull` and `python -m radar.dbsync pull`.
+The quickest way is the review app (above). The same steps from the command line, if you prefer
+(when the cloud workflow is running, start with `git pull` and `python -m radar.dbsync pull`):
 
 1. `python -m radar.review list` shows the lender names the agents weren't sure about. For each one:
    `python -m radar.review approve "NAME"` if the agent was right, or

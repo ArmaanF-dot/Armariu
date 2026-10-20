@@ -431,5 +431,142 @@ class DbSyncTests(TempDirTest):
         self.assertEqual(self.git("status", "--porcelain"), "?? data/")
 
 
+class ReviewAppTests(TempDirTest):
+    """The review app's actions, with git turned off (folder isn't a repo)."""
+
+    def setUp(self):
+        super().setUp()
+        from radar.ui import api
+        self.api = api
+        root = self.tmp / "proj"
+        (root / "data").mkdir(parents=True)
+        shutil.copy(config.LENDERS_CSV, root / "data" / "lenders.csv")
+        for d in ("inbox/maintainer", "drafts", "reviews", "output/weekly"):
+            (root / d).mkdir(parents=True)
+        for name, value in {"ROOT": root, "LENDERS_CSV": root / "data" / "lenders.csv",
+                            "DB_PATH": root / "data" / "radar.db", "OUTPUT_DIR": root / "output"}.items():
+            p = mock.patch.object(config, name, value); p.start(); self.addCleanup(p.stop)
+        self.root = root
+        self.conn = connect(config.DB_PATH)
+        self.addCleanup(self.conn.close)
+        for ev in sample_events(WEEK):
+            ingest.process_event(self.conn, ev)
+        self.conn.commit()
+        classify.refresh_rule_matches(self.conn, load_rules())
+        res = self.tmp / "res"; res.mkdir()
+        (res / "r.jsonl").write_text("\n".join(sample_agent_results()), encoding="utf-8")
+        classify.apply_results(self.conn, res)
+        self.git = api.Git()
+        self.git.in_repo = self.git.has_remote = False
+
+    def test_decisions_lists_what_needs_a_person(self):
+        d = self.api.decisions(self.conn)
+        names = lambda g: [x["name"] for x in d["lenders"][g]]  # noqa: E731
+        self.assertEqual(names("review"), ["BRIGHTWATER CAPITAL HOLDINGS"])
+        self.assertIn("NORTHGATE CREDIT PARTNERS II SCSP", names("confirm"))
+        self.assertTrue(d["lenders"]["review"][0]["examples"][0]["filing_url"].startswith("https://"))
+        self.assertNotIn("unknown", [c["key"] for c in d["choices"]])
+
+    def test_decide_and_approve_write_human_rules(self):
+        before = self.api.version()
+        self.api.decide(self.conn, self.git, "Brightwater Capital Holdings Limited", "individual", "Smith family")
+        self.api.approve(self.conn, self.git, ["NORTHGATE CREDIT PARTNERS II SCSP"])
+        rows = {r["name"]: r for r in self.api.lenders(self.conn)["rows"]}
+        self.assertEqual((rows["BRIGHTWATER CAPITAL HOLDINGS"]["source"],
+                          rows["BRIGHTWATER CAPITAL HOLDINGS"]["category"]), ("human", "individual"))
+        self.assertEqual(rows["NORTHGATE CREDIT PARTNERS II SCSP"]["status"], "ok")
+        self.assertEqual(self.api.decisions(self.conn)["lenders"]["review"], [])
+        self.assertIn("BRIGHTWATER CAPITAL HOLDINGS,individual,Smith family",
+                      config.LENDERS_CSV.read_text(encoding="utf-8"))
+        self.assertNotEqual(before, self.api.version())
+
+    def test_decide_rejects_bad_input(self):
+        with self.assertRaises(ValueError):
+            self.api.decide(self.conn, self.git, "JOHN EXAMPLE", "unknown")
+        with self.assertRaises(ValueError):
+            self.api.decide(self.conn, self.git, "JOHN EXAMPLE", "hedge_fund")
+        with self.assertRaises(KeyError):
+            self.api.decide(self.conn, self.git, "Not In The Data Ltd", "bank")
+
+    def test_messages_and_drafts(self):
+        msg = self.root / "inbox/maintainer/20261020T1200Z-from-reviewer.md"
+        msg.write_text("Check this week", encoding="utf-8")
+        draft = self.root / "drafts/2026-10-12_2026-10-18-draft.md"
+        draft.write_text("Draft", encoding="utf-8")
+        self.assertEqual(len(self.api.decisions(self.conn)["messages"]), 1)
+        self.api.message_done(self.git, "inbox/maintainer/20261020T1200Z-from-reviewer.md")
+        self.assertTrue((self.root / "inbox/maintainer/done" / msg.name).exists())
+        self.assertEqual(self.api.decisions(self.conn)["messages"], [])
+        self.api.save_draft(self.git, "drafts/2026-10-12_2026-10-18-draft.md", "Edited\r\ntext")
+        self.assertEqual(draft.read_text(encoding="utf-8"), "Edited\ntext")
+        self.api.set_draft_status(self.git, "drafts/2026-10-12_2026-10-18-draft.md", "published")
+        self.assertEqual(self.api.decisions(self.conn)["drafts"], [])
+        self.assertEqual(self.api.documents()["drafts"][0]["status"], "published")
+
+    def test_paths_cannot_escape_their_folder(self):
+        for bad in ("../data/lenders.csv", "drafts/../../x.md", "data/lenders.csv", "drafts/x.txt"):
+            with self.assertRaises(ValueError):
+                self.api.save_draft(self.git, bad, "x")
+        with self.assertRaises(ValueError):
+            self.api.message_done(self.git, "drafts/whatever.md")
+
+    def test_charges_filters(self):
+        all_rows = self.api.charges(self.conn)
+        self.assertEqual(all_rows["total"], 9)
+        self.assertEqual({r["tier"] for r in self.api.charges(self.conn, tier="A")["rows"]}, {"A"})
+        hits = self.api.charges(self.conn, q="glas")["rows"]
+        self.assertEqual({r["company_number"] for r in hits}, {"99000002", "99000003"})
+
+
+class ReviewAppHttpTests(ReviewAppTests):
+    """The real HTTP server: host check, token check, and a decision over HTTP."""
+
+    def setUp(self):
+        super().setUp()
+        import threading
+        import urllib.request
+        from http.server import ThreadingHTTPServer
+        from radar.ui import server
+        self.urllib = urllib.request
+        app = server.App(sync_enabled=False)
+        app.git = self.git
+        self.app = app
+        self.httpd = ThreadingHTTPServer(("127.0.0.1", 0), server.make_handler(app, 0))
+        port = self.httpd.server_address[1]
+        self.httpd.RequestHandlerClass = server.make_handler(app, port)
+        self.base = f"http://127.0.0.1:{port}"
+        threading.Thread(target=self.httpd.serve_forever, daemon=True).start()
+        self.addCleanup(self.httpd.server_close)
+        self.addCleanup(self.httpd.shutdown)
+
+    def req(self, path, body=None, token=True, host=None):
+        data = json.dumps(body).encode() if body is not None else None
+        r = self.urllib.Request(self.base + path, data=data, method="POST" if data else "GET")
+        r.add_header("Content-Type", "application/json")
+        if token:
+            r.add_header("X-Radar-Token", self.app.token)
+        if host:
+            r.add_header("Host", host)
+        try:
+            with self.urllib.urlopen(r, timeout=5) as resp:
+                return resp.status, resp.read()
+        except self.urllib.HTTPError as e:
+            return e.code, e.read()
+
+    def test_http(self):
+        status, page = self.req("/")
+        self.assertEqual(status, 200)
+        self.assertIn(self.app.token.encode(), page)
+        self.assertEqual(self.req("/api/summary", host="evil.example")[0], 403)
+        self.assertEqual(self.req("/api/decide", {"name": "JOHN EXAMPLE", "category": "bank"}, token=False)[0], 403)
+        self.assertEqual(self.req("/api/decide", {"name": "JOHN EXAMPLE", "category": "nope"})[0], 400)
+        status, body = self.req("/api/decide", {"name": "JOHN EXAMPLE", "category": "individual"})
+        self.assertEqual(status, 200, body)
+        self.assertEqual(json.loads(self.req("/api/lender?name=JOHN%20EXAMPLE")[1])["source"], "human")
+        self.assertEqual(self.req("/static/../../schema.sql")[0], 404)
+        self.assertEqual(self.req("/api/lender?name=nobody")[0], 404)
+        self.assertEqual(json.loads(self.req("/api/summary")[1])["charges"], 9)
+
+
 if __name__ == "__main__":
     unittest.main()
