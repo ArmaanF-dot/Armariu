@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import threading
@@ -188,6 +189,14 @@ def _examples(conn, name_norm: str, limit: int = _EXAMPLES) -> list[dict]:
     return out
 
 
+def _history(conn, name_norm: str) -> list[dict]:
+    """Every charge in this lender's favour, oldest first, for the lending-history strip."""
+    return [{"delivered_on": r[0], "created_on": r[1], "status": r[2]} for r in conn.execute(
+        "SELECT c.delivered_on, c.created_on, c.status FROM charge_persons p JOIN charges c "
+        "ON c.company_number = p.company_number AND c.charge_id = p.charge_id "
+        "WHERE p.name_norm = ? AND c.deleted = 0 ORDER BY c.delivered_on", (name_norm,))]
+
+
 def _lender_rows(conn, where: str, params=()) -> list[dict]:
     rows = conn.execute(
         "SELECT p.name_norm, MIN(p.name_raw) AS display, COUNT(*) AS n, MAX(c.delivered_on) AS latest, "
@@ -230,6 +239,7 @@ def decisions(conn) -> dict:
     for group in (review, confirm, waiting):
         for item in group:
             item["examples"] = _examples(conn, item["name"])
+            item["history"] = _history(conn, item["name"])
     status = _draft_status()
     drafts = _md_files("drafts", "*-draft.md")
     for d in drafts:
@@ -330,7 +340,38 @@ def lender(conn, name: str) -> dict:
         raise KeyError(f"No lender called {name}")
     item = rows[0]
     item["examples"] = _examples(conn, norm, limit=200)
+    item["history"] = _history(conn, norm)
     return item
+
+
+_ACTIVITY = [
+    (re.compile(r"^pipeline:"), "cloud", "Cloud run: new filings, queue and digests"),
+    (re.compile(r"^agent\(classifier\)"), "agent", "Classifier agent answered new lender names"),
+    (re.compile(r"^agent\(reviewer\)"), "agent", "Reviewer agent checked a week"),
+    (re.compile(r"^agent\(newsletter\)"), "agent", "Newsletter agent wrote or updated a draft"),
+    (re.compile(r"^review: "), "you", None),
+]
+
+
+def activity(git: Git, limit: int = 8) -> list[dict]:
+    """The radar's recent history, read from the git log: cloud runs, agent runs, your decisions."""
+    if not git.in_repo:
+        return []
+    try:
+        out = git.run("log", f"-{limit * 3}", "--format=%cI%x09%s")
+    except RuntimeError:
+        return []
+    items = []
+    for line in out.splitlines():
+        at, _, subject = line.partition("\t")
+        for rx, kind, text in _ACTIVITY:
+            if rx.search(subject):
+                items.append({"at": at, "kind": kind,
+                              "text": text or "You: " + subject[len("review: "):]})
+                break
+        if len(items) >= limit:
+            break
+    return items
 
 
 def summary(conn, git: Git, sync: Sync) -> dict:
@@ -361,6 +402,7 @@ def summary(conn, git: Git, sync: Sync) -> dict:
         "last_week": {"start": ls.isoformat(), "end": le.isoformat(), "tiers": tiers(last_week),
                       "total": len(last_week)},
         "last_pipeline_commit": last_run,
+        "activity": activity(git),
         "sync": sync.status, "git": git.status,
         "repo": {"in_repo": git.in_repo, "has_remote": git.has_remote},
     }
