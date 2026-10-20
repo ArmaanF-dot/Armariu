@@ -91,3 +91,23 @@ CREATE TABLE IF NOT EXISTS applied_results (
     rows_ok       INTEGER,
     rows_rejected INTEGER
 );
+
+-- Each borrower's full charge list from the REST API, older charges included, so the radar can
+-- tell a refinancing from a first loan. Kept apart from `charges`: the register, tiers and
+-- weekly digests only ever count charges seen on the stream.
+CREATE TABLE IF NOT EXISTS borrower_history (
+    company_number TEXT NOT NULL,
+    charge_id      TEXT NOT NULL,
+    status         TEXT,
+    created_on     TEXT,
+    delivered_on   TEXT,
+    satisfied_on   TEXT,
+    classification TEXT,
+    persons        TEXT,            -- JSON array of names as filed
+    PRIMARY KEY (company_number, charge_id)
+);
+CREATE TABLE IF NOT EXISTS borrower_history_fetched (
+    company_number TEXT PRIMARY KEY,
+    fetched_at     TEXT NOT NULL,
+    total          INTEGER
+);

@@ -11,7 +11,7 @@ import time
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-from .. import config, dbsync, export
+from .. import config, dbsync, export, signals as sig
 from ..classify import refresh_rule_matches
 from ..db import connect, get_meta
 from ..normalise import normalise_name
@@ -33,6 +33,7 @@ CHOICES = [
 CATEGORY_LABELS = {k: label for k, label, _ in CHOICES} | {"unknown": "Can't tell"}
 SOURCE_LABELS = {"human": "You", "seed": "Starter rule", "agent": "Classifier agent"}
 DRAFT_STATUSES = ("new", "ready", "published")
+NOTES_FILE = "data/lender_notes.json"   # your research notes on lenders, saved to GitHub like decisions
 _EXAMPLES = 6
 
 
@@ -151,7 +152,7 @@ class Sync:
 def version() -> str:
     """Cheap fingerprint of everything the app shows. The page polls it to update live."""
     parts = []
-    for p in [config.DB_PATH, config.LENDERS_CSV, config.ROOT / "drafts" / "status.json"]:
+    for p in [config.DB_PATH, config.LENDERS_CSV, config.ROOT / "drafts" / "status.json", config.ROOT / NOTES_FILE]:
         try:
             st = p.stat(); parts.append(f"{p.name}:{st.st_mtime_ns}:{st.st_size}")
         except FileNotFoundError:
@@ -200,18 +201,30 @@ def _history(conn, name_norm: str) -> list[dict]:
 def _lender_rows(conn, where: str, params=()) -> list[dict]:
     rows = conn.execute(
         "SELECT p.name_norm, MIN(p.name_raw) AS display, COUNT(*) AS n, MAX(c.delivered_on) AS latest, "
+        "MIN(c.delivered_on) AS first, COUNT(DISTINCT p.company_number) AS borrowers, "
+        "SUM(c.status = 'outstanding') AS live, "
         "lc.category, lc.parent_firm, lc.confidence, lc.source, lc.review_status, lc.reason "
         "FROM charge_persons p JOIN charges c ON c.company_number = p.company_number "
         "AND c.charge_id = p.charge_id AND c.deleted = 0 "
         "LEFT JOIN lender_classifications lc ON lc.name_norm = p.name_norm "
         f"WHERE {where} GROUP BY p.name_norm ORDER BY n DESC, latest DESC", params).fetchall()
+    notes = _notes()
     return [{
         "name": r["name_norm"], "display": r["display"], "charges": r["n"], "latest": r["latest"],
+        "first": r["first"], "borrowers": r["borrowers"], "outstanding": r["live"] or 0,
+        "note": (notes.get(r["name_norm"]) or {}).get("note", ""),
         "category": r["category"], "category_label": CATEGORY_LABELS.get(r["category"] or "", ""),
         "parent": r["parent_firm"], "confidence": r["confidence"], "source": r["source"],
         "source_label": SOURCE_LABELS.get(r["source"] or "", "Not classified yet"),
         "status": r["review_status"] or "unclassified", "reason": r["reason"],
     } for r in rows]
+
+
+def _notes() -> dict:
+    try:
+        return json.loads((config.ROOT / NOTES_FILE).read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
 
 
 def _md_files(folder: str, pattern: str = "*.md") -> list[dict]:
@@ -351,6 +364,73 @@ def lender(conn, name: str) -> dict:
     return item
 
 
+def directory(conn) -> dict:
+    """Every lender name on the register grouped by type, plus rules that haven't matched anything yet."""
+    rows = _lender_rows(conn, "1=1")
+    counts: dict[str, int] = {}
+    for r in rows:
+        k = r["category"] or "unclassified"
+        counts[k] = counts.get(k, 0) + 1
+    seen = {r["name"] for r in rows}
+    try:
+        rules = load_rules()
+    except (OSError, ValueError):
+        rules = []
+    watch = [{"pattern": r.pattern, "match": r.match_type, "category": r.category,
+              "category_label": CATEGORY_LABELS.get(r.category, r.category), "parent": r.parent_firm,
+              "source": SOURCE_LABELS.get(r.source, r.source), "note": r.note}
+             for r in rules if r.match_type == "exact" and r.pattern not in seen
+             or r.match_type == "contains" and not any(f" {r.pattern} " in f" {n} " for n in seen)]
+    order = [k for k, _, _ in CHOICES] + ["unknown", "unclassified"]
+    return {
+        "rows": rows, "total": len(rows),
+        "categories": [{"key": k, "label": CATEGORY_LABELS.get(k, "Not classified yet"), "count": counts.get(k, 0)}
+                       for k in order if counts.get(k)],
+        "watch": watch,
+    }
+
+
+def signals(conn, kind: str = "") -> dict:
+    found = sig.all_signals(conn)
+    one = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
+    return {
+        "counts": sig.counts(found),
+        "types": [{"key": k, "label": label, "help": help_} for k, (label, help_) in sig.TYPES.items()],
+        "rows": [s for s in found if not kind or s["type"] == kind],
+        "total": len(found),
+        "companies": one("SELECT COUNT(DISTINCT company_number) FROM charges WHERE deleted = 0"),
+        "histories": one("SELECT COUNT(*) FROM borrower_history_fetched f WHERE EXISTS "
+                         "(SELECT 1 FROM charges c WHERE c.company_number = f.company_number)"),
+    }
+
+
+def company(conn, number: str) -> dict:
+    number = (number or "").strip().upper()
+    if not number or not conn.execute("SELECT 1 FROM charges WHERE company_number = ? UNION "
+                                      "SELECT 1 FROM borrower_history WHERE company_number = ?",
+                                      (number, number)).fetchone():
+        raise KeyError(f"No borrower {number}")
+    namer = sig.Namer(conn)
+    charges, fetched = sig.company_charges(conn, number, namer)
+    prof = conn.execute("SELECT * FROM companies WHERE company_number = ?", (number,)).fetchone()
+    name = prof["name"] if prof else None
+    for c in charges:
+        c["primary_label"] = CATEGORY_LABELS.get(c["primary"], c["primary"])
+        for x in c["lenders"]:
+            x["category_label"] = CATEGORY_LABELS.get(x["category"], x["category"])
+            x["known"] = bool(conn.execute("SELECT 1 FROM charge_persons WHERE name_norm = ? LIMIT 1",
+                                           (x["name"],)).fetchone())
+    return {
+        "number": number, "name": name,
+        "status": prof["company_status"] if prof else None,
+        "created": prof["date_of_creation"] if prof else None,
+        "sic_codes": json.loads(prof["sic_codes"]) if prof and prof["sic_codes"] else [],
+        "charges": list(reversed(charges)), "history_fetched": fetched,
+        "signals": sig.for_company(number, name, charges, fetched, date.today()),
+        "outstanding": sum(1 for c in charges if c["status"] == "outstanding"),
+    }
+
+
 _ACTIVITY = [
     (re.compile(r"^pipeline:"), "cloud", "Cloud run: new filings, queue and digests"),
     (re.compile(r"^agent\(classifier\)"), "agent", "Classifier agent answered new lender names"),
@@ -385,6 +465,7 @@ def overview(conn, git: Git) -> dict:
     """Everything the Overview page draws, computed from the same rows the Charges page lists."""
     from datetime import timedelta
     rows = charges(conn, limit=5000)["rows"]
+    found = sig.all_signals(conn)
     today = date.today()
     day0 = today - timedelta(days=29)
     days = {(day0 + timedelta(days=i)).isoformat(): dict.fromkeys("ABCDE", 0) for i in range(30)}
@@ -438,6 +519,8 @@ def overview(conn, git: Git) -> dict:
         "lenders": one("SELECT COUNT(DISTINCT name_norm) FROM charge_persons"),
         "latest": sorted((r for r in rows if r["delivered_on"]), key=lambda r: r["delivered_on"], reverse=True)[:6],
         "waiting": waiting, "activity": activity(git, 6), "last_pipeline_commit": last_run,
+        "signals": {"counts": sig.counts(found), "top": found[:5], "total": len(found),
+                    "labels": {k: label for k, (label, _) in sig.TYPES.items()}},
     }
 
 
@@ -501,6 +584,23 @@ def approve(conn, git: Git, names: list[str]) -> dict:
         label = done[0] if len(done) == 1 else f"{len(done)} lenders"
         git.commit_and_push(["data/lenders.csv"], f"review: approve {label}")
     return {"approved": done}
+
+
+def save_note(conn, git: Git, name: str, note: str) -> dict:
+    norm = normalise_name(name)
+    if not conn.execute("SELECT 1 FROM charge_persons WHERE name_norm = ?", (norm,)).fetchone():
+        raise KeyError(f"No lender called {name}")
+    note = (note or "").replace("\r\n", "\n").strip()[:4000]
+    data = _notes()
+    if note:
+        data[norm] = {"note": note, "at": _now()}
+    else:
+        data.pop(norm, None)
+    path = config.ROOT / NOTES_FILE
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+    git.commit_and_push([NOTES_FILE], f"review: note on {norm}")
+    return {"name": norm, "note": note}
 
 
 def message_done(git: Git, rel: str) -> dict:

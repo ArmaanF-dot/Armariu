@@ -14,6 +14,7 @@ const S = {
   chargesQuery: { q: "", tier: "", check: "", from: "", to: "", status: "", category: "" },
   chartWeekly: false,
   lendersQuery: { q: "", category: "", status: "" },
+  sigType: "",
   reportsTab: "drafts",
   reportSel: null,
   editing: null,          // draft path being edited
@@ -161,21 +162,29 @@ const ICONS = {
   pen: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/>',
   check: '<path d="M5 12.5 10 17l9-10"/>',
   alert: '<path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/>',
+  signals: '<path d="M13 3 5 14h6l-1 7 8-11h-6z"/>',
+  refi: '<path d="M4 9a8 8 0 0 1 14-3l2 2M20 15a8 8 0 0 1-14 3l-2-2"/><path d="M20 4v4h-4M4 20v-4h4"/>',
+  layers: '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+  plus: '<circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/>',
+  star: '<path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.9z"/>',
+  back: '<path d="M15 6l-6 6 6 6"/>',
+  download: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+  note: '<path d="M5 4h10l4 4v12H5z"/><path d="M9 12h6M9 16h4"/>',
 };
 const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ""}</svg>`;
 
 // ------------------------------------------------------------------ navigation and routing
 const NAV = [
-  ["overview", "Overview", null], ["decisions", "Decisions", "count"], ["reports", "Reports and drafts", null],
-  ["|Register"], ["charges", "Charges", null], ["lenders", "Lenders", null],
+  ["overview", "Overview", null], ["signals", "Signals", "count"], ["decisions", "Decisions", "count"], ["reports", "Reports and drafts", null],
+  ["|Register"], ["charges", "Charges", null], ["lenders", "Lender directory", null],
   ["|Radar"], ["status", "Status", null],
 ];
 document.getElementById("nav").innerHTML = NAV.map(([k, label, extra]) => k.startsWith("|")
   ? `<li class="group">${k.slice(1)}</li>`
   : `<li><a href="#/${k}" data-view="${k}">${icon(k)}<span>${label}</span>${extra ? `<span class="count" id="nav-${k}"></span>` : ""}</a></li>`).join("");
 
-const VIEWS = { overview: renderOverview, decisions: renderDecisions, charges: renderCharges, lenders: renderLenders, reports: renderReports, status: renderStatus };
-const VIEW_TITLES = { overview: "Overview", decisions: "Decisions", charges: "Charges", lenders: "Lenders", reports: "Reports and drafts", status: "Status" };
+const VIEWS = { overview: renderOverview, signals: renderSignals, decisions: renderDecisions, charges: renderCharges, lenders: renderLenders, reports: renderReports, status: renderStatus };
+const VIEW_TITLES = { overview: "Overview", signals: "Signals", decisions: "Decisions", charges: "Charges", lenders: "Lender directory", reports: "Reports and drafts", status: "Status" };
 let routing = Promise.resolve();
 function route() {
   const name = (location.hash.replace(/^#\//, "").split("?")[0]) || "overview";
@@ -418,17 +427,24 @@ async function renderOverview() {
     <button class="stat g-agent span-3" data-tier="B"><span class="sl">Behind a security agent</span><span class="sv num">${o.tiers.B}</span><span class="ss">Tier B, lender hidden</span><svg class="deco" viewBox="0 0 76 60">${DECO.rise}</svg></button>
     <button class="stat g-review span-3" data-tier="D"><span class="sl">Need a lender type</span><span class="sv num">${o.tiers.D}</span><span class="ss">Tier D, for the agent or you</span><svg class="deco" viewBox="0 0 76 60">${DECO.bars}</svg></button>
     <button class="stat g-repaid span-3" data-status="repaid"><span class="sl">Repaid charges</span><span class="sv num">${o.repaid_total}</span><span class="ss">${o.repaid_30} repaid in the last 30 days</span><svg class="deco" viewBox="0 0 76 60">${DECO.check}</svg></button>
+    <section class="card span-7">
+      <div class="card-head"><div><h2>What it means</h2><p>What the latest filings suggest, private credit first. Click one for the company's full picture.</p></div><a class="link-btn" href="#/signals">All ${o.signals.total} signals</a></div>
+      <div class="sig-counts">${Object.entries(o.signals.counts).filter(([, n]) => n).map(([k, n]) => `<button class="chip" data-cat="${sigCat(k)}" data-sigjump="${k}"><span class="sw"></span>${esc(o.signals.labels[k])} <b class="num">${n}</b></button>`).join("")}</div>
+      ${o.signals.top.length ? `<ul class="sig-mini">${o.signals.top.map((s) => `<li><button data-company="${esc(s.company_number)}" data-cat="${sigCat(s.type)}"><span class="disc">${sigIcon(s.type)}</span>
+        <span class="txt"><span class="hd"><b>${esc(s.label)}</b><span class="muted">${esc(s.company_name)}</span>${s.private_credit ? '<span class="pill" data-cat="direct_lender">Private credit</span>' : ""}</span><span class="mn">${esc(s.meaning)}</span></span></button></li>`).join("")}</ul>`
+        : `<div class="empty"><span class="disc" data-cat="cloud">${icon("signals")}</span><p>No signals yet. They appear as the radar fetches each borrower's older charges.</p></div>`}
+    </section>
     <section class="card span-5">
       <div class="card-head"><div><h2>Recent activity</h2><p>Cloud runs, agent runs and your decisions.</p></div><a class="link-btn" href="#/status">View status</a></div>
       ${o.activity.length ? `<ul class="feed">${o.activity.map((a) => `<li><span class="when">${fmtTime(a.at)}</span><span class="disc" data-cat="${a.kind}">${icon(feedIcon[a.kind] || "cloud")}</span>
         <span><span class="what">${esc(a.text.replace(/^You: /, ""))}</span><br><span class="who">${a.kind === "you" ? "You, in the review app" : a.kind === "agent" ? "Claude agent on GitHub" : "Scheduled cloud run"}</span></span></li>`).join("")}</ul>`
         : `<div class="empty"><span class="disc" data-cat="cloud">${icon("cloud")}</span><p>No activity yet. Runs and decisions appear here once this folder is linked to your GitHub repo.</p></div>`}
     </section>
-    <section class="card span-7">
+    <section class="card span-12">
       <div class="card-head"><div><h2>Latest charges</h2><p>Newest filings first.</p></div><a class="link-btn" href="#/charges">View all ${o.total}</a></div>
       <div class="table-wrap"><table class="stack"><thead><tr><th>Tier</th><th>Borrower</th><th>Lender</th><th class="num">Delivered</th><th></th></tr></thead><tbody>
       ${o.latest.map((r) => `<tr><td class="side-fact">${tierBadge(r.tier)}</td>
-        <td class="lead"><span class="strong">${esc(r.company_name || "Name not fetched yet")}</span><span class="sub id">${esc(r.company_number)}</span></td>
+        <td class="lead"><button class="linkish strong" data-company="${esc(r.company_number)}">${esc(r.company_name || "Name not fetched yet")}</button><span class="sub id">${esc(r.company_number)}</span></td>
         <td class="meta">${r.chargees.slice(0, 1).map((c) => `<button class="linkish" data-lender="${esc(c.name)}">${esc(c.display)}</button>`).join("")}${r.chargees.length > 1 ? ` <span class="muted">+${r.chargees.length - 1}</span>` : ""}</td>
         <td class="num meta">${isoDate(r.delivered_on)}</td><td class="act"><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">Filing</a></td></tr>`).join("")
         || `<tr><td colspan="5" class="muted">No charges yet.</td></tr>`}
@@ -444,6 +460,8 @@ async function renderOverview() {
   }));
   document.getElementById("ov-open-week").onclick = () => goCharges({ from: tw.start, to: tw.end });
   main.querySelectorAll("[data-go]").forEach((b) => (b.onclick = () => (location.hash = b.dataset.go)));
+  main.querySelectorAll("[data-sigjump]").forEach((b) => (b.onclick = () => { S.sigType = b.dataset.sigjump; location.hash = "#/signals"; }));
+  document.getElementById("nav-signals").textContent = o.signals.total || "";
   main.querySelectorAll("[data-tier]").forEach((b) => (b.onclick = () => goCharges({ tier: b.dataset.tier })));
   main.querySelectorAll("[data-status]").forEach((b) => (b.onclick = () => goCharges({ status: b.dataset.status })));
   main.querySelectorAll("[data-mix], .donut path").forEach((b) => {
@@ -451,7 +469,6 @@ async function renderOverview() {
     b.onmouseenter = () => main.querySelectorAll(".donut path").forEach((p) => (p.style.opacity = p.dataset.key === (b.dataset.mix || b.dataset.key) ? 1 : .35));
     b.onmouseleave = () => main.querySelectorAll(".donut path").forEach((p) => (p.style.opacity = 1));
   });
-  wireLenderLinks(main);
 }
 
 // ------------------------------------------------------------------ lending-history strip
@@ -545,7 +562,7 @@ function decisionCard(it) {
     ? `<div class="agent" data-cat="${cat}"><span class="disc">${icon("agent")}</span><div><p class="says">The classifier agent says ${esc(labelFor(it.category).toLowerCase())}${conf ? `, ${conf}` : ""}${it.parent ? `, part of ${esc(it.parent)}` : ""}.</p><p class="why">${esc(reasonText(it.reason, it.source))}</p></div></div>`
     : `<div class="agent" data-cat="unknown"><span class="disc">${icon("clock")}</span><div><p class="why">The classifier agent hasn't looked at this name yet. It will on its next run, or you can decide now.</p></div></div>`;
   const rows = it.examples.map((e) => `<tr>
-      <td class="lead"><span class="strong">${esc(e.company_name || "Name not fetched yet")}</span><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
+      <td class="lead"><button class="linkish strong" data-company="${esc(e.company_number)}">${esc(e.company_name || "Name not fetched yet")}</button><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
       <td class="num side-fact">${isoDate(e.delivered_on)}</td>
       <td class="meta">${e.other_chargees.length ? e.other_chargees.map(esc).join("; ") : '<span class="muted">None</span>'}</td>
       <td class="meta">${e.all_assets === 1 ? "All assets" : e.all_assets === 0 ? "Specific assets" : '<span class="muted">Not stated</span>'}</td>
@@ -742,7 +759,7 @@ async function renderCharges() {
   if (!S.choices.length) await loadDecisions();
   const rowsHtml = (rows) => rows.map((r) => `<tr>
       <td class="side-fact">${tierBadge(r.tier)}</td>
-      <td class="lead"><span class="strong">${esc(r.company_name || "Name not fetched yet")}</span><span class="sub id">${esc(r.company_number)}</span></td>
+      <td class="lead"><button class="linkish strong" data-company="${esc(r.company_number)}">${esc(r.company_name || "Name not fetched yet")}</button><span class="sub id">${esc(r.company_number)}</span></td>
       <td class="meta">${r.chargees.map((c) => `<button class="linkish" data-lender="${esc(c.name)}">${esc(c.display)}</button>`).join("<br>")}</td>
       <td class="meta">${catChip(r.primary, r.primary_label)}</td>
       <td class="num meta">${isoDate(r.delivered_on)}</td>
@@ -783,105 +800,274 @@ async function renderCharges() {
     const next = await get("/api/charges?" + params);
     document.getElementById("crows").insertAdjacentHTML("beforeend", rowsHtml(next.rows));
     offset += next.rows.length;
-    wireLenderLinks(main);
-    if (offset >= next.total) more.parentElement.remove(); else more.textContent = `Show ${Math.min(100, next.total - offset)} more of ${next.total - offset}`;
+      if (offset >= next.total) more.parentElement.remove(); else more.textContent = `Show ${Math.min(100, next.total - offset)} more of ${next.total - offset}`;
   };
-  wireLenderLinks(main);
-}
-function wireLenderLinks(root) {
-  root.querySelectorAll("[data-lender]:not(tr)").forEach((b) => (b.onclick = (e) => { e.stopPropagation(); openLender(b.dataset.lender); }));
 }
 
-// ------------------------------------------------------------------ lenders
-async function renderLenders() {
-  const q = S.lendersQuery;
-  if (!S.choices.length) await loadDecisions();
-  const data = await get("/api/lenders?" + new URLSearchParams(q));
-  const statusPillFor = (r) => r.status === "needs_review" ? '<span class="pill" data-cat="review">Needs your call</span>'
-    : r.status === "unclassified" ? '<span class="pill" data-cat="unknown">Waiting for the agent</span>'
-    : r.status === "ok" ? '<span class="pill" data-cat="bank">Decided by you</span>' : '<span class="pill" data-cat="direct_lender">Not checked by you</span>';
-  const direct = data.rows.filter((r) => r.category === "direct_lender").length;
-  setSub(`${plural(data.total, "lender name")}, ${plural(direct, "direct lender")}`);
+// ------------------------------------------------------------------ research links
+const CH = "https://find-and-update.company-information.service.gov.uk";
+// "Ares Management Limited (As Security Agent)" -> "Ares Management Limited", for searching.
+const searchName = (n) => String(n || "").replace(/\s*\([^)]*\)\s*/g, " ").replace(/\s+as\s+(security\s+)?(agent|trustee)\b.*$/i, "").trim();
+const ext = (href, label, title) => `<a class="rlink" href="${esc(href)}" target="_blank" rel="noopener" title="${esc(title || label)}">${esc(label)}</a>`;
+function lenderLinks(display) {
+  const n = encodeURIComponent(searchName(display));
+  return `<span class="rlinks">${ext(`${CH}/search/companies?q=${n}`, "Companies House", "Search Companies House for this lender")}${ext(`https://www.google.com/search?q=%22${n}%22`, "Google")}${ext(`https://www.linkedin.com/search/results/companies/?keywords=${n}`, "LinkedIn")}</span>`;
+}
+function companyLinks(number, name) {
+  const n = encodeURIComponent(number);
+  return `<span class="rlinks">${ext(`${CH}/company/${n}`, "Profile", "Companies House profile")}${ext(`${CH}/company/${n}/charges`, "All charges")}${ext(`${CH}/company/${n}/filing-history`, "Filing history")}${ext(`https://www.google.com/search?q=%22${encodeURIComponent(name || number)}%22`, "Google")}</span>`;
+}
+
+// ------------------------------------------------------------------ signals
+const SIG = {
+  refinanced: ["agent", "refi"], maturity: ["review", "clock"], alongside: ["security_agent", "layers"],
+  top_up: ["asset_finance", "plus"], first_loan: ["bank", "star"], returning: ["direct_lender", "refi"], repaid: ["unknown", "check"],
+};
+const sigCat = (t) => (SIG[t] || ["unknown"])[0];
+const sigIcon = (t) => icon((SIG[t] || [, "signals"])[1]);
+function evidenceTable(charges) {
+  return `<div class="table-wrap"><table class="stack"><thead><tr><th>Lender</th><th class="num">Created</th><th>Status</th><th></th></tr></thead><tbody>
+    ${charges.map((c) => `<tr><td class="lead">${c.lenders.map((x) => `<span class="strong">${esc(x.display)}</span>`).join("<br>") || '<span class="muted">Not named</span>'}<span class="sub">${catChip(c.primary)}${c.charge_type ? ` ${esc(c.charge_type)}` : ""}</span></td>
+      <td class="num side-fact">${isoDate(c.created_on || c.delivered_on)}</td>
+      <td class="meta">${statusPill(c.status)}${c.satisfied_on ? `<span class="sub">${isoDate(c.satisfied_on)}</span>` : ""}</td>
+      <td class="act"><a href="${esc(c.filing_url)}" target="_blank" rel="noopener">Filing</a></td></tr>`).join("")}
+  </tbody></table></div>`;
+}
+function signalCard(s, opts = {}) {
+  const cat = sigCat(s.type);
+  return `<article class="card signal" data-cat="${cat}">
+    <div class="sig-head"><span class="disc">${sigIcon(s.type)}</span>
+      <div><div class="facts"><span class="pill" data-cat="${cat}">${esc(s.label)}</span>${s.private_credit ? '<span class="pill" data-cat="direct_lender">Private credit</span>' : ""}<span>${fmtDate(s.date)}</span></div>
+      ${opts.noCompany ? "" : `<h3 class="sig-co"><button class="linkish" data-company="${esc(s.company_number)}">${esc(s.company_name)}</button> <span class="id muted">${esc(s.company_number)}</span></h3>`}</div></div>
+    <p class="meaning">${esc(s.meaning)}</p>
+    <details class="behind"><summary>The ${plural(s.charges.length, "filing")} behind this</summary>${evidenceTable(s.charges)}</details>
+  </article>`;
+}
+async function renderSignals() {
+  const d = await get("/api/signals");
+  document.getElementById("nav-signals").textContent = d.total || "";
+  const rows = d.rows.filter((s) => !S.sigType || s.type === S.sigType);
+  const pc = d.rows.filter((s) => s.private_credit).length;
+  setSub(`${plural(d.total, "signal")}, ${pc} involving private credit`);
+  const missing = d.companies - d.histories;
   main.innerHTML = `<div class="anim-root">
-    <div class="page-intro"><div><h1>Lenders</h1><p><b>${plural(direct, "direct lender")}</b> among ${plural(data.total, "lender name")}. Click any lender for its lending history and every charge, or to change its type.</p></div></div>
-    <section class="card">
-      <form class="filters" id="lf">
-        <label class="field">Search<input type="search" name="q" value="${esc(q.q)}" placeholder="Lender or parent firm"></label>
-        <label class="field">Type<select name="category"><option value="">All types</option>${CATEGORY_KEYS.map((k) => `<option value="${k}" ${q.category === k ? "selected" : ""}>${esc(CAT_LABELS[k])}</option>`).join("")}</select></label>
-        <label class="field">Status<select name="status"><option value="">All</option>
-          <option value="needs_review" ${q.status === "needs_review" ? "selected" : ""}>Needs your call</option>
-          <option value="auto_ok" ${q.status === "auto_ok" ? "selected" : ""}>Not checked by you</option>
-          <option value="ok" ${q.status === "ok" ? "selected" : ""}>Decided by you</option>
-          <option value="unclassified" ${q.status === "unclassified" ? "selected" : ""}>Waiting for the agent</option></select></label>
-        <button class="btn soft" type="submit">Apply</button>
-      </form>
-      <div class="table-wrap"><table class="stack"><thead><tr><th>Lender</th><th>Type</th><th>Parent firm</th><th>Decided by</th><th>Status</th><th class="num">Charges</th><th class="num">Latest</th></tr></thead><tbody id="lrows">
-        ${data.rows.map((r) => `<tr class="clickable" data-lender="${esc(r.name)}" tabindex="0">
-          <td class="lead"><span class="strong">${esc(r.display)}</span></td><td class="meta">${r.category ? catChip(r.category, r.category_label) : '<span class="muted">Not classified yet</span>'}</td>
-          <td class="meta">${esc(r.parent || "") || '<span class="muted">—</span>'}</td><td class="meta">${esc(r.source_label)}</td><td class="meta">${statusPillFor(r)}</td>
-          <td class="num side-fact"><b>${r.charges}</b></td><td class="num meta">${isoDate(r.latest)}</td></tr>`).join("")
-          || `<tr><td colspan="7"><div class="empty"><p>No lenders match these filters.</p></div></td></tr>`}
-      </tbody></table></div>
-    </section></div>`;
-  const form = document.getElementById("lf");
-  form.onsubmit = (e) => { e.preventDefault(); Object.assign(q, Object.fromEntries(new FormData(form))); renderLenders().then(() => fadeIn(document.getElementById("lrows"))); };
-  form.querySelectorAll("select").forEach((s) => (s.onchange = () => form.requestSubmit()));
-  main.querySelectorAll("tr[data-lender]").forEach((tr) => {
-    tr.onclick = () => openLender(tr.dataset.lender);
-    tr.onkeydown = (e) => { if (e.key === "Enter") openLender(tr.dataset.lender); };
-  });
+    <div class="page-intro"><div><h1>What the filings suggest</h1>
+      <p>Each signal reads a borrower's charges, old and new, and says in plain English what the pattern usually means. They are leads to check, not facts: open the filings behind any of them.</p></div></div>
+    ${missing > 0 ? `<div class="notice">${icon("clock")}<div>The radar has fetched the older charges of ${d.histories} of ${plural(d.companies, "borrower")}. Refinancing and first-loan signals need that history, so more will appear after the next cloud runs.</div></div>` : ""}
+    <div class="chips" role="group" aria-label="Show">
+      <button class="chip" data-sig="" aria-pressed="${!S.sigType}">All <b class="num">${d.total}</b></button>
+      ${d.types.map((t) => `<button class="chip" data-cat="${sigCat(t.key)}" data-sig="${t.key}" aria-pressed="${S.sigType === t.key}" title="${esc(t.help)}" ${d.counts[t.key] ? "" : "disabled"}><span class="sw"></span>${esc(t.label)} <b class="num">${d.counts[t.key]}</b></button>`).join("")}
+    </div>
+    <div id="sig-list" class="sig-list">${rows.map((s) => signalCard(s)).join("") || `<div class="card empty"><span class="disc" data-cat="cloud">${icon("signals")}</span><h2>No signals yet</h2><p>Signals appear as the radar collects charges and fetches each borrower's older ones.</p></div>`}</div>
+  </div>`;
+  main.querySelectorAll("[data-sig]").forEach((b) => (b.onclick = () => { S.sigType = b.dataset.sig; renderSignals().then(() => fadeIn(document.getElementById("sig-list"))); }));
 }
 
-// ------------------------------------------------------------------ lender drawer (slides in)
-async function openLender(name) {
-  if (!S.choices.length) await loadDecisions();
-  const it = await get("/api/lender?name=" + encodeURIComponent(name));
-  const drawer = document.getElementById("drawer"), body = document.getElementById("drawer-body");
-  const pick = { category: it.category && it.category !== "unknown" ? it.category : "", parent: it.parent || "" };
-  body.innerHTML = `
-    <div class="facts">${it.category ? catChip(it.category) + `<span>${esc(it.source_label)}</span>` : '<span class="pill" data-cat="unknown">Not classified yet</span><span>The classifier agent will look at it on its next run</span>'}${it.confidence != null && it.source === "agent" ? `<span>${Math.round(it.confidence * 100)}% sure</span>` : ""}</div>
-    <h2 class="lender-name" id="drawer-title">${esc(it.display)}</h2>
-    <div class="card" style="margin-bottom:20px">
-      ${it.reason ? `<div class="agent" data-cat="${catKey(it.category)}"><span class="disc">${icon(it.source === "agent" ? "agent" : "check")}</span><div><p class="why">${esc(reasonText(it.reason, it.source))}</p></div></div>` : ""}
-      <div data-cat="${catKey(it.category)}">${historyStrip(it.history)}</div>
-      <h3>Change the type</h3>
-      <div class="picker">${S.choices.map((c) => `<button type="button" class="choice" data-key="${c.key}" data-cat="${c.key}" aria-pressed="${pick.category === c.key}"><span class="top"><span class="nm">${esc(c.label)}</span></span><span class="help">${esc(c.help)}</span></button>`).join("")}</div>
-      <div class="decide-row"><label class="field">Parent firm, if it's part of a group<input class="input" id="dparent" value="${esc(pick.parent)}" maxlength="100"></label>
-        <button class="btn primary" id="dsave">Save decision</button></div>
-    </div>
-    <section class="card"><div class="card-head"><h2>${plural(it.charges, "charge")} in their favour</h2></div>
-      <div class="table-wrap"><table class="stack"><thead><tr><th>Borrower</th><th class="num">Delivered</th><th>Other chargees</th><th>Status</th><th></th></tr></thead><tbody>
-      ${it.examples.map((e) => `<tr><td class="lead"><span class="strong">${esc(e.company_name || "Name not fetched yet")}</span><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
-        <td class="num side-fact">${isoDate(e.delivered_on)}</td><td class="meta">${e.other_chargees.map(esc).join("; ") || '<span class="muted">None</span>'}</td>
-        <td class="meta">${statusPill(e.status)}</td><td class="act"><a href="${esc(e.filing_url)}" target="_blank" rel="noopener">Filing</a></td></tr>`).join("")}
-      </tbody></table></div></section>`;
-  body.querySelectorAll(".choice").forEach((b) => (b.onclick = () => {
-    pick.category = b.dataset.key;
-    body.querySelectorAll(".choice").forEach((x) => x.setAttribute("aria-pressed", x === b));
-  }));
-  document.getElementById("dparent").oninput = (e) => (pick.parent = e.target.value);
-  document.getElementById("dsave").onclick = async () => {
-    if (!pick.category) return toast("Pick a type first", true);
-    try {
-      await post("/api/decide", { name: it.name, category: pick.category, parent: pick.parent });
-      toast(`Saved: ${it.display} is ${labelFor(pick.category).toLowerCase()}`);
-      closeDrawer(); refresh();
-    } catch (e) { toast(e.message, true); }
-  };
+// ------------------------------------------------------------------ drawer (company and lender panels)
+// Panels stack: open a lender from a company (or the reverse) and Back returns to the one before.
+const drawer = document.getElementById("drawer"), drawerBody = document.getElementById("drawer-body");
+const drawerStack = [];
+async function pushPanel(panel) {
+  try {
+    const html = await panel.render();
+    drawerStack.push(panel);
+    showPanel(html, panel);
+  } catch (e) { toast(e.message, true); }
+}
+function showPanel(html, panel) {
+  drawerBody.innerHTML = (drawerStack.length > 1 ? `<button class="btn ghost back" id="drawer-back">${icon("back")}Back to ${esc(drawerStack[drawerStack.length - 2].title)}</button>` : "") + html;
+  panel.wire && panel.wire();
+  const back = document.getElementById("drawer-back");
+  if (back) back.onclick = async () => { drawerStack.pop(); const prev = drawerStack[drawerStack.length - 1]; showPanel(await prev.render(), prev); };
   drawer.querySelector(".drawer-inner").scrollTop = 0;
-  drawer.classList.add("open");
-  drawer.setAttribute("aria-hidden", "false");
-  document.getElementById("scrim").classList.add("on");
-  setTimeout(() => document.getElementById("drawer-close").focus(), 50);
+  fadeIn(drawerBody);
+  if (!drawer.classList.contains("open")) {
+    drawer.classList.add("open");
+    drawer.setAttribute("aria-hidden", "false");
+    document.getElementById("scrim").classList.add("on");
+    setTimeout(() => document.getElementById("drawer-close").focus(), 50);
+  }
 }
 function closeDrawer() {
-  const d = document.getElementById("drawer");
-  d.classList.remove("open");
-  d.setAttribute("aria-hidden", "true");
+  drawer.classList.remove("open");
+  drawer.setAttribute("aria-hidden", "true");
+  drawerStack.length = 0;
   if (!document.body.classList.contains("menu-open")) document.getElementById("scrim").classList.remove("on");
 }
 document.getElementById("drawer-close").onclick = closeDrawer;
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeDrawer(); setMenu(false); } });
+// Any borrower or lender name anywhere in the app opens its panel.
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-company], [data-lender]");
+  if (!el || e.target.closest("a")) return;
+  e.preventDefault();
+  if (el.dataset.company) openCompany(el.dataset.company); else openLender(el.dataset.lender);
+});
+document.addEventListener("keydown", (e) => {
+  const el = e.target.closest && e.target.closest("tr[data-company], tr[data-lender]");
+  if (el && e.key === "Enter") { e.preventDefault(); el.click(); }
+});
+
+function openCompany(number) {
+  let title = number;
+  return pushPanel({
+    get title() { return title; },
+    render: async () => {
+      const c = await get("/api/company?number=" + encodeURIComponent(number));
+      title = c.name || c.number;
+      const strip = '<div data-cat="cloud">' + historyStrip(c.charges.slice().reverse().map((x) => ({ delivered_on: x.created_on || x.delivered_on, status: x.status }))) + "</div>";
+      return `
+        <div class="facts"><span class="pill" data-cat="${c.status === "active" ? "bank" : "unknown"}">${esc(c.status ? c.status[0].toUpperCase() + c.status.slice(1) : "Profile not fetched yet")}</span><span class="id">${esc(c.number)}</span>${c.created ? `<span>Incorporated ${fmtDate(c.created)}</span>` : ""}${c.sic_codes.length ? `<span>SIC ${sic(c.sic_codes)}</span>` : ""}</div>
+        <h2 class="lender-name" id="drawer-title">${esc(c.name || c.number)}</h2>
+        <div class="research"><span class="muted small">Research</span>${companyLinks(c.number, c.name)}</div>
+        <section class="card panel-card"><div class="card-head"><div><h2>What it means</h2><p>${c.signals.length ? "Read from the charges below." : "No pattern stands out in this company's charges."}</p></div></div>
+          ${c.signals.length ? c.signals.map((s) => `<div class="sig-inline" data-cat="${sigCat(s.type)}"><span class="disc">${sigIcon(s.type)}</span><div><span class="pill" data-cat="${sigCat(s.type)}">${esc(s.label)}</span><p class="meaning">${esc(s.meaning)}</p></div></div>`).join("") : ""}
+          ${c.history_fetched ? "" : `<p class="muted small">The radar hasn't fetched this company's older charges yet, so only charges seen on the stream are shown. The next cloud run fetches them.</p>`}
+        </section>
+        <section class="card panel-card"><div class="card-head"><div><h2>${plural(c.charges.length, "charge")}, ${c.outstanding} outstanding</h2><p>Newest first. Click a lender for its panel.</p></div></div>
+          ${strip}
+          <div class="table-wrap"><table class="stack"><thead><tr><th>Lender</th><th class="num">Created</th><th>Status</th><th>Seen</th><th></th></tr></thead><tbody>
+          ${c.charges.map((x) => `<tr><td class="lead">${x.lenders.map((l) => l.known ? `<button class="linkish strong" data-lender="${esc(l.name)}">${esc(l.display)}</button>` : `<span class="strong">${esc(l.display)}</span>`).join("<br>") || '<span class="muted">Not named</span>'}<span class="sub">${catChip(x.primary, x.primary_label)}</span></td>
+            <td class="num side-fact">${isoDate(x.created_on || x.delivered_on)}</td>
+            <td class="meta">${statusPill(x.status)}${x.satisfied_on ? `<span class="sub">${isoDate(x.satisfied_on)}</span>` : ""}</td>
+            <td class="meta">${x.on_register ? '<span class="pill" data-cat="cloud">On the radar</span>' : '<span class="muted">Older charge</span>'}</td>
+            <td class="act"><a href="${esc(x.filing_url)}" target="_blank" rel="noopener">Filing</a></td></tr>`).join("")}
+          </tbody></table></div></section>`;
+    },
+  });
+}
+
+function openLender(name) {
+  let title = name, it = null;
+  const pick = {};
+  return pushPanel({
+    get title() { return title; },
+    render: async () => {
+      if (!S.choices.length) await loadDecisions();
+      it = await get("/api/lender?name=" + encodeURIComponent(name));
+      title = it.display;
+      pick.category = it.category && it.category !== "unknown" ? it.category : "";
+      pick.parent = it.parent || "";
+      return `
+        <div class="facts">${it.category ? catChip(it.category) + `<span>${esc(it.source_label)}</span>` : '<span class="pill" data-cat="unknown">Not classified yet</span><span>The classifier agent will look at it on its next run</span>'}${it.confidence != null && it.source === "agent" ? `<span>${Math.round(it.confidence * 100)}% sure</span>` : ""}</div>
+        <h2 class="lender-name" id="drawer-title">${esc(it.display)}</h2>
+        <div class="research"><span class="muted small">Research</span>${lenderLinks(it.display)}${it.parent ? `<span class="muted small">Parent: <b>${esc(it.parent)}</b></span>` : ""}</div>
+        <div class="kpis mini-kpis">
+          <div class="kpi-s"><span class="l">Borrowers</span><span class="v num">${it.borrowers}</span></div>
+          <div class="kpi-s"><span class="l">Charges</span><span class="v num">${it.charges}</span></div>
+          <div class="kpi-s"><span class="l">Outstanding</span><span class="v num">${it.outstanding}</span></div>
+          <div class="kpi-s"><span class="l">Active</span><span class="v">${it.first ? it.first.slice(0, 4) : "—"}${it.latest && it.latest.slice(0, 4) !== (it.first || "").slice(0, 4) ? `–${it.latest.slice(0, 4)}` : ""}</span></div>
+        </div>
+        <section class="card panel-card"><div class="card-head"><div><h2>Your research notes</h2><p>Fund size, strategy, people, links. Saved to GitHub with your decisions.</p></div></div>
+          <textarea class="editor note-box" id="lnote" placeholder="For example: mid-market sponsor lender, unitranche up to £150m, contact via ...">${esc(it.note || "")}</textarea>
+          <div class="decide-row"><button class="btn soft" id="lnote-save">Save note</button></div></section>
+        <section class="card panel-card">
+          ${it.reason ? `<div class="agent" data-cat="${catKey(it.category)}"><span class="disc">${icon(it.source === "agent" ? "agent" : "check")}</span><div><p class="why">${esc(reasonText(it.reason, it.source))}</p></div></div>` : ""}
+          <div data-cat="${catKey(it.category)}">${historyStrip(it.history)}</div>
+          <h3>Change the type</h3>
+          <div class="picker">${S.choices.map((c) => `<button type="button" class="choice" data-key="${c.key}" data-cat="${c.key}" aria-pressed="${pick.category === c.key}"><span class="top"><span class="nm">${esc(c.label)}</span></span><span class="help">${esc(c.help)}</span></button>`).join("")}</div>
+          <div class="decide-row"><label class="field">Parent firm, if it's part of a group<input class="input" id="dparent" value="${esc(pick.parent)}" maxlength="100"></label>
+            <button class="btn primary" id="dsave">Save decision</button></div>
+        </section>
+        <section class="card panel-card"><div class="card-head"><div><h2>${plural(it.charges, "charge")} in their favour</h2><p>Click a borrower for all of its charges and what they suggest.</p></div></div>
+          <div class="table-wrap"><table class="stack"><thead><tr><th>Borrower</th><th class="num">Delivered</th><th>Other chargees</th><th>Status</th><th></th></tr></thead><tbody>
+          ${it.examples.map((e) => `<tr><td class="lead"><button class="linkish strong" data-company="${esc(e.company_number)}">${esc(e.company_name || "Name not fetched yet")}</button><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
+            <td class="num side-fact">${isoDate(e.delivered_on)}</td><td class="meta">${e.other_chargees.map(esc).join("; ") || '<span class="muted">None</span>'}</td>
+            <td class="meta">${statusPill(e.status)}</td><td class="act"><a href="${esc(e.filing_url)}" target="_blank" rel="noopener">Filing</a></td></tr>`).join("")}
+          </tbody></table></div></section>`;
+    },
+    wire: () => {
+      drawerBody.querySelectorAll(".choice").forEach((b) => (b.onclick = () => {
+        pick.category = b.dataset.key;
+        drawerBody.querySelectorAll(".choice").forEach((x) => x.setAttribute("aria-pressed", x === b));
+      }));
+      document.getElementById("dparent").oninput = (e) => (pick.parent = e.target.value);
+      document.getElementById("dsave").onclick = async () => {
+        if (!pick.category) return toast("Pick a type first", true);
+        try {
+          await post("/api/decide", { name: it.name, category: pick.category, parent: pick.parent });
+          toast(`Saved: ${it.display} is ${labelFor(pick.category).toLowerCase()}`);
+          closeDrawer(); refresh();
+        } catch (e) { toast(e.message, true); }
+      };
+      document.getElementById("lnote-save").onclick = async () => {
+        try {
+          await post("/api/lender/note", { name: it.name, note: document.getElementById("lnote").value });
+          toast("Note saved");
+          if (S.view === "lenders") refresh();
+        } catch (e) { toast(e.message, true); }
+      };
+    },
+  });
+}
+
+// ------------------------------------------------------------------ lender directory
+const DIR_STATUS = { needs_review: ["Needs your call", "review"], unclassified: ["Waiting for the agent", "unknown"], ok: ["Decided by you", "bank"], auto_ok: ["Not checked by you", "direct_lender"] };
+async function renderLenders() {
+  if (!S.choices.length) await loadDecisions();
+  const d = await get("/api/directory");
+  const q = S.lendersQuery;
+  const catOf = (r) => r.category || "unclassified";
+  const needle = q.q.trim().toLowerCase();
+  const rows = d.rows.filter((r) => (!q.category || catOf(r) === q.category) && (!q.status || r.status === q.status)
+    && (!needle || [r.display, r.parent, r.note].some((v) => (v || "").toLowerCase().includes(needle))));
+  const watch = d.watch.filter((w) => (!q.category || w.category === q.category) && (!needle || [w.pattern, w.parent, w.note].some((v) => (v || "").toLowerCase().includes(needle))));
+  const direct = d.rows.filter((r) => r.category === "direct_lender").length;
+  setSub(`${plural(d.total, "lender")} on the register, ${plural(direct, "direct lender")}`);
+  const catLabel = q.category ? (d.categories.find((c) => c.key === q.category) || { label: CAT_LABELS[q.category] || q.category }).label : "All lenders";
+  main.innerHTML = `<div class="anim-root">
+    <div class="page-intro"><div><h1>Lender directory</h1><p>Every lender on the register by type, with research links and your notes. Click a lender for its panel: borrowers, every charge, notes.</p></div>
+      <button class="btn soft" id="dir-csv">${icon("download")}Download CSV</button></div>
+    <div class="dir">
+      <nav class="card dir-cats" aria-label="Lender types">
+        <button class="dcat" data-dcat="" aria-pressed="${!q.category}"><span class="sw" style="background:var(--brand)"></span><span>All lenders</span><b class="num">${d.total}</b></button>
+        ${d.categories.map((c) => `<button class="dcat" data-cat="${c.key === "unclassified" ? "unknown" : c.key}" data-dcat="${c.key}" aria-pressed="${q.category === c.key}"><span class="sw"></span><span>${esc(c.label)}</span><b class="num">${c.count}</b></button>`).join("")}
+        ${CATEGORY_KEYS.filter((k) => k !== "unknown" && !d.categories.find((c) => c.key === k)).map((k) => `<button class="dcat" data-cat="${k}" data-dcat="${k}" aria-pressed="${q.category === k}"><span class="sw"></span><span>${esc(CAT_LABELS[k])}</span><b class="num muted">0</b></button>`).join("")}
+      </nav>
+      <section class="card dir-main">
+        <div class="card-head"><div><h2>${esc(catLabel)}</h2><p>${plural(rows.length, "lender")}${needle ? ` matching “${esc(q.q)}”` : ""}</p></div>
+          <form class="filters" id="lf" style="margin:0">
+            <label class="field">Search<input type="search" name="q" value="${esc(q.q)}" placeholder="Lender, parent firm or note"></label>
+            <label class="field">Status<select name="status"><option value="">All</option>${Object.entries(DIR_STATUS).map(([k, [l]]) => `<option value="${k}" ${q.status === k ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+          </form></div>
+        <div class="table-wrap"><table class="stack"><thead><tr><th>Lender</th><th>Type and status</th><th class="num">Lending</th><th class="num">Active</th></tr></thead><tbody id="lrows">
+          ${rows.map((r) => `<tr class="clickable" data-lender="${esc(r.name)}" tabindex="0">
+            <td class="lead dir-name"><span class="strong">${esc(r.display)}</span>${r.parent ? `<span class="sub">Part of ${esc(r.parent)}</span>` : ""}${r.note ? `<span class="sub note-line">${icon("note")}${esc(r.note.split("\n")[0].slice(0, 90))}</span>` : ""}<span class="sub">${lenderLinks(r.display)}</span></td>
+            <td class="meta">${r.category ? catChip(r.category, r.category_label) : '<span class="muted">Not classified yet</span>'}<span class="sub"><span class="pill" data-cat="${(DIR_STATUS[r.status] || ["", "unknown"])[1]}">${(DIR_STATUS[r.status] || [r.status])[0]}</span></span></td>
+            <td class="num side-fact"><b>${plural(r.borrowers, "borrower")}</b><span class="sub">${plural(r.charges, "charge")}, ${r.outstanding} live</span></td>
+            <td class="num meta">${r.first ? r.first.slice(0, 4) : "—"}${r.latest && r.first && r.latest.slice(0, 4) !== r.first.slice(0, 4) ? `–${r.latest.slice(0, 4)}` : ""}</td></tr>`).join("")
+            || `<tr><td colspan="4"><div class="empty"><p>No lenders on the register match.</p></div></td></tr>`}
+        </tbody></table></div>
+      </section>
+    </div>
+    ${watch.length ? `<details class="card watch" style="margin-top:var(--gap)" ${q.category || needle ? "open" : ""}>
+      <summary class="card-head"><div><h2>Known from your rules, not seen yet <span class="muted num">${watch.length}</span></h2><p>Names and phrases in the lender rules that no charge on the register has matched so far, by type. They're classified automatically the moment one appears. Click to ${q.category || needle ? "hide" : "show"}.</p></div></summary>
+      <div class="table-wrap"><table class="stack"><thead><tr><th>Name or phrase</th><th>Type</th><th>Parent firm</th><th>Rule</th><th>Research</th></tr></thead><tbody>
+      ${watch.map((w) => `<tr><td class="lead"><span class="strong">${esc(w.pattern)}</span>${w.note ? `<span class="sub">${esc(w.note)}</span>` : ""}</td>
+        <td class="meta">${catChip(w.category, w.category_label)}</td><td class="meta">${esc(w.parent) || '<span class="muted">—</span>'}</td>
+        <td class="meta">${w.match === "exact" ? "Exact name" : "Name contains"}<span class="sub">${esc(w.source)}</span></td>
+        <td class="meta">${lenderLinks(w.parent || w.pattern)}</td></tr>`).join("")}
+      </tbody></table></div></details>` : ""}
+  </div>`;
+  main.querySelectorAll("[data-dcat]").forEach((b) => (b.onclick = () => { q.category = b.dataset.dcat; renderLenders().then(() => fadeIn(main.querySelector(".dir-main"))); }));
+  const form = document.getElementById("lf");
+  let t;
+  form.querySelector("input").oninput = (e) => { clearTimeout(t); t = setTimeout(() => { q.q = e.target.value; renderLenders().then(() => { const i = document.querySelector("#lf input"); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 250); };
+  form.onsubmit = (e) => e.preventDefault();
+  form.querySelector("select").onchange = (e) => { q.status = e.target.value; renderLenders().then(() => fadeIn(document.getElementById("lrows"))); };
+  document.getElementById("dir-csv").onclick = () => {
+    const cols = [["Lender", (r) => r.display], ["Type", (r) => r.category_label || "Not classified yet"], ["Parent firm", (r) => r.parent || ""],
+      ["Borrowers", (r) => r.borrowers], ["Charges", (r) => r.charges], ["Outstanding", (r) => r.outstanding], ["First charge", (r) => r.first || ""],
+      ["Latest charge", (r) => r.latest || ""], ["Decided by", (r) => r.source_label], ["Notes", (r) => r.note || ""]];
+    const cell = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const csv = [cols.map((c) => cell(c[0])).join(","), ...rows.map((r) => cols.map((c) => cell(c[1](r))).join(","))].join("\r\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv" }));
+    a.download = `armariu-lenders${q.category ? "-" + q.category : ""}-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  };
+}
 
 // ------------------------------------------------------------------ reports
 async function renderReports() {

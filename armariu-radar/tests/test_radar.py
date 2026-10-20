@@ -16,7 +16,7 @@ from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from radar import agentcheck, classify, config, dbsync, export, ingest  # noqa: E402
+from radar import agentcheck, classify, config, dbsync, export, ingest, signals  # noqa: E402
 from radar.db import connect, get_meta  # noqa: E402
 from radar.normalise import normalise_name  # noqa: E402
 from radar.review import add_human_rule  # noqa: E402
@@ -200,6 +200,78 @@ class StreamAndRestTests(unittest.TestCase):
     def test_rest_404_is_none(self):
         client = ingest.RestClient("key", session=_FakeSession([_FakeResp(404)]))
         self.assertIsNone(client.company("00000000"))
+
+
+def _charge(cid, lender, cat, created, status="outstanding", satisfied=None):
+    return {"charge_id": cid, "status": status, "created_on": created, "delivered_on": created,
+            "satisfied_on": satisfied, "charge_type": None, "deal_date": created, "on_register": True,
+            "lenders": [{"name": normalise_name(lender), "display": lender, "category": cat}],
+            "primary": cat, "filing_url": "https://example/" + cid}
+
+
+class SignalsTests(unittest.TestCase):
+    TODAY = date(2026, 10, 20)
+
+    def kinds(self, charges, fetched=True):
+        return [s["type"] for s in signals.for_company("01", "Acme Ltd", charges, fetched, self.TODAY)]
+
+    def test_refinanced_from_bank_to_private_credit(self):
+        found = signals.for_company("01", "Acme Ltd", [
+            _charge("a", "Big Bank PLC", "bank", "2019-03-01", "fully-satisfied", "2026-10-01"),
+            _charge("b", "Northgate Credit Partners", "direct_lender", "2026-09-25"),
+        ], True, self.TODAY)
+        self.assertEqual([s["type"] for s in found], ["refinanced"])
+        self.assertIn("moved from a bank to private credit", found[0]["meaning"])
+        self.assertTrue(found[0]["private_credit"])
+        self.assertEqual(len(found[0]["charges"]), 2)
+
+    def test_new_lender_alongside_and_top_up(self):
+        base = _charge("a", "Big Bank PLC", "bank", "2021-01-01")
+        self.assertEqual(self.kinds([base, _charge("b", "Fund LP", "direct_lender", "2026-09-01")]), ["alongside"])
+        self.assertEqual(self.kinds([base, _charge("b", "Big Bank PLC", "bank", "2026-09-01")]), ["top_up"])
+
+    def test_first_loan_needs_the_full_history(self):
+        new = [_charge("b", "Fund LP", "direct_lender", "2026-09-01")]
+        self.assertEqual(self.kinds(new), ["first_loan"])
+        self.assertEqual(self.kinds(new, fetched=False), [])
+        old = _charge("a", "Big Bank PLC", "bank", "2010-01-01", "fully-satisfied", "2015-01-01")
+        self.assertEqual(self.kinds([old] + new), ["returning"])
+
+    def test_charges_made_together_are_one_deal(self):
+        found = self.kinds([_charge(c, "Fund LP", "direct_lender", "2026-09-01") for c in "xyz"])
+        self.assertEqual(found, ["first_loan"])
+
+    def test_repaid_with_nothing_new(self):
+        found = signals.for_company("01", "Acme Ltd", [
+            _charge("a", "Big Bank PLC", "bank", "2018-01-01", "fully-satisfied", "2026-10-10"),
+            _charge("b", "Big Bank PLC", "bank", "2018-01-01", "fully-satisfied", "2026-10-10"),
+        ], True, self.TODAY)
+        self.assertEqual([s["type"] for s in found], ["repaid"])
+        self.assertIn("2 charges", found[0]["meaning"])
+
+    def test_maturity_window_for_private_credit_only(self):
+        self.assertEqual(self.kinds([_charge("a", "Fund LP", "direct_lender", "2022-06-01")]), ["maturity"])
+        self.assertEqual(self.kinds([_charge("a", "Fund LP", "direct_lender", "2025-06-01")]), [])  # too young
+        self.assertEqual(self.kinds([_charge("a", "Fund LP", "direct_lender", "2012-06-01")]), [])  # likely stale
+        self.assertEqual(self.kinds([_charge("a", "Big Bank PLC", "bank", "2022-06-01")]), [])
+        two = self.kinds([_charge("a", "Fund LP", "direct_lender", "2022-06-01"),
+                          _charge("b", "Fund LP", "direct_lender", "2024-06-01")])
+        self.assertEqual(two, ["maturity"])
+
+    def test_history_is_fetched_and_merged(self):
+        conn = loaded_db()
+        old = {"id": "old1", "status": "fully-satisfied", "created_on": "2015-01-01", "delivered_on": "2015-01-05",
+               "satisfied_on": "2020-01-01", "persons_entitled": [{"name": "Lloyds Bank PLC"}]}
+        sess = _FakeSession([_FakeResp(200, payload={"total_count": 1, "items": [old]})] * 50)
+        n = ingest.history(conn, ingest.RestClient("key", session=sess), limit=1)
+        self.assertEqual(n, 1)
+        number = conn.execute("SELECT company_number FROM borrower_history_fetched").fetchone()[0]
+        rows, fetched = signals.company_charges(conn, number, signals.Namer(conn))
+        self.assertTrue(fetched)
+        self.assertIn("old1", [r["charge_id"] for r in rows])
+        self.assertEqual(next(r for r in rows if r["charge_id"] == "old1")["primary"], "bank")  # from the rules
+        self.assertIsNone(conn.execute("SELECT 1 FROM charges WHERE charge_id = 'old1'").fetchone())  # register untouched
+        self.assertEqual(ingest.history(conn, ingest.RestClient("key", session=sess), limit=1), 1)  # next borrower
 
 
 class ClassifyTests(TempDirTest):
@@ -517,6 +589,29 @@ class ReviewAppTests(TempDirTest):
         hits = self.api.charges(self.conn, q="glas")["rows"]
         self.assertEqual({r["company_number"] for r in hits}, {"99000002", "99000003"})
 
+
+    def test_directory_signals_company_and_notes(self):
+        d = self.api.directory(self.conn)
+        self.assertEqual(sum(c["count"] for c in d["categories"]), d["total"])
+        self.assertTrue(all("borrowers" in r for r in d["rows"]))
+        self.assertTrue(d["watch"])  # rules nothing has matched yet
+        sig = self.api.signals(self.conn)
+        self.assertEqual(sig["total"], sum(sig["counts"].values()))
+        number = self.conn.execute("SELECT company_number FROM charges LIMIT 1").fetchone()[0]
+        c = self.api.company(self.conn, number)
+        self.assertEqual(c["number"], number)
+        self.assertFalse(c["history_fetched"])
+        self.assertTrue(c["charges"][0]["lenders"][0]["known"])
+        with self.assertRaises(KeyError):
+            self.api.company(self.conn, "NOPE")
+        name = d["rows"][0]["name"]
+        self.api.save_note(self.conn, self.git, name, "  Mid-market lender  ")
+        self.assertEqual(self.api.lender(self.conn, name)["note"], "Mid-market lender")
+        self.api.save_note(self.conn, self.git, name, "")
+        self.assertEqual(self.api.lender(self.conn, name)["note"], "")
+        with self.assertRaises(KeyError):
+            self.api.save_note(self.conn, self.git, "Not In The Data Ltd", "x")
+        self.assertIn("signals", self.api.overview(self.conn, self.git))
 
 class ReviewAppHttpTests(ReviewAppTests):
     """The real HTTP server: host check, token check, and a decision over HTTP."""

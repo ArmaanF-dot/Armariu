@@ -3,7 +3,7 @@
     python -m radar.pipeline run [--minutes 10] [--enrich-limit 100] [--queue-limit 150]
     python -m radar.pipeline status
 
-Steps: stream -> enrich borrowers -> apply agent results and reviewer flags -> re-apply
+Steps: stream -> enrich borrowers -> fetch their full charge history -> apply agent results and reviewer flags -> re-apply
 lenders.csv rules -> rebuild the classifier queue -> write weekly digests.
 Each step is independent: a failure is logged and the remaining steps still run.
 """
@@ -45,6 +45,11 @@ def run(minutes: float, enrich_limit: int, queue_limit: int) -> dict:
         except Exception as exc:
             summary["enrich_error"] = repr(exc)
             log.exception("Enrich step failed")
+        try:
+            summary["histories"] = ingest.history(conn, ingest.RestClient(rest_key), enrich_limit)
+        except Exception as exc:
+            summary["history_error"] = repr(exc)
+            log.exception("Borrower history step failed")
 
     summary["agent_results"] = classify.apply_results(conn)
     summary["reviewer_flags"] = classify.apply_flags(conn)

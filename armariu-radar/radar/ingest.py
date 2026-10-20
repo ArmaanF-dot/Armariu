@@ -2,6 +2,7 @@
 
     python -m radar.ingest stream --minutes 10        # follow the charges stream, then exit
     python -m radar.ingest backfill --company 01234567 [--company-file companies.txt]
+    python -m radar.ingest history [--limit 100]   # each borrower's full charge list
     python -m radar.ingest enrich --limit 100         # fetch borrower profiles (name, SIC codes)
 
 Both APIs use HTTP basic auth with the key as the username and an empty password.
@@ -324,6 +325,46 @@ def enrich(conn, client: RestClient, limit: int = 100) -> int:
     return n
 
 
+def history(conn, client: RestClient, limit: int = 100, max_age_days: int = 30) -> int:
+    """Fetch the full charge list of borrowers on the register (newest first) into borrower_history.
+
+    One REST call per borrower (more only past 100 charges). Re-fetched after `max_age_days`, so
+    repayments of their older loans show up too. Never touches `charges`.
+    """
+    from datetime import datetime, timedelta, timezone
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=max_age_days)).isoformat(timespec="seconds")
+    rows = conn.execute(
+        "SELECT c.company_number, MAX(c.delivered_on) AS latest FROM charges c "
+        "LEFT JOIN borrower_history_fetched f ON f.company_number = c.company_number "
+        "WHERE c.deleted = 0 AND (f.company_number IS NULL OR f.fetched_at < ?) "
+        "GROUP BY c.company_number ORDER BY (f.company_number IS NOT NULL), latest DESC LIMIT ?",
+        (cutoff, limit)).fetchall()
+    n = 0
+    for r in rows:
+        num = r["company_number"]
+        items = list(client.charges(num))
+        conn.execute("DELETE FROM borrower_history WHERE company_number = ?", (num,))
+        for item in items:
+            charge_id = item.get("id")
+            if not charge_id:
+                _, charge_id = parse_resource_uri((item.get("links") or {}).get("self", ""))
+            if not charge_id:
+                continue
+            persons = [(p.get("name") or "").strip() for p in _as_list(item.get("persons_entitled"))]
+            conn.execute(
+                "INSERT OR REPLACE INTO borrower_history VALUES (?,?,?,?,?,?,?,?)",
+                (num, charge_id, item.get("status"), item.get("created_on"), item.get("delivered_on"),
+                 item.get("satisfied_on"), _join_descriptions(item.get("classification")),
+                 json.dumps([p for p in persons if p])))
+        conn.execute("INSERT OR REPLACE INTO borrower_history_fetched VALUES (?,?,?)",
+                     (num, now_iso(), len(items)))
+        n += 1
+        if n % 25 == 0:
+            conn.commit()
+    conn.commit()
+    return n
+
+
 # --------------------------------------------------------------------------- CLI
 
 def _need(var: str) -> str:
@@ -342,6 +383,7 @@ def main(argv=None):
     b.add_argument("--company", action="append", default=[])
     b.add_argument("--company-file")
     e = sub.add_parser("enrich"); e.add_argument("--limit", type=int, default=100)
+    h = sub.add_parser("history"); h.add_argument("--limit", type=int, default=100)
     args = p.parse_args(argv)
     conn = connect()
     if args.cmd == "stream":
@@ -358,6 +400,8 @@ def main(argv=None):
         print(f"Backfilled {backfill(conn, RestClient(_need('CH_REST_KEY')), companies)} charges")
     elif args.cmd == "enrich":
         print(f"Enriched {enrich(conn, RestClient(_need('CH_REST_KEY')), args.limit)} companies")
+    elif args.cmd == "history":
+        print(f"Fetched the charge history of {history(conn, RestClient(_need('CH_REST_KEY')), args.limit)} borrowers")
 
 
 if __name__ == "__main__":

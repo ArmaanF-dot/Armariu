@@ -113,6 +113,12 @@ def make_handler(app: App, port: int):
                 if url.path == "/api/lenders":
                     return self._json(app.with_db(api.lenders, q=q.get("q", ""),
                                                   category=q.get("category", ""), status=q.get("status", "")))
+                if url.path == "/api/directory":
+                    return self._json(app.with_db(api.directory))
+                if url.path == "/api/signals":
+                    return self._json(app.with_db(api.signals, q.get("type", "")))
+                if url.path == "/api/company":
+                    return self._json(app.with_db(api.company, q.get("number", "")))
                 if url.path == "/api/lender":
                     return self._json(app.with_db(api.lender, q.get("name", "")))
                 return self._error(HTTPStatus.NOT_FOUND, "Not found")
@@ -137,6 +143,8 @@ def make_handler(app: App, port: int):
                 elif path == "/api/approve":
                     names = body.get("names") or [body["name"]]
                     res = app.with_db(api.approve, app.git, [str(n) for n in names][:500])
+                elif path == "/api/lender/note":
+                    res = app.with_db(api.save_note, app.git, body["name"], str(body.get("note", "")))
                 elif path == "/api/message/done":
                     res = api.message_done(app.git, body["path"])
                 elif path == "/api/draft/save":
