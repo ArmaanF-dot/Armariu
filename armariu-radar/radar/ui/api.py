@@ -11,7 +11,7 @@ import time
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-from .. import config, dbsync, export, signals as sig
+from .. import config, dbsync, export, sectors, signals as sig
 from ..classify import refresh_rule_matches
 from ..db import connect, get_meta
 from ..normalise import normalise_name
@@ -209,7 +209,17 @@ def _lender_rows(conn, where: str, params=()) -> list[dict]:
         "LEFT JOIN lender_classifications lc ON lc.name_norm = p.name_norm "
         f"WHERE {where} GROUP BY p.name_norm ORDER BY n DESC, latest DESC", params).fetchall()
     notes = _notes()
+    lent_to: dict[str, dict] = {}
+    for r2 in conn.execute(
+            "SELECT DISTINCT p.name_norm, p.company_number, co.sic_codes FROM charge_persons p "
+            "LEFT JOIN companies co ON co.company_number = p.company_number"):
+        first = sectors.sectors_of(json.loads(r2["sic_codes"]) if r2["sic_codes"] else [])[0]
+        d = lent_to.setdefault(r2["name_norm"], {})
+        d[first] = d.get(first, 0) + 1
+    top = lambda n: [{"key": k, "label": sectors.label(k), "count": c}  # noqa: E731
+                     for k, c in sorted(lent_to.get(n, {}).items(), key=lambda kv: -kv[1])]
     return [{
+        "sectors": top(r["name_norm"]),
         "name": r["name_norm"], "display": r["display"], "charges": r["n"], "latest": r["latest"],
         "first": r["first"], "borrowers": r["borrowers"], "outstanding": r["live"] or 0,
         "note": (notes.get(r["name_norm"]) or {}).get("note", ""),
@@ -280,7 +290,7 @@ def documents() -> dict:
 
 def charges(conn, q: str = "", tier: str = "", category: str = "", check: str = "",
             date_from: str = "", date_to: str = "", limit: int = 100, offset: int = 0,
-            status: str = "") -> dict:
+            status: str = "", sector: str = "", hide_property: bool = False) -> dict:
     where, params = ["c.deleted = 0"], []
     if date_from:
         where.append("c.delivered_on >= ?"); params.append(date_from)
@@ -298,12 +308,15 @@ def charges(conn, q: str = "", tier: str = "", category: str = "", check: str = 
         params += [like, like, like, like.upper()]
     rows = conn.execute(
         "SELECT c.company_number, c.charge_id, c.delivered_on, c.created_on, c.status, c.satisfied_on, "
-        "c.classification_text, c.floating_covers_all, co.name AS company_name "
+        "c.classification_text, c.floating_covers_all, co.name AS company_name, co.sic_codes "
         "FROM charges c LEFT JOIN companies co ON co.company_number = c.company_number "
         f"WHERE {' AND '.join(where)} ORDER BY c.delivered_on DESC, c.company_number LIMIT 5000",
         params).fetchall()
-    out, tier_counts = [], {}
+    out, tier_counts, sector_counts = [], {}, {}
     for c in rows:
+        secs = sectors.sectors_of(json.loads(c["sic_codes"]) if c["sic_codes"] else [])
+        if hide_property and secs[0] == "real_estate":
+            continue
         persons = conn.execute(
             "SELECT p.name_raw, p.name_norm, lc.category, lc.review_status FROM charge_persons p "
             "LEFT JOIN lender_classifications lc ON lc.name_norm = p.name_norm "
@@ -319,6 +332,10 @@ def charges(conn, q: str = "", tier: str = "", category: str = "", check: str = 
             continue
         if check == "yes" and not needs_check or check == "no" and needs_check:
             continue
+        for k in secs:
+            sector_counts[k] = sector_counts.get(k, 0) + 1
+        if sector and sector not in secs:
+            continue
         tier_counts[t] = tier_counts.get(t, 0) + 1
         if tier and t != tier:
             continue
@@ -329,13 +346,19 @@ def charges(conn, q: str = "", tier: str = "", category: str = "", check: str = 
             "charge_type": c["classification_text"], "all_assets": c["floating_covers_all"],
             "primary": primary, "primary_label": CATEGORY_LABELS.get(primary, primary),
             "needs_check": needs_check,
+            "sector": secs[0], "sector_label": sectors.label(secs[0]), "sectors": secs,
             "chargees": [{"name": p["name_norm"], "display": p["name_raw"],
                           "category": p["category"], "status": p["review_status"] or "unclassified"}
                          for p in persons],
             "filing_url": config.FILING_URL.format(company=c["company_number"], charge_id=c["charge_id"]),
         })
     return {"total": len(out), "rows": out[offset:offset + limit], "offset": offset, "limit": limit,
-            "tier_counts": {t: tier_counts.get(t, 0) for t in "ABCDE"}}
+            "tier_counts": {t: tier_counts.get(t, 0) for t in "ABCDE"},
+            "sector_counts": _sector_list(sector_counts)}
+
+
+def _sector_list(counts: dict) -> list[dict]:
+    return [{"key": k, "label": label, "count": counts.get(k, 0)} for k, label in sectors.SECTORS.items()]
 
 
 def lenders(conn, q: str = "", category: str = "", status: str = "") -> dict:
@@ -387,6 +410,7 @@ def directory(conn) -> dict:
         "categories": [{"key": k, "label": CATEGORY_LABELS.get(k, "Not classified yet"), "count": counts.get(k, 0)}
                        for k in order if counts.get(k)],
         "watch": watch,
+        "sectors": [{"key": k, "label": label} for k, label in sectors.SECTORS.items()],
     }
 
 
@@ -395,7 +419,11 @@ def signals(conn, kind: str = "") -> dict:
     one = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
     return {
         "counts": sig.counts(found),
-        "types": [{"key": k, "label": label, "help": help_} for k, (label, help_) in sig.TYPES.items()],
+        "types": [{"key": k, "label": label, "help": help_, "theme": sig.THEME_OF[k]}
+                  for k, (label, help_) in sig.TYPES.items()],
+        "themes": [{"key": k, "label": label, "help": help_} for k, (label, help_) in sig.THEMES.items()],
+        "sectors": [{"key": k, "label": label} for k, label in sectors.SECTORS.items()],
+        "lender_types": [{"key": k, "label": label} for k, label, _ in CHOICES] + [{"key": "unknown", "label": "Can't tell"}],
         "rows": [s for s in found if not kind or s["type"] == kind],
         "total": len(found),
         "companies": one("SELECT COUNT(DISTINCT company_number) FROM charges WHERE deleted = 0"),
@@ -425,8 +453,10 @@ def company(conn, number: str) -> dict:
         "status": prof["company_status"] if prof else None,
         "created": prof["date_of_creation"] if prof else None,
         "sic_codes": json.loads(prof["sic_codes"]) if prof and prof["sic_codes"] else [],
+        "sector_label": sectors.label(sectors.sectors_of(json.loads(prof["sic_codes"]) if prof and prof["sic_codes"] else [])[0]),
         "charges": list(reversed(charges)), "history_fetched": fetched,
-        "signals": sig.for_company(number, name, charges, fetched, date.today()),
+        "signals": sig.for_company(number, name, charges, fetched, date.today(),
+                                   json.loads(prof["sic_codes"]) if prof and prof["sic_codes"] else []),
         "outstanding": sum(1 for c in charges if c["status"] == "outstanding"),
     }
 

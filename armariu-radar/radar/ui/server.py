@@ -109,6 +109,7 @@ def make_handler(app: App, port: int):
                         api.charges, q=q.get("q", ""), tier=q.get("tier", ""),
                         category=q.get("category", ""), check=q.get("check", ""),
                         date_from=q.get("from", ""), date_to=q.get("to", ""), status=q.get("status", ""),
+                        sector=q.get("sector", ""), hide_property=q.get("hide_property", "") in ("1", "true"),
                         limit=min(int(q.get("limit", 100)), 500), offset=int(q.get("offset", 0))))
                 if url.path == "/api/lenders":
                     return self._json(app.with_db(api.lenders, q=q.get("q", ""),

@@ -13,8 +13,9 @@ const S = {
   picks: {},              // name -> {category, parent}
   chargesQuery: { q: "", tier: "", check: "", from: "", to: "", status: "", category: "" },
   chartWeekly: false,
-  lendersQuery: { q: "", category: "", status: "" },
-  sigType: "",
+  lendersQuery: { q: "", category: "", status: "", sector: "" },
+  sigF: { theme: "", type: "", sector: "", lender: "", period: "", pc: false, q: "", sort: "new" },
+  hideProperty: false,
   reportsTab: "drafts",
   reportSel: null,
   editing: null,          // draft path being edited
@@ -230,7 +231,7 @@ document.getElementById("menu-close").onclick = () => setMenu(false);
 document.getElementById("scrim").onclick = () => { setMenu(false); closeDrawer(); };
 document.getElementById("search").onsubmit = (e) => {
   e.preventDefault();
-  S.chargesQuery = { q: document.getElementById("search-q").value.trim(), tier: "", check: "", from: "", to: "", status: "", category: "" };
+  S.chargesQuery = { q: document.getElementById("search-q").value.trim(), tier: "", check: "", from: "", to: "", status: "", category: "", sector: "" };
   if (S.view === "charges") refresh(); else location.hash = "#/charges";
 };
 document.getElementById("refresh").onclick = async (e) => {
@@ -240,9 +241,34 @@ document.getElementById("refresh").onclick = async (e) => {
   setTimeout(() => b.classList.remove("spin"), 2500);
 };
 const goCharges = (patch) => {
-  S.chargesQuery = { q: "", tier: "", check: "", from: "", to: "", status: "", category: "", ...patch };
+  S.chargesQuery = { q: "", tier: "", check: "", from: "", to: "", status: "", category: "", sector: "", ...patch };
   if (S.view === "charges") refresh(); else location.hash = "#/charges";
 };
+
+// ------------------------------------------------------------------ colour theme and saved preferences
+// Saved in this browser only (a per-viewer convenience); the app works the same without it.
+const store = {
+  get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+  set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch { /* private window */ } },
+};
+const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+function currentTheme() { return document.documentElement.dataset.theme || "system"; }
+function isDark() { const t = currentTheme(); return t === "dark" || (t === "system" && darkQuery.matches); }
+function setTheme(t) {
+  if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
+  store.set("radar-theme", t === "system" ? null : t);
+  document.querySelectorAll("[data-theme-pick]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.themePick === t));
+  const tg = document.getElementById("theme-toggle");
+  tg.innerHTML = `<svg viewBox="0 0 24 24">${isDark() ? '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>' : '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'}</svg>`;
+  tg.title = isDark() ? "Switch to light mode" : "Switch to dark mode";
+  tg.setAttribute("aria-label", tg.title);
+}
+document.querySelectorAll("[data-theme-pick]").forEach((b) => (b.onclick = () => setTheme(b.dataset.themePick)));
+document.getElementById("theme-toggle").onclick = () => setTheme(isDark() ? "light" : "dark");
+darkQuery.addEventListener("change", () => setTheme(currentTheme()));
+setTheme(currentTheme());
+function setHideProperty(on) { S.hideProperty = !!on; store.set("radar-hide-property", on ? "1" : null); }
+S.hideProperty = store.get("radar-hide-property") === "1";
 
 // ------------------------------------------------------------------ live updates
 async function poll() {
@@ -460,7 +486,7 @@ async function renderOverview() {
   }));
   document.getElementById("ov-open-week").onclick = () => goCharges({ from: tw.start, to: tw.end });
   main.querySelectorAll("[data-go]").forEach((b) => (b.onclick = () => (location.hash = b.dataset.go)));
-  main.querySelectorAll("[data-sigjump]").forEach((b) => (b.onclick = () => { S.sigType = b.dataset.sigjump; location.hash = "#/signals"; }));
+  main.querySelectorAll("[data-sigjump]").forEach((b) => (b.onclick = () => { S.sigF = { ...SIG_DEFAULT, type: b.dataset.sigjump }; location.hash = "#/signals"; }));
   document.getElementById("nav-signals").textContent = o.signals.total || "";
   main.querySelectorAll("[data-tier]").forEach((b) => (b.onclick = () => goCharges({ tier: b.dataset.tier })));
   main.querySelectorAll("[data-status]").forEach((b) => (b.onclick = () => goCharges({ status: b.dataset.status })));
@@ -751,22 +777,24 @@ function tierBar(counts, opts = {}) {
 
 // ------------------------------------------------------------------ charges
 async function renderCharges() {
-  const q = { q: "", tier: "", check: "", from: "", to: "", status: "", category: "", ...S.chargesQuery };
+  const q = { q: "", tier: "", check: "", from: "", to: "", status: "", category: "", sector: "", ...S.chargesQuery };
   S.chargesQuery = q;
   document.getElementById("search-q").value = q.q;
-  const params = new URLSearchParams({ q: q.q, tier: q.tier, check: q.check, from: q.from, to: q.to, status: q.status, category: q.category, limit: 100, offset: 0 });
+  const params = new URLSearchParams({ q: q.q, tier: q.tier, check: q.check, from: q.from, to: q.to, status: q.status, category: q.category, sector: q.sector, hide_property: S.hideProperty ? "1" : "", limit: 100, offset: 0 });
   const [data, tierA] = await Promise.all([get("/api/charges?" + params), get("/api/charges?tier=A&limit=1")]);
   if (!S.choices.length) await loadDecisions();
   const rowsHtml = (rows) => rows.map((r) => `<tr>
       <td class="side-fact">${tierBadge(r.tier)}</td>
-      <td class="lead"><button class="linkish strong" data-company="${esc(r.company_number)}">${esc(r.company_name || "Name not fetched yet")}</button><span class="sub id">${esc(r.company_number)}</span></td>
+      <td class="lead"><button class="linkish strong" data-company="${esc(r.company_number)}">${esc(r.company_name || "Name not fetched yet")}</button><span class="sub"><span class="id">${esc(r.company_number)}</span> · ${esc(r.sector_label)}</span></td>
       <td class="meta">${r.chargees.map((c) => `<button class="linkish" data-lender="${esc(c.name)}">${esc(c.display)}</button>`).join("<br>")}</td>
       <td class="meta">${catChip(r.primary, r.primary_label)}</td>
       <td class="num meta">${isoDate(r.delivered_on)}</td>
       <td class="meta">${statusPill(r.status)}${r.satisfied_on ? `<span class="sub">${isoDate(r.satisfied_on)}</span>` : ""}</td>
       <td class="meta">${r.needs_check ? '<span class="pill" data-cat="review">Check</span>' : '<span class="pill" data-cat="bank">Confirmed</span>'}</td>
       <td class="act"><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">Filing</a></td></tr>`).join("");
-  const active = [q.q && `matching “${q.q}”`, q.category && `with ${labelFor(q.category).toLowerCase()} lenders`, q.status === "repaid" && "that are repaid",
+  const sectorLabel = (data.sector_counts.find((x) => x.key === q.sector) || {}).label;
+  const active = [q.q && `matching “${q.q}”`, q.category && `with ${labelFor(q.category).toLowerCase()} lenders`,
+    q.sector && `in ${sectorLabel ? sectorLabel.toLowerCase() : q.sector}`, S.hideProperty && "leaving out property companies", q.status === "repaid" && "that are repaid",
     q.from && (q.from === q.to ? `delivered on ${fmtDate(q.from)}` : `delivered from ${fmtDate(q.from)}${q.to ? ` to ${fmtDate(q.to)}` : ""}`),
     !q.from && q.to && `delivered up to ${fmtDate(q.to)}`, q.check === "yes" && "needing a check", q.check === "no" && "confirmed by you"].filter(Boolean);
   setSub(`${plural(tierA.total, "charge")} in favour of direct lenders on the register`);
@@ -778,10 +806,12 @@ async function renderCharges() {
       <form class="filters" id="cf">
         <label class="field">Search<input type="search" name="q" value="${esc(q.q)}" placeholder="Borrower, company number or lender"></label>
         <label class="field">Lender type<select name="category"><option value="">All types</option>${CATEGORY_KEYS.map((k) => `<option value="${k}" ${q.category === k ? "selected" : ""}>${esc(CAT_LABELS[k])}</option>`).join("")}</select></label>
+        <label class="field">Borrower sector<select name="sector"><option value="">All sectors</option>${data.sector_counts.map((x) => `<option value="${x.key}" ${q.sector === x.key ? "selected" : ""} ${x.count || q.sector === x.key ? "" : "disabled"}>${esc(x.label)} (${x.count})</option>`).join("")}</select></label>
         <label class="field">Status<select name="status"><option value="">All</option><option value="outstanding" ${q.status === "outstanding" ? "selected" : ""}>Outstanding</option><option value="repaid" ${q.status === "repaid" ? "selected" : ""}>Repaid</option></select></label>
         <label class="field">Checked<select name="check"><option value="">All</option><option value="yes" ${q.check === "yes" ? "selected" : ""}>Needs a check</option><option value="no" ${q.check === "no" ? "selected" : ""}>Confirmed by you</option></select></label>
         <div class="field">Delivered between<span class="range"><input type="date" name="from" value="${esc(q.from)}" aria-label="Delivered from"><span>and</span><input type="date" name="to" value="${esc(q.to)}" aria-label="Delivered to"></span></div>
         <button class="btn soft" type="submit">Apply</button>
+        <div class="toggles"><label class="toggle"><input type="checkbox" id="c-hideprop" ${S.hideProperty ? "checked" : ""}><span></span>Hide property companies</label></div>
       </form>
       <div class="table-wrap"><table class="stack"><thead><tr><th>Tier</th><th>Borrower</th><th>Chargees</th><th>Lender type</th><th class="num">Delivered</th><th>Status</th><th>Checked</th><th></th></tr></thead>
         <tbody id="crows">${rowsHtml(data.rows) || `<tr><td colspan="8"><div class="empty"><p>No charges match these filters.</p></div></td></tr>`}</tbody></table></div>
@@ -790,9 +820,10 @@ async function renderCharges() {
   const form = document.getElementById("cf");
   form.onsubmit = (e) => { e.preventDefault(); Object.assign(q, Object.fromEntries(new FormData(form))); renderCharges().then(() => fadeIn(document.getElementById("crows"))); };
   form.querySelectorAll("select").forEach((s) => (s.onchange = () => form.requestSubmit()));
+  document.getElementById("c-hideprop").onchange = (e) => { setHideProperty(e.target.checked); renderCharges().then(() => fadeIn(document.getElementById("crows"))); };
   main.querySelectorAll("[data-tierpick]").forEach((b) => (b.onclick = () => { q.tier = q.tier === b.dataset.tierpick ? "" : b.dataset.tierpick; renderCharges().then(() => fadeIn(document.getElementById("crows"))); }));
   const clear = document.getElementById("clear-f");
-  if (clear) clear.onclick = () => goCharges({});
+  if (clear) clear.onclick = () => { setHideProperty(false); goCharges({}); };
   let offset = data.rows.length;
   const more = document.getElementById("cmore");
   if (more) more.onclick = async () => {
@@ -837,16 +868,42 @@ function signalCard(s, opts = {}) {
   const cat = sigCat(s.type);
   return `<article class="card signal" data-cat="${cat}">
     <div class="sig-head"><span class="disc">${sigIcon(s.type)}</span>
-      <div><div class="facts"><span class="pill" data-cat="${cat}">${esc(s.label)}</span>${s.private_credit ? '<span class="pill" data-cat="direct_lender">Private credit</span>' : ""}<span>${fmtDate(s.date)}</span></div>
+      <div><div class="facts"><span class="pill" data-cat="${cat}">${esc(s.label)}</span>${s.private_credit ? '<span class="pill" data-cat="direct_lender">Private credit</span>' : ""}<span class="pill" data-cat="other">${esc(s.sector_label)}</span><span>${fmtDate(s.date)}</span></div>
       ${opts.noCompany ? "" : `<h3 class="sig-co"><button class="linkish" data-company="${esc(s.company_number)}">${esc(s.company_name)}</button> <span class="id muted">${esc(s.company_number)}</span></h3>`}</div></div>
     <p class="meaning">${esc(s.meaning)}</p>
     <details class="behind"><summary>The ${plural(s.charges.length, "filing")} behind this</summary>${evidenceTable(s.charges)}</details>
   </article>`;
 }
+const THEME_ICON = { new: "plus", ahead: "clock", repaid: "check" };
+const THEME_CAT = { new: "direct_lender", ahead: "review", repaid: "unknown" };
+const PERIODS = [["", "Any time"], ["30", "Last 30 days"], ["90", "Last 90 days"], ["365", "Last 12 months"]];
+// Filter the signals by everything except `skip`, so each control can count what picking it would show.
+function sigFilter(rows, f, skip) {
+  const needle = f.q.trim().toLowerCase();
+  const since = f.period ? new Date(Date.now() - f.period * 864e5).toISOString().slice(0, 10) : "";
+  return rows.filter((s) =>
+    (skip === "theme" || !f.theme || s.theme === f.theme)
+    && (skip === "type" || !f.type || s.type === f.type)
+    && (skip === "sector" || !f.sector || s.sectors.includes(f.sector))
+    && (skip === "lender" || !f.lender || s.lender_types.includes(f.lender))
+    && (!since || (s.date || "") >= since)
+    && (!f.pc || s.private_credit)
+    && (!S.hideProperty || s.sector !== "real_estate")
+    && (!needle || [s.company_name, s.company_number, s.meaning, ...s.charges.flatMap((c) => c.lenders.map((l) => l.display))].some((v) => (v || "").toLowerCase().includes(needle))));
+}
+const countBy = (rows, key) => rows.reduce((m, s) => { for (const k of [].concat(s[key])) m[k] = (m[k] || 0) + 1; return m; }, {});
 async function renderSignals() {
   const d = await get("/api/signals");
   document.getElementById("nav-signals").textContent = d.total || "";
-  const rows = d.rows.filter((s) => !S.sigType || s.type === S.sigType);
+  const f = S.sigF;
+  const rows = sigFilter(d.rows, f);
+  if (f.sort === "old") rows.reverse();
+  const themeN = countBy(sigFilter(d.rows, f, "theme"), "theme");
+  const typeN = countBy(sigFilter(d.rows, f, "type"), "type");
+  const sectorN = countBy(sigFilter(d.rows, f, "sector"), "sectors");
+  const lenderN = countBy(sigFilter(d.rows, f, "lender"), "lender_types");
+  const allN = sigFilter(d.rows, f, "theme").length;
+  const active = f.type || f.sector || f.lender || f.period || f.pc || f.q || S.hideProperty;
   const pc = d.rows.filter((s) => s.private_credit).length;
   setSub(`${plural(d.total, "signal")}, ${pc} involving private credit`);
   const missing = d.companies - d.histories;
@@ -854,14 +911,46 @@ async function renderSignals() {
     <div class="page-intro"><div><h1>What the filings suggest</h1>
       <p>Each signal reads a borrower's charges, old and new, and says in plain English what the pattern usually means. They are leads to check, not facts: open the filings behind any of them.</p></div></div>
     ${missing > 0 ? `<div class="notice">${icon("clock")}<div>The radar has fetched the older charges of ${d.histories} of ${plural(d.companies, "borrower")}. Refinancing and first-loan signals need that history, so more will appear after the next cloud runs.</div></div>` : ""}
-    <div class="chips" role="group" aria-label="Show">
-      <button class="chip" data-sig="" aria-pressed="${!S.sigType}">All <b class="num">${d.total}</b></button>
-      ${d.types.map((t) => `<button class="chip" data-cat="${sigCat(t.key)}" data-sig="${t.key}" aria-pressed="${S.sigType === t.key}" title="${esc(t.help)}" ${d.counts[t.key] ? "" : "disabled"}><span class="sw"></span>${esc(t.label)} <b class="num">${d.counts[t.key]}</b></button>`).join("")}
+    <div class="qtiles themes" role="tablist" aria-label="Signal groups">
+      <button class="qtile" role="tab" data-cat="cloud" data-theme="" aria-selected="${!f.theme}"><span class="disc">${icon("signals")}</span><span class="qn num">${allN}</span><span class="ql">All signals</span><span class="qs">Everything below, filtered</span></button>
+      ${d.themes.map((t) => `<button class="qtile" role="tab" data-cat="${THEME_CAT[t.key]}" data-theme="${t.key}" aria-selected="${f.theme === t.key}"><span class="disc">${icon(THEME_ICON[t.key])}</span><span class="qn num">${themeN[t.key] || 0}</span><span class="ql">${esc(t.label)}</span><span class="qs">${esc(t.help)}</span></button>`).join("")}
     </div>
-    <div id="sig-list" class="sig-list">${rows.map((s) => signalCard(s)).join("") || `<div class="card empty"><span class="disc" data-cat="cloud">${icon("signals")}</span><h2>No signals yet</h2><p>Signals appear as the radar collects charges and fetches each borrower's older ones.</p></div>`}</div>
+    <section class="card filterbar" aria-label="Filters">
+      <div class="chips" role="group" aria-label="Signal type">
+        <span class="fb-label">Type</span>
+        <button class="chip" data-type="" aria-pressed="${!f.type}">Any</button>
+        ${d.types.filter((t) => !f.theme || t.theme === f.theme).map((t) => `<button class="chip" data-cat="${sigCat(t.key)}" data-type="${t.key}" aria-pressed="${f.type === t.key}" title="${esc(t.help)}" ${typeN[t.key] || f.type === t.key ? "" : "disabled"}><span class="sw"></span>${esc(t.label)} <b class="num">${typeN[t.key] || 0}</b></button>`).join("")}
+      </div>
+      <form class="filters" id="sf">
+        <label class="field">Search<input type="search" name="q" value="${esc(f.q)}" placeholder="Company, lender or words in the signal"></label>
+        <label class="field">Borrower sector<select name="sector"><option value="">All sectors</option>${d.sectors.map((x) => `<option value="${x.key}" ${f.sector === x.key ? "selected" : ""} ${sectorN[x.key] || f.sector === x.key ? "" : "disabled"}>${esc(x.label)} (${sectorN[x.key] || 0})</option>`).join("")}</select></label>
+        <label class="field">Lender type<select name="lender"><option value="">All types</option>${d.lender_types.map((x) => `<option value="${x.key}" ${f.lender === x.key ? "selected" : ""} ${lenderN[x.key] || f.lender === x.key ? "" : "disabled"}>${esc(x.label)} (${lenderN[x.key] || 0})</option>`).join("")}</select></label>
+        <label class="field">When<select name="period">${PERIODS.map(([v, l]) => `<option value="${v}" ${String(f.period) === v ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+        <label class="field">Order<select name="sort"><option value="new" ${f.sort !== "old" ? "selected" : ""}>Private credit first, newest</option><option value="old" ${f.sort === "old" ? "selected" : ""}>Oldest first</option></select></label>
+        <div class="toggles">
+          <label class="toggle"><input type="checkbox" name="pc" ${f.pc ? "checked" : ""}><span></span>Private credit only</label>
+          <label class="toggle"><input type="checkbox" name="hide_property" ${S.hideProperty ? "checked" : ""}><span></span>Hide property companies</label>
+        </div>
+      </form>
+      <div class="fb-foot"><span>Showing <b>${rows.length}</b> of ${plural(d.total, "signal")}</span>${active || f.theme ? `<button class="link-btn" id="sf-clear">Clear filters</button>` : ""}</div>
+    </section>
+    <div id="sig-list" class="sig-list">${rows.map((s) => signalCard(s)).join("") || `<div class="card empty"><span class="disc" data-cat="cloud">${icon("signals")}</span><h2>${d.total ? "No signals match these filters" : "No signals yet"}</h2><p>${d.total ? "Try another group or clear the filters." : "Signals appear as the radar collects charges and fetches each borrower's older ones."}</p></div>`}</div>
   </div>`;
-  main.querySelectorAll("[data-sig]").forEach((b) => (b.onclick = () => { S.sigType = b.dataset.sig; renderSignals().then(() => fadeIn(document.getElementById("sig-list"))); }));
+  const again = () => renderSignals().then(() => fadeIn(document.getElementById("sig-list")));
+  main.querySelectorAll("[data-theme]").forEach((b) => (b.onclick = () => { f.theme = b.dataset.theme; if (f.type && f.theme && THEME_OF_TYPE(d, f.type) !== f.theme) f.type = ""; again(); }));
+  main.querySelectorAll("[data-type]").forEach((b) => (b.onclick = () => { f.type = b.dataset.type; again(); }));
+  const form = document.getElementById("sf");
+  form.querySelectorAll("select").forEach((el) => (el.onchange = () => { f[el.name] = el.value; again(); }));
+  form.querySelector("[name=pc]").onchange = (e) => { f.pc = e.target.checked; again(); };
+  form.querySelector("[name=hide_property]").onchange = (e) => { setHideProperty(e.target.checked); again(); };
+  let t;
+  form.querySelector("[name=q]").oninput = (e) => { clearTimeout(t); t = setTimeout(() => { f.q = e.target.value; renderSignals().then(() => { const i = document.querySelector("#sf [name=q]"); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 250); };
+  form.onsubmit = (e) => e.preventDefault();
+  const clear = document.getElementById("sf-clear");
+  if (clear) clear.onclick = () => { S.sigF = { ...SIG_DEFAULT }; setHideProperty(false); again(); };
 }
+const THEME_OF_TYPE = (d, type) => (d.types.find((t) => t.key === type) || {}).theme;
+const SIG_DEFAULT = { theme: "", type: "", sector: "", lender: "", period: "", pc: false, q: "", sort: "new" };
 
 // ------------------------------------------------------------------ drawer (company and lender panels)
 // Panels stack: open a lender from a company (or the reverse) and Back returns to the one before.
@@ -917,7 +1006,7 @@ function openCompany(number) {
       title = c.name || c.number;
       const strip = '<div data-cat="cloud">' + historyStrip(c.charges.slice().reverse().map((x) => ({ delivered_on: x.created_on || x.delivered_on, status: x.status }))) + "</div>";
       return `
-        <div class="facts"><span class="pill" data-cat="${c.status === "active" ? "bank" : "unknown"}">${esc(c.status ? c.status[0].toUpperCase() + c.status.slice(1) : "Profile not fetched yet")}</span><span class="id">${esc(c.number)}</span>${c.created ? `<span>Incorporated ${fmtDate(c.created)}</span>` : ""}${c.sic_codes.length ? `<span>SIC ${sic(c.sic_codes)}</span>` : ""}</div>
+        <div class="facts"><span class="pill" data-cat="${c.status === "active" ? "bank" : "unknown"}">${esc(c.status ? c.status[0].toUpperCase() + c.status.slice(1) : "Profile not fetched yet")}</span><span class="id">${esc(c.number)}</span>${c.created ? `<span>Incorporated ${fmtDate(c.created)}</span>` : ""}<span class="pill" data-cat="other">${esc(c.sector_label)}</span>${c.sic_codes.length ? `<span>SIC ${sic(c.sic_codes)}</span>` : ""}</div>
         <h2 class="lender-name" id="drawer-title">${esc(c.name || c.number)}</h2>
         <div class="research"><span class="muted small">Research</span>${companyLinks(c.number, c.name)}</div>
         <section class="card panel-card"><div class="card-head"><div><h2>What it means</h2><p>${c.signals.length ? "Read from the charges below." : "No pattern stands out in this company's charges."}</p></div></div>
@@ -1010,6 +1099,7 @@ async function renderLenders() {
   const catOf = (r) => r.category || "unclassified";
   const needle = q.q.trim().toLowerCase();
   const rows = d.rows.filter((r) => (!q.category || catOf(r) === q.category) && (!q.status || r.status === q.status)
+    && (!q.sector || r.sectors.some((x) => x.key === q.sector))
     && (!needle || [r.display, r.parent, r.note].some((v) => (v || "").toLowerCase().includes(needle))));
   const watch = d.watch.filter((w) => (!q.category || w.category === q.category) && (!needle || [w.pattern, w.parent, w.note].some((v) => (v || "").toLowerCase().includes(needle))));
   const direct = d.rows.filter((r) => r.category === "direct_lender").length;
@@ -1025,14 +1115,15 @@ async function renderLenders() {
         ${CATEGORY_KEYS.filter((k) => k !== "unknown" && !d.categories.find((c) => c.key === k)).map((k) => `<button class="dcat" data-cat="${k}" data-dcat="${k}" aria-pressed="${q.category === k}"><span class="sw"></span><span>${esc(CAT_LABELS[k])}</span><b class="num muted">0</b></button>`).join("")}
       </nav>
       <section class="card dir-main">
-        <div class="card-head"><div><h2>${esc(catLabel)}</h2><p>${plural(rows.length, "lender")}${needle ? ` matching “${esc(q.q)}”` : ""}</p></div>
+        <div class="card-head"><div><h2>${esc(catLabel)}</h2><p>${plural(rows.length, "lender")}${needle ? ` matching “${esc(q.q)}”` : ""}${q.sector ? `, lending to ${esc((d.sectors.find((x) => x.key === q.sector) || {}).label || "").toLowerCase()}` : ""}${q.q || q.sector || q.status ? ` <button class="link-btn" id="dir-clear">Clear</button>` : ""}</p></div>
           <form class="filters" id="lf" style="margin:0">
             <label class="field">Search<input type="search" name="q" value="${esc(q.q)}" placeholder="Lender, parent firm or note"></label>
+            <label class="field">Lends to<select name="sector"><option value="">Any sector</option>${d.sectors.map((x) => { const n = d.rows.filter((r) => (!q.category || catOf(r) === q.category) && r.sectors.some((y) => y.key === x.key)).length; return `<option value="${x.key}" ${q.sector === x.key ? "selected" : ""} ${n || q.sector === x.key ? "" : "disabled"}>${esc(x.label)} (${n})</option>`; }).join("")}</select></label>
             <label class="field">Status<select name="status"><option value="">All</option>${Object.entries(DIR_STATUS).map(([k, [l]]) => `<option value="${k}" ${q.status === k ? "selected" : ""}>${l}</option>`).join("")}</select></label>
           </form></div>
         <div class="table-wrap"><table class="stack"><thead><tr><th>Lender</th><th>Type and status</th><th class="num">Lending</th><th class="num">Active</th></tr></thead><tbody id="lrows">
           ${rows.map((r) => `<tr class="clickable" data-lender="${esc(r.name)}" tabindex="0">
-            <td class="lead dir-name"><span class="strong">${esc(r.display)}</span>${r.parent ? `<span class="sub">Part of ${esc(r.parent)}</span>` : ""}${r.note ? `<span class="sub note-line">${icon("note")}${esc(r.note.split("\n")[0].slice(0, 90))}</span>` : ""}<span class="sub">${lenderLinks(r.display)}</span></td>
+            <td class="lead dir-name"><span class="strong">${esc(r.display)}</span>${r.parent ? `<span class="sub">Part of ${esc(r.parent)}</span>` : ""}${r.sectors.length ? `<span class="sub">Lends to ${r.sectors.slice(0, 3).map((x) => `${esc(x.label.toLowerCase())}${r.sectors.length > 1 ? ` (${x.count})` : ""}`).join(", ")}</span>` : ""}${r.note ? `<span class="sub note-line">${icon("note")}${esc(r.note.split("\n")[0].slice(0, 90))}</span>` : ""}<span class="sub">${lenderLinks(r.display)}</span></td>
             <td class="meta">${r.category ? catChip(r.category, r.category_label) : '<span class="muted">Not classified yet</span>'}<span class="sub"><span class="pill" data-cat="${(DIR_STATUS[r.status] || ["", "unknown"])[1]}">${(DIR_STATUS[r.status] || [r.status])[0]}</span></span></td>
             <td class="num side-fact"><b>${plural(r.borrowers, "borrower")}</b><span class="sub">${plural(r.charges, "charge")}, ${r.outstanding} live</span></td>
             <td class="num meta">${r.first ? r.first.slice(0, 4) : "—"}${r.latest && r.first && r.latest.slice(0, 4) !== r.first.slice(0, 4) ? `–${r.latest.slice(0, 4)}` : ""}</td></tr>`).join("")
@@ -1054,7 +1145,9 @@ async function renderLenders() {
   let t;
   form.querySelector("input").oninput = (e) => { clearTimeout(t); t = setTimeout(() => { q.q = e.target.value; renderLenders().then(() => { const i = document.querySelector("#lf input"); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 250); };
   form.onsubmit = (e) => e.preventDefault();
-  form.querySelector("select").onchange = (e) => { q.status = e.target.value; renderLenders().then(() => fadeIn(document.getElementById("lrows"))); };
+  const dclear = document.getElementById("dir-clear");
+  if (dclear) dclear.onclick = () => { Object.assign(q, { q: "", sector: "", status: "" }); renderLenders(); };
+  form.querySelectorAll("select").forEach((el) => (el.onchange = () => { q[el.name] = el.value; renderLenders().then(() => fadeIn(document.getElementById("lrows"))); }));
   document.getElementById("dir-csv").onclick = () => {
     const cols = [["Lender", (r) => r.display], ["Type", (r) => r.category_label || "Not classified yet"], ["Parent firm", (r) => r.parent || ""],
       ["Borrowers", (r) => r.borrowers], ["Charges", (r) => r.charges], ["Outstanding", (r) => r.outstanding], ["First charge", (r) => r.first || ""],
@@ -1135,7 +1228,7 @@ async function renderStatus() {
 }
 
 // ------------------------------------------------------------------ start
-S.chargesQuery = { q: "", tier: "", check: "", from: "", to: "", status: "", category: "" };
+S.chargesQuery = { q: "", tier: "", check: "", from: "", to: "", status: "", category: "", sector: "" };
 window.addEventListener("hashchange", route);
 route();
 setInterval(poll, 5000);

@@ -14,7 +14,7 @@ from __future__ import annotations
 import json
 from datetime import date, timedelta
 
-from . import config
+from . import config, sectors
 from .normalise import normalise_name
 from .rules import find_rule, load_rules
 
@@ -35,6 +35,14 @@ TYPES = {
     "returning": ("New loan after earlier ones were repaid", "All earlier secured loans had been repaid"),
     "repaid": ("Repaid, no new lender yet", "A loan was marked repaid and no new lender has taken security since"),
 }
+# Signals grouped by what they mean for someone watching the market.
+THEMES = {
+    "new": ("New lending", "Money just went in: refinancings, new lenders, first loans"),
+    "ahead": ("Refinancing ahead", "Loans old enough that a refinancing is often near"),
+    "repaid": ("Repayments", "Loans paid off with no new lender yet"),
+}
+THEME_OF = {"refinanced": "new", "alongside": "new", "top_up": "new", "first_loan": "new", "returning": "new",
+            "maturity": "ahead", "repaid": "repaid"}
 CATEGORY_WORDS = {
     "direct_lender": "a private credit lender", "bank": "a bank", "security_agent": "a security agent",
     "abl_specialist": "an asset-based lender", "asset_finance": "an asset finance lender",
@@ -141,14 +149,18 @@ def _ref(c: dict) -> dict:
 
 def _signal(kind, company, when, text, charges, extra=""):
     pc = any(x["category"] in ("direct_lender", "security_agent") for c in charges for x in c["lenders"])
-    return {"type": kind, "label": TYPES[kind][0], "company_number": company["number"],
+    secs = company.get("sectors") or ["unknown"]
+    return {"type": kind, "label": TYPES[kind][0], "theme": THEME_OF[kind], "company_number": company["number"],
             "company_name": company["name"], "date": when.isoformat() if when else None,
+            "sector": secs[0], "sector_label": sectors.label(secs[0]), "sectors": secs,
+            "lender_types": sorted({x["category"] for c in charges for x in c["lenders"]}),
             "meaning": text + (" " + extra if extra else ""), "private_credit": pc,
             "charges": [_ref(c) for c in charges]}
 
 
-def for_company(number: str, name: str | None, charges: list[dict], fetched: bool, today: date) -> list[dict]:
-    company = {"number": number, "name": name or number}
+def for_company(number: str, name: str | None, charges: list[dict], fetched: bool, today: date,
+                sic_codes=None) -> list[dict]:
+    company = {"number": number, "name": name or number, "sectors": sectors.sectors_of(sic_codes)}
     recent = today - timedelta(days=RECENT_DAYS)
     out, used = [], set()
 
@@ -263,10 +275,11 @@ def all_signals(conn, today: date | None = None, namer: Namer | None = None) -> 
     namer = namer or Namer(conn)
     out = []
     for r in conn.execute(
-            "SELECT DISTINCT c.company_number, co.name FROM charges c LEFT JOIN companies co "
+            "SELECT DISTINCT c.company_number, co.name, co.sic_codes FROM charges c LEFT JOIN companies co "
             "ON co.company_number = c.company_number WHERE c.deleted = 0"):
         charges, fetched = company_charges(conn, r["company_number"], namer)
-        out += for_company(r["company_number"], r["name"], charges, fetched, today)
+        sic = json.loads(r["sic_codes"]) if r["sic_codes"] else []
+        out += for_company(r["company_number"], r["name"], charges, fetched, today, sic)
     out.sort(key=lambda s: (s["date"] or ""), reverse=True)
     out.sort(key=lambda s: not s["private_credit"])
     return out

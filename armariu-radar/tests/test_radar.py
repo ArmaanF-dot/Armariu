@@ -16,7 +16,7 @@ from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from radar import agentcheck, classify, config, dbsync, export, ingest, signals  # noqa: E402
+from radar import agentcheck, classify, config, dbsync, export, ingest, sectors, signals  # noqa: E402
 from radar.db import connect, get_meta  # noqa: E402
 from radar.normalise import normalise_name  # noqa: E402
 from radar.review import add_human_rule  # noqa: E402
@@ -272,6 +272,16 @@ class SignalsTests(unittest.TestCase):
         self.assertEqual(next(r for r in rows if r["charge_id"] == "old1")["primary"], "bank")  # from the rules
         self.assertIsNone(conn.execute("SELECT 1 FROM charges WHERE charge_id = 'old1'").fetchone())  # register untouched
         self.assertEqual(ingest.history(conn, ingest.RestClient("key", session=sess), limit=1), 1)  # next borrower
+
+
+class SectorTests(unittest.TestCase):
+    def test_sic_codes_map_to_sectors(self):
+        self.assertEqual(sectors.sectors_of(["68209"]), ["real_estate"])
+        self.assertEqual(sectors.sectors_of(["70100", "62012"]), ["holding", "tech_media"])
+        self.assertEqual(sectors.sectors_of(["86101"]), ["healthcare"])
+        self.assertEqual(sectors.sectors_of(["99999"]), ["dormant"])
+        self.assertEqual(sectors.sectors_of([]), ["unknown"])
+        self.assertEqual(sectors.sectors_of(["bad"]), ["unknown"])
 
 
 class ClassifyTests(TempDirTest):
@@ -612,6 +622,12 @@ class ReviewAppTests(TempDirTest):
         with self.assertRaises(KeyError):
             self.api.save_note(self.conn, self.git, "Not In The Data Ltd", "x")
         self.assertIn("signals", self.api.overview(self.conn, self.git))
+        every = self.api.charges(self.conn)
+        no_prop = self.api.charges(self.conn, hide_property=True)
+        self.assertLessEqual(no_prop["total"], every["total"])
+        self.assertTrue(all(r["sector"] != "real_estate" for r in no_prop["rows"]))
+        first = every["rows"][0]["sector"]
+        self.assertTrue(all(first in r["sectors"] for r in self.api.charges(self.conn, sector=first)["rows"]))
 
 class ReviewAppHttpTests(ReviewAppTests):
     """The real HTTP server: host check, token check, and a decision over HTTP."""
