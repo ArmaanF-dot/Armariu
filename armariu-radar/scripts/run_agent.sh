@@ -24,8 +24,19 @@ echo $$ > "$LOCK"; trap 'rm -f "$LOCK"' EXIT
 IN_REPO=0; git rev-parse --is-inside-work-tree >/dev/null 2>&1 && IN_REPO=1
 HAS_REMOTE=0; [ "$IN_REPO" = 1 ] && [ -n "$(git remote)" ] && HAS_REMOTE=1
 [ "$HAS_REMOTE" = 1 ] && { git pull --rebase --autostash --quiet || true; }
+save_output() {  # commit this agent's folders; also saves output left by a run whose commit failed
+  [ "$IN_REPO" = 1 ] || return 0
+  git add -- "${OWNED[@]}"
+  if ! git diff --cached --quiet; then
+    git commit --quiet -m "agent(${AGENT}): run ${STAMP}" || { git reset --quiet; echo "git commit failed: set git user.name/user.email" >&2; return 1; }
+    if [ "$HAS_REMOTE" = 1 ]; then
+      git push --quiet || { git pull --rebase --quiet && git push --quiet; } || echo "push failed, will retry next run" >&2
+    fi
+  fi
+}
+
 set +e; "$PY" -m radar.agentcheck prepare "$AGENT"; RC=$?; set -e
-[ "$RC" -eq 3 ] && exit 0
+[ "$RC" -eq 3 ] && { save_output; exit 0; }
 [ "$RC" -ne 0 ] && { echo "agentcheck failed ($RC)" >> "$LOG"; exit 1; }
 
 echo "$(date) starting $AGENT" >> "$LOG"
@@ -36,11 +47,4 @@ claude -p "Your task for this run is in the file .agent-${AGENT}-task.md. Read i
   --disallowedTools "Read(./.env)" "Read(./data/radar.db)" Bash >> "$LOG" 2>&1
 
 "$PY" -m radar.agentcheck finish "$AGENT" >> "$LOG" 2>&1
-[ "$IN_REPO" = 1 ] || exit 0
-git add -- "${OWNED[@]}"
-if ! git diff --cached --quiet; then
-  git commit --quiet -m "agent(${AGENT}): run ${STAMP}"
-  if [ "$HAS_REMOTE" = 1 ]; then
-    git push --quiet || { git pull --rebase --quiet && git push --quiet; }
-  fi
-fi
+save_output

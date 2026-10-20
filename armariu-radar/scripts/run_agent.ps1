@@ -23,9 +23,13 @@ $Log = Join-Path "logs" "$Agent-$Stamp.log"
 
 function Write-Log([string]$msg) {
     $line = "$(Get-Date -Format s) $msg"
-    Add-Content -Path $Log -Value $line
+    Add-Content -Path $Log -Value $line -Encoding UTF8
     Write-Host $line
 }
+
+# Append a native command's output to the log as UTF-8. (The *>> operator in Windows
+# PowerShell 5.1 writes UTF-16, which mixes badly with the rest of the log.)
+function Add-ToLog { process { Add-Content -Path $Log -Value "$_" -Encoding UTF8 } }
 
 $Python = if (Test-Path ".venv\Scripts\python.exe") { ".venv\Scripts\python.exe" } else { "python" }
 
@@ -55,11 +59,39 @@ git rev-parse --is-inside-work-tree 2>&1 | Out-Null
 $InRepo = ($LASTEXITCODE -eq 0)
 $HasRemote = $InRepo -and [bool](git remote 2>$null)
 
+# Commit (and push) whatever is in this agent's own folders. Called after a run, and also when
+# there's no new work, so output left over from a run whose commit failed still gets saved.
+function Save-AgentOutput([switch]$Quiet) {
+    if (-not $InRepo) { return }
+    git add -- $OwnedPaths[$Agent]
+    git diff --cached --quiet
+    if ($LASTEXITCODE -eq 0) {
+        if (-not $Quiet) { Write-Log "No output to commit" }
+        return
+    }
+    git commit --quiet -m "agent($Agent): run $Stamp"
+    if ($LASTEXITCODE -ne 0) {
+        git reset --quiet 2>&1 | Out-Null   # unstage, so the files stay as plain changes
+        throw ("git commit failed. If git says 'Please tell me who you are', run once: " +
+               "git config --global user.name ""Your Name"" and " +
+               "git config --global user.email ""you@example.com"". The output is kept and is committed on the next run.")
+    }
+    if ($HasRemote -and -not $NoPush) {
+        git push --quiet 2>&1 | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            git pull --rebase --quiet 2>&1 | Out-Null
+            git push --quiet 2>&1 | Out-Null
+            if ($LASTEXITCODE -ne 0) { Write-Log "Committed locally but push failed (it will retry next run)" }
+        }
+    }
+    Write-Log "Committed $Agent output"
+}
+
 try {
     if ($HasRemote) { git pull --rebase --autostash --quiet 2>&1 | Out-Null }
 
     & $Python -m radar.agentcheck prepare $Agent
-    if ($LASTEXITCODE -eq 3) { exit 0 }          # nothing to do
+    if ($LASTEXITCODE -eq 3) { Save-AgentOutput -Quiet; exit 0 }   # nothing new to do
     if ($LASTEXITCODE -ne 0) { throw "agentcheck failed ($LASTEXITCODE)" }
 
     Write-Log "Starting $Agent"
@@ -72,35 +104,26 @@ try {
         "--output-format", "text",
         "--allowedTools") + $Allowed[$Agent] + @("--disallowedTools") + $Denied
 
-    & claude @claudeArgs *>> $Log
+    & claude @claudeArgs 2>&1 | Add-ToLog
     if ($LASTEXITCODE -ne 0) { throw "claude exited with code $LASTEXITCODE (see $Log)" }
 
-    & $Python -m radar.agentcheck finish $Agent *>> $Log
+    & $Python -m radar.agentcheck finish $Agent 2>&1 | Add-ToLog
 
     if (-not $InRepo) { Write-Log "Finished $Agent (folder is not a git repo, nothing committed)"; exit 0 }
 
-    # Commit only the folders this agent owns. Anything else changed is left alone and reported.
-    $unexpected = git status --porcelain | ForEach-Object { $_.Substring(3) } | Where-Object {
-        $p = $_ -replace '\\', '/'
+    # Report (but never touch) changes outside this agent's folders. git status prints paths from
+    # the repo root, so strip the prefix when the project sits in a subfolder (e.g. "armariu-radar/").
+    $Prefix = "$(git rev-parse --show-prefix 2>$null)".Trim()
+    $unexpected = git status --porcelain | ForEach-Object {
+        $p = $_.Substring(3).Trim('"') -replace '\\', '/'
+        if ($Prefix -and $p.StartsWith($Prefix)) { $p.Substring($Prefix.Length) } else { $p }
+    } | Where-Object {
+        $p = $_
         -not ($OwnedPaths[$Agent] | Where-Object { $p.StartsWith($_) })
-    } | Where-Object { $_ -notmatch '^(logs/|\.agent-|classify/pending\.jsonl)' }
+    } | Where-Object { $_ -notmatch '^(logs/|\.agent-|classify/pending\.jsonl|classify/queue\.jsonl|output/)' }
     if ($unexpected) { Write-Log "Note: other uncommitted changes left untouched: $($unexpected -join ', ')" }
 
-    git add -- $OwnedPaths[$Agent]
-    git diff --cached --quiet
-    if ($LASTEXITCODE -ne 0) {
-        git commit --quiet -m "agent($Agent): run $Stamp"
-        if ($HasRemote -and -not $NoPush) {
-            git push --quiet 2>&1 | Out-Null
-            if ($LASTEXITCODE -ne 0) {
-                git pull --rebase --quiet
-                git push --quiet
-            }
-        }
-        Write-Log "Committed $Agent output"
-    } else {
-        Write-Log "No output to commit"
-    }
+    Save-AgentOutput
 }
 catch {
     Write-Log "ERROR: $_"

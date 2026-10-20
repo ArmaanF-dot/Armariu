@@ -22,11 +22,25 @@ from radar.rules import find_rule, load_rules  # noqa: E402
 from radar.sample import sample_agent_results, sample_events  # noqa: E402
 
 WEEK = date(2026, 10, 12)  # a Monday
+
+_CONNS = []
+
+
+def mem_db():
+    """In-memory database that is closed when the test module finishes."""
+    conn = connect(":memory:")
+    _CONNS.append(conn)
+    return conn
+
+
+def tearDownModule():
+    for conn in _CONNS:
+        conn.close()
 WEEK_END = date(2026, 10, 18)
 
 
 def loaded_db():
-    conn = connect(":memory:")
+    conn = mem_db()
     for ev in sample_events(WEEK):
         ingest.process_event(conn, ev)
     conn.commit()
@@ -111,7 +125,7 @@ class IngestTests(unittest.TestCase):
         self.assertEqual((last[0], last[1]), ("outstanding", "fully-satisfied"))
 
     def test_list_shaped_fields_also_work(self):
-        conn = connect(":memory:")
+        conn = mem_db()
         data = {"status": "outstanding", "delivered_on": "2026-10-13",
                 "classification": [{"type": "nature-of-charge", "description": "Debenture"}],
                 "particulars": [{"type": "brief-description", "description": "x",
@@ -124,7 +138,7 @@ class IngestTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM charge_persons").fetchone()[0], 1)
 
     def test_bad_uri_skipped(self):
-        conn = connect(":memory:")
+        conn = mem_db()
         self.assertFalse(ingest.process_event(conn, {"resource_uri": "/company/1/officers/x",
                                                      "event": {"timepoint": 5}}))
         self.assertEqual(get_meta(conn, "stream_timepoint"), "5")
@@ -155,7 +169,7 @@ class _FakeSession:
 
 class StreamAndRestTests(unittest.TestCase):
     def test_stream_resumes_from_timepoint(self):
-        conn = connect(":memory:")
+        conn = mem_db()
         lines = [b"", json.dumps(sample_events(WEEK)[0]).encode(), b"", b"not json"]
         ingest.run_stream(conn, 1, "key", session=_FakeSession([_FakeResp(200, lines)]))
         self.assertEqual(get_meta(conn, "stream_timepoint"), "1001")
@@ -165,7 +179,7 @@ class StreamAndRestTests(unittest.TestCase):
         self.assertEqual(sess.calls[0][1]["auth"], ("key", ""))
 
     def test_stream_gap_resets_timepoint(self):
-        conn = connect(":memory:")
+        conn = mem_db()
         conn.execute("INSERT INTO meta VALUES ('stream_timepoint', '5')")
         with self.assertRaises(ingest.StreamGap):
             ingest.run_stream(conn, 1, "key", session=_FakeSession([_FakeResp(416)]))
@@ -173,7 +187,7 @@ class StreamAndRestTests(unittest.TestCase):
         self.assertIsNotNone(get_meta(conn, "stream_gap_at"))
 
     def test_rest_backfill_paginates(self):
-        conn = connect(":memory:")
+        conn = mem_db()
         item = lambda i: {"id": f"c{i}", "status": "outstanding", "delivered_on": "2026-10-13",  # noqa: E731
                           "persons_entitled": [{"name": "X Bank PLC"}]}
         pages = [_FakeResp(200, payload={"total_count": 3, "items": [item(1), item(2)]}),

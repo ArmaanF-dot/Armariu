@@ -23,7 +23,9 @@ $HasRemote = $InRepo -and [bool](git remote 2>$null)
 
 try {
     if ($HasRemote) { git pull --rebase --autostash --quiet 2>&1 | Out-Null }
-    & $Python -m radar.pipeline run --minutes $Minutes *>> "logs\pipeline-console.log"
+    # Pipe through Add-Content (UTF-8): *>> in Windows PowerShell 5.1 writes UTF-16.
+    & $Python -m radar.pipeline run --minutes $Minutes 2>&1 |
+        ForEach-Object { Add-Content -Path "logs\pipeline-console.log" -Value "$_" -Encoding UTF8 }
     if ($LASTEXITCODE -ne 0) { throw "pipeline failed ($LASTEXITCODE)" }
 
     if ($InRepo) {
@@ -31,6 +33,7 @@ try {
         git diff --cached --quiet
         if ($LASTEXITCODE -ne 0) {
             git commit --quiet -m "pipeline: update queue and digests"
+            if ($LASTEXITCODE -ne 0) { throw "git commit failed: set git user.name and user.email (see run_agent.ps1)" }
             if ($HasRemote -and -not $NoPush) {
                 git push --quiet 2>&1 | Out-Null
                 if ($LASTEXITCODE -ne 0) { git pull --rebase --quiet; git push --quiet }
@@ -39,7 +42,8 @@ try {
     }
 }
 catch {
-    Add-Content "logs\pipeline-console.log" "$(Get-Date -Format s) ERROR: $_"
+    Add-Content "logs\pipeline-console.log" "$(Get-Date -Format s) ERROR: $_" -Encoding UTF8
+    Write-Host "ERROR: $_"
     exit 1
 }
 finally {
