@@ -304,6 +304,24 @@ class ExportTests(TempDirTest):
         meta = json.loads(md.with_suffix(".json").read_text(encoding="utf-8"))
         self.assertEqual((meta["counts"]["A"], meta["satisfactions"]), (2, 1))
 
+    def test_coverage(self):
+        # Sample data was first seen "now", i.e. after the sample week: coverage is incomplete.
+        covered, note = export.coverage(self.conn, WEEK, WEEK_END)
+        self.assertFalse(covered)
+        self.assertIn("started watching", note)
+        md = export.write_digest(self.conn, WEEK, WEEK_END, self.tmp / "weekly")
+        self.assertIn("Incomplete coverage", md.read_text(encoding="utf-8"))
+        self.assertEqual(json.loads(md.with_suffix(".json").read_text(encoding="utf-8"))["coverage"],
+                         "incomplete")
+        # Once the radar was watching from before the window, it counts as covered...
+        self.conn.execute("INSERT INTO meta VALUES ('coverage_start', '2026-10-01')")
+        self.assertEqual(export.coverage(self.conn, WEEK, WEEK_END), (True, ""))
+        # ...unless the stream position expired during the window.
+        self.conn.execute("INSERT INTO meta VALUES ('stream_gap_at', '2026-10-14T09:00:00')")
+        self.assertFalse(export.coverage(self.conn, WEEK, WEEK_END)[0])
+        self.assertTrue(export.coverage(self.conn, date(2026, 10, 19), date(2026, 10, 25))[0])
+        self.assertFalse(export.coverage(mem_db(), WEEK, WEEK_END)[0])
+
     def test_week_bounds(self):
         (ls, le), (ts, te) = export.week_bounds(date(2026, 10, 21))  # a Wednesday
         self.assertEqual((ls, le, ts, te), (date(2026, 10, 12), date(2026, 10, 18),
@@ -336,6 +354,15 @@ class AgentCheckTests(TempDirTest):
         pending = (self.root / "classify/pending.jsonl").read_text(encoding="utf-8").splitlines()
         self.assertEqual([json.loads(l)["name_norm"] for l in pending], ["B"])
         self.assertIn("classify/results/", agentcheck.task_path("classifier").read_text(encoding="utf-8"))
+
+    def test_incomplete_weeks_are_skipped(self):
+        weekly = self.root / "output/weekly"
+        (weekly / "2026-10-12_2026-10-18.md").write_text("# digest", encoding="utf-8")
+        (weekly / "2026-10-12_2026-10-18.json").write_text('{"coverage": "incomplete"}', encoding="utf-8")
+        self.assertEqual(self.run_quiet("prepare", "reviewer"), agentcheck.NO_WORK)
+        self.assertEqual(self.run_quiet("prepare", "newsletter"), agentcheck.NO_WORK)
+        (weekly / "2026-10-12_2026-10-18.json").write_text('{"coverage": "full"}', encoding="utf-8")
+        self.assertEqual(self.run_quiet("prepare", "reviewer"), 0)
 
     def test_inbox_archived_on_finish(self):
         msg = self.root / "inbox/classifier/20261020-from-maintainer.md"

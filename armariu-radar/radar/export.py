@@ -124,6 +124,25 @@ def _md_table(rows: list[dict], cols: list[tuple[str, str]], limit: int = 50) ->
     return "\n".join(out) + "\n"
 
 
+def coverage(conn, start: date, end: date) -> tuple[bool, str]:
+    """Was the radar watching for the whole window? Weeks before it started (or with a stream
+    gap) would otherwise look like genuinely quiet weeks."""
+    from .db import get_meta
+    began = get_meta(conn, "coverage_start") or conn.execute(
+        "SELECT MIN(first_seen_at) FROM charges").fetchone()[0]
+    if not began:
+        return False, "The radar has not collected any filings yet."
+    began_day = date.fromisoformat(str(began)[:10])
+    if began_day > start:
+        return False, (f"The radar started watching on {began_day.isoformat()}, after this window began, "
+                       "so filings before then are missing. Counts are not a true weekly total.")
+    gap = get_meta(conn, "stream_gap_at")
+    if gap and start <= date.fromisoformat(gap[:10]) <= end + timedelta(days=1):
+        return False, (f"The stream position expired around {gap[:10]} (the radar was offline too long), "
+                       "so some filings in this window were missed.")
+    return True, ""
+
+
 def write_digest(conn, start: date, end: date, out_dir=None, partial: bool = False) -> Path:
     out_dir = Path(out_dir or (config.OUTPUT_DIR / "weekly"))
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -145,10 +164,12 @@ def write_digest(conn, start: date, end: date, out_dir=None, partial: bool = Fal
     cols = [("Delivered", "delivered_on"), ("Borrower", "company_name"), ("No.", "company_number"),
             ("Chargee(s)", "chargees"), ("Parent", "parent_firms"), ("All-assets", "floating_covers_all"),
             ("Check?", "needs_human_check"), ("Filing", "filing_url")]
+    covered, coverage_note = coverage(conn, start, end)
     md = [
         f"# Deal radar digest: {start.isoformat()} to {end.isoformat()}"
         + (" (week to date)" if partial else ""),
         "",
+        *([f"> **Incomplete coverage.** {coverage_note}", ""] if not covered else []),
         "_From Companies House charge filings delivered in this window. "
         "A charge shows that security was granted; it does not show the amount, pricing or terms. "
         "Rows marked Check? = yes have not been confirmed by a person._",
@@ -175,6 +196,7 @@ def write_digest(conn, start: date, end: date, out_dir=None, partial: bool = Fal
     (out_dir / f"{stem}.md").write_text("\n".join(md), encoding="utf-8")
     (out_dir / f"{stem}.json").write_text(json.dumps({
         "start": start.isoformat(), "end": end.isoformat(), "partial": partial,
+        "coverage": "full" if covered else "incomplete", "coverage_note": coverage_note,
         "counts": {t: len(by_tier[t]) for t, _ in TIERS},
         "total": len(rows), "satisfactions": len(sats),
     }, indent=2), encoding="utf-8")

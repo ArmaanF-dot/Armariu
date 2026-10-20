@@ -67,9 +67,22 @@ def _answered_names() -> set[str]:
     return names
 
 
+def _fully_covered(md: Path) -> bool:
+    """Skip weeks the radar wasn't watching for in full: reviewing or writing them up would
+    describe missing data as a quiet week, and wastes Claude usage."""
+    meta = md.with_suffix(".json")
+    if not meta.exists():
+        return True
+    try:
+        return json.loads(meta.read_text(encoding="utf-8")).get("coverage", "full") == "full"
+    except (json.JSONDecodeError, OSError):
+        return True
+
+
 def _final_digests() -> list[Path]:
     weekly = config.OUTPUT_DIR / "weekly"
-    return sorted(p for p in weekly.glob("*_*.md") if not p.stem.endswith("_partial"))
+    return sorted(p for p in weekly.glob("*_*.md")
+                  if not p.stem.endswith("_partial") and _fully_covered(p))
 
 
 def _week_end(stem: str) -> date:
