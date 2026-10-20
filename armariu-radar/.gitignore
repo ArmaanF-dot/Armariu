@@ -1,0 +1,12 @@
+.env
+data/radar.db
+data/radar.db-journal
+demo_output/
+logs/*
+!logs/.gitkeep
+.agent-*
+classify/pending.jsonl
+classify/queue.tmp
+__pycache__/
+*.pyc
+.venv/
