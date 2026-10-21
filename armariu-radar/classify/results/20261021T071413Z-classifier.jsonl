@@ -1,0 +1,20 @@
+{"name_norm": "KENSINGTON MORTGAGE COMPANY", "category": "bank", "parent_firm": "Kensington Group", "confidence": 0.7, "reason": "Specialist regulated mortgage lender; charges over small property companies, from name and borrower SIC codes, no web check."}
+{"name_norm": "SBF FIVE", "category": "unknown", "parent_firm": null, "confidence": 0.2, "reason": "Opaque numbered vehicle name; lends to a property company but no evidence of its type or manager."}
+{"name_norm": "COMMERCIAL ACCEPTANCES", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Name suggests a non-bank commercial/bridging lender secured on a property company, but I cannot confirm the business type."}
+{"name_norm": "FCG FINANCE", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Small finance company lending to a property company; business model unclear from the name."}
+{"name_norm": "FENYX F1", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Numbered vehicle-style name lending to a housebuilder/property company; no manager evidence."}
+{"name_norm": "FORTYS CAPITAL", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Small 'Capital' company lending to a property company; could be a private lender but no evidence."}
+{"name_norm": "INTERBAY FUNDING", "category": "bank", "parent_firm": "OSB Group", "confidence": 0.8, "reason": "Interbay is the specialist mortgage lending brand of OSB Group (a banking group); BTL lending to property companies."}
+{"name_norm": "SILVERSTREAM FINANCE UK", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Finance company name lending to a property SPV; type of lender unclear."}
+{"name_norm": "UNITED NATIONAL BANK", "category": "bank", "parent_firm": null, "confidence": 0.9, "reason": "Name indicates a bank; lends against a property company."}
+{"name_norm": "ATOM BANK", "category": "bank", "parent_firm": "Atom Bank", "confidence": 0.97, "reason": "Atom is a UK challenger bank."}
+{"name_norm": "CHETWOOD FINANCIAL LIMITED TRADING AS MODAMORTGAGES", "category": "bank", "parent_firm": "Chetwood Financial", "confidence": 0.8, "reason": "Chetwood Financial is a UK digital bank/mortgage lender; Moda is its BTL mortgage brand."}
+{"name_norm": "COMMUNITY ENABLE FUNDING", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Funding vehicle name; borrower is in passenger transport (SIC 49390), so could be asset or social finance, unconfirmed."}
+{"name_norm": "FLEET MORTGAGES", "category": "bank", "parent_firm": null, "confidence": 0.7, "reason": "Specialist buy-to-let mortgage lender; lends to a property company."}
+{"name_norm": "KEYSTONE PROPERTY FINANCE", "category": "bank", "parent_firm": null, "confidence": 0.6, "reason": "Specialist property mortgage lender by name; ownership and regulated status not verified."}
+{"name_norm": "MTF LE", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Abbreviated name looks like a lending subsidiary of a specialist mortgage/bridging group, unconfirmed."}
+{"name_norm": "SECURED FIXED INCOME", "category": "unknown", "parent_firm": null, "confidence": 0.35, "reason": "PLC that may be a bond or note-issuing vehicle; borrower is a food-business Bidco, so could be a credit vehicle, unconfirmed."}
+{"name_norm": "THE MORTGAGE LENDER", "category": "bank", "parent_firm": null, "confidence": 0.6, "reason": "Mortgage lender by name; charge over a property company, ownership unverified."}
+{"name_norm": "VIDA BANK", "category": "bank", "parent_firm": null, "confidence": 0.88, "reason": "Name indicates a bank; lends to a property investment company."}
+{"name_norm": "WEST ONE SECURED LOANS", "category": "unknown", "parent_firm": null, "confidence": 0.4, "reason": "Secured loans company, likely a specialist bridging lender, but no confirmed classification."}
+{"name_norm": "MANCHESTER PROPERTY DEVELOPMENTS", "category": "other", "parent_firm": null, "confidence": 0.4, "reason": "Property development company as chargee over a property company; possibly a private or group lender, unconfirmed."}
