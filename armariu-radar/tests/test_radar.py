@@ -586,6 +586,9 @@ class ReviewAppTests(TempDirTest):
         self.assertEqual(names("review"), [])
         self.assertEqual(names("low"), ["BRIGHTWATER CAPITAL HOLDINGS"])
         self.assertIn("NORTHGATE CREDIT PARTNERS II SCSP", names("confirm"))
+        # Confident low-stakes answers are used, and listed separately to double-check.
+        self.assertTrue(all(x["category"] not in ("direct_lender", "security_agent") for x in d["lenders"]["auto"]))
+        self.assertTrue(all(x["source"] == "agent" for x in d["lenders"]["auto"]))
         self.assertTrue(d["lenders"]["low"][0]["examples"][0]["filing_url"].startswith("https://"))
         self.assertNotIn("unknown", [c["key"] for c in d["choices"]])
 

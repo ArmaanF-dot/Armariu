@@ -562,11 +562,12 @@ async function renderDecisions() {
   const tiles = [
     ["lenders", "review", "lenders", L.review.length + L.confirm.length, "Lenders that matter", L.review.length + L.confirm.length ? "Might be direct lenders or security agents" : "None right now"],
     ["triage", "unknown", "layers", L.low.length, "Quick triage", L.low.length ? "Low-stakes names: clear them in bulk" : "Nothing to triage"],
+    ["auto", "agent", "check", L.auto.length, "Double-check", L.auto.length ? "Accepted automatically. Optional" : "Nothing accepted automatically"],
     ["messages", "message", "mail", d.messages.length, "Messages from the agents", d.messages.length ? "Read, then mark as done" : "Nothing new"],
     ["drafts", "draft", "pen", d.drafts.length, "Newsletter drafts", d.drafts.length ? "Edit, then mark as published" : "None to edit"],
   ];
   main.innerHTML = `<div class="anim-root">
-    <div class="qtiles four" role="tablist" aria-label="What needs you">${tiles.map(([k, cat, ic, n, label, sub]) =>
+    <div class="qtiles five" role="tablist" aria-label="What needs you">${tiles.map(([k, cat, ic, n, label, sub]) =>
       `<button class="qtile" role="tab" data-cat="${cat}" data-tab="${k}" aria-selected="${S.decTab === k}"><span class="disc">${icon(ic)}</span>
          <span class="qn num">${n}</span><span class="ql">${label}</span><span class="qs">${sub}</span></button>`).join("")}</div>
     <div id="dec-body"></div></div>`;
@@ -575,6 +576,7 @@ async function renderDecisions() {
   if (S.decTab === "messages") return renderMessages(body, d.messages);
   if (S.decTab === "drafts") return renderDraftDecisions(body, d.drafts);
   if (S.decTab === "triage") return renderTriage(body, L.low);
+  if (S.decTab === "auto") return renderTriage(body, L.auto, "auto");
   if (!queueItems().length) {
     body.innerHTML = `<div class="card empty"><span class="disc" data-cat="bank">${icon("check")}</span><h2>Every lender is classified</h2><p>When the radar picks up a lender it doesn't recognise, the classifier agent looks at it first and anything it isn't sure about comes here.</p></div>`;
     return;
@@ -738,43 +740,61 @@ function triageSuggestion(x) {
   if (x.property_only && (!guess || guess === "direct_lender")) return "property_lender";
   return guess;
 }
-function renderTriage(body, low) {
+const TRIAGE_MODES = {
+  triage: {
+    store: "triage", empty: ["Nothing to triage", "Low-stakes names land here: lenders that only lend on property, and unsure guesses of types that never reach the headline."],
+    title: "Quick triage",
+    intro: "None of these can change the headline: they only lend to property companies, or the agent's guess is a type that never reaches it. Each row has a suggestion picked. Check the ones you're unsure of, then save them all at once.",
+    suggest: triageSuggestion, on: (x) => !!triageSuggestion(x), verb: "Save",
+  },
+  auto: {
+    store: "dbl", empty: ["Nothing to double-check", "When the agent is sure enough about a low-stakes type (60% or more), its answer is used straight away and listed here so you can check it."],
+    title: "Double-check the agent's answers",
+    intro: "The agent was sure enough of these to use its answer without asking you, least sure first. Nothing here is waiting on you. Tick the ones you've checked, or change the type, and save: they become your decisions and won't show here again.",
+    suggest: (x) => x.category || "", on: () => false, verb: "Confirm",
+  },
+};
+function renderTriage(body, low, mode = "triage") {
+  const M = TRIAGE_MODES[mode];
   if (!low.length) {
-    body.innerHTML = `<div class="card empty"><span class="disc" data-cat="bank">${icon("check")}</span><h2>Nothing to triage</h2><p>Low-stakes names land here: lenders that only lend on property, and confident-enough guesses of types that never reach the headline.</p></div>`;
+    body.innerHTML = `<div class="card empty"><span class="disc" data-cat="bank">${icon("check")}</span><h2>${M.empty[0]}</h2><p>${M.empty[1]}</p></div>`;
     return;
   }
-  S.triage = S.triage || {};
-  for (const x of low) if (!(x.name in S.triage)) S.triage[x.name] = { on: !!triageSuggestion(x), category: triageSuggestion(x) };
+  const st = (S[M.store] = S[M.store] || {});
+  for (const x of low) if (!(x.name in st)) st[x.name] = { on: M.on(x), category: M.suggest(x) };
   const opts = (sel) => `<option value="">Choose…</option>` + S.choices.map((c) => `<option value="${c.key}" ${sel === c.key ? "selected" : ""}>${esc(c.label)}</option>`).join("");
   const draw = () => {
-    const picked = low.filter((x) => S.triage[x.name].on && S.triage[x.name].category);
+    const picked = low.filter((x) => st[x.name].on && st[x.name].category);
     const names = picked.reduce((n, x) => n + (x.members ? x.members.length : 1), 0);
+    const changed = picked.filter((x) => st[x.name].category !== x.category).length;
     body.innerHTML = `<section class="card">
-      <div class="card-head"><div><h2>Quick triage</h2><p>None of these can change the headline: they only lend to property companies, or the agent's guess is a type that never reaches it. Each row has a suggestion picked. Check the ones you're unsure of, then save them all at once.</p></div>
-        <div class="doc-actions"><button class="btn ghost" id="tr-none">Untick all</button><button class="btn primary" id="tr-save" ${picked.length ? "" : "disabled"}>Save ${plural(names, "name")}</button></div></div>
-      <div class="table-wrap"><table class="stack triage"><thead><tr><th></th><th>Lender</th><th>Agent's guess</th><th>Borrowers</th><th>File as</th></tr></thead><tbody>
-      ${low.map((x) => { const t = S.triage[x.name]; return `<tr data-row="${esc(x.name)}" class="${t.on ? "" : "off"}">
+      <div class="card-head"><div><h2>${M.title}</h2><p>${M.intro}</p></div>
+        <div class="doc-actions"><button class="btn ghost" id="tr-all">Tick all</button><button class="btn ghost" id="tr-none">Untick all</button>
+        <button class="btn primary" id="tr-save" ${picked.length ? "" : "disabled"}>${M.verb} ${plural(names, "name")}${mode === "auto" && changed ? `, ${changed} changed` : ""}</button></div></div>
+      <div class="table-wrap"><table class="stack triage"><thead><tr><th></th><th>Lender</th><th>Agent's ${mode === "auto" ? "answer" : "guess"}</th><th>Borrowers</th><th>${mode === "auto" ? "Type" : "File as"}</th></tr></thead><tbody>
+      ${low.map((x) => { const t = st[x.name]; const diff = mode === "auto" && t.category && t.category !== x.category; return `<tr data-row="${esc(x.name)}" class="${t.on ? "" : "off"}${diff ? " changed" : ""}">
         <td class="side-fact"><input type="checkbox" class="tr-on" ${t.on ? "checked" : ""} aria-label="Include ${esc(x.display)}"></td>
-        <td class="lead"><button class="linkish strong" data-lender="${esc(x.name)}">${esc(x.display)}</button>${x.members && x.members.length > 1 ? `<span class="sub">and ${plural(x.members.length - 1, "variant")}: ${x.members.slice(1).map((m) => esc(m.display)).join(", ")}</span>` : ""}<span class="sub">${plural(x.family_charges || x.charges, "charge")}</span></td>
+        <td class="lead"><button class="linkish strong" data-lender="${esc(x.name)}">${esc(x.display)}</button>${x.members && x.members.length > 1 ? `<span class="sub">and ${plural(x.members.length - 1, "variant")}: ${x.members.slice(1).map((m) => esc(m.display)).join(", ")}</span>` : ""}<span class="sub">${plural(x.family_charges || x.charges, "charge")}${x.parent ? ` · part of ${esc(x.parent)}` : ""}</span><span class="sub">${lenderLinks(x.display)}</span></td>
         <td class="meta">${x.category ? catChip(x.category) : ""}${x.confidence != null ? `<span class="sub">${Math.round(x.confidence * 100)}% sure</span>` : ""}${x.reason ? `<span class="sub why-line">${esc(reasonText(x.reason, x.source))}</span>` : ""}</td>
         <td class="meta">${x.property_only ? '<span class="pill" data-cat="property_lender">Property only</span>' : '<span class="muted">Mixed or other</span>'}</td>
-        <td class="meta"><select class="input tr-cat" aria-label="File ${esc(x.display)} as">${opts(t.category)}</select></td></tr>`; }).join("")}
+        <td class="meta"><select class="input tr-cat" aria-label="Type for ${esc(x.display)}">${opts(t.category)}</select>${diff ? `<span class="sub changed-note">Changed from the agent's answer</span>` : ""}</td></tr>`; }).join("")}
       </tbody></table></div></section>`;
     body.querySelectorAll("tr[data-row]").forEach((tr) => {
-      const t = S.triage[tr.dataset.row];
+      const t = st[tr.dataset.row];
       tr.querySelector(".tr-on").onchange = (e) => { t.on = e.target.checked; draw(); };
       tr.querySelector(".tr-cat").onchange = (e) => { t.category = e.target.value; t.on = !!t.category; draw(); };
     });
-    document.getElementById("tr-none").onclick = () => { for (const x of low) S.triage[x.name].on = false; draw(); };
+    document.getElementById("tr-all").onclick = () => { for (const x of low) st[x.name].on = !!st[x.name].category; draw(); };
+    document.getElementById("tr-none").onclick = () => { for (const x of low) st[x.name].on = false; draw(); };
     document.getElementById("tr-save").onclick = async () => {
       const byCat = {};
-      for (const x of picked) (byCat[S.triage[x.name].category] ||= []).push(...(x.members ? x.members.map((m) => m.name) : [x.name]));
+      for (const x of picked) (byCat[st[x.name].category] ||= []).push(...(x.members ? x.members.map((m) => m.name) : [x.name]));
       const btn = document.getElementById("tr-save");
       btn.disabled = true; btn.textContent = "Saving…";
       try {
         for (const [category, list] of Object.entries(byCat)) await post("/api/file-as", { names: list, category });
-        for (const x of picked) delete S.triage[x.name];
-        toast(`Saved ${plural(names, "name")}`);
+        for (const x of picked) delete st[x.name];
+        toast(`${mode === "auto" ? "Confirmed" : "Saved"} ${plural(names, "name")}`);
         renderDecisions();
       } catch (e) { toast(e.message, true); draw(); }
     };

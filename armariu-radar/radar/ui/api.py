@@ -324,6 +324,7 @@ def decisions(conn) -> dict:
     - low: everything else that's unsure: property-only lenders, low-stakes types. Safe to clear in bulk.
     - confirm: confident agent answers that put a name in the headline tiers. Worth a glance.
     - waiting: names the classifier agent hasn't seen yet.
+    - auto: low-stakes answers the agent was sure enough of to use; there to double-check, optional.
     Name variants ('X CAPITAL 6', 'X CAPITAL 7') are one item: one decision covers them all.
     """
     unsure = _families(conn, _lender_rows(conn, "lc.review_status = 'needs_review'"))
@@ -332,12 +333,17 @@ def decisions(conn) -> dict:
     confirm = _families(conn, _lender_rows(
         conn, "lc.source = 'agent' AND lc.review_status = 'auto_ok' AND lc.category IN ('direct_lender', 'security_agent')"))
     waiting = _families(conn, _lender_rows(conn, "lc.name_norm IS NULL"))
+    # Answers the agent was sure enough of to use without asking: listed so a person can
+    # double-check them when they like. Not counted as waiting.
+    auto = _families(conn, _lender_rows(
+        conn, "lc.source = 'agent' AND lc.review_status = 'auto_ok' AND lc.category NOT IN ('direct_lender', 'security_agent')"))
+    auto.sort(key=lambda r: (r["confidence"] or 0, -r["family_charges"]))
     status = _draft_status()
     drafts = _md_files("drafts", "*-draft.md")
     for d in drafts:
         d["status"] = status.get(d["name"], {}).get("status", "new")
     return {
-        "lenders": {"review": review, "low": low, "confirm": confirm, "waiting": waiting},
+        "lenders": {"review": review, "low": low, "confirm": confirm, "waiting": waiting, "auto": auto},
         "names": {"review": sum(len(r["members"]) for r in review), "low": sum(len(r["members"]) for r in low)},
         "messages": _md_files("inbox/maintainer"),
         "drafts": [d for d in drafts if d["status"] != "published"],

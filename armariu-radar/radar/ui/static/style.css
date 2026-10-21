@@ -547,6 +547,11 @@ body, .card, .side, .topbar, .drawer-inner { transition: background-color .25s v
 
 /* ------------------------------------------------------------------ decisions: families, triage */
 .qtiles.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.qtiles.five { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.qtiles.five .qtile { grid-template-columns: 44px minmax(0, 1fr); column-gap: 12px; padding: 16px; }
+.qtiles.five .disc { width: 44px; height: 44px; }
+table.triage tr.changed td { background: color-mix(in srgb, var(--k-review) 8%, transparent); }
+.changed-note { color: var(--k-review) !important; font-weight: 600; }
 .family { border: 1px dashed var(--line-2); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 22px; background: var(--card-2); }
 .family p { margin: 0 0 6px; }
 .family ul { margin: 0 0 10px; padding-left: 18px; }
@@ -571,7 +576,7 @@ table.triage select { min-width: 170px; height: 36px; }
   .donut-card .card-head { grid-column: span 2; margin-bottom: 0; }
 }
 @media (max-width: 1100px) {
-  .qtiles.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .qtiles.four, .qtiles.five { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .qtiles.themes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dir { grid-template-columns: minmax(0, 1fr); }
   .dir-cats { position: static; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
