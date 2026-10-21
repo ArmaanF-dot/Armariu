@@ -268,10 +268,29 @@ def _property_only(conn, names: list[str]) -> bool:
 
 
 def _families(conn, rows: list[dict]) -> list[dict]:
-    """Merge name variants into one item: the lead (most charges) plus its members."""
+    """Merge name variants, and lenders controlled by the same company, into one item: the lead
+    (most charges) plus its members."""
+    owner_of = owners.groups(conn)
+    parent: dict[str, str] = {}
+
+    def find(k):
+        while parent.setdefault(k, k) != k:
+            k = parent[k]
+        return k
+    for r in rows:  # union by name stem, then by controlling company
+        find(family_key(r["name"]))
+    by_group: dict[str, str] = {}
+    for r in rows:
+        g = owner_of.get(r["name"])
+        gid = g and (g.get("number") or g.get("name"))
+        if gid:
+            if gid in by_group:
+                parent[find(family_key(r["name"]))] = find(by_group[gid])
+            else:
+                by_group[gid] = family_key(r["name"])
     groups: dict[str, list[dict]] = {}
     for r in rows:
-        groups.setdefault(family_key(r["name"]), []).append(r)
+        groups.setdefault(find(family_key(r["name"])), []).append(r)
     out = []
     for key, members in groups.items():
         members.sort(key=lambda r: (-r["charges"], r["name"]))
@@ -279,7 +298,11 @@ def _families(conn, rows: list[dict]) -> list[dict]:
         names = [m["name"] for m in members]
         lead["members"] = [{"name": m["name"], "display": m["display"], "charges": m["charges"],
                             "category": m["category"], "confidence": m["confidence"]} for m in members]
-        lead["family"] = key if len(members) > 1 else None
+        stems = {family_key(m["name"]) for m in members}
+        # A name stem can also catch future names; an owner group can't (names vary too much).
+        lead["family"] = next(iter(stems)) if len(members) > 1 and len(stems) == 1 else None
+        g = owner_of.get(lead["name"])
+        lead["group_family"] = g["name"] if len(members) > 1 and len(stems) > 1 and g else None
         lead["family_charges"] = sum(m["charges"] for m in members)
         lead["property_only"] = _property_only(conn, names)
         cats = {m["category"] or "unknown" for m in members}
@@ -453,6 +476,15 @@ def lender(conn, name: str) -> dict:
 def directory(conn) -> dict:
     """Every lender name on the register grouped by type, plus rules that haven't matched anything yet."""
     rows = _lender_rows(conn, "1=1")
+    owner_of = owners.groups(conn)
+    size: dict[str, int] = {}
+    for r in rows:
+        g = owner_of.get(r["name"])
+        r["group"] = g["name"] if g else None
+        if g:
+            size[g["name"]] = size.get(g["name"], 0) + 1
+    for r in rows:
+        r["group_size"] = size.get(r["group"], 0) if r["group"] else 0
     counts: dict[str, int] = {}
     for r in rows:
         k = r["category"] or "unclassified"

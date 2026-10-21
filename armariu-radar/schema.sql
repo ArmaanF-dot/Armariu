@@ -150,3 +150,20 @@ CREATE TABLE IF NOT EXISTS consensus (
     category         TEXT,
     updated_at       TEXT
 );
+
+-- Owners and officers of any company looked up (lenders, their parents, borrowers), cached so a
+-- parent shared by many lending vehicles is fetched once. Refreshed after 60 days.
+CREATE TABLE IF NOT EXISTS ch_companies (
+    company_number TEXT PRIMARY KEY,
+    owners         TEXT,                -- JSON: active persons with significant control
+    officers       TEXT,                -- JSON: active officers (people and companies)
+    fetched_at     TEXT NOT NULL
+);
+-- Lender <-> borrower links: borrowers that share an owner or a director with the lender
+-- (a sign of group or related-party funding rather than market lending).
+CREATE TABLE IF NOT EXISTS lender_links (
+    name_norm  TEXT PRIMARY KEY,
+    checked    INTEGER,
+    links      TEXT,                    -- JSON [{borrower, number, shared: [...]}]
+    fetched_at TEXT NOT NULL
+);

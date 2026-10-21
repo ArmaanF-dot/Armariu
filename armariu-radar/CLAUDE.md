@@ -12,7 +12,8 @@ through files in this folder.
    or digests), applies `data/lenders.csv` rules, and writes
    `classify/queue.jsonl` (unknown lender names) and `output/weekly/*` (digests).
    It also looks up unclear lenders on Companies House (`radar/owners.py`: the lender's own
-   record, its owners and the owner's owner), all within one shared rate limit and time budget.
+   record, the chain of majority owners up to the controlling group, and whether it shares owners
+   or directors with its borrowers), all within one shared rate limit and time budget.
 2. **Classifier agent** answers the queue into `classify/results/*.jsonl`.
 3. The next pipeline run validates and loads those results.
    - Unsure or headline answers (direct lender, security agent) go to `classify/second_queue.jsonl`

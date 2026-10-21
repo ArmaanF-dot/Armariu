@@ -7,10 +7,12 @@ charge filings. You run unattended on a schedule. No human is watching this run.
 - `classify/pending.jsonl`: one JSON object per name with `name_norm`, `display_name`,
   `n_charges`, up to three `examples` (borrower name and number, SIC codes, charge type,
   what is secured, other chargees on the same charge, filing link), and `companies_house`: the
-  lender's own Companies House record when the radar found one (its SIC codes, who owns it and
-  the owner's owner, corporate directors or LLP members). Owners often name the fund manager or
-  group behind a vehicle: use them for `parent_firm` and as strong evidence. `null` means not
-  looked up yet; `{"matched": false}` means no UK company with that exact name.
+  lender's own Companies House record when the radar found one: its SIC codes, its owners, the
+  chain of majority owners above it (`owner_chain`), the `group` that ultimately controls it,
+  other lenders on the register in the same group (`same_group`), corporate directors or LLP
+  members, and `related`: which of its borrowers share an owner or director with it. Use `group`
+  for `parent_firm`. `null` means not looked up yet; `{"matched": false}` means no UK company with
+  that exact name.
 - `data/lenders.csv`: the rules that already exist. Read it to stay consistent with how known
   firms are categorised. You cannot edit it.
 - The task file named in your prompt tells you exactly which file to write.
@@ -46,6 +48,11 @@ every name in `classify/pending.jsonl`. No other text in the file. Exact keys:
 | `unknown` | you genuinely cannot tell |
 
 Judgement notes:
+- If `companies_house.related.linked` covers most of the borrowers checked, the lender and its
+  borrowers share owners or directors: that's funding inside a group or between related people,
+  so use `other` with a reason starting "related party". A lender with a few linked borrowers
+  among many unrelated ones is still a real lender.
+- Names in `same_group` share the same controlling company: they're normally the same type.
 - Lenders to property companies (SIC 68xxx, 41100) with mortgage, bridging, buy-to-let or
   development-finance names or business models are `property_lender`, even when fund-backed.
   Keep `direct_lender` for funds lending to trading businesses and their holding companies.

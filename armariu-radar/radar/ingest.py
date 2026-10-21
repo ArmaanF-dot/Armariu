@@ -246,6 +246,9 @@ class RestClient:
     def out_of_time(self) -> bool:
         return self.deadline is not None and time.monotonic() >= self.deadline
 
+    def time_left(self) -> float | None:
+        return None if self.deadline is None else self.deadline - time.monotonic()
+
     def _throttle(self):
         now = time.monotonic()
         while self._calls and now - self._calls[0] > self.window:

@@ -367,6 +367,70 @@ class OwnerLookupTests(unittest.TestCase):
         self.assertEqual(p["group"], "Big Credit Partners LLP")
         self.assertEqual(p["sic"][0]["label"], "Credit granting by non-deposit-taking finance houses")
 
+    def test_climbs_only_through_majority_owners(self):
+        # The real Fortys Capital 6 shape: one 75%+ owner, whose own owners split four ways.
+        psc = lambda *items: {"items": list(items)}  # noqa: E731
+        corp = lambda name, num, ctl: {"name": name, "kind": "corporate-entity-person-with-significant-control",  # noqa: E731
+                                       "natures_of_control": [ctl], "identification": {"registration_number": num, "country_registered": "United Kingdom"}}
+        ch = _FakeCH({
+            "/company/16704988": {"company_name": "FORTYS CAPITAL 6 LIMITED"},
+            "/company/16704988/persons-with-significant-control": psc(corp("Fortys Capital Group Limited", "17410498", "ownership-of-shares-75-to-100-percent")),
+            "/company/17410498/persons-with-significant-control": psc(
+                corp("Ys Holdco 1 Limited", "17436172", "ownership-of-shares-25-to-50-percent"),
+                corp("Abp Holdco 1 Limited", "17436962", "ownership-of-shares-25-to-50-percent"),
+                {"name": "Mr A Person", "kind": "individual-person-with-significant-control", "natures_of_control": ["voting-rights-25-to-50-percent"]}),
+        })
+        conn = mem_db()
+        row = owners.lookup(ch, "Fortys Capital 6 Limited (Company Number 16704988)", "FORTYS CAPITAL 6", conn)
+        self.assertEqual(row["group"]["name"], "Fortys Capital Group Limited")
+        self.assertTrue(row["owner_chain"][0]["split"])
+        self.assertNotIn("/company/17436172/persons-with-significant-control", ch.calls)  # never climbs a minority owner
+        owners.save(conn, row)
+        self.assertEqual(owners.profile(conn, "FORTYS CAPITAL 6")["group"], "Fortys Capital Group Limited")
+        before = len(ch.calls)
+        owners.record(ch, conn, "17410498")  # cached: no new calls
+        self.assertEqual(len(ch.calls), before)
+
+    def test_corporate_services_owner_is_not_a_group(self):
+        ch = _FakeCH({"/company/44444444": {"company_name": "SPV ONE LIMITED"},
+                      "/company/44444444/persons-with-significant-control": {"items": [
+                          {"name": "TMF Global Services (UK) Limited", "kind": "corporate-entity-person-with-significant-control",
+                           "natures_of_control": ["ownership-of-shares-75-to-100-percent"],
+                           "identification": {"registration_number": "5555555"}}]}})
+        conn = mem_db()
+        row = owners.lookup(ch, "Spv One Limited (Company Number 44444444)", "SPV ONE", conn)
+        owners.save(conn, row)
+        p = owners.profile(conn, "SPV ONE")
+        self.assertIsNone(p["group"])
+        self.assertEqual(p["nominee"], "TMF Global Services (UK) Limited")
+        self.assertEqual(owners.groups(conn), {})
+
+    def test_people_match_across_record_formats(self):
+        self.assertEqual(owners.person_key("Mr Benny Perlberger"), "BENNY PERLBERGER")
+        self.assertEqual(owners.person_key("PERLBERGER, Benny Moshe"), "BENNY PERLBERGER")
+        self.assertEqual(owners.person_key("Dr Jane Ann Smith"), "JANE SMITH")
+        self.assertIsNone(owners.person_key("Smith"))
+
+    def test_related_borrowers_found_but_service_providers_ignored(self):
+        conn = loaded_db()
+        lender, borrower = conn.execute("SELECT name_norm, company_number FROM charge_persons LIMIT 1").fetchone()
+        owners.save(conn, {"name_norm": lender, "company_number": "11111111", "company_name": "LENDER CO LIMITED",
+                           "owners": [], "owner_chain": [], "group": None, "officers": [], "matched_by": "exact name"})
+        ch = _FakeCH({
+            "/company/11111111/persons-with-significant-control": {"items": []},
+            "/company/11111111/officers": {"items": [
+                {"name": "COHEN, David", "officer_role": "director"},
+                {"name": "ACME SECRETARIES LIMITED", "officer_role": "corporate-secretary"}]},
+            f"/company/{borrower}/persons-with-significant-control": {"items": [
+                {"name": "Mr David Cohen", "kind": "individual-person-with-significant-control",
+                 "natures_of_control": ["ownership-of-shares-75-to-100-percent"]}]},
+            f"/company/{borrower}/officers": {"items": [{"name": "ACME SECRETARIES LIMITED", "officer_role": "corporate-secretary"}]},
+        })
+        res = owners.related(ch, conn, lender)
+        self.assertEqual(res["checked"], 1)
+        self.assertEqual(res["linked"][0]["shared"], ["COHEN, David"])  # the person, not the shared company secretary
+        self.assertEqual(owners.profile(conn, lender)["related"]["linked"][0]["number"], borrower)
+
     def test_number_in_name_skips_search_and_no_match_is_recorded(self):
         self.assertEqual(owners.number_in_name("Romaco Spv 5 Limited (Crn: 11112580)"), "11112580")
         self.assertEqual(owners.number_in_name("Flying Trade Group Limited (Company Number 02407688)"), "02407688")
@@ -833,6 +897,19 @@ class ReviewAppTests(TempDirTest):
         with self.assertRaises(KeyError):
             self.api.save_note(self.conn, self.git, "Not In The Data Ltd", "x")
         self.assertIn("signals", self.api.overview(self.conn, self.git))
+        # Lenders controlled by the same company are one decision, even with different names.
+        from radar.ui import api as _api
+        names = [r[0] for r in self.conn.execute("SELECT DISTINCT name_norm FROM charge_persons LIMIT 2")]
+        for i, n in enumerate(names):
+            owners.save(self.conn, {"name_norm": n, "company_number": f"2222222{i}", "company_name": n, "owners": [],
+                                    "owner_chain": [], "group": {"name": "SAME GROUP LIMITED", "number": "33333333"},
+                                    "officers": [], "matched_by": "exact name"})
+        rows = [r for r in _api._lender_rows(self.conn, "1=1") if r["name"] in names]
+        fam = _api._families(self.conn, rows)
+        self.assertEqual(len(fam), 1)
+        self.assertEqual(fam[0]["group_family"], "SAME GROUP LIMITED")
+        self.assertIsNone(fam[0]["family"])  # no "future names" rule for an owner group
+        self.assertEqual({r["group"] for r in _api.directory(self.conn)["rows"] if r["name"] in names}, {"SAME GROUP LIMITED"})
         # A family decision covers every variant and can add a rule for future names.
         lender = self.conn.execute("SELECT name_norm FROM charge_persons LIMIT 1").fetchone()[0]
         res = self.api.decide(self.conn, self.git, lender, "bank", "", "", [], "")

@@ -44,7 +44,7 @@ def run(minutes: float, enrich_limit: int, queue_limit: int, rest_minutes: float
         # Order is by what you see: borrower names first, then lender owners, then histories.
         client = ingest.RestClient(rest_key, budget_seconds=rest_minutes * 60)
         for key, step in (("enriched", lambda: ingest.enrich(conn, client, enrich_limit)),
-                          ("lender_profiles", lambda: owners.fetch(conn, client, limit=80)),
+                          ("lender_owners", lambda: owners.fetch(conn, client, limit=80, links_limit=30)),
                           ("histories", lambda: ingest.history(conn, client, enrich_limit))):
             try:
                 summary[key] = step()

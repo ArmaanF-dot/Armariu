@@ -543,17 +543,34 @@ function opinionsBox(it) {
     ${it.opinions.map((o) => `<div class="op" data-cat="${catKey(o.category)}"><div class="op-top"><span class="op-role">${(ROLE[o.role] || [o.role])[0]}</span>${catChip(o.category)}${o.confidence != null ? `<span class="muted small">${Math.round(o.confidence * 100)}% sure</span>` : ""}${o.parent_firm ? `<span class="muted small">part of ${esc(o.parent_firm)}</span>` : ""}</div>
       <p>${esc(o.reason || "")}</p></div>`).join("")}</div>`;
 }
-const ownerLine = (o) => `<li><b>${esc(o.name)}</b> <span class="muted">${o.kind === "company" ? "company" : o.kind === "person" ? "person" : ""}${o.control && o.control.length ? `, ${esc(o.control.join(", "))}` : ""}</span></li>`;
+const controlsIt = (o) => (o.control || []).some((c) => c.startsWith("75-100%") || c.startsWith("50-75%") || c === "appoints the directors");
+const ownerLine = (o) => `<li${controlsIt(o) ? ' class="ctrl"' : ""}><b>${esc(o.name)}</b> <span class="muted">${o.kind === "company" ? "company" : o.kind === "person" ? "person" : ""}${o.control && o.control.length ? `, ${esc(o.control.join(", "))}` : ""}</span>${controlsIt(o) ? ' <span class="pill tiny" data-cat="direct_lender">controls it</span>' : ""}</li>`;
+function relatedBox(r) {
+  if (!r) return "";
+  if (!r.linked.length) return r.checked ? `<p class="muted small rel-none">Checked ${plural(r.checked, "borrower")}: none share an owner or director with this lender.</p>` : "";
+  return `<div class="rel-warn"><b>Linked to ${r.linked.length} of ${plural(r.checked, "borrower")} checked</b>
+    <p>They share an owner or director with this lender, which usually means funding inside a group or between related people rather than market lending. <b>Other</b> is likely the right type.</p>
+    <ul class="owner-list">${r.linked.map((l) => `<li><button class="linkish" data-company="${esc(l.number)}">${esc(l.borrower)}</button> <span class="muted">shares ${esc(l.shared.join(", "))}</span></li>`).join("")}</ul></div>`;
+}
 function profileBox(p, parentInput) {
-  if (!p) return `<div class="ch-box"><span class="disc" data-cat="unknown">${icon("lenders")}</span><div><b>Companies House</b><p class="muted small">Not looked up yet. The next cloud run checks who owns this lender.</p></div></div>`;
+  if (!p) return `<div class="ch-box"><span class="disc" data-cat="unknown">${icon("lenders")}</span><div><b>Companies House</b><p class="muted small">Not looked up yet. The next cloud run checks who controls this lender.</p></div></div>`;
   if (!p.matched) return `<div class="ch-box"><span class="disc" data-cat="unknown">${icon("lenders")}</span><div><b>Companies House</b><p class="muted small">No UK company with exactly this name, so there's no owner record. Often a foreign fund, a trust or a person.</p></div></div>`;
   const sic = p.sic.map((s) => `${esc(s.code)}${s.label ? ` ${esc(s.label)}` : ""}`).join("; ");
+  const summary = p.group ? `Controlled by <b>${esc(p.group)}</b>`
+    : p.nominee ? `Shares held by <b>${esc(p.nominee)}</b>, a corporate services firm. Typical of fund and securitisation vehicles: the real backer isn't on the register`
+    : p.controller_person ? `Controlled by a person: <b>${esc(p.controller_person)}</b>`
+    : p.owners.length ? "No single owner controls it" : "No owner on record";
+  const last = p.owner_chain[p.owner_chain.length - 1];
   return `<div class="ch-box"><span class="disc" data-cat="cloud">${icon("lenders")}</span><div class="ch-body">
     <div class="ch-title"><b>Who's behind it</b><a class="rlink" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.company_name)} ${esc(p.company_number)}</a></div>
     <p class="muted small">${p.company_status ? esc(p.company_status[0].toUpperCase() + p.company_status.slice(1)) : ""}${p.incorporated ? `, incorporated ${fmtDate(p.incorporated)}` : ""}${sic ? `. Its own filing says: ${sic}` : ""}${p.matched_by === "number in name" ? ". Matched by the company number in the filing" : ""}</p>
-    ${p.owners.length ? `<p class="ch-sub">Owned by</p><ul class="owner-list">${p.owners.map(ownerLine).join("")}</ul>` : `<p class="muted small">No owner (person with significant control) on record.</p>`}
-    ${p.owner_chain.map((c) => c.owners.length ? `<p class="ch-sub">${esc(c.of)} is owned by</p><ul class="owner-list">${c.owners.map(ownerLine).join("")}</ul>` : "").join("")}
+    <p class="ch-summary">${summary}</p>
+    ${p.owners.length ? `<p class="ch-sub">Owned by</p><ul class="owner-list">${p.owners.map(ownerLine).join("")}</ul>` : ""}
+    ${p.owner_chain.map((c) => `<p class="ch-sub">${esc(c.of)} is owned by</p>${c.owners.length ? `<ul class="owner-list">${c.owners.map(ownerLine).join("")}</ul>` : `<p class="muted small">No owner on record.</p>`}`).join("")}
+    ${last && last.split ? `<p class="muted small">No single owner controls ${esc(last.of)}, so the radar stops climbing there.</p>` : ""}
     ${p.officers.length ? `<p class="ch-sub">Run by (corporate directors or members)</p><ul class="owner-list">${p.officers.map((o) => `<li><b>${esc(o.name)}</b> <span class="muted">${esc(o.role)}</span></li>`).join("")}</ul>` : ""}
+    ${p.same_group && p.same_group.length ? `<p class="ch-sub">Other lenders on the register in the same group</p><ul class="owner-list">${p.same_group.map((n) => `<li><button class="linkish" data-lender="${esc(n)}">${esc(n)}</button></li>`).join("")}</ul>` : ""}
+    ${relatedBox(p.related)}
     ${p.group && parentInput ? `<button class="btn soft small-btn" data-useparent="${parentInput}" data-value="${esc(p.group)}">Use ${esc(p.group)} as the parent firm</button>` : ""}
   </div></div>`;
 }
@@ -638,10 +655,10 @@ function decisionCard(it) {
     : `<div class="agent" data-cat="unknown"><span class="disc">${icon("clock")}</span><div><p class="why">The classifier agent hasn't looked at this name yet. It will on its next run, or you can decide now.</p></div></div>`;
   const fam = it.members && it.members.length > 1 ? `
     <div class="family">
-      <p><b>${plural(it.members.length, "name")} look like the same lender</b>, ${plural(it.family_charges, "charge")} between them:</p>
+      <p><b>${it.group_family ? `${plural(it.members.length, "lender")} controlled by ${esc(it.group_family)}` : `${plural(it.members.length, "name")} look like the same lender`}</b>, ${plural(it.family_charges, "charge")} between them:</p>
       <ul>${it.members.map((m) => `<li>${esc(m.display)} <span class="muted">${plural(m.charges, "charge")}</span></li>`).join("")}</ul>
       <label class="check"><input type="checkbox" id="fam-all" ${pick.all ? "checked" : ""}> Apply my decision to all ${it.members.length}</label>
-      <label class="check"><input type="checkbox" id="fam-future" ${pick.future ? "checked" : ""}> Also classify future names containing <b>${esc(it.family)}</b></label>
+      ${it.family ? `<label class="check"><input type="checkbox" id="fam-future" ${pick.future ? "checked" : ""}> Also classify future names containing <b>${esc(it.family)}</b></label>` : ""}
     </div>` : "";
   const rows = it.examples.map((e) => `<tr>
       <td class="lead"><button class="linkish strong" data-company="${esc(e.company_number)}">${coName(e.company_name, e.company_number)}</button><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
@@ -774,6 +791,8 @@ document.addEventListener("keydown", (e) => {
 // Low-priority names in one table, each with a suggested type already picked: property-only
 // lenders as property lenders, otherwise the agent's guess. Untick or change any, then save all.
 function triageSuggestion(x) {
+  const rel = x.profile && x.profile.related;
+  if (rel && rel.checked && rel.linked.length === rel.checked) return "other";  // funding inside a group
   const guess = x.category && x.category !== "unknown" ? x.category : "";
   if (x.property_only && (!guess || guess === "direct_lender")) return "property_lender";
   return guess;
@@ -1243,7 +1262,7 @@ async function renderLenders() {
   const needle = q.q.trim().toLowerCase();
   const rows = d.rows.filter((r) => (!q.category || catOf(r) === q.category) && (!q.status || r.status === q.status)
     && (!q.sector || r.sectors.some((x) => x.key === q.sector))
-    && (!needle || [r.display, r.parent, r.note].some((v) => (v || "").toLowerCase().includes(needle))));
+    && (!needle || [r.display, r.parent, r.note, r.group].some((v) => (v || "").toLowerCase().includes(needle))));
   const watch = d.watch.filter((w) => (!q.category || w.category === q.category) && (!needle || [w.pattern, w.parent, w.note].some((v) => (v || "").toLowerCase().includes(needle))));
   const direct = d.rows.filter((r) => r.category === "direct_lender").length;
   setSub(`${plural(d.total, "lender")} on the register, ${plural(direct, "direct lender")}`);
@@ -1260,13 +1279,13 @@ async function renderLenders() {
       <section class="card dir-main">
         <div class="card-head"><div><h2>${esc(catLabel)}</h2><p>${plural(rows.length, "lender")}${needle ? ` matching “${esc(q.q)}”` : ""}${q.sector ? `, lending to ${esc((d.sectors.find((x) => x.key === q.sector) || {}).label || "").toLowerCase()}` : ""}${q.q || q.sector || q.status ? ` <button class="link-btn" id="dir-clear">Clear</button>` : ""}</p></div>
           <form class="filters" id="lf" style="margin:0">
-            <label class="field">Search<input type="search" name="q" value="${esc(q.q)}" placeholder="Lender, parent firm or note"></label>
+            <label class="field">Search<input type="search" name="q" value="${esc(q.q)}" placeholder="Lender, parent, group or note"></label>
             <label class="field">Lends to<select name="sector"><option value="">Any sector</option>${d.sectors.map((x) => { const n = d.rows.filter((r) => (!q.category || catOf(r) === q.category) && r.sectors.some((y) => y.key === x.key)).length; return `<option value="${x.key}" ${q.sector === x.key ? "selected" : ""} ${n || q.sector === x.key ? "" : "disabled"}>${esc(x.label)} (${n})</option>`; }).join("")}</select></label>
             <label class="field">Status<select name="status"><option value="">All</option>${Object.entries(DIR_STATUS).map(([k, [l]]) => `<option value="${k}" ${q.status === k ? "selected" : ""}>${l}</option>`).join("")}</select></label>
           </form></div>
         <div class="table-wrap"><table class="stack"><thead><tr><th>Lender</th><th>Type and status</th><th class="num">Lending</th><th class="num">Active</th></tr></thead><tbody id="lrows">
           ${rows.map((r) => `<tr class="clickable" data-lender="${esc(r.name)}" tabindex="0">
-            <td class="lead dir-name"><span class="strong">${esc(r.display)}</span>${r.parent ? `<span class="sub">Part of ${esc(r.parent)}</span>` : ""}${r.sectors.length ? `<span class="sub">Lends to ${r.sectors.slice(0, 3).map((x) => `${esc(x.label.toLowerCase())}${r.sectors.length > 1 ? ` (${x.count})` : ""}`).join(", ")}</span>` : ""}${r.note ? `<span class="sub note-line">${icon("note")}${esc(r.note.split("\n")[0].slice(0, 90))}</span>` : ""}<span class="sub">${lenderLinks(r.display)}</span></td>
+            <td class="lead dir-name"><span class="strong">${esc(r.display)}</span>${r.parent ? `<span class="sub">Part of ${esc(r.parent)}</span>` : ""}${r.group && r.group !== r.parent ? `<span class="sub">Controlled by ${esc(r.group)}${r.group_size > 1 ? ` · <button class="link-btn" data-groupsearch="${esc(r.group)}">${r.group_size} lenders in this group</button>` : ""}</span>` : ""}${r.sectors.length ? `<span class="sub">Lends to ${r.sectors.slice(0, 3).map((x) => `${esc(x.label.toLowerCase())}${r.sectors.length > 1 ? ` (${x.count})` : ""}`).join(", ")}</span>` : ""}${r.note ? `<span class="sub note-line">${icon("note")}${esc(r.note.split("\n")[0].slice(0, 90))}</span>` : ""}<span class="sub">${lenderLinks(r.display)}</span></td>
             <td class="meta">${r.category ? catChip(r.category, r.category_label) : '<span class="muted">Not classified yet</span>'}<span class="sub"><span class="pill" data-cat="${(DIR_STATUS[r.status] || ["", "unknown"])[1]}">${(DIR_STATUS[r.status] || [r.status])[0]}</span></span></td>
             <td class="num side-fact"><b>${plural(r.borrowers, "borrower")}</b><span class="sub">${plural(r.charges, "charge")}, ${r.outstanding} live</span></td>
             <td class="num meta">${r.first ? r.first.slice(0, 4) : "—"}${r.latest && r.first && r.latest.slice(0, 4) !== r.first.slice(0, 4) ? `–${r.latest.slice(0, 4)}` : ""}</td></tr>`).join("")
@@ -1288,6 +1307,7 @@ async function renderLenders() {
   let t;
   form.querySelector("input").oninput = (e) => { clearTimeout(t); t = setTimeout(() => { q.q = e.target.value; renderLenders().then(() => { const i = document.querySelector("#lf input"); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 250); };
   form.onsubmit = (e) => e.preventDefault();
+  main.querySelectorAll("[data-groupsearch]").forEach((b) => (b.onclick = (e) => { e.stopPropagation(); q.q = b.dataset.groupsearch; q.category = ""; renderLenders(); }));
   const dclear = document.getElementById("dir-clear");
   if (dclear) dclear.onclick = () => { Object.assign(q, { q: "", sector: "", status: "" }); renderLenders(); };
   form.querySelectorAll("select").forEach((el) => (el.onchange = () => { q[el.name] = el.value; renderLenders().then(() => fadeIn(document.getElementById("lrows"))); }));
