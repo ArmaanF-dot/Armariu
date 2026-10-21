@@ -1,0 +1,60 @@
+{"name_norm": "ALTER DOMUS TRUSTEES UK", "category": "security_agent", "parent_firm": "Alter Domus", "confidence": 0.93, "reason": "Corporate trustee/agency firm name; real lender hidden."}
+{"name_norm": "CHARLES STREET COMMERCIAL INVESTMENTS", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Name alone is ambiguous; 8 charges on one borrower with no sector data, could be a property lender or group company."}
+{"name_norm": "A S K PARTNERS AGENT", "category": "security_agent", "parent_firm": "ASK Partners", "confidence": 0.85, "reason": "Entity name ends in 'Agent', so a security agent vehicle for a lending group."}
+{"name_norm": "LENDINVEST BTL", "category": "direct_lender", "parent_firm": "LendInvest", "confidence": 0.6, "reason": "Non-bank specialist property lender subsidiary; lending to property companies, not a bank or fund."}
+{"name_norm": "CYNERGY BANK", "category": "bank", "parent_firm": "Cynergy Bank", "confidence": 0.95, "reason": "Name states it is a bank."}
+{"name_norm": "ECAPITAL COMMERCIAL FINANCE NORTH", "category": "abl_specialist", "parent_firm": "eCapital", "confidence": 0.88, "reason": "eCapital Commercial Finance is an invoice finance/ABL provider; floating charges on SME borrowers."}
+{"name_norm": "FORTYS CAPITAL 5", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Numbered vehicle name with no sector or charge detail; could be a lender SPV."}
+{"name_norm": "UNION BANK OF INDIA UK", "category": "bank", "parent_firm": "Union Bank of India", "confidence": 0.96, "reason": "UK subsidiary of an Indian bank; name states bank."}
+{"name_norm": "THE MORTGAGE WORKS UK PLC COMPANY NUMBER 02222856", "category": "bank", "parent_firm": "Nationwide", "confidence": 0.88, "reason": "Nationwide Building Society's buy-to-let lending subsidiary; property borrowers."}
+{"name_norm": "QUANTUM MORTGAGES", "category": "unknown", "parent_firm": null, "confidence": 0.4, "reason": "Mortgage lender name on property borrowers but I could not tell whether it is a bank or non-bank lender."}
+{"name_norm": "EHP BOTTOMCO III LIMITED AS SECURED PARTY", "category": "unknown", "parent_firm": null, "confidence": 0.35, "reason": "Holding-structure vehicle named 'as secured party'; real lender not identifiable from filing."}
+{"name_norm": "SCHNEIDER PROPERTY FINANCE", "category": "direct_lender", "parent_firm": null, "confidence": 0.5, "reason": "Name suggests a private property lender; no further evidence."}
+{"name_norm": "ULSTER BANK", "category": "bank", "parent_firm": "NatWest", "confidence": 0.95, "reason": "Name states bank; NatWest Group member."}
+{"name_norm": "DUNBAR BANK", "category": "bank", "parent_firm": "Lloyds", "confidence": 0.93, "reason": "Name states bank; legacy Lloyds/Bank of Scotland group entity; 2000-era charges."}
+{"name_norm": "HOPE CAPITAL 2", "category": "direct_lender", "parent_firm": "Hope Capital", "confidence": 0.65, "reason": "Numbered vehicle of Hope Capital, a property bridging lender; charges on a property company."}
+{"name_norm": "ALLICA BRIDGING FINANCE", "category": "bank", "parent_firm": "Allica Bank", "confidence": 0.8, "reason": "Bridging subsidiary of Allica Bank; development borrower."}
+{"name_norm": "COLCAP FINANCIAL UK LIMITED TRADING AS MOLO", "category": "direct_lender", "parent_firm": "Molo", "confidence": 0.55, "reason": "Molo is a non-bank mortgage lender brand; no further evidence."}
+{"name_norm": "CONNECT FINANCE", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Generic 'finance' name; borrower is a property investment company but lender type unclear."}
+{"name_norm": "FUNDING 365 CAPITAL", "category": "direct_lender", "parent_firm": "Funding 365", "confidence": 0.6, "reason": "Funding 365 is a property development/bridging lender; borrower is a development company."}
+{"name_norm": "INTERBAY FUNDING LTD REGISTRATION NUMBER 05595882", "category": "bank", "parent_firm": "OSB Group", "confidence": 0.85, "reason": "Interbay is the commercial mortgage brand of OSB Group's bank."}
+{"name_norm": "MOMENTUS CAPITAL", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Name only; borrowers are property/new companies, lender type unclear."}
+{"name_norm": "PARAGON BANK PLC COMPANY NUMBER 05390593", "category": "bank", "parent_firm": "Paragon Banking Group", "confidence": 0.95, "reason": "Name states bank."}
+{"name_norm": "PRINCIPALITY BUILDING SOCIETY", "category": "bank", "parent_firm": "Principality", "confidence": 0.96, "reason": "Building society."}
+{"name_norm": "THE BANK OF NEW YORK MELLON LONDON BRANCH", "category": "security_agent", "parent_firm": "BNY Mellon", "confidence": 0.65, "reason": "BNY Mellon London branch is commonly the trustee/agent on loan and bond structures; filing text not shown."}
+{"name_norm": "LBD 1", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Numbered vehicle with no context."}
+{"name_norm": "MSP CAPITAL", "category": "direct_lender", "parent_firm": "MSP Capital", "confidence": 0.65, "reason": "MSP Capital is a property lender; no filing detail to confirm."}
+{"name_norm": "UK WORKING CAPITAL", "category": "unknown", "parent_firm": null, "confidence": 0.4, "reason": "Name suggests a business lender but type (ABL, loans) unclear."}
+{"name_norm": "GFS 1", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Numbered vehicle with no context."}
+{"name_norm": "BROWN SHIPLEY AND CO", "category": "bank", "parent_firm": "Brown Shipley", "confidence": 0.93, "reason": "Private bank."}
+{"name_norm": "CHARTER COURT FINANCIAL SERVICES LIMITED TRADING AS PRECISE MORTGAGES", "category": "bank", "parent_firm": "OSB Group", "confidence": 0.9, "reason": "Precise Mortgages trades from Charter Court, part of OSB Group's banking group."}
+{"name_norm": "PETER AND KATE SCHOFIELD", "category": "individual", "parent_firm": null, "confidence": 0.93, "reason": "Named private individuals."}
+{"name_norm": "ALLICA BANK", "category": "bank", "parent_firm": "Allica Bank", "confidence": 0.96, "reason": "Name states bank."}
+{"name_norm": "ALRAYAN BANK", "category": "bank", "parent_firm": "Alrayan Bank", "confidence": 0.95, "reason": "Name states bank."}
+{"name_norm": "BAMBURGH FINANCE", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Generic finance name with no context."}
+{"name_norm": "BDW TRADING LIMITED COMPANY NUMBER 03018173", "category": "other", "parent_firm": "Barratt Developments", "confidence": 0.8, "reason": "BDW Trading is Barratt's housebuilding company, not a lender; likely a land or sale-related charge."}
+{"name_norm": "BEF BSC 2", "category": "unknown", "parent_firm": null, "confidence": 0.4, "reason": "Paired with co-chargee 'Bef(Ne) 2' on a small services company; likely a fund vehicle pair but unconfirmed."}
+{"name_norm": "BEF NE 2", "category": "unknown", "parent_firm": null, "confidence": 0.4, "reason": "Paired with co-chargee 'Bef Bsc 2' on a small services company; likely a fund vehicle pair but unconfirmed."}
+{"name_norm": "CASTLE TRUST CAPITAL", "category": "bank", "parent_firm": "Castle Trust", "confidence": 0.8, "reason": "Mortgage lending subsidiary of Castle Trust Bank group."}
+{"name_norm": "CHETWOOD FINANCIAL LIMITED TRADING AS MODA MORTGAGES", "category": "bank", "parent_firm": "Chetwood Financial", "confidence": 0.8, "reason": "Chetwood Financial is the group behind Chetwood Bank; Moda is its mortgage brand."}
+{"name_norm": "CHL MORTGAGES FOR INTERMEDIARIES", "category": "bank", "parent_firm": "Coventry Building Society", "confidence": 0.85, "reason": "Intermediary mortgage arm of Coventry Building Society."}
+{"name_norm": "CITICORP TRUSTEE COMPANY", "category": "security_agent", "parent_firm": "Citi", "confidence": 0.93, "reason": "Corporate trustee entity."}
+{"name_norm": "CYNERGY BUSINESS FINANCE", "category": "abl_specialist", "parent_firm": "Cynergy Bank", "confidence": 0.85, "reason": "Invoice finance/business finance arm of Cynergy; floating charge on SME."}
+{"name_norm": "DENNIS EDWARD MYERS", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Named individual; borrower looks like his own bridging lender, so possibly a director lending."}
+{"name_norm": "HESMALONEY", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Company name only; borrower is a legal-activities company, relationship unclear."}
+{"name_norm": "JOHN CROFTS ELKINGTON", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Named individual."}
+{"name_norm": "KAREN LOUISE CRAWLEY", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Named individual; co-chargee Mark Andrew Crawley, borrower Tourvine Capital."}
+{"name_norm": "KENSINGTON MORTGAGE COMPANY LIMITED 03049822", "category": "direct_lender", "parent_firm": "Kensington Mortgages", "confidence": 0.55, "reason": "Non-bank specialist mortgage lender; fits no better category."}
+{"name_norm": "LEEK BUILDING SOCIETY", "category": "bank", "parent_firm": "Leek Building Society", "confidence": 0.95, "reason": "Building society."}
+{"name_norm": "LIBERTY FINANCE", "category": "asset_finance", "parent_firm": null, "confidence": 0.6, "reason": "Name suggests equipment/vehicle finance to a groundwork contractor; not confirmed."}
+{"name_norm": "MARK ANDREW CRAWLEY", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Named individual; co-chargee Karen Louise Crawley."}
+{"name_norm": "MARK FAIRCLOUGH JANET FAIRCLOUGH AND SIMON FAIRCLOUGH", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Named private individuals."}
+{"name_norm": "ONESAVINGS BANK PLC TRADING AS RELY MORTGAGES", "category": "bank", "parent_firm": "OSB Group", "confidence": 0.96, "reason": "Name states bank."}
+{"name_norm": "PARAGON DEVELOPMENT FINANCE", "category": "bank", "parent_firm": "Paragon Banking Group", "confidence": 0.8, "reason": "Development finance arm of Paragon Banking Group."}
+{"name_norm": "PARTNER IN PAYROLL", "category": "other", "parent_firm": null, "confidence": 0.45, "reason": "Payroll services company name; probably a supplier or group chargee, unconfirmed."}
+{"name_norm": "RDP OF ROTHERHAM", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Local company name with no context."}
+{"name_norm": "REVOLVE TRADE FINANCE", "category": "abl_specialist", "parent_firm": null, "confidence": 0.7, "reason": "Trade finance provider name; borrower is a small retailer."}
+{"name_norm": "ROOK BRISTOL FINANCIAL", "category": "unknown", "parent_firm": null, "confidence": 0.35, "reason": "US LLC name; floating charge on a jewellery retailer, lender type unclear."}
+{"name_norm": "SPECIALIST BRIDGING SOLUTIONS", "category": "direct_lender", "parent_firm": null, "confidence": 0.6, "reason": "Bridging lender by name; charge on a property company."}
+{"name_norm": "STONE DEVELOPMENTS", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Developer-style name with no context; could be intra-group or a private lender."}
+{"name_norm": "SUSAN SOCKETT", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Named individual."}
