@@ -2,7 +2,9 @@
 #   1. Downloads the database from the 'radar-data' branch
 #   2. Runs the pipeline (Companies House stream + company lookups, no AI)
 #   3. Saves the database back and commits the queue and weekly digests
-#   4. Runs the Claude agents that have work, on your Claude plan (CLAUDE_CODE_OAUTH_TOKEN)
+#   4. Runs the Claude agents that have work, on your Claude plan (CLAUDE_CODE_OAUTH_TOKEN):
+#      classifier, verifier (second opinion, Sonnet, about once a day), referee (Opus, only when
+#      the first two disagree), reviewer, newsletter. An agent with nothing to do uses no Claude.
 #
 # Needs three repository secrets: CH_REST_KEY, CH_STREAM_KEY, CLAUDE_CODE_OAUTH_TOKEN.
 # Run it by hand from the Actions tab: "radar" -> "Run workflow".
@@ -31,7 +33,7 @@ concurrency:
 jobs:
   radar:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: armariu-radar
@@ -69,7 +71,7 @@ jobs:
         run: python -m radar.dbsync pull || echo "Starting with a fresh database"
 
       - name: Pipeline
-        run: python -m radar.pipeline run --minutes "${{ inputs.stream_minutes || '2' }}" --enrich-limit 150
+        run: python -m radar.pipeline run --minutes "${{ inputs.stream_minutes || '2' }}" --enrich-limit 2000 --rest-minutes 12
 
       - name: Save database
         if: ${{ !cancelled() }}
@@ -79,7 +81,9 @@ jobs:
       - name: Commit queue and digests
         if: ${{ !cancelled() }}
         run: |
-          git add -- classify/queue.jsonl output/weekly
+          for f in classify/queue.jsonl classify/second_queue.jsonl classify/referee_queue.jsonl output/weekly; do
+            [ -e "$f" ] && git add -- "$f"
+          done
           if ! git diff --cached --quiet; then
             git commit --quiet -m "pipeline: update queue and digests"
             git pull --rebase --quiet && git push --quiet
@@ -90,7 +94,7 @@ jobs:
         if: ${{ github.event_name == 'schedule' || inputs.run_agents }}
         run: |
           agents=""
-          for a in classifier reviewer newsletter; do
+          for a in classifier verifier referee reviewer newsletter; do
             if python -m radar.agentcheck prepare "$a"; then agents="$agents $a"; fi
           done
           echo "Agents with work:${agents:- none}"

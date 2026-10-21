@@ -111,3 +111,42 @@ CREATE TABLE IF NOT EXISTS borrower_history_fetched (
     fetched_at     TEXT NOT NULL,
     total          INTEGER
 );
+
+-- Who is behind a lender (radar/owners.py): its own Companies House record, owners (persons with
+-- significant control, plus one more step up) and corporate officers. Evidence, not a decision.
+CREATE TABLE IF NOT EXISTS lender_profiles (
+    name_norm        TEXT PRIMARY KEY,
+    company_number   TEXT,             -- NULL when no matching company was found
+    company_name     TEXT,
+    company_status   TEXT,
+    company_type     TEXT,
+    sic_codes        TEXT,             -- JSON array
+    date_of_creation TEXT,
+    owners           TEXT,             -- JSON {"direct": [...], "chain": [...]}
+    officers         TEXT,             -- JSON array of corporate officers / LLP members
+    matched_by       TEXT,             -- number in name | exact name | no match
+    fetched_at       TEXT NOT NULL
+);
+
+-- Independent agent opinions on a lender name (radar/consensus.py). `ask_id` ties each answer
+-- to the exact first answer it was asked about, so a stale answer is never applied.
+CREATE TABLE IF NOT EXISTS opinions (
+    name_norm   TEXT NOT NULL,
+    role        TEXT NOT NULL,          -- first (classifier) | second (verifier) | referee
+    ask_id      TEXT NOT NULL,
+    category    TEXT,
+    confidence  REAL,
+    parent_firm TEXT,
+    reason      TEXT,
+    created_at  TEXT,
+    PRIMARY KEY (name_norm, role, ask_id)
+);
+-- Outcome of comparing the opinions: agreed | disputed | settled | unresolved | unsure.
+CREATE TABLE IF NOT EXISTS consensus (
+    name_norm        TEXT PRIMARY KEY,
+    ask_id           TEXT NOT NULL,
+    first_updated_at TEXT,              -- the classifier answer this is about; a new answer resets it
+    state            TEXT NOT NULL,
+    category         TEXT,
+    updated_at       TEXT
+);

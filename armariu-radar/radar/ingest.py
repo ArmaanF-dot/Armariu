@@ -233,11 +233,18 @@ def run_stream(conn, minutes: float, key: str, session=None) -> int:
 class RestClient:
     """Small Companies House REST client that stays under the per-key rate limit."""
 
-    def __init__(self, key: str, session=None, limit=config.REST_LIMIT, window=config.REST_WINDOW):
+    def __init__(self, key: str, session=None, limit=config.REST_LIMIT, window=config.REST_WINDOW,
+                 budget_seconds: float | None = None):
         self.key = key
         self.session = session or requests.Session()
         self.limit, self.window = limit, window
         self._calls: deque[float] = deque()
+        # One client is shared by every step of a run, so they share one rate limit. The time
+        # budget lets steps stop cleanly (and pick up next run) instead of running the job long.
+        self.deadline = time.monotonic() + budget_seconds if budget_seconds else None
+
+    def out_of_time(self) -> bool:
+        return self.deadline is not None and time.monotonic() >= self.deadline
 
     def _throttle(self):
         now = time.monotonic()
@@ -308,6 +315,8 @@ def enrich(conn, client: RestClient, limit: int = 100) -> int:
     ).fetchall()
     n = 0
     for r in rows:
+        if client.out_of_time():
+            break
         num = r["company_number"]
         prof = client.company(num) or {}
         conn.execute(
@@ -341,6 +350,8 @@ def history(conn, client: RestClient, limit: int = 100, max_age_days: int = 30) 
         (cutoff, limit)).fetchall()
     n = 0
     for r in rows:
+        if client.out_of_time():
+            break
         num = r["company_number"]
         items = list(client.charges(num))
         conn.execute("DELETE FROM borrower_history WHERE company_number = ?", (num,))

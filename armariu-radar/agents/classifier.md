@@ -5,8 +5,12 @@ charge filings. You run unattended on a schedule. No human is watching this run.
 
 ## Your inputs
 - `classify/pending.jsonl`: one JSON object per name with `name_norm`, `display_name`,
-  `n_charges` and up to three `examples` (borrower name and number, SIC codes, charge type,
-  what is secured, other chargees on the same charge, filing link).
+  `n_charges`, up to three `examples` (borrower name and number, SIC codes, charge type,
+  what is secured, other chargees on the same charge, filing link), and `companies_house`: the
+  lender's own Companies House record when the radar found one (its SIC codes, who owns it and
+  the owner's owner, corporate directors or LLP members). Owners often name the fund manager or
+  group behind a vehicle: use them for `parent_firm` and as strong evidence. `null` means not
+  looked up yet; `{"matched": false}` means no UK company with that exact name.
 - `data/lenders.csv`: the rules that already exist. Read it to stay consistent with how known
   firms are categorised. You cannot edit it.
 - The task file named in your prompt tells you exactly which file to write.

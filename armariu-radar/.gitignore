@@ -6,7 +6,9 @@ logs/*
 !logs/.gitkeep
 .agent-*
 classify/pending.jsonl
-classify/queue.tmp
+classify/second_pending.jsonl
+classify/referee_pending.jsonl
+classify/*.tmp
 __pycache__/
 *.pyc
 .venv/

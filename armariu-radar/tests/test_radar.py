@@ -16,7 +16,7 @@ from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from radar import agentcheck, classify, config, dbsync, export, ingest, sectors, signals  # noqa: E402
+from radar import agentcheck, classify, config, consensus, dbsync, export, ingest, owners, sectors, signals  # noqa: E402
 from radar.db import connect, get_meta  # noqa: E402
 from radar.normalise import normalise_name  # noqa: E402
 from radar.review import add_human_rule  # noqa: E402
@@ -286,7 +286,7 @@ class SectorTests(unittest.TestCase):
 
 class TriageTests(unittest.TestCase):
     def test_family_keys_merge_variants_only(self):
-        from radar.ui.api import family_key
+        from radar.normalise import family_key
         self.assertEqual(family_key("FORTYS CAPITAL 6"), "FORTYS CAPITAL")
         self.assertEqual(family_key("FORTYS CAPITAL"), "FORTYS CAPITAL")
         self.assertEqual(family_key("MS LENDING SPV1"), "MS LENDING")
@@ -320,6 +320,152 @@ class TriageTests(unittest.TestCase):
                      "TOGETHER COMMERCIAL FINANCE LIMITED COMPANY NUMBER 02058813"):
             self.assertEqual(find_rule(name, rules).category, "property_lender", name)
         self.assertEqual(export._tier("property_lender", "auto_ok", ["property_lender"]), "C")
+
+
+class _FakeCH:
+    """Companies House stand-in for owner lookups: canned answers by path."""
+    def __init__(self, pages):
+        self.pages, self.calls = pages, []
+
+    def get(self, path, params=None):
+        self.calls.append(path)
+        return self.pages.get(path)
+
+    def company(self, number):
+        return self.get(f"/company/{number}")
+
+    def out_of_time(self):
+        return False
+
+
+class OwnerLookupTests(unittest.TestCase):
+    def test_finds_company_owner_and_owners_owner(self):
+        ch = _FakeCH({
+            "/search/companies": {"items": [{"title": "FORTYS CAPITAL 6 LIMITED", "company_number": "12345678", "company_status": "active"},
+                                            {"title": "FORTYS CAPITAL 66 LIMITED", "company_number": "99999999"}]},
+            "/company/12345678": {"company_name": "FORTYS CAPITAL 6 LIMITED", "company_status": "active", "sic_codes": ["64921"]},
+            "/company/12345678/persons-with-significant-control": {"items": [
+                {"name": "Fortys Group Limited", "kind": "corporate-entity-person-with-significant-control",
+                 "natures_of_control": ["ownership-of-shares-75-to-100-percent"],
+                 "identification": {"registration_number": "7654321", "country_registered": "England"}},
+                {"name": "Old Owner Ltd", "kind": "corporate-entity-person-with-significant-control", "ceased_on": "2020-01-01"}]},
+            "/company/07654321/persons-with-significant-control": {"items": [
+                {"name": "Big Credit Partners LLP", "kind": "corporate-entity-person-with-significant-control",
+                 "natures_of_control": ["voting-rights-75-to-100-percent"], "identification": {}}]},
+            "/company/12345678/officers": {"items": [{"name": "FORTYS SECRETARIES LTD", "officer_role": "corporate-secretary"},
+                                                     {"name": "SMITH, Jane", "officer_role": "director"}]},
+        })
+        row = owners.lookup(ch, "Fortys Capital 6 Limited", "FORTYS CAPITAL 6")
+        self.assertEqual(row["company_number"], "12345678")
+        self.assertEqual([o["name"] for o in row["owners"]], ["Fortys Group Limited"])  # ceased owner dropped
+        self.assertEqual(row["owners"][0]["control"], ["75-100% of shares"])
+        self.assertEqual(row["owner_chain"][0]["owners"][0]["name"], "Big Credit Partners LLP")
+        self.assertEqual([o["name"] for o in row["officers"]], ["FORTYS SECRETARIES LTD"])
+        conn = mem_db()
+        owners.save(conn, row)
+        p = owners.profile(conn, "FORTYS CAPITAL 6")
+        self.assertEqual(p["group"], "Big Credit Partners LLP")
+        self.assertEqual(p["sic"][0]["label"], "Credit granting by non-deposit-taking finance houses")
+
+    def test_number_in_name_skips_search_and_no_match_is_recorded(self):
+        self.assertEqual(owners.number_in_name("Romaco Spv 5 Limited (Crn: 11112580)"), "11112580")
+        self.assertEqual(owners.number_in_name("Flying Trade Group Limited (Company Number 02407688)"), "02407688")
+        self.assertEqual(owners.search_name("Secured Fixed Income PLC as Lender"), "Secured Fixed Income PLC")
+        ch = _FakeCH({"/search/companies": {"items": [{"title": "SOMETHING ELSE LTD", "company_number": "1"}]}})
+        self.assertEqual(owners.lookup(ch, "Nowhere Capital Ltd", "NOWHERE CAPITAL")["matched_by"], "no match")
+        self.assertEqual(ch.calls, ["/search/companies"])
+
+    def test_rest_budget_stops_steps(self):
+        client = ingest.RestClient("k", session=_FakeSession([]), budget_seconds=0.000001)
+        import time as _t; _t.sleep(0.01)
+        conn = loaded_db()
+        self.assertEqual(ingest.enrich(conn, client, 50), 0)
+        self.assertEqual(ingest.history(conn, client, 50), 0)
+
+
+class ConsensusTests(TempDirTest):
+    def setUp(self):
+        super().setUp()
+        root = self.tmp / "repo"
+        (root / "classify").mkdir(parents=True)
+        p = mock.patch.object(config, "ROOT", root); p.start(); self.addCleanup(p.stop)
+        self.root = root
+        self.conn = loaded_db()
+        self.name = self.conn.execute("SELECT name_norm FROM charge_persons LIMIT 1").fetchone()[0]
+        self.conn.execute("DELETE FROM lender_classifications WHERE name_norm = ?", (self.name,))
+        self.conn.execute("INSERT INTO lender_classifications VALUES (?,?,?,?,?,?,?,?,?)",
+                          (self.name, self.name, "direct_lender", None, 0.75, "agent", "needs_review",
+                           "fund-style name", "2026-10-21T10:00:00+00:00"))
+        self.conn.commit()
+
+    def answer(self, role, category, confidence, aid=None):
+        folder = self.root / "classify" / ("second" if role == "second" else "referee")
+        folder.mkdir(exist_ok=True)
+        q = json.loads((self.root / "classify" / f"{'second' if role == 'second' else 'referee'}_queue.jsonl")
+                       .read_text(encoding="utf-8").splitlines()[0])
+        with open(folder / f"x-{role}.jsonl", "a", encoding="utf-8") as fh:
+            fh.write(json.dumps({"name_norm": self.name, "ask_id": aid or q["ask_id"], "category": category,
+                                 "confidence": confidence, "reason": "because"}) + "\n")
+
+    def status(self):
+        return self.conn.execute("SELECT category, review_status FROM lender_classifications WHERE name_norm = ?",
+                                 (self.name,)).fetchone()
+
+    def test_queue_hides_the_first_answer(self):
+        self.assertGreaterEqual(consensus.write_second_queue(self.conn), 1)
+        text = (self.root / "classify/second_queue.jsonl").read_text(encoding="utf-8")
+        item = next(json.loads(l) for l in text.splitlines() if json.loads(l)["name_norm"] == self.name)
+        self.assertNotIn("category", item)
+        self.assertNotIn("fund-style name", text)
+
+    def test_agreement_accepts(self):
+        consensus.write_second_queue(self.conn)
+        self.answer("second", "direct_lender", 0.8)
+        consensus.load_all(self.conn); consensus.reconcile(self.conn)
+        self.assertEqual(tuple(self.status()), ("direct_lender", "auto_ok"))
+        classify.restatus(self.conn)  # the plain thresholds must not undo the consensus
+        self.assertEqual(self.status()["review_status"], "auto_ok")
+        self.assertEqual(consensus.opinions_for(self.conn, self.name)["state"], "agreed")
+
+    def test_dispute_goes_to_referee_and_referee_settles(self):
+        consensus.write_second_queue(self.conn)
+        self.answer("second", "property_lender", 0.8)
+        consensus.load_all(self.conn); consensus.reconcile(self.conn)
+        self.assertEqual(self.status()["review_status"], "needs_review")
+        self.assertEqual(consensus.write_referee_queue(self.conn), 1)
+        ref = json.loads((self.root / "classify/referee_queue.jsonl").read_text(encoding="utf-8"))
+        self.assertEqual(sorted(o["category"] for o in ref["opinions"]), ["direct_lender", "property_lender"])
+        self.answer("referee", "property_lender", 0.9)
+        consensus.load_all(self.conn); consensus.reconcile(self.conn)
+        self.assertEqual(tuple(self.status()), ("property_lender", "auto_ok"))
+        self.assertEqual(consensus.write_second_queue(self.conn), consensus.write_second_queue(self.conn))
+        classify.restatus(self.conn)
+        self.assertEqual(self.status()["review_status"], "auto_ok")
+
+    def test_unsure_referee_and_stale_answers_go_to_a_person(self):
+        consensus.write_second_queue(self.conn)
+        self.answer("second", "bank", 0.7, aid="not-the-question")  # stale or wrong question: ignored
+        self.assertEqual(consensus.load_all(self.conn)["second"]["ok"], 0)
+        self.answer("second", "bank", 0.7)
+        consensus.load_all(self.conn); consensus.reconcile(self.conn); consensus.write_referee_queue(self.conn)
+        self.answer("referee", "direct_lender", 0.6)
+        consensus.load_all(self.conn); consensus.reconcile(self.conn)
+        self.assertEqual(self.status()["review_status"], "needs_review")
+        self.assertEqual(consensus.opinions_for(self.conn, self.name)["state"], "unresolved")
+        self.assertEqual([o["role"] for o in consensus.opinions_for(self.conn, self.name)["opinions"]],
+                         ["first", "second", "referee"])
+
+    def test_judge_rules(self):
+        f = {"category": "bank", "confidence": 0.9}
+        self.assertEqual(consensus.judge(f, {"category": "bank", "confidence": 0.5}, None), ("unsure", None))
+        self.assertEqual(consensus.judge({"category": "unknown", "confidence": 0.3},
+                                         {"category": "unknown", "confidence": 0.3}, None), ("unsure", None))
+        self.assertEqual(consensus.judge({"category": "direct_lender", "confidence": 0.65},
+                                         {"category": "direct_lender", "confidence": 0.9}, None), ("unsure", None))
+        self.assertEqual(consensus.judge(f, {"category": "other", "confidence": 0.9},
+                                         {"category": "other", "confidence": 0.95}), ("settled", "other"))
+        self.assertEqual(consensus.judge(f, {"category": "other", "confidence": 0.9},
+                                         {"category": "individual", "confidence": 0.95}), ("unresolved", None))
 
 
 class ClassifyTests(TempDirTest):
@@ -474,6 +620,28 @@ class AgentCheckTests(TempDirTest):
         pending = (self.root / "classify/pending.jsonl").read_text(encoding="utf-8").splitlines()
         self.assertEqual([json.loads(l)["name_norm"] for l in pending], ["B"])
         self.assertIn("classify/results/", agentcheck.task_path("classifier").read_text(encoding="utf-8"))
+
+    def test_verifier_runs_once_a_day_and_referee_on_disputes(self):
+        (self.root / "classify").mkdir(exist_ok=True)
+        self.assertEqual(self.run_quiet("prepare", "verifier"), agentcheck.NO_WORK)
+        (self.root / "classify/second_queue.jsonl").write_text(
+            json.dumps({"name_norm": "A", "ask_id": "1"}) + "\n" + json.dumps({"name_norm": "B", "ask_id": "2"}) + "\n",
+            encoding="utf-8")
+        self.assertEqual(self.run_quiet("prepare", "verifier"), 0)
+        self.assertIn("classify/second/", agentcheck.task_path("verifier").read_text(encoding="utf-8"))
+        done = self.root / "classify/second"
+        done.mkdir()
+        today = done / f"{agentcheck._stamp()}-verifier.jsonl"
+        today.write_text(json.dumps({"name_norm": "A", "ask_id": "1"}) + "\n", encoding="utf-8")
+        self.assertEqual(self.run_quiet("prepare", "verifier"), agentcheck.NO_WORK)  # ran today already
+        today.rename(done / "20200101T000000Z-verifier.jsonl")
+        self.assertEqual(self.run_quiet("prepare", "verifier"), 0)
+        pending = (self.root / "classify/second_pending.jsonl").read_text(encoding="utf-8").splitlines()
+        self.assertEqual([json.loads(l)["name_norm"] for l in pending], ["B"])
+        self.assertEqual(self.run_quiet("prepare", "referee"), agentcheck.NO_WORK)
+        (self.root / "classify/referee_queue.jsonl").write_text(json.dumps({"name_norm": "C", "ask_id": "9"}) + "\n",
+                                                                 encoding="utf-8")
+        self.assertEqual(self.run_quiet("prepare", "referee"), 0)
 
     def test_incomplete_weeks_are_skipped(self):
         weekly = self.root / "output/weekly"

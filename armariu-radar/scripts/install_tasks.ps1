@@ -11,7 +11,7 @@
     powershell -ExecutionPolicy Bypass -File scripts\install_tasks.ps1 -Uninstall
 #>
 param(
-    [ValidateSet("pipeline", "classifier", "reviewer", "newsletter")]
+    [ValidateSet("pipeline", "classifier", "verifier", "referee", "reviewer", "newsletter")]
     [string[]]$Roles = @("pipeline", "classifier", "reviewer", "newsletter"),
     [switch]$Uninstall
 )
@@ -31,7 +31,7 @@ if (-not $Roles) { throw "Pass -Roles, e.g. -Roles pipeline,classifier" }
 # How often each role wakes up. Agents exit at once when they have no work, so a wake-up with
 # nothing to do costs no Claude usage. The classifier is the only frequent Claude user: with one
 # Pro plan for everything, raise its interval (e.g. 180) if you hit usage limits.
-$Every = @{ pipeline = 30; classifier = 120; reviewer = 240; newsletter = 240 }
+$Every = @{ pipeline = 30; classifier = 120; verifier = 240; referee = 240; reviewer = 240; newsletter = 240 }
 
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries `
     -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew `

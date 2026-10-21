@@ -14,14 +14,14 @@ import json
 import logging
 import os
 
-from . import classify, config, export, ingest
+from . import classify, config, consensus, export, ingest, owners
 from .db import connect, get_meta, now_iso
 from .rules import load_rules
 
 log = logging.getLogger("radar.pipeline")
 
 
-def run(minutes: float, enrich_limit: int, queue_limit: int) -> dict:
+def run(minutes: float, enrich_limit: int, queue_limit: int, rest_minutes: float = 12) -> dict:
     conn = connect()
     summary: dict = {"started": now_iso()}
 
@@ -40,21 +40,29 @@ def run(minutes: float, enrich_limit: int, queue_limit: int) -> dict:
 
     rest_key = os.environ.get("CH_REST_KEY", "").strip()
     if rest_key and enrich_limit > 0:
-        try:
-            summary["enriched"] = ingest.enrich(conn, ingest.RestClient(rest_key), enrich_limit)
-        except Exception as exc:
-            summary["enrich_error"] = repr(exc)
-            log.exception("Enrich step failed")
-        try:
-            summary["histories"] = ingest.history(conn, ingest.RestClient(rest_key), enrich_limit)
-        except Exception as exc:
-            summary["history_error"] = repr(exc)
-            log.exception("Borrower history step failed")
+        # One client for every Companies House lookup: one shared rate limit and time budget.
+        # Order is by what you see: borrower names first, then lender owners, then histories.
+        client = ingest.RestClient(rest_key, budget_seconds=rest_minutes * 60)
+        for key, step in (("enriched", lambda: ingest.enrich(conn, client, enrich_limit)),
+                          ("lender_profiles", lambda: owners.fetch(conn, client, limit=80)),
+                          ("histories", lambda: ingest.history(conn, client, enrich_limit))):
+            try:
+                summary[key] = step()
+            except Exception as exc:  # keep going: the other steps are still useful
+                summary[f"{key}_error"] = repr(exc)
+                log.exception("%s step failed", key)
+        summary["names_still_missing"] = conn.execute(
+            "SELECT COUNT(DISTINCT c.company_number) FROM charges c LEFT JOIN companies co "
+            "ON co.company_number = c.company_number WHERE co.company_number IS NULL").fetchone()[0]
 
     summary["agent_results"] = classify.apply_results(conn)
     summary["reviewer_flags"] = classify.apply_flags(conn)
+    summary["opinions"] = consensus.load_all(conn)
     summary["rules"] = classify.refresh_rule_matches(conn, load_rules())
+    summary["consensus"] = consensus.reconcile(conn)
     summary["queued_names"] = classify.build_queue(conn, limit=queue_limit)
+    summary["second_opinion_queue"] = consensus.write_second_queue(conn)
+    summary["referee_queue"] = consensus.write_referee_queue(conn)
     summary["digests"] = [str(p.relative_to(config.ROOT)) for p in export.write_standard(conn)]
     summary["finished"] = now_iso()
 
@@ -90,10 +98,12 @@ def main(argv=None):
     r.add_argument("--minutes", type=float, default=10)
     r.add_argument("--enrich-limit", type=int, default=100)
     r.add_argument("--queue-limit", type=int, default=150)
+    r.add_argument("--rest-minutes", type=float, default=12,
+                   help="time budget for Companies House lookups (names, lender owners, histories)")
     sub.add_parser("status")
     args = p.parse_args(argv)
     if args.cmd == "run":
-        print(json.dumps(run(args.minutes, args.enrich_limit, args.queue_limit), indent=2))
+        print(json.dumps(run(args.minutes, args.enrich_limit, args.queue_limit, args.rest_minutes), indent=2))
     else:
         print(json.dumps(status(), indent=2))
 

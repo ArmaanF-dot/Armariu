@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -11,10 +12,10 @@ import time
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-from .. import config, dbsync, export, sectors, signals as sig
+from .. import config, consensus, dbsync, export, owners, sectors, signals as sig
 from ..classify import refresh_rule_matches
 from ..db import connect, get_meta
-from ..normalise import normalise_name
+from ..normalise import family_key, normalise_name
 from ..review import add_human_rule
 from ..rules import load_rules
 
@@ -256,26 +257,6 @@ def _draft_status() -> dict:
         return {}
 
 
-_FAMILY_TRIM = [
-    re.compile(r"\s+(LIMITED\s+|LTD\s+|PLC\s+|LLP\s+)?(COMPANY NUMBER|CRN)\b.*$"),
-    re.compile(r"\s+(LIMITED\s+|LTD\s+)?TRADING AS\b.*$"),
-    re.compile(r"\s+(PLC\s+|LIMITED\s+)?AS LENDER$"),
-    re.compile(r"(\s+SPV)?\s*\d+$"),
-    re.compile(r"\s+SPV$"),
-    re.compile(r"\s+(LIMITED|LTD|PLC|LLP)$"),
-]
-
-
-def family_key(norm: str) -> str:
-    """'FORTYS CAPITAL 6' and 'FORTYS CAPITAL' -> 'FORTYS CAPITAL'; 'MS LENDING SPV1' -> 'MS LENDING'.
-    Short stems ('SBF', 'PP') are left alone so unrelated names never merge."""
-    s = norm
-    for _ in range(3):
-        for rx in _FAMILY_TRIM:
-            s = rx.sub("", s).strip()
-    return s if len(s) >= 6 else norm
-
-
 def _property_only(conn, names: list[str]) -> bool:
     """True when every borrower of these lenders whose sector we know is a property company."""
     marks = ",".join("?" * len(names))
@@ -311,6 +292,9 @@ def _families(conn, rows: list[dict]) -> list[dict]:
         for n in names:
             hist += _history(conn, n)
         lead["history"] = sorted(hist, key=lambda h: h["delivered_on"] or "")
+        lead["profile"] = owners.profile(conn, lead["name"])
+        ag = consensus.opinions_for(conn, lead["name"])
+        lead["opinions"], lead["consensus"] = ag["opinions"], ag["state"]
         out.append(lead)
     out.sort(key=lambda r: (-r["family_charges"], r["name"]))
     return out
@@ -460,6 +444,9 @@ def lender(conn, name: str) -> dict:
     item = rows[0]
     item["examples"] = _examples(conn, norm, limit=200)
     item["history"] = _history(conn, norm)
+    item["profile"] = owners.profile(conn, norm)
+    ag = consensus.opinions_for(conn, norm)
+    item["opinions"], item["consensus"] = ag["opinions"], ag["state"]
     return item
 
 
@@ -517,6 +504,18 @@ def company(conn, number: str) -> dict:
     namer = sig.Namer(conn)
     charges, fetched = sig.company_charges(conn, number, namer)
     prof = conn.execute("SELECT * FROM companies WHERE company_number = ?", (number,)).fetchone()
+    if not prof and os.environ.get("CH_REST_KEY", "").strip():
+        # Not fetched by the cloud yet: look it up now with this PC's key (one request).
+        try:
+            from ..ingest import RestClient
+            p = RestClient(os.environ["CH_REST_KEY"].strip(), budget_seconds=20).company(number) or {}
+            conn.execute("INSERT OR REPLACE INTO companies VALUES (?,?,?,?,?,?,?)",
+                         (number, p.get("company_name"), p.get("company_status") or "not-found", p.get("type"),
+                          p.get("date_of_creation"), json.dumps(p.get("sic_codes") or []), _now()))
+            conn.commit()
+            prof = conn.execute("SELECT * FROM companies WHERE company_number = ?", (number,)).fetchone()
+        except Exception:  # offline or key problem: the cloud run fills it in
+            pass
     name = prof["name"] if prof else None
     for c in charges:
         c["primary_label"] = CATEGORY_LABELS.get(c["primary"], c["primary"])
@@ -540,6 +539,8 @@ def company(conn, number: str) -> dict:
 _ACTIVITY = [
     (re.compile(r"^pipeline:"), "cloud", "Cloud run: new filings, queue and digests"),
     (re.compile(r"^agent\(classifier\)"), "agent", "Classifier agent answered new lender names"),
+    (re.compile(r"^agent\(verifier\)"), "agent", "Second-opinion agent re-checked unsure names"),
+    (re.compile(r"^agent\(referee\)"), "agent", "Referee agent settled disagreements"),
     (re.compile(r"^agent\(reviewer\)"), "agent", "Reviewer agent checked a week"),
     (re.compile(r"^agent\(newsletter\)"), "agent", "Newsletter agent wrote or updated a draft"),
     (re.compile(r"^review: "), "you", None),

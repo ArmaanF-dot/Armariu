@@ -139,6 +139,8 @@ const CATEGORY_KEYS = Object.keys(CAT_LABELS);
 const catKey = (k) => (k && CATEGORY_KEYS.includes(k) ? k : "unknown");
 const catChip = (k, label) => `<span class="cat" data-cat="${catKey(k)}">${esc(label || labelFor(k) || "Can't tell")}</span>`;
 const sic = (codes) => (codes && codes.length ? codes.map(esc).join(", ") : "");
+// A borrower whose profile hasn't been fetched yet: show its number, which still opens its panel.
+const coName = (name, number) => name ? esc(name) : `<span class="pending-name" title="The name arrives with the next cloud run">Company ${esc(number)}</span>`;
 const isoDate = (d) => (d ? esc(String(d).slice(0, 10)) : '<span class="muted">—</span>');
 const STATUS_WORDS = { outstanding: "Outstanding", "fully-satisfied": "Repaid", "part-satisfied": "Part repaid", satisfied: "Repaid" };
 const statusPill = (s) => `<span class="pill" data-cat="${s === "outstanding" ? "unknown" : "bank"}">${esc(STATUS_WORDS[s] || s || "—")}</span>`;
@@ -470,7 +472,7 @@ async function renderOverview() {
       <div class="card-head"><div><h2>Latest charges</h2><p>Newest filings first.</p></div><a class="link-btn" href="#/charges">View all ${o.total}</a></div>
       <div class="table-wrap"><table class="stack"><thead><tr><th>Tier</th><th>Borrower</th><th>Lender</th><th class="num">Delivered</th><th></th></tr></thead><tbody>
       ${o.latest.map((r) => `<tr><td class="side-fact">${tierBadge(r.tier)}</td>
-        <td class="lead"><button class="linkish strong" data-company="${esc(r.company_number)}">${esc(r.company_name || "Name not fetched yet")}</button><span class="sub id">${esc(r.company_number)}</span></td>
+        <td class="lead"><button class="linkish strong" data-company="${esc(r.company_number)}">${coName(r.company_name, r.company_number)}</button><span class="sub id">${esc(r.company_number)}</span></td>
         <td class="meta">${r.chargees.slice(0, 1).map((c) => `<button class="linkish" data-lender="${esc(c.name)}">${esc(c.display)}</button>`).join("")}${r.chargees.length > 1 ? ` <span class="muted">+${r.chargees.length - 1}</span>` : ""}</td>
         <td class="num meta">${isoDate(r.delivered_on)}</td><td class="act"><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">Filing</a></td></tr>`).join("")
         || `<tr><td colspan="5" class="muted">No charges yet.</td></tr>`}
@@ -526,6 +528,41 @@ function historyStrip(history) {
   return `<div class="history"><div class="history-head"><h3>Lending history</h3><span class="muted small">${summary}</span></div>
     <div class="strip" role="img" aria-label="${esc(summary)}"><span class="axis"></span>${ticks}${dots}</div></div>`;
 }
+
+// ------------------------------------------------------------------ who's behind a lender, and what the agents think
+const ROLE = { first: ["Classifier", "agent"], second: ["Second opinion", "cloud"], referee: ["Referee", "review"] };
+const CONSENSUS = {
+  agreed: ["Two agents agreed", "bank"], settled: ["Referee decided", "direct_lender"],
+  disputed: ["Agents disagree: the referee looks next", "review"], unresolved: ["Referee couldn't settle it", "alert"],
+  unsure: ["Both agents unsure", "unknown"],
+};
+const consensusPill = (state) => (CONSENSUS[state] ? `<span class="pill" data-cat="${CONSENSUS[state][1]}">${CONSENSUS[state][0]}</span>` : "");
+function opinionsBox(it) {
+  if (!it.opinions || it.opinions.length < 2) return "";
+  return `<div class="opinions"><div class="op-head"><h3>What the agents think</h3>${consensusPill(it.consensus)}</div>
+    ${it.opinions.map((o) => `<div class="op" data-cat="${catKey(o.category)}"><div class="op-top"><span class="op-role">${(ROLE[o.role] || [o.role])[0]}</span>${catChip(o.category)}${o.confidence != null ? `<span class="muted small">${Math.round(o.confidence * 100)}% sure</span>` : ""}${o.parent_firm ? `<span class="muted small">part of ${esc(o.parent_firm)}</span>` : ""}</div>
+      <p>${esc(o.reason || "")}</p></div>`).join("")}</div>`;
+}
+const ownerLine = (o) => `<li><b>${esc(o.name)}</b> <span class="muted">${o.kind === "company" ? "company" : o.kind === "person" ? "person" : ""}${o.control && o.control.length ? `, ${esc(o.control.join(", "))}` : ""}</span></li>`;
+function profileBox(p, parentInput) {
+  if (!p) return `<div class="ch-box"><span class="disc" data-cat="unknown">${icon("lenders")}</span><div><b>Companies House</b><p class="muted small">Not looked up yet. The next cloud run checks who owns this lender.</p></div></div>`;
+  if (!p.matched) return `<div class="ch-box"><span class="disc" data-cat="unknown">${icon("lenders")}</span><div><b>Companies House</b><p class="muted small">No UK company with exactly this name, so there's no owner record. Often a foreign fund, a trust or a person.</p></div></div>`;
+  const sic = p.sic.map((s) => `${esc(s.code)}${s.label ? ` ${esc(s.label)}` : ""}`).join("; ");
+  return `<div class="ch-box"><span class="disc" data-cat="cloud">${icon("lenders")}</span><div class="ch-body">
+    <div class="ch-title"><b>Who's behind it</b><a class="rlink" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.company_name)} ${esc(p.company_number)}</a></div>
+    <p class="muted small">${p.company_status ? esc(p.company_status[0].toUpperCase() + p.company_status.slice(1)) : ""}${p.incorporated ? `, incorporated ${fmtDate(p.incorporated)}` : ""}${sic ? `. Its own filing says: ${sic}` : ""}${p.matched_by === "number in name" ? ". Matched by the company number in the filing" : ""}</p>
+    ${p.owners.length ? `<p class="ch-sub">Owned by</p><ul class="owner-list">${p.owners.map(ownerLine).join("")}</ul>` : `<p class="muted small">No owner (person with significant control) on record.</p>`}
+    ${p.owner_chain.map((c) => c.owners.length ? `<p class="ch-sub">${esc(c.of)} is owned by</p><ul class="owner-list">${c.owners.map(ownerLine).join("")}</ul>` : "").join("")}
+    ${p.officers.length ? `<p class="ch-sub">Run by (corporate directors or members)</p><ul class="owner-list">${p.officers.map((o) => `<li><b>${esc(o.name)}</b> <span class="muted">${esc(o.role)}</span></li>`).join("")}</ul>` : ""}
+    ${p.group && parentInput ? `<button class="btn soft small-btn" data-useparent="${parentInput}" data-value="${esc(p.group)}">Use ${esc(p.group)} as the parent firm</button>` : ""}
+  </div></div>`;
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-useparent]");
+  if (!b) return;
+  const input = document.querySelector(b.dataset.useparent);
+  if (input) { input.value = b.dataset.value; input.dispatchEvent(new Event("input")); input.focus(); toast("Parent firm filled in: save to keep it"); }
+});
 
 // ------------------------------------------------------------------ decisions
 // The queue is ordered by what changes the headline: names that might be direct lenders or
@@ -607,7 +644,7 @@ function decisionCard(it) {
       <label class="check"><input type="checkbox" id="fam-future" ${pick.future ? "checked" : ""}> Also classify future names containing <b>${esc(it.family)}</b></label>
     </div>` : "";
   const rows = it.examples.map((e) => `<tr>
-      <td class="lead"><button class="linkish strong" data-company="${esc(e.company_number)}">${esc(e.company_name || "Name not fetched yet")}</button><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
+      <td class="lead"><button class="linkish strong" data-company="${esc(e.company_number)}">${coName(e.company_name, e.company_number)}</button><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
       <td class="num side-fact">${isoDate(e.delivered_on)}</td>
       <td class="meta">${e.other_chargees.length ? e.other_chargees.map(esc).join("; ") : '<span class="muted">None</span>'}</td>
       <td class="meta">${e.all_assets === 1 ? "All assets" : e.all_assets === 0 ? "Specific assets" : '<span class="muted">Not stated</span>'}</td>
@@ -617,7 +654,8 @@ function decisionCard(it) {
     <div class="facts"><span class="pill" data-cat="${state[1]}">${state[0]}</span><span>${plural(it.family_charges || it.charges, "charge")}</span>${it.property_only ? '<span class="pill" data-cat="property_lender">Only lends to property companies</span>' : ""}${it.latest ? `<span>Latest filing ${fmtDate(it.latest)}</span>` : ""}</div>
     <h2 class="lender-name">${esc(it.display)}</h2>
     <div class="research" style="margin-top:-10px">${lenderLinks(it.display)}</div>
-    ${agent}
+    ${it.opinions && it.opinions.length > 1 ? opinionsBox(it) : agent}
+    ${profileBox(it.profile, "#parent")}
     ${fam}
     <div data-cat="${cat}">${historyStrip(it.history)}</div>
     <div class="evidence"><h3>Charges in their favour</h3>
@@ -775,7 +813,7 @@ function renderTriage(body, low, mode = "triage") {
       ${low.map((x) => { const t = st[x.name]; const diff = mode === "auto" && t.category && t.category !== x.category; return `<tr data-row="${esc(x.name)}" class="${t.on ? "" : "off"}${diff ? " changed" : ""}">
         <td class="side-fact"><input type="checkbox" class="tr-on" ${t.on ? "checked" : ""} aria-label="Include ${esc(x.display)}"></td>
         <td class="lead"><button class="linkish strong" data-lender="${esc(x.name)}">${esc(x.display)}</button>${x.members && x.members.length > 1 ? `<span class="sub">and ${plural(x.members.length - 1, "variant")}: ${x.members.slice(1).map((m) => esc(m.display)).join(", ")}</span>` : ""}<span class="sub">${plural(x.family_charges || x.charges, "charge")}${x.parent ? ` · part of ${esc(x.parent)}` : ""}</span><span class="sub">${lenderLinks(x.display)}</span></td>
-        <td class="meta">${x.category ? catChip(x.category) : ""}${x.confidence != null ? `<span class="sub">${Math.round(x.confidence * 100)}% sure</span>` : ""}${x.reason ? `<span class="sub why-line">${esc(reasonText(x.reason, x.source))}</span>` : ""}</td>
+        <td class="meta">${x.category ? catChip(x.category) : ""}${x.confidence != null ? `<span class="sub">${Math.round(x.confidence * 100)}% sure</span>` : ""}${x.consensus ? `<span class="sub">${consensusPill(x.consensus)}</span>` : ""}${x.profile && x.profile.group ? `<span class="sub">Owner group: <b>${esc(x.profile.group)}</b></span>` : ""}${x.reason ? `<span class="sub why-line">${esc(reasonText(x.reason, x.source))}</span>` : ""}</td>
         <td class="meta">${x.property_only ? '<span class="pill" data-cat="property_lender">Property only</span>' : '<span class="muted">Mixed or other</span>'}</td>
         <td class="meta"><select class="input tr-cat" aria-label="Type for ${esc(x.display)}">${opts(t.category)}</select>${diff ? `<span class="sub changed-note">Changed from the agent's answer</span>` : ""}</td></tr>`; }).join("")}
       </tbody></table></div></section>`;
@@ -888,7 +926,7 @@ async function renderCharges() {
   if (!S.choices.length) await loadDecisions();
   const rowsHtml = (rows) => rows.map((r) => `<tr>
       <td class="side-fact">${tierBadge(r.tier)}</td>
-      <td class="lead"><button class="linkish strong" data-company="${esc(r.company_number)}">${esc(r.company_name || "Name not fetched yet")}</button><span class="sub"><span class="id">${esc(r.company_number)}</span> · ${esc(r.sector_label)}</span></td>
+      <td class="lead"><button class="linkish strong" data-company="${esc(r.company_number)}">${coName(r.company_name, r.company_number)}</button><span class="sub"><span class="id">${esc(r.company_number)}</span> · ${esc(r.sector_label)}</span></td>
       <td class="meta">${r.chargees.map((c) => `<button class="linkish" data-lender="${esc(c.name)}">${esc(c.display)}</button>`).join("<br>")}</td>
       <td class="meta">${catChip(r.primary, r.primary_label)}</td>
       <td class="num meta">${isoDate(r.delivered_on)}</td>
@@ -1144,6 +1182,8 @@ function openLender(name) {
         <div class="facts">${it.category ? catChip(it.category) + `<span>${esc(it.source_label)}</span>` : '<span class="pill" data-cat="unknown">Not classified yet</span><span>The classifier agent will look at it on its next run</span>'}${it.confidence != null && it.source === "agent" ? `<span>${Math.round(it.confidence * 100)}% sure</span>` : ""}</div>
         <h2 class="lender-name" id="drawer-title">${esc(it.display)}</h2>
         <div class="research"><span class="muted small">Research</span>${lenderLinks(it.display)}${it.parent ? `<span class="muted small">Parent: <b>${esc(it.parent)}</b></span>` : ""}</div>
+        ${profileBox(it.profile, "#dparent")}
+        ${opinionsBox(it)}
         <div class="kpis mini-kpis">
           <div class="kpi-s"><span class="l">Borrowers</span><span class="v num">${it.borrowers}</span></div>
           <div class="kpi-s"><span class="l">Charges</span><span class="v num">${it.charges}</span></div>
@@ -1163,7 +1203,7 @@ function openLender(name) {
         </section>
         <section class="card panel-card"><div class="card-head"><div><h2>${plural(it.charges, "charge")} in their favour</h2><p>Click a borrower for all of its charges and what they suggest.</p></div></div>
           <div class="table-wrap"><table class="stack"><thead><tr><th>Borrower</th><th class="num">Delivered</th><th>Other chargees</th><th>Status</th><th></th></tr></thead><tbody>
-          ${it.examples.map((e) => `<tr><td class="lead"><button class="linkish strong" data-company="${esc(e.company_number)}">${esc(e.company_name || "Name not fetched yet")}</button><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
+          ${it.examples.map((e) => `<tr><td class="lead"><button class="linkish strong" data-company="${esc(e.company_number)}">${coName(e.company_name, e.company_number)}</button><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
             <td class="num side-fact">${isoDate(e.delivered_on)}</td><td class="meta">${e.other_chargees.map(esc).join("; ") || '<span class="muted">None</span>'}</td>
             <td class="meta">${statusPill(e.status)}</td><td class="act"><a href="${esc(e.filing_url)}" target="_blank" rel="noopener">Filing</a></td></tr>`).join("")}
           </tbody></table></div></section>`;

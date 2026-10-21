@@ -6,7 +6,7 @@
 #>
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("classifier", "reviewer", "newsletter")]
+    [ValidateSet("classifier", "verifier", "referee", "reviewer", "newsletter")]
     [string]$Agent,
     [int]$MaxTurns = 40,
     [switch]$NoPush
@@ -43,16 +43,28 @@ Set-Content -Path $Lock -Value $PID
 # What each agent may write (Edit rules cover the Write tool too) and which web tools it gets.
 $Allowed = @{
     "classifier" = @("Read", "Glob", "Grep", "Edit(./classify/results/**)", "Edit(./inbox/**)", "WebSearch")
+    "verifier"   = @("Read", "Glob", "Edit(./classify/second/**)", "Edit(./inbox/**)", "WebSearch")
+    "referee"    = @("Read", "Glob", "Grep", "Edit(./classify/referee/**)", "Edit(./inbox/**)", "WebSearch",
+                     "WebFetch(domain:find-and-update.company-information.service.gov.uk)")
     "reviewer"   = @("Read", "Glob", "Grep", "Edit(./reviews/**)", "Edit(./inbox/**)", "WebSearch",
                      "WebFetch(domain:find-and-update.company-information.service.gov.uk)")
     "newsletter" = @("Read", "Glob", "Grep", "Edit(./drafts/**)", "Edit(./inbox/**)")
 }
 $OwnedPaths = @{
     "classifier" = @("classify/results", "inbox")
+    "verifier"   = @("classify/second", "inbox")
+    "referee"    = @("classify/referee", "inbox")
     "reviewer"   = @("reviews", "inbox")
     "newsletter" = @("drafts", "inbox")
 }
 $Denied = @("Read(./.env)", "Read(./data/radar.db)", "Bash", "PowerShell")
+# The verifier must not see the classifier's answers, or its second opinion isn't independent.
+if ($Agent -eq "verifier") {
+    $Denied += @("Read(./classify/results/**)", "Read(./classify/referee/**)", "Read(./classify/referee_queue.jsonl)",
+                 "Read(./classify/referee_pending.jsonl)", "Read(./output/**)", "Read(./reviews/**)", "Read(./drafts/**)")
+}
+# Cheaper model for the daily second opinion; the strongest one only for disagreements.
+$Model = @{ "verifier" = "sonnet"; "referee" = "opus" }[$Agent]
 
 # Git is optional: commits give you history, and a remote (e.g. a private GitHub repo) gives a backup.
 git rev-parse --is-inside-work-tree 2>&1 | Out-Null
@@ -101,8 +113,9 @@ try {
         "--append-system-prompt-file", "agents/$Agent.md",
         "--permission-mode", "dontAsk",
         "--max-turns", "$MaxTurns",
-        "--output-format", "text",
-        "--allowedTools") + $Allowed[$Agent] + @("--disallowedTools") + $Denied
+        "--output-format", "text")
+    if ($Model) { $claudeArgs += @("--model", $Model) }
+    $claudeArgs += @("--allowedTools") + $Allowed[$Agent] + @("--disallowedTools") + $Denied
 
     & claude @claudeArgs 2>&1 | Add-ToLog
     if ($LASTEXITCODE -ne 0) { throw "claude exited with code $LASTEXITCODE (see $Log)" }
@@ -120,7 +133,7 @@ try {
     } | Where-Object {
         $p = $_
         -not ($OwnedPaths[$Agent] | Where-Object { $p.StartsWith($_) })
-    } | Where-Object { $_ -notmatch '^(logs/|\.agent-|classify/pending\.jsonl|classify/queue\.jsonl|output/)' }
+    } | Where-Object { $_ -notmatch '^(logs/|\.agent-|classify/[a-z_]*(pending|queue)\.jsonl|output/)' }
     if ($unexpected) { Write-Log "Note: other uncommitted changes left untouched: $($unexpected -join ', ')" }
 
     Save-AgentOutput

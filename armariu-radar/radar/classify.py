@@ -15,7 +15,7 @@ import logging
 import os
 from pathlib import Path
 
-from . import config
+from . import config, owners
 from .db import now_iso
 from .normalise import normalise_name
 from .rules import find_rule
@@ -119,6 +119,7 @@ def build_queue(conn, path=None, limit: int = 150, examples: int = 3) -> int:
             "display_name": row["display"],
             "n_charges": row["n"],
             "examples": ex,
+            "companies_house": owners.profile(conn, row["name_norm"]),
         }, ensure_ascii=False))
     tmp = path.with_suffix(".tmp")
     tmp.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
@@ -143,11 +144,12 @@ def _status_for(category: str, confidence: float) -> str:
 def restatus(conn) -> int:
     """Re-check agent answers against the current thresholds (they change as the policy does).
     Names a reviewer flagged stay with a person."""
+    from .consensus import owns_status
     changed = 0
-    for r in conn.execute("SELECT name_norm, category, confidence, review_status, reason FROM lender_classifications "
-                          "WHERE source = 'agent'").fetchall():
-        if "| reviewer:" in (r["reason"] or ""):
-            continue
+    for r in conn.execute("SELECT name_norm, category, confidence, review_status, reason, updated_at "
+                          "FROM lender_classifications WHERE source = 'agent'").fetchall():
+        if "| reviewer:" in (r["reason"] or "") or owns_status(conn, r["name_norm"], r["updated_at"]):
+            continue  # a reviewer flag, or the second opinion / referee, decides this one
         new = _status_for(r["category"], r["confidence"])
         if new != r["review_status"]:
             conn.execute("UPDATE lender_classifications SET review_status = ? WHERE name_norm = ?", (new, r["name_norm"]))

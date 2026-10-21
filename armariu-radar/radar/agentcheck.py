@@ -4,7 +4,7 @@ run with nothing to do exits in a second and uses none of your Claude plan.
     python -m radar.agentcheck prepare <agent>   # exit 0 = work (task file written), 3 = nothing to do
     python -m radar.agentcheck finish <agent>    # after a successful run: archive inbox messages
 
-Agents: classifier | reviewer | newsletter
+Agents: classifier | verifier | referee | reviewer | newsletter
 This module only reads files (queue, digests, results), never the database, so an agent could
 also run on a second machine that has a copy of the repo.
 """
@@ -18,10 +18,13 @@ from pathlib import Path
 
 from . import config
 
-AGENTS = ("classifier", "reviewer", "newsletter")
+AGENTS = ("classifier", "verifier", "referee", "reviewer", "newsletter")
 NO_WORK = 3
 CLASSIFIER_BATCH = 60   # names per run; keeps each run small on a Pro plan
 REVIEW_GRACE_DAYS = 2   # newsletter waits this long after week end for the reviewer
+VERIFIER_EVERY_HOURS = 20  # the second opinion runs about once a day
+VERIFIER_BATCH = 40
+REFEREE_BATCH = 20
 
 
 def _root() -> Path:
@@ -170,8 +173,86 @@ def _prepare_newsletter(msgs) -> str | None:
     return "\n".join(lines) + "\n" + _inbox_text(msgs)
 
 
-_PREPARERS = {"classifier": _prepare_classifier, "reviewer": _prepare_reviewer,
-              "newsletter": _prepare_newsletter}
+def _answered(folder: Path) -> set[tuple[str, str]]:
+    done = set()
+    for f in folder.glob("*.jsonl"):
+        for line in f.read_text(encoding="utf-8", errors="replace").splitlines():
+            try:
+                obj = json.loads(line)
+                done.add((obj["name_norm"], str(obj["ask_id"])))
+            except (json.JSONDecodeError, KeyError, TypeError):
+                continue
+    return done
+
+
+def _pending(queue: Path, folder: Path, batch: int) -> list[dict]:
+    if not queue.exists():
+        return []
+    done = _answered(folder)
+    out = []
+    for line in queue.read_text(encoding="utf-8").splitlines():
+        try:
+            item = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if (item.get("name_norm"), str(item.get("ask_id"))) not in done:
+            out.append(item)
+    return out[:batch]
+
+
+def _last_run_hours(folder: Path, suffix: str) -> float | None:
+    stamps = []
+    for f in folder.glob(f"*-{suffix}.jsonl"):
+        try:
+            stamps.append(datetime.strptime(f.name.split("-")[0], "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc))
+        except ValueError:
+            continue
+    if not stamps:
+        return None
+    return (datetime.now(timezone.utc) - max(stamps)).total_seconds() / 3600
+
+
+def _prepare_verifier(msgs) -> str | None:
+    folder = _root() / "classify" / "second"
+    last = _last_run_hours(folder, "verifier")
+    if last is not None and last < VERIFIER_EVERY_HOURS and not msgs:
+        return None  # once a day is enough, and keeps Claude usage low
+    pending = _pending(_root() / "classify" / "second_queue.jsonl", folder, VERIFIER_BATCH)
+    if not pending and not msgs:
+        return None
+    (_root() / "classify" / "second_pending.jsonl").write_text(
+        "".join(json.dumps(p, ensure_ascii=False) + "\n" for p in pending), encoding="utf-8")
+    out = f"classify/second/{_stamp()}-verifier.jsonl"
+    return (
+        f"# Verifier run {_stamp()}\n\n"
+        f"- Names to classify independently this run: **{len(pending)}**, in `classify/second_pending.jsonl`.\n"
+        f"- Write your answers to exactly this file: `{out}`\n"
+        "- One JSON object per line, one line per name. Copy `name_norm` and `ask_id` exactly.\n"
+        + ("- There are no names this run: just handle your inbox.\n" if not pending else "")
+        + _inbox_text(msgs)
+    )
+
+
+def _prepare_referee(msgs) -> str | None:
+    folder = _root() / "classify" / "referee"
+    pending = _pending(_root() / "classify" / "referee_queue.jsonl", folder, REFEREE_BATCH)
+    if not pending and not msgs:
+        return None
+    (_root() / "classify" / "referee_pending.jsonl").write_text(
+        "".join(json.dumps(p, ensure_ascii=False) + "\n" for p in pending), encoding="utf-8")
+    out = f"classify/referee/{_stamp()}-referee.jsonl"
+    return (
+        f"# Referee run {_stamp()}\n\n"
+        f"- Disagreements to settle this run: **{len(pending)}**, in `classify/referee_pending.jsonl`.\n"
+        f"- Write your rulings to exactly this file: `{out}`\n"
+        "- One JSON object per line, one line per name. Copy `name_norm` and `ask_id` exactly.\n"
+        + ("- There is nothing to settle this run: just handle your inbox.\n" if not pending else "")
+        + _inbox_text(msgs)
+    )
+
+
+_PREPARERS = {"classifier": _prepare_classifier, "verifier": _prepare_verifier, "referee": _prepare_referee,
+              "reviewer": _prepare_reviewer, "newsletter": _prepare_newsletter}
 
 
 def prepare(agent: str) -> int:

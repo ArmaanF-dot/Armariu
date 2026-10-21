@@ -633,3 +633,22 @@ table.triage select { min-width: 170px; height: 36px; }
   table.stack td .sub { display: inline; margin-left: 6px; }
   .evidence table.stack tr { padding: 12px 14px; }
 }
+
+/* ------------------------------------------------------------------ owners and agent opinions */
+.pending-name { color: var(--muted); font-style: italic; }
+.ch-box { display: flex; gap: 14px; align-items: flex-start; border: 1px solid var(--line-2); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 22px; background: var(--card); }
+.ch-box .disc { width: 38px; height: 38px; }
+.ch-box p { margin: 4px 0 0; }
+.ch-body { min-width: 0; flex: 1; }
+.ch-title { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.ch-sub { margin: 12px 0 4px !important; font-size: 12.5px; font-weight: 700; color: var(--muted); }
+.owner-list { margin: 0; padding-left: 18px; }
+.owner-list li { margin: 3px 0; overflow-wrap: anywhere; }
+.small-btn { height: 34px; margin-top: 12px; font-size: 13px; }
+.opinions { border-radius: var(--radius-sm); background: var(--card-2); padding: 14px 16px; margin-bottom: 22px; }
+.op-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.op-head h3 { margin: 0; }
+.op { border-left: 3px solid var(--c); padding: 8px 0 8px 12px; margin-top: 8px; }
+.op-top { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.op-role { font-weight: 700; font-size: 13px; min-width: 104px; }
+.op p { margin: 6px 0 0; color: var(--muted); font-size: 13.5px; }
