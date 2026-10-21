@@ -22,8 +22,9 @@ every name in `classify/pending.jsonl`. No other text in the file. Exact keys:
 - `name_norm`: copy it exactly from the input. Never change it.
 - `category`: exactly one of the values below.
 - `parent_firm`: the manager or group behind a fund vehicle or subsidiary, or `null`.
-- `confidence`: 0.0 to 1.0, how sure you are. Be honest. Rows below 0.85 (0.90 for
-  `direct_lender`) go to a human, which is fine and expected.
+- `confidence`: 0.0 to 1.0, how sure you are. Be honest. A person checks rows below 0.90 for
+  `direct_lender`, 0.85 for `security_agent`, and 0.60 for every other type (those never reach
+  the headline, so a sensible answer is enough). `unknown` always goes to a person.
 - `reason`: one short sentence, max 300 characters, saying what evidence you used.
 
 ## Categories
@@ -33,6 +34,7 @@ every name in `classify/pending.jsonl`. No other text in the file. Exact keys:
 | `bank` | high-street, challenger, private, international and investment banks, building societies |
 | `abl_specialist` | invoice finance, factoring, asset-based lenders (receivables, inventory) |
 | `asset_finance` | leasing, hire purchase, vehicle and equipment finance companies |
+| `property_lender` | mortgage, buy-to-let, bridging and development finance lenders whose borrowers are property companies or developers, including their funding SPVs and bridging funds |
 | `security_agent` | security trustees and agents, loan agency firms, corporate trustees ("as security trustee", GLAS, Wilmington, etc.). The real lender is usually hidden |
 | `public_sector` | government departments, government-owned lenders and schemes |
 | `individual` | named private individuals, family trusts, a director lending to their own company |
@@ -40,6 +42,11 @@ every name in `classify/pending.jsonl`. No other text in the file. Exact keys:
 | `unknown` | you genuinely cannot tell |
 
 Judgement notes:
+- Lenders to property companies (SIC 68xxx, 41100) with mortgage, bridging, buy-to-let or
+  development-finance names or business models are `property_lender`, even when fund-backed.
+  Keep `direct_lender` for funds lending to trading businesses and their holding companies.
+- A numbered vehicle ("X CAPITAL 6", "Y SPV 2") belongs with the other names of the same family:
+  give it the same category and parent as its siblings if you have seen them.
 - A bank's own fund-management arm that runs private credit funds is `direct_lender`; the bank
   itself lending is `bank`.
 - A name that is a person ("JOHN SMITH") is `individual`; do not guess more.

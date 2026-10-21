@@ -90,3 +90,25 @@ contains,HIRE PURCHASE,asset_finance,,0.80,seed,
 contains,SECRETARY OF STATE,public_sector,,0.85,seed,
 contains,BRITISH BUSINESS BANK,public_sector,British Business Bank,0.90,seed,
 contains,UK EXPORT FINANCE,public_sector,UK Export Finance,0.90,seed,
+
+# Property lenders: mortgage, buy-to-let, bridging and development finance to property companies.
+# Not corporate private credit, so they sit in tier C and stay out of the headline.
+contains,MORTGAGE,property_lender,,0.85,seed,
+contains,MORTGAGES,property_lender,,0.85,seed,
+contains,HOMELOANS,property_lender,,0.85,seed,
+contains,BRIDGING,property_lender,,0.85,seed,bridging lender or bridging fund
+contains,DEVELOPMENT FINANCE,property_lender,,0.85,seed,
+contains,PROPERTY FINANCE,property_lender,,0.85,seed,
+contains,PROPERTY LENDING,property_lender,,0.85,seed,
+contains,SECURED LOANS,property_lender,,0.80,seed,
+contains,BUY TO LET,property_lender,,0.85,seed,
+contains,TOGETHER COMMERCIAL FINANCE,property_lender,Together,0.90,seed,
+contains,LANDBAY,property_lender,Landbay,0.90,seed,
+contains,INTERBAY,property_lender,OSB Group,0.90,seed,
+contains,PARATUS AMC,property_lender,Paratus AMC,0.85,seed,
+contains,LENDINVEST,property_lender,LendInvest,0.85,seed,
+contains,AVAMORE,property_lender,Avamore Capital,0.85,seed,
+contains,HOPE CAPITAL,property_lender,Hope Capital,0.85,seed,
+# Funds at Lloyd's: trust deeds over a member's assets, not lending.
+contains,AS DEFINED IN THE INSTRUMENT,other,Lloyd's,0.90,seed,Lloyd's trust deed
+contains,LLOYD S ACT 1871,other,Lloyd's,0.90,seed,Lloyd's trust deed

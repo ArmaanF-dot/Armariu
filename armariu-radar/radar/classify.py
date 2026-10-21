@@ -60,6 +60,7 @@ def refresh_rule_matches(conn, rules) -> dict:
             conn.execute("DELETE FROM lender_classifications WHERE name_norm = ?", (norm,))
             counts["released"] += 1
     conn.commit()
+    counts["restatused"] = restatus(conn)
     return counts
 
 
@@ -130,8 +131,29 @@ def build_queue(conn, path=None, limit: int = 150, examples: int = 3) -> int:
 def _status_for(category: str, confidence: float) -> str:
     if category == "unknown":
         return "needs_review"
-    bar = config.AUTO_OK_CONFIDENCE_DIRECT if category == "direct_lender" else config.AUTO_OK_CONFIDENCE
-    return "auto_ok" if confidence >= bar else "needs_review"
+    if category == "direct_lender":
+        bar = config.AUTO_OK_CONFIDENCE_DIRECT
+    elif category in config.LOW_STAKES:
+        bar = config.AUTO_OK_CONFIDENCE_LOW_STAKES
+    else:
+        bar = config.AUTO_OK_CONFIDENCE
+    return "auto_ok" if (confidence or 0) >= bar else "needs_review"
+
+
+def restatus(conn) -> int:
+    """Re-check agent answers against the current thresholds (they change as the policy does).
+    Names a reviewer flagged stay with a person."""
+    changed = 0
+    for r in conn.execute("SELECT name_norm, category, confidence, review_status, reason FROM lender_classifications "
+                          "WHERE source = 'agent'").fetchall():
+        if "| reviewer:" in (r["reason"] or ""):
+            continue
+        new = _status_for(r["category"], r["confidence"])
+        if new != r["review_status"]:
+            conn.execute("UPDATE lender_classifications SET review_status = ? WHERE name_norm = ?", (new, r["name_norm"]))
+            changed += 1
+    conn.commit()
+    return changed
 
 
 def _validate(obj, known_names) -> tuple[dict | None, str | None]:

@@ -125,8 +125,8 @@ function toast(msg, error = false) {
 }
 const labelFor = (key) => (S.choices.find((c) => c.key === key) || {}).label || (CAT_LABELS[key] || (key === "unknown" ? "Can't tell" : key || ""));
 const CAT_LABELS = { direct_lender: "Direct lender", bank: "Bank", security_agent: "Security agent", abl_specialist: "Asset-based lender",
-  asset_finance: "Asset finance", public_sector: "Public sector", individual: "Individual", other: "Other", unknown: "Can't tell" };
-const TIER_LABELS = { A: "Direct lender", B: "Behind a security agent", C: "Specialist lender", D: "Needs review", E: "Bank or individual" };
+  asset_finance: "Asset finance", property_lender: "Property lender", public_sector: "Public sector", individual: "Individual", other: "Other", unknown: "Can't tell" };
+const TIER_LABELS = { A: "Direct lender", B: "Behind a security agent", C: "Specialist or property lender", D: "Needs review", E: "Bank or individual" };
 const tierBadge = (t) => `<span class="tier ${esc(t)}" title="Tier ${esc(t)}: ${esc(TIER_LABELS[t] || "")}">${esc(t)}</span>`;
 // Rules record their reason as "rule:<type>:<pattern>"; show it in words.
 const reasonText = (r, source) => {
@@ -528,6 +528,9 @@ function historyStrip(history) {
 }
 
 // ------------------------------------------------------------------ decisions
+// The queue is ordered by what changes the headline: names that might be direct lenders or
+// security agents first; property-only and low-stakes names go to Quick triage, cleared in bulk.
+// Name variants ("X CAPITAL 6", "X CAPITAL 7") arrive as one item; one decision covers them all.
 async function loadDecisions() {
   S.decisions = await get("/api/decisions");
   S.choices = S.decisions.choices;
@@ -538,7 +541,8 @@ async function loadDecisions() {
 }
 function queueItems() {
   const L = S.decisions.lenders;
-  return [...L.review.map((x) => ({ ...x, group: "review" })), ...L.confirm.map((x) => ({ ...x, group: "confirm" })), ...L.waiting.map((x) => ({ ...x, group: "waiting" }))];
+  return [...L.review.map((x) => ({ ...x, group: "review" })), ...L.confirm.map((x) => ({ ...x, group: "confirm" })),
+    ...L.low.map((x) => ({ ...x, group: "low" })), ...L.waiting.map((x) => ({ ...x, group: "waiting" }))];
 }
 function decisionsFinding(d) {
   const L = d.lenders, parts = [];
@@ -546,22 +550,23 @@ function decisionsFinding(d) {
   if (L.confirm.length) parts.push(`${plural(L.confirm.length, "agent answer")} to check`);
   if (d.messages.length) parts.push(`${plural(d.messages.length, "message")} from the agents`);
   if (d.drafts.length) parts.push(`${plural(d.drafts.length, "draft")} to edit`);
-  let s = parts.length ? parts.join(", ").replace(/, ([^,]*)$/, " and $1") + "." : "Nothing needs you right now.";
-  if (L.waiting.length) s += ` ${plural(L.waiting.length, "more name is", "more names are")} waiting for the classifier agent.`;
+  let s = parts.length ? parts.join(", ").replace(/, ([^,]*)$/, " and $1") + "." : "Nothing important needs you right now.";
+  if (L.low.length) s += ` ${plural(L.low.length, "low-priority name")} for quick triage.`;
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 async function renderDecisions() {
   const d = await loadDecisions();
-  const L = d.lenders, items = queueItems();
-  if (!items.find((x) => x.name === S.current)) S.current = items.length ? items[0].name : null;
+  const L = d.lenders, items = queueItems().filter((x) => x.group !== "low" && x.group !== "waiting" || !L.review.length && !L.confirm.length);
+  if (!queueItems().find((x) => x.name === S.current)) S.current = items.length ? items[0].name : null;
   setSub(decisionsFinding(d).replace(/<[^>]+>/g, ""));
   const tiles = [
-    ["lenders", "review", "lenders", L.review.length + L.confirm.length, "Lenders to classify", L.waiting.length ? `${L.waiting.length} more waiting for the classifier` : "None waiting for the classifier"],
+    ["lenders", "review", "lenders", L.review.length + L.confirm.length, "Lenders that matter", L.review.length + L.confirm.length ? "Might be direct lenders or security agents" : "None right now"],
+    ["triage", "unknown", "layers", L.low.length, "Quick triage", L.low.length ? "Low-stakes names: clear them in bulk" : "Nothing to triage"],
     ["messages", "message", "mail", d.messages.length, "Messages from the agents", d.messages.length ? "Read, then mark as done" : "Nothing new"],
     ["drafts", "draft", "pen", d.drafts.length, "Newsletter drafts", d.drafts.length ? "Edit, then mark as published" : "None to edit"],
   ];
   main.innerHTML = `<div class="anim-root">
-    <div class="qtiles" role="tablist" aria-label="What needs you">${tiles.map(([k, cat, ic, n, label, sub]) =>
+    <div class="qtiles four" role="tablist" aria-label="What needs you">${tiles.map(([k, cat, ic, n, label, sub]) =>
       `<button class="qtile" role="tab" data-cat="${cat}" data-tab="${k}" aria-selected="${S.decTab === k}"><span class="disc">${icon(ic)}</span>
          <span class="qn num">${n}</span><span class="ql">${label}</span><span class="qs">${sub}</span></button>`).join("")}</div>
     <div id="dec-body"></div></div>`;
@@ -569,24 +574,36 @@ async function renderDecisions() {
   const body = document.getElementById("dec-body");
   if (S.decTab === "messages") return renderMessages(body, d.messages);
   if (S.decTab === "drafts") return renderDraftDecisions(body, d.drafts);
-  if (!items.length) {
+  if (S.decTab === "triage") return renderTriage(body, L.low);
+  if (!queueItems().length) {
     body.innerHTML = `<div class="card empty"><span class="disc" data-cat="bank">${icon("check")}</span><h2>Every lender is classified</h2><p>When the radar picks up a lender it doesn't recognise, the classifier agent looks at it first and anything it isn't sure about comes here.</p></div>`;
     return;
   }
-  const item = items.find((x) => x.name === S.current);
-  body.innerHTML = `<div class="decide"><section class="card" id="decision" aria-label="Decision">${decisionCard(item)}</section>
+  const item = queueItems().find((x) => x.name === S.current) || queueItems()[0];
+  S.current = item.name;
+  body.innerHTML = `${!L.review.length && !L.confirm.length ? `<div class="notice">${icon("check")}<div>Nothing that could change the headline needs you. ${L.low.length ? `The ${plural(L.low.length, "name")} left are low priority: <button class="link-btn" id="go-triage">clear them in Quick triage</button>.` : ""}</div></div>` : ""}
+    <div class="decide"><section class="card" id="decision" aria-label="Decision">${decisionCard(item)}</section>
     <nav class="card queue" aria-label="Lenders waiting">${queueList(L)}</nav></div>`;
+  const gt = document.getElementById("go-triage");
+  if (gt) gt.onclick = () => { S.decTab = "triage"; renderDecisions(); };
   wireDecision(item);
 }
 function decisionCard(it) {
-  const pick = S.picks[it.name] || { category: it.source === "agent" && it.category !== "unknown" ? it.category : "", parent: it.parent || "" };
+  const pick = S.picks[it.name] || { category: it.source === "agent" && it.category !== "unknown" ? it.category : "", parent: it.parent || "", all: true, future: !!it.family };
   S.picks[it.name] = pick;
-  const state = { review: ["Needs your call", "review"], confirm: ["Agent's answer to check", "direct_lender"], waiting: ["Not classified yet", "unknown"] }[it.group];
+  const state = { review: ["Needs your call", "review"], confirm: ["Agent's answer to check", "direct_lender"], low: ["Low priority", "unknown"], waiting: ["Not classified yet", "unknown"] }[it.group];
   const cat = it.source === "agent" ? catKey(it.category) : "unknown";
   const conf = it.confidence != null ? `${Math.round(it.confidence * 100)}% sure` : "";
   const agent = it.source === "agent"
     ? `<div class="agent" data-cat="${cat}"><span class="disc">${icon("agent")}</span><div><p class="says">The classifier agent says ${esc(labelFor(it.category).toLowerCase())}${conf ? `, ${conf}` : ""}${it.parent ? `, part of ${esc(it.parent)}` : ""}.</p><p class="why">${esc(reasonText(it.reason, it.source))}</p></div></div>`
     : `<div class="agent" data-cat="unknown"><span class="disc">${icon("clock")}</span><div><p class="why">The classifier agent hasn't looked at this name yet. It will on its next run, or you can decide now.</p></div></div>`;
+  const fam = it.members && it.members.length > 1 ? `
+    <div class="family">
+      <p><b>${plural(it.members.length, "name")} look like the same lender</b>, ${plural(it.family_charges, "charge")} between them:</p>
+      <ul>${it.members.map((m) => `<li>${esc(m.display)} <span class="muted">${plural(m.charges, "charge")}</span></li>`).join("")}</ul>
+      <label class="check"><input type="checkbox" id="fam-all" ${pick.all ? "checked" : ""}> Apply my decision to all ${it.members.length}</label>
+      <label class="check"><input type="checkbox" id="fam-future" ${pick.future ? "checked" : ""}> Also classify future names containing <b>${esc(it.family)}</b></label>
+    </div>` : "";
   const rows = it.examples.map((e) => `<tr>
       <td class="lead"><button class="linkish strong" data-company="${esc(e.company_number)}">${esc(e.company_name || "Name not fetched yet")}</button><span class="sub"><span class="id">${esc(e.company_number)}</span>${e.sic_codes.length ? `, SIC ${sic(e.sic_codes)}` : ""}</span></td>
       <td class="num side-fact">${isoDate(e.delivered_on)}</td>
@@ -595,9 +612,11 @@ function decisionCard(it) {
       <td class="act"><a href="${esc(e.filing_url)}" target="_blank" rel="noopener">View filing</a></td></tr>`).join("");
   const agentAnswer = it.source === "agent" && it.category && it.category !== "unknown" ? it.category : null;
   return `
-    <div class="facts"><span class="pill" data-cat="${state[1]}">${state[0]}</span><span>${plural(it.charges, "charge")}</span>${it.latest ? `<span>Latest filing ${fmtDate(it.latest)}</span>` : ""}</div>
+    <div class="facts"><span class="pill" data-cat="${state[1]}">${state[0]}</span><span>${plural(it.family_charges || it.charges, "charge")}</span>${it.property_only ? '<span class="pill" data-cat="property_lender">Only lends to property companies</span>' : ""}${it.latest ? `<span>Latest filing ${fmtDate(it.latest)}</span>` : ""}</div>
     <h2 class="lender-name">${esc(it.display)}</h2>
+    <div class="research" style="margin-top:-10px">${lenderLinks(it.display)}</div>
     ${agent}
+    ${fam}
     <div data-cat="${cat}">${historyStrip(it.history)}</div>
     <div class="evidence"><h3>Charges in their favour</h3>
       <div class="table-wrap"><table class="stack"><thead><tr><th>Borrower</th><th class="num">Delivered</th><th>Other chargees</th><th>Security</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
@@ -614,13 +633,15 @@ function decisionCard(it) {
       ${agentAnswer ? `<button class="btn soft" id="approve">Approve the agent's answer</button>` : ""}
       <button class="btn ghost" id="skip">Skip for now</button>
     </div>
-    <p class="hint">Keys: <span class="key">1</span>–<span class="key">8</span> pick a type, <span class="key">Enter</span> save${agentAnswer ? `, <span class="key">A</span> approve the agent's answer` : ""}, <span class="key">J</span> and <span class="key">K</span> move through the list.</p>`;
+    <p class="hint">Keys: <span class="key">1</span>–<span class="key">${S.choices.length}</span> pick a type, <span class="key">Enter</span> save${agentAnswer ? `, <span class="key">A</span> approve the agent's answer` : ""}, <span class="key">J</span> and <span class="key">K</span> move through the list.</p>`;
 }
 function queueList(L) {
-  const group = (title, list, bulk) => !list.length ? "" : `<h3>${title}</h3>
-    ${bulk && list.length > 1 ? `<div class="bulk"><button class="btn soft" id="approve-all">Approve all ${list.length}</button></div>` : ""}
-    ${list.map((x) => `<button class="q" data-name="${esc(x.name)}" data-cat="${x.source === "agent" ? catKey(x.category) : "unknown"}" aria-current="${x.name === S.current}"><span>${esc(x.display)}</span><span class="n num">${x.charges}</span></button>`).join("")}`;
-  return group(`Needs your call, ${L.review.length}`, L.review) + group(`Agent's answer to check, ${L.confirm.length}`, L.confirm, true) + group(`Not classified yet, ${L.waiting.length}`, L.waiting);
+  const item = (x) => `<button class="q" data-name="${esc(x.name)}" data-cat="${x.source === "agent" ? catKey(x.category) : "unknown"}" aria-current="${x.name === S.current}"><span>${esc(x.display)}${x.members && x.members.length > 1 ? ` <span class="muted">+${x.members.length - 1}</span>` : ""}</span><span class="n num">${x.family_charges || x.charges}</span></button>`;
+  const group = (title, list, extra = "") => !list.length ? "" : `<h3>${title}</h3>${extra}${list.map(item).join("")}`;
+  return group(`Needs your call, ${L.review.length}`, L.review)
+    + group(`Agent's answer to check, ${L.confirm.length}`, L.confirm, L.confirm.length > 1 ? `<div class="bulk"><button class="btn soft" id="approve-all">Approve all ${L.confirm.length}</button></div>` : "")
+    + (L.low.length ? `<h3>Low priority, ${L.low.length}</h3><div class="bulk"><button class="btn soft" id="to-triage">Clear in Quick triage</button></div>` : "")
+    + (L.waiting.length ? `<h3>Not classified yet, ${L.waiting.length}</h3><p class="muted small" style="padding:0 12px 8px">The classifier agent will look at these on its next run.</p>` : "");
 }
 function wireDecision(it) {
   main.querySelectorAll(".choice").forEach((b) => (b.onclick = () => choose(it, b.dataset.key)));
@@ -630,14 +651,20 @@ function wireDecision(it) {
   parent.onkeydown = (e) => { if (e.key === "Enter") { e.preventDefault(); save(it); } };
   document.getElementById("save").onclick = () => save(it);
   const ap = document.getElementById("approve");
-  if (ap) ap.onclick = () => approve([it.name], it);
+  if (ap) ap.onclick = () => approve(familyNames(it), it);
   document.getElementById("skip").onclick = () => step(1);
+  const fa = document.getElementById("fam-all"), ff = document.getElementById("fam-future");
+  if (fa) fa.onchange = () => (S.picks[it.name].all = fa.checked);
+  if (ff) ff.onchange = () => (S.picks[it.name].future = ff.checked);
   const all = document.getElementById("approve-all");
   if (all) all.onclick = () => {
-    const names = S.decisions.lenders.confirm.map((x) => x.name);
-    if (confirm(`Approve the agent's answer for all ${names.length} lenders in this list?`)) approve(names);
+    const names = S.decisions.lenders.confirm.flatMap((x) => familyNames(x, true));
+    if (confirm(`Approve the agent's answer for all ${names.length} names in this list?`)) approve(names);
   };
+  const tt = document.getElementById("to-triage");
+  if (tt) tt.onclick = () => { S.decTab = "triage"; renderDecisions().then(() => fadeIn(document.getElementById("dec-body"))); };
 }
+const familyNames = (it, force) => (it.members && (force || (S.picks[it.name] || {}).all !== false) ? it.members.map((m) => m.name) : [it.name]);
 // Switching lender swaps only the decision card, with a short slide, so the queue stays put.
 function showCurrent() {
   const it = queueItems().find((x) => x.name === S.current);
@@ -655,32 +682,36 @@ function choose(it, key) {
   document.getElementById("save").disabled = false;
 }
 function step(dir) {
-  const items = queueItems();
-  const i = items.findIndex((x) => x.name === S.current);
-  if (!items.length) return;
-  S.current = items[(i + dir + items.length) % items.length].name;
+  const items = queueItems().filter((x) => x.group === "review" || x.group === "confirm");
+  const list = items.length ? items : queueItems();
+  const i = list.findIndex((x) => x.name === S.current);
+  if (!list.length) return;
+  S.current = list[(i + dir + list.length) % list.length].name;
   showCurrent();
 }
 async function save(it) {
   const pick = S.picks[it.name];
   if (!pick || !pick.category) return toast("Pick a type first", true);
+  const names = familyNames(it);
   try {
-    await post("/api/decide", { name: it.name, category: pick.category, parent: pick.parent });
-    toast(`Saved: ${it.display} is ${labelFor(pick.category).toLowerCase()}`);
+    await post("/api/decide", { name: it.name, category: pick.category, parent: pick.parent,
+      also: names.filter((n) => n !== it.name), future: it.family && pick.future ? it.family : "" });
+    toast(`Saved: ${names.length > 1 ? `${it.display} and ${plural(names.length - 1, "variant")}` : it.display} ${names.length > 1 ? "are" : "is"} ${labelFor(pick.category).toLowerCase()}`);
     advanceFrom(it.name);
   } catch (e) { toast(e.message, true); }
 }
 async function approve(names, it) {
   try {
     const r = await post("/api/approve", { names });
-    toast(r.approved.length === 1 && it ? `Approved: ${it.display} is ${labelFor(it.category).toLowerCase()}` : `Approved ${plural(r.approved.length, "lender")}`);
-    advanceFrom(names[names.length - 1]);
+    toast(r.approved.length === 1 && it ? `Approved: ${it.display} is ${labelFor(it.category).toLowerCase()}` : `Approved ${plural(r.approved.length, "name")}`);
+    advanceFrom(it ? it.name : names[names.length - 1]);
   } catch (e) { toast(e.message, true); }
 }
 async function advanceFrom(name) {
   const items = queueItems();
   const i = items.findIndex((x) => x.name === name);
-  const next = items.slice(i + 1).find((x) => x.name !== name) || items.find((x) => x.name !== name);
+  const next = items.slice(i + 1).find((x) => x.name !== name && (x.group === "review" || x.group === "confirm"))
+    || items.find((x) => x.name !== name && (x.group === "review" || x.group === "confirm"));
   delete S.picks[name];
   S.current = next ? next.name : null;
   await renderDecisions();
@@ -692,12 +723,64 @@ document.addEventListener("keydown", (e) => {
   if (document.getElementById("drawer").classList.contains("open") || document.body.classList.contains("menu-open")) return;
   const it = S.decisions && queueItems().find((x) => x.name === S.current);
   if (!it) return;
-  if (/^[1-8]$/.test(e.key) && S.choices[+e.key - 1]) { choose(it, S.choices[+e.key - 1].key); e.preventDefault(); }
-  else if (e.key === "Enter" && document.activeElement.tagName !== "BUTTON" && document.activeElement.tagName !== "A") { save(it); e.preventDefault(); }
-  else if (e.key.toLowerCase() === "a" && document.getElementById("approve")) { approve([it.name], it); e.preventDefault(); }
+  if (/^[1-9]$/.test(e.key) && S.choices[+e.key - 1]) { choose(it, S.choices[+e.key - 1].key); e.preventDefault(); }
+  else if (e.key === "Enter" && document.activeElement.tagName !== "BUTTON" && document.activeElement.tagName !== "A" && document.activeElement.tagName !== "INPUT") { save(it); e.preventDefault(); }
+  else if (e.key.toLowerCase() === "a" && document.getElementById("approve")) { approve(familyNames(it), it); e.preventDefault(); }
   else if (e.key.toLowerCase() === "s" || e.key.toLowerCase() === "j" || e.key === "ArrowDown") { step(1); e.preventDefault(); }
   else if (e.key.toLowerCase() === "k" || e.key === "ArrowUp") { step(-1); e.preventDefault(); }
 });
+
+// ------------------------------------------------------------------ quick triage
+// Low-priority names in one table, each with a suggested type already picked: property-only
+// lenders as property lenders, otherwise the agent's guess. Untick or change any, then save all.
+function triageSuggestion(x) {
+  const guess = x.category && x.category !== "unknown" ? x.category : "";
+  if (x.property_only && (!guess || guess === "direct_lender")) return "property_lender";
+  return guess;
+}
+function renderTriage(body, low) {
+  if (!low.length) {
+    body.innerHTML = `<div class="card empty"><span class="disc" data-cat="bank">${icon("check")}</span><h2>Nothing to triage</h2><p>Low-stakes names land here: lenders that only lend on property, and confident-enough guesses of types that never reach the headline.</p></div>`;
+    return;
+  }
+  S.triage = S.triage || {};
+  for (const x of low) if (!(x.name in S.triage)) S.triage[x.name] = { on: !!triageSuggestion(x), category: triageSuggestion(x) };
+  const opts = (sel) => `<option value="">Choose…</option>` + S.choices.map((c) => `<option value="${c.key}" ${sel === c.key ? "selected" : ""}>${esc(c.label)}</option>`).join("");
+  const draw = () => {
+    const picked = low.filter((x) => S.triage[x.name].on && S.triage[x.name].category);
+    const names = picked.reduce((n, x) => n + (x.members ? x.members.length : 1), 0);
+    body.innerHTML = `<section class="card">
+      <div class="card-head"><div><h2>Quick triage</h2><p>None of these can change the headline: they only lend to property companies, or the agent's guess is a type that never reaches it. Each row has a suggestion picked. Check the ones you're unsure of, then save them all at once.</p></div>
+        <div class="doc-actions"><button class="btn ghost" id="tr-none">Untick all</button><button class="btn primary" id="tr-save" ${picked.length ? "" : "disabled"}>Save ${plural(names, "name")}</button></div></div>
+      <div class="table-wrap"><table class="stack triage"><thead><tr><th></th><th>Lender</th><th>Agent's guess</th><th>Borrowers</th><th>File as</th></tr></thead><tbody>
+      ${low.map((x) => { const t = S.triage[x.name]; return `<tr data-row="${esc(x.name)}" class="${t.on ? "" : "off"}">
+        <td class="side-fact"><input type="checkbox" class="tr-on" ${t.on ? "checked" : ""} aria-label="Include ${esc(x.display)}"></td>
+        <td class="lead"><button class="linkish strong" data-lender="${esc(x.name)}">${esc(x.display)}</button>${x.members && x.members.length > 1 ? `<span class="sub">and ${plural(x.members.length - 1, "variant")}: ${x.members.slice(1).map((m) => esc(m.display)).join(", ")}</span>` : ""}<span class="sub">${plural(x.family_charges || x.charges, "charge")}</span></td>
+        <td class="meta">${x.category ? catChip(x.category) : ""}${x.confidence != null ? `<span class="sub">${Math.round(x.confidence * 100)}% sure</span>` : ""}${x.reason ? `<span class="sub why-line">${esc(reasonText(x.reason, x.source))}</span>` : ""}</td>
+        <td class="meta">${x.property_only ? '<span class="pill" data-cat="property_lender">Property only</span>' : '<span class="muted">Mixed or other</span>'}</td>
+        <td class="meta"><select class="input tr-cat" aria-label="File ${esc(x.display)} as">${opts(t.category)}</select></td></tr>`; }).join("")}
+      </tbody></table></div></section>`;
+    body.querySelectorAll("tr[data-row]").forEach((tr) => {
+      const t = S.triage[tr.dataset.row];
+      tr.querySelector(".tr-on").onchange = (e) => { t.on = e.target.checked; draw(); };
+      tr.querySelector(".tr-cat").onchange = (e) => { t.category = e.target.value; t.on = !!t.category; draw(); };
+    });
+    document.getElementById("tr-none").onclick = () => { for (const x of low) S.triage[x.name].on = false; draw(); };
+    document.getElementById("tr-save").onclick = async () => {
+      const byCat = {};
+      for (const x of picked) (byCat[S.triage[x.name].category] ||= []).push(...(x.members ? x.members.map((m) => m.name) : [x.name]));
+      const btn = document.getElementById("tr-save");
+      btn.disabled = true; btn.textContent = "Saving…";
+      try {
+        for (const [category, list] of Object.entries(byCat)) await post("/api/file-as", { names: list, category });
+        for (const x of picked) delete S.triage[x.name];
+        toast(`Saved ${plural(names, "name")}`);
+        renderDecisions();
+      } catch (e) { toast(e.message, true); draw(); }
+    };
+  };
+  draw();
+}
 
 function renderMessages(body, messages) {
   if (!messages.length) {

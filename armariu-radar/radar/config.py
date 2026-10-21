@@ -41,6 +41,7 @@ CATEGORIES = (
     "bank",            # high-street, challenger or international bank
     "abl_specialist",  # invoice finance, factoring, asset-based lender
     "asset_finance",   # leasing, hire purchase, equipment/vehicle finance
+    "property_lender", # mortgage, buy-to-let, bridging or development lender to property companies
     "security_agent",  # security trustee / agent (real lender may be hidden)
     "public_sector",   # government-backed lender or scheme
     "individual",      # private individual or family vehicle
@@ -54,6 +55,7 @@ CATEGORY_PRIORITY = (
     "security_agent",
     "abl_specialist",
     "asset_finance",
+    "property_lender",
     "bank",
     "public_sector",
     "individual",
@@ -61,10 +63,13 @@ CATEGORY_PRIORITY = (
     "unknown",
 )
 
-# Agent classifications at or above these confidences are usable ("auto_ok") but still flagged
-# for a human check. Direct lenders drive the headline tier, so they need a higher bar.
+# Agent classifications at or above these confidences are used without asking a person.
+# Direct lenders and security agents drive the headline tiers, so they need a high bar; the
+# other types never reach the headline, so a reasonable answer is good enough ("low stakes").
 AUTO_OK_CONFIDENCE = 0.85
 AUTO_OK_CONFIDENCE_DIRECT = 0.90
+AUTO_OK_CONFIDENCE_LOW_STAKES = 0.60
+LOW_STAKES = ("bank", "abl_specialist", "asset_finance", "property_lender", "public_sector", "individual", "other")
 
 REST_LIMIT = 500   # stay under Companies House's 600 requests / 5 minutes per key
 REST_WINDOW = 300.0

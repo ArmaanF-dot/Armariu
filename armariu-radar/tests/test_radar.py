@@ -284,6 +284,44 @@ class SectorTests(unittest.TestCase):
         self.assertEqual(sectors.sectors_of(["bad"]), ["unknown"])
 
 
+class TriageTests(unittest.TestCase):
+    def test_family_keys_merge_variants_only(self):
+        from radar.ui.api import family_key
+        self.assertEqual(family_key("FORTYS CAPITAL 6"), "FORTYS CAPITAL")
+        self.assertEqual(family_key("FORTYS CAPITAL"), "FORTYS CAPITAL")
+        self.assertEqual(family_key("MS LENDING SPV1"), "MS LENDING")
+        self.assertEqual(family_key("ROMACO SPV 5 LIMITED CRN 11112580"), "ROMACO")
+        self.assertEqual(family_key("TOGETHER COMMERCIAL FINANCE LIMITED COMPANY NUMBER 02058813"),
+                         "TOGETHER COMMERCIAL FINANCE")
+        self.assertEqual(family_key("VIDA BANK LIMITED TRADING AS VIDA HOMELOANS"), "VIDA BANK")
+        self.assertEqual(family_key("SBF FIVE"), "SBF FIVE")
+        self.assertEqual(family_key("PP08 FINANCE"), "PP08 FINANCE")
+        self.assertEqual(family_key("ABC 2"), "ABC 2")  # too short a stem to trust
+
+    def test_low_stakes_types_need_less_confidence(self):
+        self.assertEqual(classify._status_for("bank", 0.65), "auto_ok")
+        self.assertEqual(classify._status_for("property_lender", 0.6), "auto_ok")
+        self.assertEqual(classify._status_for("other", 0.5), "needs_review")
+        self.assertEqual(classify._status_for("direct_lender", 0.85), "needs_review")
+        self.assertEqual(classify._status_for("security_agent", 0.8), "needs_review")
+        self.assertEqual(classify._status_for("unknown", 1.0), "needs_review")
+
+    def test_restatus_keeps_reviewer_flags(self):
+        conn = mem_db()
+        conn.execute("INSERT INTO lender_classifications VALUES ('A BANK','A Bank','bank',NULL,0.7,'agent','needs_review','x',NULL)")
+        conn.execute("INSERT INTO lender_classifications VALUES ('B BANK','B Bank','bank',NULL,0.7,'agent','needs_review','x | reviewer: odd',NULL)")
+        self.assertEqual(classify.restatus(conn), 1)
+        st = dict(conn.execute("SELECT name_norm, review_status FROM lender_classifications").fetchall())
+        self.assertEqual(st, {"A BANK": "auto_ok", "B BANK": "needs_review"})
+
+    def test_property_names_match_starter_rules(self):
+        rules = load_rules()
+        for name in ("KENSINGTON MORTGAGE COMPANY", "ASPEN BRIDGING", "VIDA BANK TRADING AS VIDA HOMELOANS",
+                     "TOGETHER COMMERCIAL FINANCE LIMITED COMPANY NUMBER 02058813"):
+            self.assertEqual(find_rule(name, rules).category, "property_lender", name)
+        self.assertEqual(export._tier("property_lender", "auto_ok", ["property_lender"]), "C")
+
+
 class ClassifyTests(TempDirTest):
     def setUp(self):
         super().setUp()
@@ -544,9 +582,11 @@ class ReviewAppTests(TempDirTest):
     def test_decisions_lists_what_needs_a_person(self):
         d = self.api.decisions(self.conn)
         names = lambda g: [x["name"] for x in d["lenders"][g]]  # noqa: E731
-        self.assertEqual(names("review"), ["BRIGHTWATER CAPITAL HOLDINGS"])
+        # An unsure "other" can't change the headline, so it goes to quick triage, not the main queue.
+        self.assertEqual(names("review"), [])
+        self.assertEqual(names("low"), ["BRIGHTWATER CAPITAL HOLDINGS"])
         self.assertIn("NORTHGATE CREDIT PARTNERS II SCSP", names("confirm"))
-        self.assertTrue(d["lenders"]["review"][0]["examples"][0]["filing_url"].startswith("https://"))
+        self.assertTrue(d["lenders"]["low"][0]["examples"][0]["filing_url"].startswith("https://"))
         self.assertNotIn("unknown", [c["key"] for c in d["choices"]])
 
     def test_decide_and_approve_write_human_rules(self):
@@ -557,7 +597,7 @@ class ReviewAppTests(TempDirTest):
         self.assertEqual((rows["BRIGHTWATER CAPITAL HOLDINGS"]["source"],
                           rows["BRIGHTWATER CAPITAL HOLDINGS"]["category"]), ("human", "individual"))
         self.assertEqual(rows["NORTHGATE CREDIT PARTNERS II SCSP"]["status"], "ok")
-        self.assertEqual(self.api.decisions(self.conn)["lenders"]["review"], [])
+        self.assertEqual(self.api.decisions(self.conn)["lenders"]["low"], [])
         self.assertIn("BRIGHTWATER CAPITAL HOLDINGS,individual,Smith family",
                       config.LENDERS_CSV.read_text(encoding="utf-8"))
         self.assertNotEqual(before, self.api.version())
@@ -622,6 +662,15 @@ class ReviewAppTests(TempDirTest):
         with self.assertRaises(KeyError):
             self.api.save_note(self.conn, self.git, "Not In The Data Ltd", "x")
         self.assertIn("signals", self.api.overview(self.conn, self.git))
+        # A family decision covers every variant and can add a rule for future names.
+        lender = self.conn.execute("SELECT name_norm FROM charge_persons LIMIT 1").fetchone()[0]
+        res = self.api.decide(self.conn, self.git, lender, "bank", "", "", [], "")
+        self.assertEqual(res["names"], [lender])
+        with self.assertRaises(ValueError):
+            self.api.decide(self.conn, self.git, lender, "bank", future="NOT IN THE NAME")
+        filed = self.api.file_as(self.conn, self.git, [lender, "Not In The Data Ltd"], "property_lender")
+        self.assertEqual(filed["filed"], [lender])
+        self.assertEqual(self.api.lender(self.conn, lender)["category"], "property_lender")
         every = self.api.charges(self.conn)
         no_prop = self.api.charges(self.conn, hide_property=True)
         self.assertLessEqual(no_prop["total"], every["total"])

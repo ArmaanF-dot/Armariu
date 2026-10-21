@@ -18,19 +18,39 @@ from .normalise import normalise_name
 from .rules import load_rules
 
 
-def add_human_rule(name: str, category: str, parent: str = "", note: str = "", path=None) -> str:
+def add_human_rule(name: str, category: str, parent: str = "", note: str = "", path=None,
+                   match_type: str = "exact") -> str:
     if category not in config.CATEGORIES:
         raise SystemExit(f"Unknown category {category!r}. Choose from: {', '.join(config.CATEGORIES)}")
     norm = normalise_name(name)
     if not norm:
         raise SystemExit("Empty name")
     path = path or config.LENDERS_CSV
-    text = path.read_text(encoding="utf-8")
+    match_type = match_type if match_type in ("exact", "contains") else "exact"
+    text = _drop_human_rule(path.read_text(encoding="utf-8"), match_type, norm)
+    path.write_text(text, encoding="utf-8")
     with open(path, "a", newline="", encoding="utf-8") as fh:
         if not text.endswith("\n"):
             fh.write("\n")
-        csv.writer(fh).writerow(["exact", norm, category, parent, "1.0", "human", note])
+        csv.writer(fh).writerow([match_type, norm, category, parent, "1.0", "human", note])
     return norm
+
+
+def _drop_human_rule(text: str, match_type: str, norm: str) -> str:
+    """Remove an earlier human rule for the same name, so a changed decision replaces the old one
+    (the first matching rule wins, so leaving it would silently keep the old answer)."""
+    out = []
+    for line in text.splitlines(keepends=True):
+        if line.strip() and not line.lstrip().startswith("#"):
+            try:
+                row = next(csv.reader([line]))
+            except (csv.Error, StopIteration):
+                row = []
+            if (len(row) >= 6 and row[0].strip().lower() == match_type and row[5].strip().lower() == "human"
+                    and normalise_name(row[1]) == norm):
+                continue
+        out.append(line)
+    return "".join(out)
 
 
 def _list(conn, show_all: bool):

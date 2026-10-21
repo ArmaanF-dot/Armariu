@@ -26,6 +26,7 @@ CHOICES = [
     ("security_agent", "Security agent", "Trustee or agent holding security for other lenders"),
     ("abl_specialist", "Asset-based lender", "Invoice finance, factoring, receivables or inventory lending"),
     ("asset_finance", "Asset finance", "Leasing, hire purchase, vehicle or equipment finance"),
+    ("property_lender", "Property lender", "Mortgage, buy-to-let, bridging or development lender to property companies"),
     ("public_sector", "Public sector", "Government body or government-backed lender"),
     ("individual", "Individual", "A private person or family vehicle"),
     ("other", "Other", "Landlord, supplier, group company, pension trustee, crowdfunding platform"),
@@ -255,20 +256,89 @@ def _draft_status() -> dict:
         return {}
 
 
+_FAMILY_TRIM = [
+    re.compile(r"\s+(LIMITED\s+|LTD\s+|PLC\s+|LLP\s+)?(COMPANY NUMBER|CRN)\b.*$"),
+    re.compile(r"\s+(LIMITED\s+|LTD\s+)?TRADING AS\b.*$"),
+    re.compile(r"\s+(PLC\s+|LIMITED\s+)?AS LENDER$"),
+    re.compile(r"(\s+SPV)?\s*\d+$"),
+    re.compile(r"\s+SPV$"),
+    re.compile(r"\s+(LIMITED|LTD|PLC|LLP)$"),
+]
+
+
+def family_key(norm: str) -> str:
+    """'FORTYS CAPITAL 6' and 'FORTYS CAPITAL' -> 'FORTYS CAPITAL'; 'MS LENDING SPV1' -> 'MS LENDING'.
+    Short stems ('SBF', 'PP') are left alone so unrelated names never merge."""
+    s = norm
+    for _ in range(3):
+        for rx in _FAMILY_TRIM:
+            s = rx.sub("", s).strip()
+    return s if len(s) >= 6 else norm
+
+
+def _property_only(conn, names: list[str]) -> bool:
+    """True when every borrower of these lenders whose sector we know is a property company."""
+    marks = ",".join("?" * len(names))
+    secs = [sectors.sectors_of(json.loads(r[0]) if r[0] else [])[0] for r in conn.execute(
+        f"SELECT DISTINCT co.sic_codes FROM charge_persons p JOIN companies co ON co.company_number = p.company_number "
+        f"WHERE p.name_norm IN ({marks})", names)]
+    known = [x for x in secs if x != "unknown"]
+    return bool(known) and all(x == "real_estate" for x in known)
+
+
+def _families(conn, rows: list[dict]) -> list[dict]:
+    """Merge name variants into one item: the lead (most charges) plus its members."""
+    groups: dict[str, list[dict]] = {}
+    for r in rows:
+        groups.setdefault(family_key(r["name"]), []).append(r)
+    out = []
+    for key, members in groups.items():
+        members.sort(key=lambda r: (-r["charges"], r["name"]))
+        lead = dict(members[0])
+        names = [m["name"] for m in members]
+        lead["members"] = [{"name": m["name"], "display": m["display"], "charges": m["charges"],
+                            "category": m["category"], "confidence": m["confidence"]} for m in members]
+        lead["family"] = key if len(members) > 1 else None
+        lead["family_charges"] = sum(m["charges"] for m in members)
+        lead["property_only"] = _property_only(conn, names)
+        cats = {m["category"] or "unknown" for m in members}
+        lead["priority"] = "low" if lead["property_only"] or not cats & {"direct_lender", "security_agent", "unknown"} else "high"
+        ex = []
+        for n in names:
+            ex += _examples(conn, n)
+        lead["examples"] = sorted(ex, key=lambda e: e["delivered_on"] or "", reverse=True)[:_EXAMPLES]
+        hist = []
+        for n in names:
+            hist += _history(conn, n)
+        lead["history"] = sorted(hist, key=lambda h: h["delivered_on"] or "")
+        out.append(lead)
+    out.sort(key=lambda r: (-r["family_charges"], r["name"]))
+    return out
+
+
 def decisions(conn) -> dict:
-    review = _lender_rows(conn, "lc.review_status = 'needs_review'")
-    confirm = _lender_rows(conn, "lc.source = 'agent' AND lc.review_status = 'auto_ok'")
-    waiting = _lender_rows(conn, "lc.name_norm IS NULL")
-    for group in (review, confirm, waiting):
-        for item in group:
-            item["examples"] = _examples(conn, item["name"])
-            item["history"] = _history(conn, item["name"])
+    """What needs a person, ordered so the decisions that change the headline come first.
+
+    - review: the agent couldn't decide, and the answer could matter (it might be a direct lender
+      or security agent, or the agent can't tell) and the lender doesn't only lend on property.
+    - low: everything else that's unsure: property-only lenders, low-stakes types. Safe to clear in bulk.
+    - confirm: confident agent answers that put a name in the headline tiers. Worth a glance.
+    - waiting: names the classifier agent hasn't seen yet.
+    Name variants ('X CAPITAL 6', 'X CAPITAL 7') are one item: one decision covers them all.
+    """
+    unsure = _families(conn, _lender_rows(conn, "lc.review_status = 'needs_review'"))
+    review = [r for r in unsure if r["priority"] == "high"]
+    low = [r for r in unsure if r["priority"] == "low"]
+    confirm = _families(conn, _lender_rows(
+        conn, "lc.source = 'agent' AND lc.review_status = 'auto_ok' AND lc.category IN ('direct_lender', 'security_agent')"))
+    waiting = _families(conn, _lender_rows(conn, "lc.name_norm IS NULL"))
     status = _draft_status()
     drafts = _md_files("drafts", "*-draft.md")
     for d in drafts:
         d["status"] = status.get(d["name"], {}).get("status", "new")
     return {
-        "lenders": {"review": review, "confirm": confirm, "waiting": waiting},
+        "lenders": {"review": review, "low": low, "confirm": confirm, "waiting": waiting},
+        "names": {"review": sum(len(r["members"]) for r in review), "low": sum(len(r["members"]) for r in low)},
         "messages": _md_files("inbox/maintainer"),
         "drafts": [d for d in drafts if d["status"] != "published"],
         "choices": [{"key": k, "label": label, "help": help_} for k, label, help_ in CHOICES],
@@ -590,15 +660,43 @@ def summary(conn, git: Git, sync: Sync) -> dict:
 
 # --------------------------------------------------------------------------- actions
 
-def decide(conn, git: Git, name: str, category: str, parent: str = "", note: str = "") -> dict:
+def decide(conn, git: Git, name: str, category: str, parent: str = "", note: str = "",
+           also: list[str] | None = None, future: str = "") -> dict:
+    """Classify one name, plus any of its variants (`also`), and optionally every future name
+    containing `future` (a whole-word phrase of the name, e.g. 'FORTYS CAPITAL')."""
     if category not in CATEGORY_LABELS or category == "unknown":
         raise ValueError(f"Unknown category {category!r}")
-    if not conn.execute("SELECT 1 FROM charge_persons WHERE name_norm = ?", (normalise_name(name),)).fetchone():
-        raise KeyError(f"No lender called {name}")
-    norm = add_human_rule(name, category, (parent or "").strip()[:100], (note or "set in review app")[:200])
+    names = [name] + [n for n in (also or []) if n != name][:200]
+    for n in names:
+        if not conn.execute("SELECT 1 FROM charge_persons WHERE name_norm = ?", (normalise_name(n),)).fetchone():
+            raise KeyError(f"No lender called {n}")
+    pattern = normalise_name(future or "")
+    if pattern:
+        if len(pattern) < 6 or f" {pattern} " not in f" {normalise_name(name)} ":
+            raise ValueError("The phrase for future names must be whole words from the lender's name, 6 letters or more")
+    parent = (parent or "").strip()[:100]
+    done = [add_human_rule(n, category, parent, (note or "set in review app")[:200]) for n in names]
+    if pattern:
+        add_human_rule(pattern, category, parent, "family rule set in review app", match_type="contains")
     refresh_rule_matches(conn, load_rules())
-    git.commit_and_push(["data/lenders.csv"], f"review: {norm} is {CATEGORY_LABELS[category].lower()}")
-    return {"name": norm, "category": category}
+    label = done[0] if len(done) == 1 else f"{done[0]} and {len(done) - 1} variant{'s' if len(done) > 2 else ''}"
+    git.commit_and_push(["data/lenders.csv"], f"review: {label} is {CATEGORY_LABELS[category].lower()}"
+                        + (f" (and future names containing {pattern})" if pattern else ""))
+    return {"names": done, "category": category, "future": pattern or None}
+
+
+def file_as(conn, git: Git, names: list[str], category: str) -> dict:
+    """Bulk: give many names the same type, e.g. 'these are all property lenders'."""
+    if category not in CATEGORY_LABELS or category == "unknown":
+        raise ValueError(f"Unknown category {category!r}")
+    done = []
+    for n in names[:500]:
+        if conn.execute("SELECT 1 FROM charge_persons WHERE name_norm = ?", (normalise_name(n),)).fetchone():
+            done.append(add_human_rule(n, category, "", "filed in bulk in review app"))
+    if done:
+        refresh_rule_matches(conn, load_rules())
+        git.commit_and_push(["data/lenders.csv"], f"review: {len(done)} names are {CATEGORY_LABELS[category].lower()}")
+    return {"filed": done, "category": category}
 
 
 def approve(conn, git: Git, names: list[str]) -> dict:

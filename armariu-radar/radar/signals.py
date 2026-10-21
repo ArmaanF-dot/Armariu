@@ -45,7 +45,7 @@ THEME_OF = {"refinanced": "new", "alongside": "new", "top_up": "new", "first_loa
             "maturity": "ahead", "repaid": "repaid"}
 CATEGORY_WORDS = {
     "direct_lender": "a private credit lender", "bank": "a bank", "security_agent": "a security agent",
-    "abl_specialist": "an asset-based lender", "asset_finance": "an asset finance lender",
+    "abl_specialist": "an asset-based lender", "asset_finance": "an asset finance lender", "property_lender": "a property lender",
     "public_sector": "a public-sector lender", "individual": "a private individual", "other": "another kind of lender",
     "unknown": "a lender not yet classified",
 }

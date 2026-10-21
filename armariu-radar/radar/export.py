@@ -53,7 +53,7 @@ def _tier(primary: str, worst_status: str, categories: list[str]) -> str:
         return "A"
     if primary == "security_agent":
         return "B"
-    if primary in ("abl_specialist", "asset_finance", "public_sector", "other"):
+    if primary in ("abl_specialist", "asset_finance", "property_lender", "public_sector", "other"):
         return "C"
     if primary in ("bank", "individual"):
         return "E"

@@ -32,6 +32,7 @@ SECTORS = {
 _CODES = {
     "64201": "holding", "64202": "holding", "64203": "holding", "64204": "holding", "64205": "holding",
     "64209": "holding", "70100": "holding", "64306": "real_estate",  # REITs
+    "41100": "real_estate",  # development of building projects: property developers
     "99999": "dormant", "74990": "dormant",  # dormant company; non-trading company
 }
 # SIC 2007 divisions (first two digits) -> sector.

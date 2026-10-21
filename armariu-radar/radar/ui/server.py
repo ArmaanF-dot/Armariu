@@ -140,7 +140,11 @@ def make_handler(app: App, port: int):
                 path = urlparse(self.path).path
                 if path == "/api/decide":
                     res = app.with_db(api.decide, app.git, body["name"], body["category"],
-                                      body.get("parent", ""), body.get("note", ""))
+                                      body.get("parent", ""), body.get("note", ""),
+                                      [str(n) for n in body.get("also") or []], str(body.get("future") or ""))
+                elif path == "/api/file-as":
+                    res = app.with_db(api.file_as, app.git, [str(n) for n in body.get("names") or []][:500],
+                                      body["category"])
                 elif path == "/api/approve":
                     names = body.get("names") or [body["name"]]
                     res = app.with_db(api.approve, app.git, [str(n) for n in names][:500])
