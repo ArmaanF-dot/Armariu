@@ -1,0 +1,60 @@
+{"name_norm": "FORTYS CAPITAL 6", "category": "unknown", "parent_firm": "Fortys Capital", "confidence": 0.3, "reason": "Numbered SPV name; borrowers are property companies, possibly related to the Eurocent group (could be intra-group)."}
+{"name_norm": "COMMUNITY ENABLE FUNDING LIMITED CRN 16197578", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Funding vehicle name only; multiple charges on a related group (Sharp), no other evidence of lender type."}
+{"name_norm": "PARATUS AMC", "category": "bank", "parent_firm": null, "confidence": 0.5, "reason": "Specialist mortgage/property lender name; borrowers are property SPVs; not verified as a deposit-taker."}
+{"name_norm": "HAMPSHIRE TRUST BANK", "category": "bank", "parent_firm": "Hampshire Trust Bank", "confidence": 0.95, "reason": "UK challenger bank by name; lends to property SPVs."}
+{"name_norm": "STUART ALAN FRASER", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; charges over three Shawston group companies on same day, likely a director/shareholder."}
+{"name_norm": "VIDA BANK LIMITED TRADING AS VIDA HOMELOANS", "category": "bank", "parent_firm": "Vida Homeloans", "confidence": 0.88, "reason": "'Bank' in name; buy-to-let lender trading as Vida Homeloans."}
+{"name_norm": "LEEDS BUILDING SOCIETY", "category": "bank", "parent_firm": "Leeds Building Society", "confidence": 0.95, "reason": "Building society."}
+{"name_norm": "GODIVA MORTGAGES", "category": "bank", "parent_firm": null, "confidence": 0.65, "reason": "Specialist mortgage lender to buy-to-let property companies; group/bank status not verified."}
+{"name_norm": "PP08 FINANCE", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Numbered finance SPV; no evidence of manager or lender type."}
+{"name_norm": "QUANTUM DEVELOPMENT FINANCE", "category": "direct_lender", "parent_firm": null, "confidence": 0.6, "reason": "Non-bank development finance lender; borrowers are developers (SIC 41100, land LLP)."}
+{"name_norm": "ROMACO SPV 2", "category": "unknown", "parent_firm": "Romaco", "confidence": 0.3, "reason": "Numbered SPV lending to property companies; parent not confirmed."}
+{"name_norm": "WEATHERBYS BANK", "category": "bank", "parent_firm": "Weatherbys", "confidence": 0.95, "reason": "Private bank by name."}
+{"name_norm": "COVENTRY AND WARWICKSHIRE REINVESTMENT TRUST", "category": "other", "parent_firm": null, "confidence": 0.55, "reason": "Community development finance (CDFI) trust lending to small businesses; fits no other category."}
+{"name_norm": "ADVANTEDGE COMMERCIAL FINANCE NORTH", "category": "abl_specialist", "parent_firm": "Advantedge", "confidence": 0.55, "reason": "Commercial finance name with floating charges; may be invoice/asset-based finance, unverified."}
+{"name_norm": "RUTHERFORD DAVIDSONS MAINS", "category": "other", "parent_firm": null, "confidence": 0.4, "reason": "Operating-company-style name lending to a care company (Cramond Manor); possibly intra-group or landlord."}
+{"name_norm": "CHARTER COURT FINANCIAL SERVICES", "category": "bank", "parent_firm": "OSB Group", "confidence": 0.85, "reason": "Specialist mortgage bank group (Precise/Charter Court, now OSB Group)."}
+{"name_norm": "CSC TRUSTEES LIMITED AND ITS SUCCESSORS IN TITLE AND PERMITTED TRANSFEREES", "category": "security_agent", "parent_firm": "CSC", "confidence": 0.95, "reason": "Corporate trustee on a securitisation issuer (Europcar Securitifleet)."}
+{"name_norm": "DBW INVESTMENTS 3", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Numbered investment vehicle; no evidence of lender type."}
+{"name_norm": "FLYING TRADE GROUP LIMITED COMPANY NUMBER 02407688", "category": "unknown", "parent_firm": "Flying Trade Group", "confidence": 0.3, "reason": "Trading group lending to a building firm; could be supplier or lender."}
+{"name_norm": "LENDINVEST SECURITY TRUSTEES", "category": "security_agent", "parent_firm": "LendInvest", "confidence": 0.95, "reason": "Security trustee entity of LendInvest."}
+{"name_norm": "MEIF II SMALLER LOANS WM LP ACTING BY ITS GENERAL PARTNER BCRS MEIF II GP", "category": "public_sector", "parent_firm": "British Business Bank", "confidence": 0.75, "reason": "Midlands Engine Investment Fund II, a British Business Bank-backed regional loan fund."}
+{"name_norm": "NATIONWIDE FINANCE", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Name may be an unrelated finance company rather than Nationwide Building Society."}
+{"name_norm": "SPF BRIDGING", "category": "direct_lender", "parent_firm": null, "confidence": 0.55, "reason": "Bridging finance lender to property companies."}
+{"name_norm": "TOPAZ FINANCE LIMITED TRADING AS ZEPHYR HOMELOANS", "category": "bank", "parent_firm": "Lloyds Banking Group", "confidence": 0.75, "reason": "Mortgage lender trading as Zephyr Homeloans, understood to be a Lloyds Banking Group entity."}
+{"name_norm": "HOPE CAPITAL 3", "category": "direct_lender", "parent_firm": "Hope Capital", "confidence": 0.55, "reason": "Numbered vehicle of Hope Capital, a bridging/property lender."}
+{"name_norm": "MINT PROPERTY FINANCE", "category": "direct_lender", "parent_firm": null, "confidence": 0.5, "reason": "Property finance lender name; borrowers are property companies."}
+{"name_norm": "REPARO FINANCE", "category": "direct_lender", "parent_firm": null, "confidence": 0.45, "reason": "Finance company name, likely non-bank property/development lender; unverified."}
+{"name_norm": "REWARD CAPITAL", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Same borrower (11210254) also charged by Whiteberry II Cityfields; relationship unclear."}
+{"name_norm": "LANCASHIRE MORTGAGE CORPORATION", "category": "bank", "parent_firm": null, "confidence": 0.5, "reason": "Mortgage lender name; charges from 2016, status as bank vs non-bank unverified."}
+{"name_norm": "NORTHERN BANK", "category": "bank", "parent_firm": "Danske Bank", "confidence": 0.95, "reason": "Northern Ireland bank (Danske Bank trading name); borrower is NI company."}
+{"name_norm": "U S BANK TRUST COMPANY NATIONAL ASSOCIATION AS NOTES COLLATERAL AGENT", "category": "security_agent", "parent_firm": "U.S. Bank", "confidence": 0.97, "reason": "Named as notes collateral agent."}
+{"name_norm": "ASPEN BRIDGING", "category": "direct_lender", "parent_firm": null, "confidence": 0.6, "reason": "Bridging lender to a development company."}
+{"name_norm": "CAMBRIDGE BUILDING SOCIETY", "category": "bank", "parent_firm": "Cambridge Building Society", "confidence": 0.95, "reason": "Building society."}
+{"name_norm": "CREATIVITY CAPITAL", "category": "unknown", "parent_firm": null, "confidence": 0.35, "reason": "Borrower is a film company; lender may be a media finance fund but unverified."}
+{"name_norm": "FORTYS CAPITAL 7", "category": "unknown", "parent_firm": "Fortys Capital", "confidence": 0.3, "reason": "Numbered SPV name; borrower Eurocent (Alton) shares naming with Eurocent (Hamlet), possible intra-group."}
+{"name_norm": "HBB BRIDGING LOANS", "category": "direct_lender", "parent_firm": null, "confidence": 0.55, "reason": "Bridging loan lender name; borrower is a property company."}
+{"name_norm": "J P MORGAN SE", "category": "bank", "parent_firm": "JPMorgan", "confidence": 0.95, "reason": "J.P. Morgan SE is JPMorgan's German bank entity."}
+{"name_norm": "JACKSON INSTALLATIONS AND FABRICATIONS", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Trade company chargee of a design and build firm; likely a supplier or subcontractor."}
+{"name_norm": "JASBEC BRIDGING SPV2", "category": "direct_lender", "parent_firm": "Jasbec", "confidence": 0.55, "reason": "Bridging finance SPV; borrower is a property company."}
+{"name_norm": "LENDCO", "category": "direct_lender", "parent_firm": null, "confidence": 0.45, "reason": "Lender-style name; borrower is a property SPV; unverified."}
+{"name_norm": "MOWBECK DEVELOPMENTS", "category": "other", "parent_firm": null, "confidence": 0.4, "reason": "Developer company charging a plastering firm; likely trade or group relationship."}
+{"name_norm": "MS LENDING SPV1", "category": "direct_lender", "parent_firm": null, "confidence": 0.5, "reason": "Lending SPV charging a property company."}
+{"name_norm": "NOTTINGHAM BUILDING SOCIETY", "category": "bank", "parent_firm": "Nottingham Building Society", "confidence": 0.95, "reason": "Building society."}
+{"name_norm": "PORT 443 LTD COMPANY NUMBER 07055291", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Company name with no lender indicators."}
+{"name_norm": "PROPERTY LENDING", "category": "direct_lender", "parent_firm": null, "confidence": 0.5, "reason": "LLP named property lending, charging a care development company."}
+{"name_norm": "PURE ENGINEERING HOLDINGS", "category": "other", "parent_firm": "Pure Engineering", "confidence": 0.85, "reason": "intra-group; name matches borrower Pure Auto Solutions group."}
+{"name_norm": "RHR BASILDON", "category": "other", "parent_firm": null, "confidence": 0.55, "reason": "Property-owning company, likely landlord of care home opco borrower."}
+{"name_norm": "SECURED FIXED INCOME PLC AS LENDER", "category": "direct_lender", "parent_firm": "Secured Fixed Income", "confidence": 0.65, "reason": "Named as lender; bond-funded secured lending platform to a holdco."}
+{"name_norm": "THE CHRISTIE CHARITY COMPANY NUMBER 14567938", "category": "other", "parent_firm": "The Christie", "confidence": 0.75, "reason": "Charity, likely landlord/funder of a pathology development."}
+{"name_norm": "THE CORPORATION OF THE GUILD OR BROTHERHOOD OF MASTERS AND PILOTS SEAMEN OF THE TRINITY HOUSE", "category": "other", "parent_firm": "Trinity House", "confidence": 0.75, "reason": "Trinity House, a charitable corporation, likely landlord or land-related chargee of a housebuilder."}
+{"name_norm": "VIDA BANK TRADING AS VIDA HOMELOANS", "category": "bank", "parent_firm": "Vida Homeloans", "confidence": 0.88, "reason": "'Bank' in name; buy-to-let lender trading as Vida Homeloans."}
+{"name_norm": "YORKSHIRE BUILDING SOCIETY", "category": "bank", "parent_firm": "Yorkshire Building Society", "confidence": 0.95, "reason": "Building society."}
+{"name_norm": "RHONDDA CYNON TAFF COUNTY BOROUGH COUNCIL", "category": "public_sector", "parent_firm": null, "confidence": 0.9, "reason": "Local authority."}
+{"name_norm": "ROMACO SPV 10", "category": "unknown", "parent_firm": "Romaco", "confidence": 0.3, "reason": "Numbered SPV; parent not confirmed, borrower unknown."}
+{"name_norm": "MUSGRAVE RETAIL PARTNERS NI", "category": "other", "parent_firm": "Musgrave", "confidence": 0.65, "reason": "Retail wholesaler (Centra/SuperValu); likely supplier or franchisor security."}
+{"name_norm": "MC DEVELOPMENTS SCAWBY", "category": "other", "parent_firm": null, "confidence": 0.35, "reason": "Development company name; likely group or private lender, unverified."}
+{"name_norm": "WHITEBERRY II CITYFIELDS WAKEFIELD", "category": "other", "parent_firm": null, "confidence": 0.4, "reason": "Property company sharing a borrower (11210254) with Reward Capital; possibly intra-group."}
+{"name_norm": "PCI RAIF PONTIS BRIDGING FINANCE FUND", "category": "direct_lender", "parent_firm": "Pontis", "confidence": 0.8, "reason": "RAIF fund vehicle ('Bridging Finance Fund'); co-chargee Pontis Investment S.a.r.l."}
+{"name_norm": "PONTIS INVESTMENT S A R L", "category": "direct_lender", "parent_firm": "Pontis", "confidence": 0.75, "reason": "Luxembourg S.a.r.l. co-chargee with the Pontis Bridging Finance Fund."}
+{"name_norm": "NSP LENDING", "category": "direct_lender", "parent_firm": null, "confidence": 0.45, "reason": "Lending company name only; unverified."}
