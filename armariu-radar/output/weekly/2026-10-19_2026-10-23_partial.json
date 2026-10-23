@@ -6,11 +6,11 @@
   "coverage_note": "The radar started watching on 2026-10-20, after this window began, so filings before then are missing. Counts are not a true weekly total.",
   "counts": {
     "A": 0,
-    "B": 86,
-    "C": 839,
-    "D": 125,
-    "E": 612
+    "B": 87,
+    "C": 859,
+    "D": 129,
+    "E": 616
   },
-  "total": 1662,
+  "total": 1691,
   "satisfactions": 143
 }
