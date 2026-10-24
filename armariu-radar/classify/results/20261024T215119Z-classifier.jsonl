@@ -1,0 +1,2 @@
+{"name_norm": "ONESAVINGS BANK PLC TRADING AS KENT RELIANCE BANKING SERVICES KENT RELIANCE AND KRBS", "category": "property_lender", "parent_firm": "OSB Group", "confidence": 0.75, "reason": "Kent Reliance is OSB Group's mortgage brand; borrower is a property company (SIC 68209) and sibling Interbay is a property_lender in the rules. Legal entity is a bank."}
+{"name_norm": "JOHN VICTOR TAYLOR", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name with no Companies House company match; chargee on a property developer (SIC 41100)."}
