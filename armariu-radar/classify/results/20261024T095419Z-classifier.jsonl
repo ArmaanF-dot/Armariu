@@ -1,0 +1,5 @@
+{"name_norm": "APF SPV 1", "category": "property_lender", "parent_firm": "Apf Topco Limited", "confidence": 0.65, "reason": "Funding SPV (SIC 64921) owned by Apf Topco; borrower is a property holding company (SIC 68100/68209), no co-chargees."}
+{"name_norm": "ADAM ROBINSON", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; charges on two Red Top property companies. Only match is a dissolved Adam Robinson Limited owned by the same name."}
+{"name_norm": "ROMHAR", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Small property-letting company (SIC 68209) owned by two individuals, charging Red Top Properties; not a lending business, no ownership link found to the borrower."}
+{"name_norm": "DAVID BECK", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name with no Companies House company match; charge on a property company."}
+{"name_norm": "NRG COMMERCIAL FINANCE", "category": "property_lender", "parent_firm": null, "confidence": 0.8, "reason": "Mortgage finance company (SIC 64922) owned by an individual; borrower is a property letting company."}
