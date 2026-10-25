@@ -1,0 +1,3 @@
+{"name_norm": "PUNJAB NATIONAL BANK INTERNATIONAL", "category": "bank", "parent_firm": "Punjab National Bank", "confidence": 0.95, "reason": "UK subsidiary of Punjab National Bank, an international bank; two registered charges over a property company (SIC 68100)"}
+{"name_norm": "TALGON HOLDINGS", "category": "unknown", "parent_firm": null, "confidence": 0.2, "reason": "Holdings company with no Companies House match; one charge over a property company (SIC 68100) and no other evidence on whether it is a lender or a related party"}
+{"name_norm": "WILLIAMS AND GLYN S BNAK", "category": "bank", "parent_firm": "Williams & Glyn", "confidence": 0.9, "reason": "Misspelled Williams & Glyn's Bank PLC; 1985 legal charge securing all monies, typical of a high-street bank"}
