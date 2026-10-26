@@ -1,0 +1,49 @@
+{"name_norm": "BRERETON FUTURE FINANCE", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Fund-management SIC, new company owned by one person; borrowers are a property and a restaurant company, no clear lender model"}
+{"name_norm": "TRIODOS BANK", "category": "bank", "parent_firm": null, "confidence": 0.97, "reason": "Triodos Bank is an ethical bank"}
+{"name_norm": "DERRY CREDIT UNION", "category": "bank", "parent_firm": null, "confidence": 0.7, "reason": "Credit union (industrial and provident society), a deposit-taking lender"}
+{"name_norm": "AGENZIA 14", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Wholesale-trade SIC owned by one person; lends to a credit-granting company, role unclear"}
+{"name_norm": "BLENHEIM RESIDENTIAL", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: shares owner/director (Matthew Sugars) and a corporate director with the borrower"}
+{"name_norm": "EMMA REEVE", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "FERN TRADING GROUP", "category": "other", "parent_firm": "Octopus Group", "confidence": 0.8, "reason": "intra-group: owned via Octopus Investments Nominees Limited; borrower is Octopus Investments Limited"}
+{"name_norm": "FYI LOAN L P ACTING BY ITS GENERAL PARTNER FYI LOAN GP", "category": "direct_lender", "parent_firm": null, "confidence": 0.65, "reason": "Loan LP with general partner, fund vehicle lending to a software company with all-asset floating charge"}
+{"name_norm": "GOGOPROP FINANCE UK", "category": "property_lender", "parent_firm": null, "confidence": 0.8, "reason": "SIC 64922 mortgage finance; borrower is a property apartments company"}
+{"name_norm": "GOLDMAN SACHS INTERNATIONAL BANK", "category": "bank", "parent_firm": "The Goldman Sachs Group, Inc.", "confidence": 0.97, "reason": "UK bank (SIC 64191) in the Goldman Sachs group"}
+{"name_norm": "IVO LEGAL STRATEGIES FUND IV S L P", "category": "direct_lender", "parent_firm": "IVO Capital", "confidence": 0.6, "reason": "Fund-form name (Scottish LP) for a legal-assets credit strategy; borrower is a software company"}
+{"name_norm": "PAULINE WESTGATE", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "RONALD ALAN LEVY", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "SOCIAL MONEY", "category": "property_lender", "parent_firm": null, "confidence": 0.6, "reason": "Other credit granting SIC; borrower is a developer (SIC 41100), owned by one person"}
+{"name_norm": "TIPTON AND COSELEY BUILDING SOCIETY", "category": "bank", "parent_firm": null, "confidence": 0.95, "reason": "Building society"}
+{"name_norm": "GG FINANCE", "category": "property_lender", "parent_firm": "Lendhub Group Limited", "confidence": 0.85, "reason": "Mortgage finance SIC, same group as LendHub and LH Bridging 1; borrower is a developer"}
+{"name_norm": "RED KITE FF1", "category": "property_lender", "parent_firm": "Red Kite Lending Ltd", "confidence": 0.85, "reason": "Numbered vehicle of Red Kite Lending (sibling Red Kite Bridging); borrower is a property developer"}
+{"name_norm": "SS1 2NW", "category": "unknown", "parent_firm": null, "confidence": 0.2, "reason": "Postcode-style company name, no Companies House match; lends to a property company"}
+{"name_norm": "DF CAPITAL BANK", "category": "bank", "parent_firm": "Distribution Finance Capital Holdings Plc", "confidence": 0.93, "reason": "Banks SIC 64191, part of Distribution Finance Capital group"}
+{"name_norm": "BELFAST COMMERCIAL FUNDING II", "category": "direct_lender", "parent_firm": "Oakland (Holdings) Limited", "confidence": 0.5, "reason": "Numbered funding vehicle, sibling in Oakland group has credit-granting SIC; borrower is a financial company"}
+{"name_norm": "CAVITY DENTAL STAFF AGENCY LTD IN ADMINISTRATION ACTING BY ITS JOINT ADMINISTRATORS CHRISTOPHER LEWIS GORDON THOMSON AND GRAHAM PAUL BUSHBY OF RSM UK RESTRUCTURING ADVISORY LLP AND THE JOINT ADMINISTRATORS", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "intra-group: chargee name matches the borrower's group (Cavity Dental Staff), in administration"}
+{"name_norm": "KAN VENTURES", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Owned by three individuals, SIC 74909; lends to a property company, role unclear"}
+{"name_norm": "NICHOLAS CHRISTOFI", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "PHILIP ANTHONY LANGLEY SMITH", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "SIMON BELL AND ANDREW JAMES THURSFIELD", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Two personal names, same borrower as related charges"}
+{"name_norm": "SIMON BELL AND ANDREW JAMES THURSFIELD AND DAVID THURSFIELD", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Three personal names, same borrower as related charges"}
+{"name_norm": "WILLIAMS STANLEY AND CO", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "related party: accountancy firm (SIC 69202) sharing the Stanley name with the borrower Stanley and Partners"}
+{"name_norm": "ANDREW JAMES THURSFIELD", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, co-chargee with Simon Bell"}
+{"name_norm": "SIMON BELL AND", "category": "individual", "parent_firm": null, "confidence": 0.85, "reason": "Truncated personal name, co-chargee with Andrew James Thursfield"}
+{"name_norm": "LEFT FOOT BRAKING", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Venture capital and property SICs, owned by one person; lends to a property company, role unclear"}
+{"name_norm": "FLEXABL", "category": "abl_specialist", "parent_firm": null, "confidence": 0.6, "reason": "Name suggests a flexible working-capital finance fintech; floating charge over a retail company; no Companies House match"}
+{"name_norm": "EMPOWERED TRUSTEES", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Appears to be a pension (SIPP) trustee company owned by one person, lending to a property company"}
+{"name_norm": "CBRE LOAN SERVICES", "category": "security_agent", "parent_firm": "CBRE Group, Inc.", "confidence": 0.85, "reason": "Loan servicing/agency arm of CBRE; borrower is a financing SPV"}
+{"name_norm": "I AND F SECURITIES", "category": "property_lender", "parent_firm": null, "confidence": 0.45, "reason": "Owned by three individuals; lends to a developer (SIC 41100/68100)"}
+{"name_norm": "FOUNDATION HOME LOANS", "category": "property_lender", "parent_firm": null, "confidence": 0.9, "reason": "Specialist buy-to-let mortgage lender; borrower is a property company"}
+{"name_norm": "LLOYD S BANK", "category": "bank", "parent_firm": "Lloyds Banking Group", "confidence": 0.97, "reason": "Lloyds Bank"}
+{"name_norm": "CPF ONE LIMITIED", "category": "unknown", "parent_firm": null, "confidence": 0.2, "reason": "Misspelt name, no match; lends to a property company"}
+{"name_norm": "ARBUTHNOT LATHAM AND CO", "category": "bank", "parent_firm": "Arbuthnot Banking Group Plc", "confidence": 0.95, "reason": "Private bank owned by Arbuthnot Banking Group"}
+{"name_norm": "LESLEY MAUREEN DAYSH", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "CALOR PARTNERS PROPERTIES LP AS TRUSTEE FOR THE FINANCE PARTIES", "category": "security_agent", "parent_firm": null, "confidence": 0.8, "reason": "Chargee acts as trustee for the finance parties on a debenture"}
+{"name_norm": "DAVID ROY WARREN AND ANTHONY MICHAEL SMYTH", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Two personal names"}
+{"name_norm": "MICHAEL GUY FISHER HUDSON", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "BANK OF CHINA", "category": "bank", "parent_firm": "Bank of China", "confidence": 0.97, "reason": "Bank of China, overseas company"}
+{"name_norm": "FIRST NATIONAL BANK", "category": "bank", "parent_firm": null, "confidence": 0.85, "reason": "Bank PLC with mortgage and general charge"}
+{"name_norm": "RUSSELL CORP UK", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Dissolved trading company; standard security over missives, likely a property seller or supplier"}
+{"name_norm": "NATONAL WESTMINSTER BANK", "category": "bank", "parent_firm": "NatWest Group", "confidence": 0.95, "reason": "Misspelling of National Westminster Bank"}
+{"name_norm": "PREMIUM LIFE ASSURANCE COMPANY", "category": "other", "parent_firm": null, "confidence": 0.7, "reason": "Life assurance company, an insurer rather than a lender"}
+{"name_norm": "NORTHERN ROCK BUILDING SOCIETY", "category": "bank", "parent_firm": null, "confidence": 0.9, "reason": "Building society"}
+{"name_norm": "ROUTAL TRUST BANK", "category": "bank", "parent_firm": null, "confidence": 0.7, "reason": "Likely a misspelling of Royal Trust Bank"}
