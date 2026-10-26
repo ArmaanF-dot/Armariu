@@ -1,0 +1,1 @@
+Classifier run 20261026T151303Z: three chargees have exactly the same name and company number as the borrower (LAMLOS, SUMPTER PROPERTY SOLUTIONS, MAR VISTA PROPERTIES). This is probably a filing error or a self-referencing charge entry, not a real lender. They were classified `other` at low confidence. Also, `classify/pending.jsonl` ends with an empty line 61, which is harmless.
