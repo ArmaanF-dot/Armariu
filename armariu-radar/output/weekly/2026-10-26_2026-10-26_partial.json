@@ -7,10 +7,10 @@
   "counts": {
     "A": 0,
     "B": 0,
-    "C": 7,
-    "D": 1,
-    "E": 4
+    "C": 14,
+    "D": 0,
+    "E": 12
   },
-  "total": 12,
-  "satisfactions": 7
+  "total": 26,
+  "satisfactions": 26
 }
