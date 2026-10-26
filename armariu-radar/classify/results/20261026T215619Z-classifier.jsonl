@@ -1,0 +1,2 @@
+{"name_norm": "KROLL TRUSTEE SERVICES", "category": "security_agent", "parent_firm": "Kroll", "confidence": 0.95, "reason": "Corporate trustee name; Companies House shows SIC 66190 and ownership by Kroll Agency and Trustee Services within the Kroll group."}
+{"name_norm": "KAL TIRE LUXEMBOURG S A R L", "category": "other", "parent_firm": "Kal Tire", "confidence": 0.85, "reason": "Intra-group: chargee name matches borrower Kal Tire (UK) Limited; Luxembourg group finance entity of the same group."}
