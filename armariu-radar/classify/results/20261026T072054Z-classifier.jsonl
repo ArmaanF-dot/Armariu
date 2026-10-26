@@ -1,0 +1,4 @@
+{"name_norm": "FCMB BANK UK", "category": "bank", "parent_firm": "FCMB Group", "confidence": 0.93, "reason": "Name is a UK bank subsidiary (FCMB Bank (UK) Limited); charge over a property investment company (SIC 68100)."}
+{"name_norm": "SIMON CHARLES GRIST STEVENS", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Chargee name is a private individual; no company record."}
+{"name_norm": "THE TRUSTEES OF THE BOOTLE ESTATES SSAS", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "Pension scheme (SSAS) trustees lending to a trading company; not a security agent or institutional lender."}
+{"name_norm": "PATERSON JAMES", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Small film-sector company (SIC 59111) owned by one person, charging a film company (SIC 59111/59113); likely trade or production-finance counterparty, not a credit lender."}
