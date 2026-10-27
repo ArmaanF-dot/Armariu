@@ -30,8 +30,9 @@ through files in this folder.
 |---|---|
 | `radar/`, `schema.sql`, `scripts/`, `agents/`, `CLAUDE.md` | people only (via pull request) |
 | `data/lenders.csv` | people only (`python -m radar.review ...`) |
+| `data/lender_groups.csv` | people only (edit by pull request; maps lenders to the five groups) |
 | `data/lender_notes.json` | people only (research notes, via the review app) |
-| `classify/queue.jsonl`, `output/weekly/` | pipeline only |
+| `classify/queue.jsonl`, `output/weekly/`, `output/monthly/` | pipeline only |
 | `classify/results/` | classifier agent |
 | `classify/second_queue.jsonl`, `classify/referee_queue.jsonl` | pipeline only |
 | `classify/second/` | verifier agent (must not read the classifier's results) |
@@ -64,6 +65,7 @@ python -m radar.ui                    # review app: overview, signals, lender di
 python -m radar.ingest history        # fetch borrowers' full charge history (the pipeline does this)
 python -m radar.owners show "NAME"    # what Companies House says is behind a lender
 python -m radar.review list           # names that need a human decision
+python -m radar.monthly [--month YYYY-MM]  # MR01/MR04 extract + lender groups + data-quality note (rules only)
 python -m radar.review set "NAME" direct_lender --parent "Firm"
 python -m unittest discover -s tests  # tests
 python -m radar.demo                  # offline demo on synthetic data
