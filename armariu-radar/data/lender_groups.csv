@@ -1,0 +1,56 @@
+# Maps a lender (by normalised chargee name) to a canonical lender and one of five groups.
+# Groups: clearing_bank | challenger_bank | private_credit_direct | abl_invoice | other
+# Matching is the same as lenders.csv: exact | contains (whole words) | regex, on the normalised
+# name (upper case, no punctuation, no Ltd/PLC). Longest pattern wins, so a specific row such as
+# "HSBC INVOICE FINANCE" beats the general "HSBC".
+# Names that match no row here fall back to their lenders.csv category:
+#   direct_lender -> private_credit_direct, abl_specialist -> abl_invoice, everything else -> other.
+# The clearing/challenger split is a judgement call (note column); edit a row to change it.
+match_type,pattern,canonical,lender_group,note
+contains,BARCLAYS,Barclays,clearing_bank,big five
+contains,HSBC INVOICE FINANCE,HSBC,abl_invoice,HSBC invoice finance arm
+contains,HSBC,HSBC,clearing_bank,big five; includes HSBC UK Bank and HSBC Bank
+contains,MIDLAND BANK,HSBC,clearing_bank,old HSBC name
+contains,LLOYDS BANK COMMERCIAL FINANCE,Lloyds,abl_invoice,Lloyds asset-based lending / invoice finance arm
+contains,LLOYDS BANK,Lloyds,clearing_bank,big five
+contains,LLOYDS TSB,Lloyds,clearing_bank,old Lloyds Bank name (not the current TSB)
+contains,BANK OF SCOTLAND,Lloyds,clearing_bank,Lloyds Banking Group
+contains,HBOS,Lloyds,clearing_bank,Lloyds Banking Group
+contains,NATIONAL WESTMINSTER BANK,NatWest,clearing_bank,big five
+contains,NATWEST,NatWest,clearing_bank,big five
+contains,ROYAL BANK OF SCOTLAND,NatWest,clearing_bank,old NatWest Group name
+contains,ULSTER BANK,NatWest,clearing_bank,NatWest Group
+contains,COUTTS,NatWest,clearing_bank,NatWest Group private bank
+contains,RBS INVOICE FINANCE,NatWest,abl_invoice,NatWest invoice finance arm
+contains,SANTANDER UK,Santander UK,clearing_bank,big five
+contains,ABBEY NATIONAL,Santander UK,clearing_bank,old Santander UK name
+contains,METRO BANK,Metro Bank,challenger_bank,
+contains,SHAWBROOK,Shawbrook,challenger_bank,
+contains,ALDERMORE,Aldermore,challenger_bank,
+contains,OAKNORTH,OakNorth,challenger_bank,
+contains,PARAGON BANK,Paragon Banking Group,challenger_bank,
+contains,PARAGON BANKING GROUP,Paragon Banking Group,challenger_bank,
+contains,PARAGON MORTGAGES,Paragon Banking Group,challenger_bank,Paragon securitisation vehicles
+contains,PARAGON DEVELOPMENT FINANCE,Paragon Banking Group,challenger_bank,
+contains,ONESAVINGS BANK,OSB Group,challenger_bank,
+contains,CHARTER COURT FINANCIAL SERVICES,OSB Group,challenger_bank,OSB Group (Precise Mortgages)
+contains,INTERBAY FUNDING,OSB Group,challenger_bank,OSB Group
+contains,HAMPSHIRE TRUST BANK,Hampshire Trust Bank,challenger_bank,
+contains,ALLICA,Allica Bank,challenger_bank,includes Allica Bridging Finance
+contains,ATOM BANK,Atom Bank,challenger_bank,
+contains,CYNERGY BANK,Cynergy Bank,challenger_bank,
+contains,ALRAYAN BANK,Alrayan Bank,challenger_bank,
+contains,CHETWOOD FINANCIAL,Chetwood Financial,challenger_bank,
+contains,STARLING BANK,Starling Bank,challenger_bank,
+contains,MONZO,Monzo,challenger_bank,
+contains,RECOGNISE BANK,Recognise Bank,challenger_bank,
+contains,UNITED TRUST BANK,United Trust Bank,challenger_bank,
+contains,SECURE TRUST BANK,Secure Trust Bank,challenger_bank,
+contains,HANDELSBANKEN,Handelsbanken,challenger_bank,judgement call: UK branch of a Swedish bank that competes with challengers for SME lending
+contains,CLYDESDALE BANK,Virgin Money,challenger_bank,Virgin Money UK
+contains,YORKSHIRE BANK,Virgin Money,challenger_bank,Virgin Money UK
+contains,VIRGIN MONEY,Virgin Money,challenger_bank,
+exact,TSB BANK,TSB,challenger_bank,
+exact,TSB,TSB,challenger_bank,
+contains,CO OPERATIVE BANK,Co-operative Bank,challenger_bank,judgement call: mid-tier rather than clearing
+contains,CLOSE BROTHERS,Close Brothers,abl_invoice,seed rule treats Close Brothers as asset-based / invoice finance

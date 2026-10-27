@@ -110,5 +110,5 @@ contains,LENDINVEST,property_lender,LendInvest,0.85,seed,
 contains,AVAMORE,property_lender,Avamore Capital,0.85,seed,
 contains,HOPE CAPITAL,property_lender,Hope Capital,0.85,seed,
 # Funds at Lloyd's: trust deeds over a member's assets, not lending.
-contains,AS DEFINED IN THE INSTRUMENT,other,Lloyd's,0.90,seed,Lloyd's trust deed
+# Do not match on 'AS DEFINED IN THE INSTRUMENT': it appears in collateral-agent names too.
 contains,LLOYD S ACT 1871,other,Lloyd's,0.90,seed,Lloyd's trust deed
