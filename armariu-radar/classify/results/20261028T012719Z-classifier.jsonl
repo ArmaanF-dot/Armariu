@@ -1,0 +1,4 @@
+{"name_norm": "RGI GROUP", "category": "other", "parent_firm": null, "confidence": 0.4, "reason": "Consultancy (SIC 70229) owned 75-100% by one person, holding a charge over a property company; likely private/related-party lender, not verifiable from filing."}
+{"name_norm": "WAYNE KEVIN SPRIGGS", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name; no Companies House company match."}
+{"name_norm": "PETER VICTOR ANTHONY ROBERT SIDOLI", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name; no Companies House company match."}
+{"name_norm": "APF HOLDCO", "category": "property_lender", "parent_firm": null, "confidence": 0.45, "reason": "Financial-services holding company (SIC 64205) owned by one individual, charge over a property company (SIC 68100); business model unclear."}
