@@ -6,11 +6,11 @@
   "coverage_note": "",
   "counts": {
     "A": 0,
-    "B": 44,
-    "C": 148,
-    "D": 10,
-    "E": 72
+    "B": 47,
+    "C": 248,
+    "D": 20,
+    "E": 125
   },
-  "total": 274,
-  "satisfactions": 117
+  "total": 440,
+  "satisfactions": 165
 }
