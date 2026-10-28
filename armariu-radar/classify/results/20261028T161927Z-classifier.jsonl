@@ -1,0 +1,40 @@
+{"name_norm": "PHOENIX MONEY", "category": "property_lender", "parent_firm": "Phoenix Money Group", "confidence": 0.8, "reason": "Credit-granting firm (SIC 64929); borrower is a property company (SIC 68100) with several charges"}
+{"name_norm": "CW BOOTH HOLDINGS", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Holding company name, no Companies House match; borrower is a property company; cannot tell if related party or lender"}
+{"name_norm": "CHANNING SALUBRITAS 1", "category": "property_lender", "parent_firm": "Channing Salubritas Limited", "confidence": 0.85, "reason": "Numbered mortgage-finance vehicle (SIC 64922) lending to a property developer"}
+{"name_norm": "ELDORIUM FINANCE", "category": "property_lender", "parent_firm": null, "confidence": 0.65, "reason": "Mortgage finance SIC 64922, privately owned; borrower is a self-storage property operator"}
+{"name_norm": "PAUL BEETHAM", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name"}
+{"name_norm": "TAPTON CAPITAL", "category": "other", "parent_firm": null, "confidence": 0.7, "reason": "related party: shares owner/director James Lennon with its only borrower checked (Clover Real Estate)"}
+{"name_norm": "THE COUNCIL OF THE BOROUGH OF SWINDON", "category": "public_sector", "parent_firm": null, "confidence": 0.95, "reason": "Local authority"}
+{"name_norm": "TARNPROP LENDING 1", "category": "property_lender", "parent_firm": "Tarnprop", "confidence": 0.85, "reason": "Numbered lending vehicle; borrower is a property development company"}
+{"name_norm": "BRIDGECO", "category": "property_lender", "parent_firm": "Octopus Investments", "confidence": 0.85, "reason": "Bridging lender owned via Octopus nominee chain; borrower is a property services company"}
+{"name_norm": "VOYAGER A S CO", "category": "asset_finance", "parent_firm": null, "confidence": 0.5, "reason": "Chargee on Jet2 aircraft-related charges alongside a bank; likely aircraft lease/finance vehicle"}
+{"name_norm": "CCG SCOTLAND", "category": "other", "parent_firm": null, "confidence": 0.45, "reason": "Care-sector name matching a care borrower; Companies House match is a different dissolved company; likely group/related company"}
+{"name_norm": "ALAN MICHAEL RICHMOND", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name"}
+{"name_norm": "ALAN ROBERT GARRETT", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name; co-chargee is another individual"}
+{"name_norm": "ALISON JANE GARRETT", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name; co-chargee is another individual"}
+{"name_norm": "CHETWOOD FINANCIAL LIMITED TRADING AS MODAMORTGAGES COMPANY NUMBER 9964966", "category": "bank", "parent_firm": null, "confidence": 0.7, "reason": "Chetwood Financial is a bank (SIC 64191) lending mortgages under the Modamortgages name"}
+{"name_norm": "DAVID CHAIM WEISSBART", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name; co-chargee is another individual"}
+{"name_norm": "DEBORAH COPITHORNE CRAINEY", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name"}
+{"name_norm": "INNOVATION FINANCE", "category": "abl_specialist", "parent_firm": "Prime 5 Finance Limited", "confidence": 0.85, "reason": "Companies House SIC 64992 factoring; owned by Prime 5 Finance Limited"}
+{"name_norm": "J S CYCLE SHACK LTD IN ADMINISTRATION JOHN HEDGER AS ADMINISTRATOR OF J S CYCLE SHACK LTD IN ADMINISTRATION", "category": "other", "parent_firm": null, "confidence": 0.7, "reason": "Trading company in administration, not a lender; likely commercial creditor"}
+{"name_norm": "JEAN FLORENCE DOBIE", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name; co-chargees are family members"}
+{"name_norm": "JONATHAN WEISSBART", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name; co-chargee is another individual"}
+{"name_norm": "M GOOD AND SON", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: shares owner/director Joseph Good with borrower J Good Properties"}
+{"name_norm": "MS BADER UN NISA", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name"}
+{"name_norm": "PETER DOBIE", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name; co-chargees are family members"}
+{"name_norm": "STEPHEN DOBIE", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name; co-chargees are family members"}
+{"name_norm": "SUSAN ELIZABETH OSBORNE", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name"}
+{"name_norm": "U S BANK TRUSTEES", "category": "security_agent", "parent_firm": "U.S. Bancorp", "confidence": 0.95, "reason": "Corporate trustee company owned by U.S. Bancorp; chargee on a funding vehicle"}
+{"name_norm": "WALTER DOBIE", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name; co-chargees are family members"}
+{"name_norm": "THE TRUSTEES OF THE LAYLA AND LILLY INVESTMENTS", "category": "individual", "parent_firm": null, "confidence": 0.75, "reason": "Private family-style trust lending to a property company"}
+{"name_norm": "KK VENTURES", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Private holding company (owner Dr Gakhal) with SIC 82990; no link to borrower evidenced; purpose unclear"}
+{"name_norm": "JOSEPH STEPHEN MARGAGLIONE", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name"}
+{"name_norm": "PT BANK NEGARA INDONESIA PERSERO TBK", "category": "bank", "parent_firm": null, "confidence": 0.95, "reason": "Indonesian state-owned bank"}
+{"name_norm": "ANDREW GEORGE KELLY", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name; Companies House search found nothing"}
+{"name_norm": "DBW INVESTMENTS 14", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Numbered investment vehicle, no Companies House match; lender type unclear; borrower is a tech company"}
+{"name_norm": "MARK STOCKDALE", "category": "individual", "parent_firm": null, "confidence": 0.85, "reason": "Personal name; Companies House match is a dissolved one-person company, not a lender"}
+{"name_norm": "BLACKROCK SECURED FINANCE", "category": "direct_lender", "parent_firm": "BlackRock", "confidence": 0.7, "reason": "Name suggests a BlackRock secured lending vehicle; no Companies House match; borrower is a farming business"}
+{"name_norm": "DART GROUP", "category": "other", "parent_firm": "Dart Group", "confidence": 0.9, "reason": "intra-group: Dart Group PLC is the parent of borrower Jet2.com"}
+{"name_norm": "THE BIG LOTTERY FUND", "category": "public_sector", "parent_firm": null, "confidence": 0.95, "reason": "UK government-sponsored grant distributor"}
+{"name_norm": "MSG COMMERCIAL", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Private company owned by an individual; charge over shares; not a recognisable lender"}
+{"name_norm": "TASSIA MESSIMERIS AND STAMATIOS MESSIMERIS", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "Individuals holding a counterpart rent deposit deed, i.e. landlords"}
