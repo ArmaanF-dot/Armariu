@@ -1,0 +1,54 @@
+{"name_norm": "AIB GROUP UK P L C AS LENDER", "category": "bank", "parent_firm": "AIB", "confidence": 0.95, "reason": "Allied Irish Banks' UK subsidiary (AIB Group (UK) p.l.c.); lender to care-home operators"}
+{"name_norm": "C HOARE AND CO", "category": "bank", "parent_firm": "C. Hoare & Co.", "confidence": 0.96, "reason": "Companies House SIC 64191 Banks; private bank, matched exact name"}
+{"name_norm": "MATEX INTERNATIONAL", "category": "property_lender", "parent_firm": null, "confidence": 0.65, "reason": "SIC 64921 credit granting plus 68100; borrower is a property company; single-person owned"}
+{"name_norm": "OWNREAGH INVESTMENTS", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Person-owned, SIC 99999; borrower is a property services company; cannot tell if lender or related party"}
+{"name_norm": "WESTBROOKE PRIVATE CAPITAL S A R L", "category": "property_lender", "parent_firm": "Westbrooke", "confidence": 0.55, "reason": "Luxembourg vehicle; all sampled borrowers are property SPVs (68100, 68209); no Companies House record"}
+{"name_norm": "AVALLON", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Person-owned, SIC 55209 (holiday accommodation); borrower is a property company; role unclear"}
+{"name_norm": "MW PRIVATE INVESTORS HEATON GROUP GENERAL PARTNER LIMITED AS GENERAL PARTNER OF MW PRIVATE INVESTORS HEATON GROUP LIMITED PARTNERSHIP", "category": "property_lender", "parent_firm": null, "confidence": 0.5, "reason": "Private investor partnership GP; charges over a development company (41100); same entity as sibling name"}
+{"name_norm": "RICKY JOHN HALLS", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "VELOCITEE CONSULTING", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Consulting company (SIC 70229) owned by a person; charge over a property company; role unclear"}
+{"name_norm": "FORESIGHT FUND MANAGERS", "category": "direct_lender", "parent_firm": "Foresight Group", "confidence": 0.7, "reason": "Foresight Group fund manager (SIC 64301) with all-asset charges over Northern Ireland SMEs, likely acting for a fund"}
+{"name_norm": "ALO TOWER S A R L", "category": "property_lender", "parent_firm": null, "confidence": 0.5, "reason": "Luxembourg vehicle; borrowers are two Scottish property developers (68100); no Companies House record"}
+{"name_norm": "COMMUNITY ENABLE FUNDING LIMITED CO NO 16197578", "category": "unknown", "parent_firm": null, "confidence": 0.35, "reason": "Orphan-style funding SPV (SIC 64999, owned by TMF Trustee) with small-business borrowers; fund behind it unclear"}
+{"name_norm": "HOTHI GROUP", "category": "property_lender", "parent_firm": null, "confidence": 0.65, "reason": "SIC 64929 credit granting and 68209; family owned; borrower is a developer (41100)"}
+{"name_norm": "SLC HE", "category": "unknown", "parent_firm": null, "confidence": 0.15, "reason": "Companies House match is a dissolved SLC Limited, probably the wrong company; borrower is a property company"}
+{"name_norm": "CR RED SUB REIT", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "US REIT subsidiary LLC; borrowers are care providers; may be real estate finance but unclear"}
+{"name_norm": "THRIVE CARE GROUP", "category": "other", "parent_firm": "Keyser Holdings", "confidence": 0.4, "reason": "Care group (SIC 87900), not a finance company; charge over a development SPV, likely group or related funding"}
+{"name_norm": "ABC MK", "category": "property_lender", "parent_firm": null, "confidence": 0.6, "reason": "SIC 64921 credit granting; family owned; borrower is a property developer; company now dissolved"}
+{"name_norm": "MW PRIVATE INVESTORS HEATON GROUP GENERAL PARTNER", "category": "property_lender", "parent_firm": null, "confidence": 0.5, "reason": "Same entity as the longer 'as General Partner' name; charges over a development company (41100)"}
+{"name_norm": "DBW INVESTMENTS 11", "category": "property_lender", "parent_firm": null, "confidence": 0.45, "reason": "Numbered investment vehicle; borrower is a property company (68100); no Companies House match"}
+{"name_norm": "ALT ADVISORS", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Person-owned advisory company (SIC 70221); borrower is a construction company; role unclear"}
+{"name_norm": "BAAJ FINANCE", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Person-owned, SIC 70221 not a lending code; 'Finance' name; borrower is a fabrication firm"}
+{"name_norm": "COLCAP FINANCIAL UK LIMITED T A MOLO", "category": "property_lender", "parent_firm": "Molo", "confidence": 0.75, "reason": "Trades as Molo, a mortgage lender; borrower is a property company (68209)"}
+{"name_norm": "HASLEBROW FINANCE", "category": "property_lender", "parent_firm": null, "confidence": 0.6, "reason": "SIC 64929 other credit granting; individual owner; borrower is a property holding company"}
+{"name_norm": "RED OAK SV LUX S A R L", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Luxembourg vehicle; borrower is SIC 66190; no Companies House record and no clear fund family"}
+{"name_norm": "SAMSOL", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "intra-group: chargee name is identical to the borrower (Samsol Limited); likely a filing quirk"}
+{"name_norm": "SWIF SMALLER LOANS LIMITED PARTNERSHIP", "category": "direct_lender", "parent_firm": null, "confidence": 0.5, "reason": "Limited partnership with 'Smaller Loans' name, an SME loan fund form; all-asset charge over a restaurant company"}
+{"name_norm": "C HOARE AND CO CRN 00240822", "category": "bank", "parent_firm": "C. Hoare & Co.", "confidence": 0.96, "reason": "Matched by company number to C. Hoare & Co., SIC 64191 Banks"}
+{"name_norm": "CO OP WHOLESALE", "category": "other", "parent_firm": "Co-op", "confidence": 0.8, "reason": "Co-op wholesale supplier taking a charge over a retailer, a trade supplier rather than a lender"}
+{"name_norm": "EXPERT LENDING", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Small new company (SIC 64999) with two individual owners; borrower is a construction firm; business model unclear"}
+{"name_norm": "FASANARA CAPITAL", "category": "direct_lender", "parent_firm": "Fasanara Capital", "confidence": 0.78, "reason": "Fasanara is a fintech credit fund manager; owner chain ends at Francesco Filia"}
+{"name_norm": "LS LONDON HOLDINGS ONE LIMITED AS SELLER", "category": "other", "parent_firm": null, "confidence": 0.55, "reason": "Chargee is a seller (vendor security on a property purchase), not a lender"}
+{"name_norm": "OLDREIVE PAUL THOMAS", "category": "individual", "parent_firm": null, "confidence": 0.93, "reason": "Personal name in surname-first format"}
+{"name_norm": "OPERATIONAL REAL ESTATE FINANCE", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "LLP whose members are many small corporate traders; unusual structure; borrower SIC 82990"}
+{"name_norm": "RICHARD JOHN ASHTON", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "THE HERITAGE DESIGN AND DEVELOPMENT TEAM", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Property development company, not a finance company; charge over a construction firm suggests trade or related-party deal"}
+{"name_norm": "SANJIV PATEL", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "DECAMA FINANCE", "category": "unknown", "parent_firm": null, "confidence": 0.35, "reason": "Person-owned, SIC 64922 mortgage finance, but borrower is a currency exchange business"}
+{"name_norm": "ANGELA EVERETT", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with another individual"}
+{"name_norm": "DOREEN MITCHELL", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with another individual"}
+{"name_norm": "MERCANTILE TRUST LIMITED CRN 07023863", "category": "property_lender", "parent_firm": "Turner Capital", "confidence": 0.85, "reason": "Mortgage finance SIC 64922; owned via Norfolk Capital Group by Turner Capital; borrower is a property company"}
+{"name_norm": "BEVERLEY KAYE TAYLOR", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, one of four individual co-chargees"}
+{"name_norm": "DEAN ALLEN DEACON", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, one of four individual co-chargees"}
+{"name_norm": "JOANNE DEACON", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, one of four individual co-chargees"}
+{"name_norm": "STEWART KENNETH TAYLOR", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, one of four individual co-chargees"}
+{"name_norm": "ANDREW MITCHELL", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with Tania Mitchell"}
+{"name_norm": "TANIA MITCHELL", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with Andrew Mitchell"}
+{"name_norm": "FRANS MAARTEN DELVIGNE", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "SARAH ADAMA FRANCIS", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "SELLERSFUNDING INTERNATIONAL PORTFOLIO", "category": "abl_specialist", "parent_firm": "Sellersfunding", "confidence": 0.65, "reason": "SIC 64921; Sellersfunding name suggests inventory and receivables finance for online sellers; all-asset charge over a retailer"}
+{"name_norm": "MATTHEW SMIT", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "SVENSKA HANSELSBANKEN AB PUBL", "category": "bank", "parent_firm": "Handelsbanken", "confidence": 0.95, "reason": "Misspelling of Svenska Handelsbanken AB (publ), a bank"}
+{"name_norm": "JOHN MCCANN JOHN PRENDERGAST JOSEPH MCPEAKE AND JACK PRENDERGAST", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "Four individuals holding a rent deposit deed (landlords); same group as the sibling name"}
+{"name_norm": "JOHN MCCANN JOHN PRENDERGAST JACK PRENDERGAST AND JOSEPH MCPEAKE", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "Four individuals holding a rent deposit deed (landlords); same group as the sibling name"}
+{"name_norm": "RUMNEY MANOR", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Deposit trust deed over a small sum suggests a landlord holding a deposit, not a lender"}
