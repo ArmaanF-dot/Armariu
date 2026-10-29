@@ -1,0 +1,2 @@
+{"name_norm": "RKN PROPERTIES", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Small property-investment company (SIC 68100/68209) owned by one person, charging a property company; likely private/related party lending, not a lender business; no link found."}
+{"name_norm": "LSC CAPITAL", "category": "property_lender", "parent_firm": null, "confidence": 0.6, "reason": "Family-owned financial services company (SIC 64999) holding a charge over a property company (SIC 68209); likely small private property lender, only one charge seen."}
