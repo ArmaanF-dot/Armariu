@@ -1,0 +1,1 @@
+Possible data error: chargee "WISTIN INSIGHTS AND SOLUTIONS" on company 16746239 has the same name as the borrower itself (WISTIN INSIGHTS AND SOLUTIONS LIMITED). Classified as `unknown`; please check the filing.
