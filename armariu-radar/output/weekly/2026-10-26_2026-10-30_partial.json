@@ -5,12 +5,12 @@
   "coverage": "full",
   "coverage_note": "",
   "counts": {
-    "A": 1,
-    "B": 159,
-    "C": 1066,
-    "D": 205,
-    "E": 823
+    "A": 3,
+    "B": 207,
+    "C": 1233,
+    "D": 186,
+    "E": 931
   },
-  "total": 2254,
-  "satisfactions": 280
+  "total": 2560,
+  "satisfactions": 294
 }
