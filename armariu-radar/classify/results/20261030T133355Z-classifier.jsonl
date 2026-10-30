@@ -1,0 +1,50 @@
+{"name_norm": "HCN FINCO TRS", "category": "other", "parent_firm": "Welltower Inc.", "confidence": 0.6, "reason": "Welltower (healthcare REIT) subsidiary charging care-home operators (SIC 87100); landlord/group-type charge, not a credit lender"}
+{"name_norm": "NORDIC TRUSTEE AS", "category": "security_agent", "parent_firm": null, "confidence": 0.95, "reason": "Nordic Trustee is a bond trustee/security agent; real lenders are bondholders"}
+{"name_norm": "ALAN CLAUDE GUINDI", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, co-chargee with Christian Sean Guindi on family/EOT-related companies"}
+{"name_norm": "CHRISTIAN SEAN GUINDI", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, co-chargee with Alan Claude Guindi"}
+{"name_norm": "HABIB BANK AG ZURICH", "category": "bank", "parent_firm": null, "confidence": 0.95, "reason": "Swiss bank by name; all-monies charges"}
+{"name_norm": "NATIONAL BANK OF CANADA AS ADMINISTRATIVE AGENT", "category": "security_agent", "parent_firm": "National Bank of Canada", "confidence": 0.9, "reason": "Named as administrative agent on syndicated facility; agent role"}
+{"name_norm": "PECUNIA ARBORE", "category": "other", "parent_firm": "Datum Edge Limited", "confidence": 0.7, "reason": "related party: all 3 charges on ENRA Partners / EP Claris entities; lender shares controller Richard Ainscough with ENRA Partners"}
+{"name_norm": "ROBERT RACKIND", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Personal name charging a capital/credit company"}
+{"name_norm": "ROMACO SPV 5", "category": "property_lender", "parent_firm": "Romaco Limited", "confidence": 0.7, "reason": "Numbered SPV of Romaco group (siblings SPV 2, 6, 10); borrower is a property investment company (SIC 68209)"}
+{"name_norm": "UBS AG LONDON BRANCH", "category": "bank", "parent_firm": "UBS Group AG", "confidence": 0.95, "reason": "UK branch of UBS AG, international bank"}
+{"name_norm": "AMD PROPERTY HOLDINGS", "category": "other", "parent_firm": "Amd Hold Co Ltd", "confidence": 0.55, "reason": "Property letting company owned by an individual, not a financial firm; likely private lending to NI businesses"}
+{"name_norm": "ADITUM STRUCTURED FINANCE FUND", "category": "direct_lender", "parent_firm": "Aditum Investment Management", "confidence": 0.8, "reason": "Fund name 'Structured Finance Fund' lending to commodities trader; Aditum is a credit fund manager"}
+{"name_norm": "ASSAF LAZNIK", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "COMPAGNIE GENERALE DE LOCATION D EQUIPEMENTS S A", "category": "asset_finance", "parent_firm": null, "confidence": 0.88, "reason": "French equipment leasing company by name; borrower is a vessel operator"}
+{"name_norm": "FIRSTBANK UK", "category": "bank", "parent_firm": null, "confidence": 0.9, "reason": "Companies House SIC 64191 Banks; bank by name"}
+{"name_norm": "HAVANA INVESTCO LIMITED AS SECUTIRY TRUSTEE", "category": "security_agent", "parent_firm": null, "confidence": 0.9, "reason": "Named 'as security trustee' (typo in filing)"}
+{"name_norm": "SCHRODER AND CO", "category": "bank", "parent_firm": "Schroders Plc", "confidence": 0.93, "reason": "Schroder & Co. Limited is a private bank (SIC 64191), owned by Schroders Plc"}
+{"name_norm": "THOMAS GILLES LEFEVRE", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, co-chargee with William Frederick South"}
+{"name_norm": "WILLIAM FREDERICK SOUTH", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, co-chargee with Thomas Gilles Lefevre"}
+{"name_norm": "A W PAGE AND CO HOLDINGS", "category": "other", "parent_firm": null, "confidence": 0.9, "reason": "intra-group: holding company charging A.W. Page and Co (Seeds) Limited"}
+{"name_norm": "ASHOK ARJANDAS NAINANI", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "FINANCIAL FUNDING", "category": "property_lender", "parent_firm": null, "confidence": 0.65, "reason": "Small credit firm (SIC 64999) owned by two individuals; borrower is a property company (68209)"}
+{"name_norm": "FPH HOLDINGS", "category": "other", "parent_firm": null, "confidence": 0.55, "reason": "Property letting company owned via trust by individuals; private lending to a property company, not a financial firm"}
+{"name_norm": "GEMMA MCCARTHY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, one of four individual co-chargees"}
+{"name_norm": "GILLIAN MARGARET REGIS", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, one of four individual co-chargees"}
+{"name_norm": "GREATER LONDON AUTHORITY", "category": "public_sector", "parent_firm": null, "confidence": 0.95, "reason": "Regional government authority"}
+{"name_norm": "JOHN GORE PRODUCTIONS", "category": "other", "parent_firm": "John Gore Studios Limited", "confidence": 0.6, "reason": "Theatre production company owned by an individual charging a production company; not a credit lender"}
+{"name_norm": "JOHN SIMON MACCARTHY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, one of four individual co-chargees"}
+{"name_norm": "JPA NO 392 CO", "category": "asset_finance", "parent_firm": null, "confidence": 0.85, "reason": "Japanese operating lease (JOL) aircraft SPV; borrower British Airways"}
+{"name_norm": "JPA NO 394 CO", "category": "asset_finance", "parent_firm": null, "confidence": 0.85, "reason": "Japanese operating lease (JOL) aircraft SPV, sibling of JPA No. 392; borrower British Airways"}
+{"name_norm": "MOULTON GOODIES", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: overseas entity owned by Jonathan Paul Moulton, who also controls the borrower Infex Therapeutics"}
+{"name_norm": "PETER JOHN REGIS", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, one of four individual co-chargees"}
+{"name_norm": "SEVCAP II", "category": "property_lender", "parent_firm": "Sevcap Limited", "confidence": 0.75, "reason": "Credit granting SPV (SIC 64929) of Sevcap group; borrower is a developer (SIC 41202)"}
+{"name_norm": "SOUTHERN INVESTMENTS", "category": "property_lender", "parent_firm": null, "confidence": 0.5, "reason": "Private property letting company co-lending with Starlake Caia to a developer (SIC 41100); unclear if a regular lender"}
+{"name_norm": "STARLAKE CAIA", "category": "property_lender", "parent_firm": null, "confidence": 0.5, "reason": "Private family property letting company co-lending with Southern Investments to a developer (SIC 41100); unclear if a regular lender"}
+{"name_norm": "WCS NOMINEES", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Nominee company for investor/crowdfunding-style participation alongside Wealth Club Nominees on Travelnest charges"}
+{"name_norm": "WEALTH CLUB NOMINEES", "category": "other", "parent_firm": "Wealth Club Limited", "confidence": 0.8, "reason": "Nominee of Wealth Club investment platform holding charge on behalf of investors (crowdfunding-style)"}
+{"name_norm": "GMTT PROPERTIES", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Individual-owned property letting company charging a trading company; not a financial firm"}
+{"name_norm": "OCTAS", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "LLP whose members are a family (Lynch); private lending to a commercial property company, no financial SIC"}
+{"name_norm": "GHANA INTERNATIONAL BANK", "category": "bank", "parent_firm": null, "confidence": 0.95, "reason": "London-based bank by name"}
+{"name_norm": "BIRMINGHAM BANK", "category": "bank", "parent_firm": "Better Home And Finance Holding Company", "confidence": 0.93, "reason": "Companies House SIC 64191 Banks; owned by Better Home and Finance Holding Company"}
+{"name_norm": "MARC SEMAAN", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "BRIAN SIDEBOTTOM", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, one of four family co-chargees"}
+{"name_norm": "JACQUELINE CAMERON SIDEBOTTOM EVERY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, one of four family co-chargees"}
+{"name_norm": "JILLIAN CAMERON WOODACRE", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, one of four family co-chargees"}
+{"name_norm": "VICTORIA CAMERON EVERY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, one of four family co-chargees"}
+{"name_norm": "POSITIVE CASHFLOW FINANCE", "category": "abl_specialist", "parent_firm": null, "confidence": 0.85, "reason": "Name suggests invoice finance/cashflow lender; floating charge over all assets of a manufacturer"}
+{"name_norm": "DAVID MILLAR AND SUZANNE MILLAR", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Two personal names, same surname as borrower Fraser Millar Contracts (director lending)"}
+{"name_norm": "ANTHONY JOHN SCRIVENS", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "BANK OF WALES", "category": "bank", "parent_firm": "Lloyds Banking Group Plc", "confidence": 0.93, "reason": "Former bank, now in liquidation, owned via Bank of Scotland by Lloyds Banking Group; 1994 charge"}
