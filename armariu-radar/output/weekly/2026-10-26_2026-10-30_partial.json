@@ -1,6 +1,6 @@
 {
   "start": "2026-10-26",
-  "end": "2026-10-29",
+  "end": "2026-10-30",
   "partial": true,
   "coverage": "full",
   "coverage_note": "",
@@ -12,5 +12,5 @@
     "E": 606
   },
   "total": 1640,
-  "satisfactions": 266
+  "satisfactions": 268
 }
