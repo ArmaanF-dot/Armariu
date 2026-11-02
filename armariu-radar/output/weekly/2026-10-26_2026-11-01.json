@@ -1,0 +1,16 @@
+{
+  "start": "2026-10-26",
+  "end": "2026-11-01",
+  "partial": false,
+  "coverage": "full",
+  "coverage_note": "",
+  "counts": {
+    "A": 4,
+    "B": 227,
+    "C": 1276,
+    "D": 163,
+    "E": 999
+  },
+  "total": 2669,
+  "satisfactions": 336
+}
