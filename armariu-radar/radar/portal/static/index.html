@@ -8,10 +8,12 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0f17'/%3E%3Cpath d='M8 23 16 9l8 14M11.5 17h9' stroke='%23e8b04b' stroke-width='2.4' fill='none' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script>try{var t=localStorage.getItem("armariu-portal-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script>try{var t=localStorage.getItem("armariu-portal-theme");if(t)document.documentElement.dataset.theme=t;if(localStorage.getItem("armariu-portal-mode")==="terminal")document.documentElement.dataset.mode="terminal"}catch(e){}</script>
 <link rel="stylesheet" href="portal.css">
+<link rel="stylesheet" href="terminal.css">
 <script src="insights.js" defer></script>
 <script src="portal.js" defer></script>
+<script src="terminal.js" defer></script>
 </head>
 <body>
 <header class="nav" id="nav">
@@ -27,6 +29,7 @@
     <a href="#/method" data-route="method">Method</a>
   </nav>
   <div class="nav-right">
+    <button class="ghost term-btn" id="to-term" title="Terminal view: dense tables, watchlist, search and keyboard shortcuts (`)"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM7.5 9.5 10 12l-2.5 2.5M12.5 15h4"/></svg><span>Terminal</span></button>
     <button class="ghost" id="theme" aria-label="Switch light or dark"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
     <button class="pill-btn" id="download"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Data</button>
     <button class="ghost burger" id="burger" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
