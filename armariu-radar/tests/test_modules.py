@@ -105,6 +105,11 @@ class SignalTests(unittest.TestCase):
         co = company([ch("old", "2025-01-01", [B], "fully-satisfied", "2025-02-01"), ch("new", "2026-05-01", [A])])
         self.assertNotIn(("first_facility", "new"), self.kinds(co))
 
+    def test_not_first_facility_with_older_outstanding_charge(self):
+        # found in the 3 Nov 2026 hand-check (Jacinthe Rayner, Pickaname): an old charge still open
+        co = company([ch("old", "2022-03-07", [B]), ch("new", "2026-10-26", [A])])
+        self.assertNotIn(("first_facility", "new"), self.kinds(co))
+
     def test_first_facility_needs_full_history(self):
         self.assertEqual(self.kinds(company([ch("new", "2026-05-01", [A])], fetched=False)), [])
 
