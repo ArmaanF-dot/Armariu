@@ -135,11 +135,11 @@ they are under **Additions**. Press **Rebuild** after the database updates.
 The **client portal** is a separate, read-only site for customers: league table, signals with
 filing links, lender profiles, the scorecard and the method, with CSV downloads.
 ```
-.venv\Scripts\python.exe -m radar.portal            # opens http://127.0.0.1:8790
+.venv\Scripts\python.exe -m radar.portal --rebuild  # opens http://127.0.0.1:8790 (or double-click Open customer site.cmd)
 .venv\Scripts\python.exe -m radar.portal export site  # static copy, for hosting after the gate
 ```
-It only listens on your PC. Both apps show an animated skyline; drop a photo at
-`radar/ui/static/img/hero.jpg` or `radar/portal/static/img/hero.jpg` to fade one in.
+It only listens on your PC. Both apps open on an animated photo of a city at dusk (moving water, twinkling lights). To
+swap the photo, see `static/img/README.md` in either app.
 
 ## Your weekly routine (about 15 minutes)
 

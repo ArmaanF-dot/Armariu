@@ -525,7 +525,8 @@ function placeBanner(o, waiting) {
   if (!ovBanner) {
     ovBanner = document.createElement("section");
     ovBanner.className = "ov-banner"; ovBanner.dataset.seed = "5";
-    ovBanner.dataset.photo = "/static/img/hero.jpg";   // optional: drop a photo there and it fades in over the skyline
+    ovBanner.dataset.photo = "/static/img/hero.jpg";   // brought to life by skyline.js; settings in img/hero.json
+    ovBanner.dataset.focus = "0.5,0.47";               // a short banner: keep the towers and the top of the river in view
     ovBanner.innerHTML = `<div class="ov-banner-inner"><div class="eyebrow-dot"><i></i><span id="ovb-date"></span></div><h1 id="ovb-greet"></h1><p id="ovb-line"></p>
       <div class="ov-banner-actions"><a class="btn primary" href="#/pack">${icon("pack")}Weekly pack</a><a class="btn glass" href="#/lenderview">${icon("lenderview")}Lender view</a><a class="btn glass" href="#/decisions">${icon("decisions")}Decisions</a></div></div>`;
     if (window.ArmariuSkyline) ArmariuSkyline.mount(ovBanner);

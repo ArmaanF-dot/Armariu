@@ -663,10 +663,7 @@ table.triage select { min-width: 170px; height: 36px; }
 /* ---------- additions: overview banner with the living skyline, lender view, scorecard, weekly pack */
 .ov-banner { grid-column: span 12; position: relative; isolation: isolate; overflow: hidden; border-radius: var(--radius); min-height: 236px;
   display: flex; align-items: flex-end; color: #f4f1ea; box-shadow: var(--shadow-up); }
-.ov-banner .skyline-canvas, .ov-banner .hero-photo { position: absolute; inset: 0; z-index: -2; }
-.ov-banner .hero-photo { background-size: cover; background-position: center; opacity: 0; transition: opacity 1.4s ease; }
-.ov-banner .hero-photo.in { opacity: 1; animation: ovkb 40s ease-in-out infinite alternate; }
-@keyframes ovkb { from { transform: scale(1.1); } to { transform: scale(1.02) translate(-1.5%, -1%); } }
+.ov-banner .skyline-canvas { position: absolute; inset: 0; z-index: -2; }
 .ov-banner::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(6, 8, 14, .78), rgba(6, 8, 14, .35) 55%, rgba(6, 8, 14, 0)); }
 .ov-banner-inner { padding: 26px 30px; max-width: 760px; }
 .ov-banner h1 { margin: 10px 0 6px; font-size: clamp(26px, 3vw, 38px); font-weight: 800; letter-spacing: -.03em; }
