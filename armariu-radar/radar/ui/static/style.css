@@ -717,3 +717,7 @@ table.triage select { min-width: 170px; height: 36px; }
 .pack-md { max-width: none; } .pack-md table { font-size: 13px; }
 pre.fail { white-space: pre-wrap; font-size: 12px; max-height: 220px; overflow: auto; }
 @media (max-width: 900px) { .pack-steps { grid-template-columns: 1fr 1fr; } .ov-banner-inner { padding: 22px; } }
+
+/* "Show more" under long lists (the signal list renders in pages) */
+.more-row { display: flex; justify-content: center; padding: 18px 0 8px; }
+.more-row .muted { font-weight: 400; margin-left: 4px; }

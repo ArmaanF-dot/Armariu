@@ -13,6 +13,7 @@ __pycache__/
 *.pyc
 .venv/
 data/*.download
+data/*.db.source
 # Additions: generated outputs (rebuilt from the database; not committed)
 output/signals/
 output/lender_view/

@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import os
 import secrets
@@ -21,9 +22,24 @@ from ..db import connect
 from . import api
 
 STATIC = Path(__file__).resolve().parent / "static"
+CACHE_ENTRIES = 48
+# Pages worth caching: they read the whole database. Everything else is quick already.
+CACHED = {"/api/overview", "/api/decisions", "/api/signals", "/api/directory", "/api/lenders", "/api/charges",
+          "/api/lender", "/api/company"}
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
          ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
          ".png": "image/png", ".webp": "image/webp", ".json": "application/json"}
+
+
+_STATIC_GZ: dict = {}
+
+
+def _static_gz(f: Path) -> bytes:
+    st = f.stat()
+    key = (str(f), st.st_mtime_ns, st.st_size)
+    if key not in _STATIC_GZ:
+        _STATIC_GZ[key] = gzip.compress(f.read_bytes(), 6)
+    return _STATIC_GZ[key]
 
 
 class App:
@@ -34,9 +50,40 @@ class App:
         self.sync = api.Sync(self.git, self.db_lock)
         self.sync_enabled = sync_enabled
 
+        # Computed pages, kept until the data behind them changes (see api.page_key).
+        self.cache: dict[str, tuple[str, bytes]] = {}
+        self.cache_lock = threading.Lock()
+        self.sync.on_done = self.warm
+
     def start_sync(self):
         if self.sync_enabled:
             threading.Thread(target=self.sync.loop, daemon=True).start()
+        else:
+            threading.Thread(target=self.warm, daemon=True).start()
+
+    def cached(self, key: str, producer) -> bytes:
+        """Gzipped JSON for `key`, rebuilt only when the data changed since it was made."""
+        fp = api.page_key()
+        with self.cache_lock:
+            hit = self.cache.get(key)
+        if hit and hit[0] == fp:
+            return hit[1]
+        body = gzip.compress(json.dumps(producer(), default=str, separators=(",", ":")).encode(), 5)
+        with self.cache_lock:
+            if len(self.cache) >= CACHE_ENTRIES:
+                self.cache.pop(next(iter(self.cache)))
+            self.cache[key] = (fp, body)
+        return body
+
+    def warm(self):
+        """Build the heavy pages in the background after start-up and after each sync, so the first
+        click is instant."""
+        for key, fn, args in (("/api/overview?", api.overview, (self.git,)), ("/api/signals?", api.signals, ()),
+                              ("/api/decisions?", api.decisions, ()), ("/api/directory?", api.directory, ())):
+            try:
+                self.cached(key, lambda: self.with_db(fn, *args))
+            except Exception:  # noqa: BLE001  (a page that fails to build shows its error when opened)
+                pass
 
     def with_db(self, fn, *args, **kwargs):
         with self.db_lock:
@@ -70,6 +117,22 @@ def make_handler(app: App, port: int):
         def _json(self, data, status=HTTPStatus.OK):
             self._send(status, json.dumps(data, default=str).encode(), "application/json")
 
+        def _gzip_ok(self) -> bool:
+            return "gzip" in self.headers.get("Accept-Encoding", "")
+
+        def _send_gz(self, body_gz: bytes, ctype: str):
+            if not self._gzip_ok():
+                return self._send(HTTPStatus.OK, gzip.decompress(body_gz), ctype)
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Content-Encoding", "gzip")
+            self.send_header("Content-Length", str(len(body_gz)))
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("Referrer-Policy", "no-referrer")
+            self.end_headers()
+            self.wfile.write(body_gz)
+
         def _error(self, status, message):
             self._json({"error": message}, status)
 
@@ -92,8 +155,15 @@ def make_handler(app: App, port: int):
                     f = (STATIC / url.path[len("/static/"):]).resolve()
                     if STATIC not in f.parents or not f.is_file():
                         return self._error(HTTPStatus.NOT_FOUND, "Not found")
+                    if f.suffix in (".js", ".css", ".svg", ".json"):
+                        return self._send_gz(_static_gz(f), TYPES.get(f.suffix, "application/octet-stream"))
                     return self._send(HTTPStatus.OK, f.read_bytes(),
                                       TYPES.get(f.suffix, "application/octet-stream"))
+                if url.path in CACHED:
+                    produce = self._producer(url.path, q)
+                    if produce is not None:
+                        key = url.path + "?" + "&".join(f"{k}={v}" for k, v in sorted(q.items()))
+                        return self._send_gz(app.cached(key, produce), "application/json")
                 if url.path == "/api/version":
                     return self._json({"version": api.version(), "sync": app.sync.status,
                                        "git": app.git.status})
@@ -133,6 +203,32 @@ def make_handler(app: App, port: int):
             except ValueError as exc:
                 return self._error(HTTPStatus.BAD_REQUEST, str(exc))
 
+        def _producer(self, path, q):
+            """The function that builds a cached page (validated here, so bad input still errors)."""
+            if path == "/api/overview":
+                return lambda: app.with_db(api.overview, app.git)
+            if path == "/api/decisions":
+                return lambda: app.with_db(api.decisions)
+            if path == "/api/signals":
+                return lambda: app.with_db(api.signals, q.get("type", ""))
+            if path == "/api/directory":
+                return lambda: app.with_db(api.directory)
+            if path == "/api/lenders":
+                return lambda: app.with_db(api.lenders, q=q.get("q", ""), category=q.get("category", ""),
+                                           status=q.get("status", ""))
+            if path == "/api/charges":
+                args = dict(q=q.get("q", ""), tier=q.get("tier", ""), category=q.get("category", ""),
+                            check=q.get("check", ""), date_from=q.get("from", ""), date_to=q.get("to", ""),
+                            status=q.get("status", ""), sector=q.get("sector", ""),
+                            hide_property=q.get("hide_property", "") in ("1", "true"),
+                            limit=min(int(q.get("limit", 100)), 500), offset=int(q.get("offset", 0)))
+                return lambda: app.with_db(api.charges, **args)
+            if path == "/api/lender":
+                return lambda: app.with_db(api.lender, q.get("name", ""))
+            if path == "/api/company":
+                return lambda: app.with_db(api.company, q.get("number", ""))
+            return None
+
         # ------------------------------------------------------------ POST
         def do_POST(self):
             if not self._host_ok():
@@ -170,6 +266,8 @@ def make_handler(app: App, port: int):
                     res = {"ok": True}
                 else:
                     return self._error(HTTPStatus.NOT_FOUND, "Not found")
+                with app.cache_lock:  # a change was made: never serve a page computed before it
+                    app.cache.clear()
                 return self._json(res)
             except KeyError as exc:
                 return self._error(HTTPStatus.BAD_REQUEST, f"Missing or unknown: {str(exc).strip(chr(39))}")

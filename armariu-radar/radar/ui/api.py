@@ -117,6 +117,7 @@ class Sync:
         self.git, self.db_lock = git, db_lock
         self.status = {"state": "never", "message": "Not synced yet", "at": None, "mode": "local"}
         self._wake = threading.Event()
+        self.on_done = None   # called after each sync (the app warms its page cache)
 
     def run_once(self) -> dict:
         self.status = dict(self.status, state="syncing", message="Checking for updates")
@@ -124,9 +125,16 @@ class Sync:
             if self.git.has_remote:
                 with self.git.lock:
                     self.git.run("pull", "--rebase", "--autostash", "--quiet")
-                with self.db_lock:
-                    got = dbsync.pull() == 0
-                mode = "cloud" if got else "local"
+                # Download outside the database lock so pages keep loading meanwhile, and skip it
+                # when the cloud copy hasn't changed (keeps every cached page valid).
+                try:
+                    tmp, blob = dbsync.fetch_if_changed()
+                    if tmp is not None:
+                        with self.db_lock:
+                            dbsync.install(tmp, blob)
+                    mode = "cloud"
+                except RuntimeError:
+                    mode = "local"
             else:
                 mode = "local"
             with self.db_lock:
@@ -143,6 +151,8 @@ class Sync:
     def loop(self):
         while True:
             self.run_once()
+            if self.on_done:
+                self.on_done()
             self._wake.wait(self.INTERVAL)
             self._wake.clear()
 
@@ -166,6 +176,45 @@ def version() -> str:
             for p in sorted(folder.glob("*.md")):
                 parts.append(f"{p.name}:{p.stat().st_mtime_ns}")
     return hashlib.sha1("|".join(parts).encode()).hexdigest()[:16]
+
+
+def _stat(p: Path) -> str:
+    try:
+        st = p.stat()
+        return f"{st.st_mtime_ns}:{st.st_size}"
+    except FileNotFoundError:
+        return "-"
+
+
+def data_key() -> str:
+    """Changes whenever the database, the rules or the date change: what computed pages depend on."""
+    return "|".join([_stat(config.DB_PATH), _stat(config.LENDERS_CSV), date.today().isoformat()])
+
+
+def _git_stamp() -> str:
+    """Changes when a commit lands (the overview's activity feed reads the git log)."""
+    for d in [config.ROOT, *config.ROOT.parents]:
+        if (d / ".git").exists():
+            return _stat(d / ".git" / "logs" / "HEAD") + _stat(d / ".git" / "HEAD")
+    return "-"
+
+
+def page_key() -> str:
+    """Fingerprint for the app's response cache: data, files the pages list, git history and the date."""
+    return f"{version()}|{data_key()}|{_git_stamp()}"
+
+
+_SIGNALS: dict = {}
+_SIGNALS_LOCK = threading.Lock()
+
+
+def all_signals(conn) -> list[dict]:
+    """sig.all_signals, computed once per data version (the Overview and Signals pages share it)."""
+    key = data_key()
+    with _SIGNALS_LOCK:
+        if _SIGNALS.get("key") != key:
+            _SIGNALS.update(key=key, value=sig.all_signals(conn))
+        return _SIGNALS["value"]
 
 
 def _examples(conn, name_norm: str, limit: int = _EXAMPLES) -> list[dict]:
@@ -212,13 +261,7 @@ def _lender_rows(conn, where: str, params=()) -> list[dict]:
         "LEFT JOIN lender_classifications lc ON lc.name_norm = p.name_norm "
         f"WHERE {where} GROUP BY p.name_norm ORDER BY n DESC, latest DESC", params).fetchall()
     notes = _notes()
-    lent_to: dict[str, dict] = {}
-    for r2 in conn.execute(
-            "SELECT DISTINCT p.name_norm, p.company_number, co.sic_codes FROM charge_persons p "
-            "LEFT JOIN companies co ON co.company_number = p.company_number"):
-        first = sectors.sectors_of(json.loads(r2["sic_codes"]) if r2["sic_codes"] else [])[0]
-        d = lent_to.setdefault(r2["name_norm"], {})
-        d[first] = d.get(first, 0) + 1
+    lent_to = _lent_to(conn)
     top = lambda n: [{"key": k, "label": sectors.label(k), "count": c}  # noqa: E731
                      for k, c in sorted(lent_to.get(n, {}).items(), key=lambda kv: -kv[1])]
     return [{
@@ -231,6 +274,25 @@ def _lender_rows(conn, where: str, params=()) -> list[dict]:
         "source_label": SOURCE_LABELS.get(r["source"] or "", "Not classified yet"),
         "status": r["review_status"] or "unclassified", "reason": r["reason"],
     } for r in rows]
+
+
+def _lent_to(conn) -> dict[str, dict]:
+    """name_norm -> {sector: borrowers}. Read once per data version: it scans every charge."""
+    key = data_key()
+    if _LENT_TO.get("key") == key:
+        return _LENT_TO["value"]
+    lent_to: dict[str, dict] = {}
+    for r2 in conn.execute(
+            "SELECT DISTINCT p.name_norm, p.company_number, co.sic_codes FROM charge_persons p "
+            "LEFT JOIN companies co ON co.company_number = p.company_number"):
+        first = sectors.sectors_of(json.loads(r2["sic_codes"]) if r2["sic_codes"] else [])[0]
+        d = lent_to.setdefault(r2["name_norm"], {})
+        d[first] = d.get(first, 0) + 1
+    _LENT_TO.update(key=key, value=lent_to)
+    return lent_to
+
+
+_LENT_TO: dict = {}
 
 
 def _notes() -> dict:
@@ -316,7 +378,7 @@ def _families(conn, rows: list[dict]) -> list[dict]:
         for n in names:
             hist += _history(conn, n)
         lead["history"] = sorted(hist, key=lambda h: h["delivered_on"] or "")
-        lead["profile"] = owners.profile(conn, lead["name"])
+        lead["profile"] = owners.profile(conn, lead["name"], owner_of)
         ag = consensus.opinions_for(conn, lead["name"])
         lead["opinions"], lead["consensus"] = ag["opinions"], ag["state"]
         out.append(lead)
@@ -511,7 +573,7 @@ def directory(conn) -> dict:
 
 
 def signals(conn, kind: str = "") -> dict:
-    found = sig.all_signals(conn)
+    found = all_signals(conn)
     one = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
     return {
         "counts": sig.counts(found),
@@ -605,7 +667,7 @@ def overview(conn, git: Git) -> dict:
     """Everything the Overview page draws, computed from the same rows the Charges page lists."""
     from datetime import timedelta
     rows = charges(conn, limit=5000)["rows"]
-    found = sig.all_signals(conn)
+    found = all_signals(conn)
     today = date.today()
     day0 = today - timedelta(days=29)
     days = {(day0 + timedelta(days=i)).isoformat(): dict.fromkeys("ABCDE", 0) for i in range(30)}

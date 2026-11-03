@@ -292,6 +292,7 @@ S.hideProperty = store.get("radar-hide-property") === "1";
 async function poll() {
   try {
     const v = await get("/api/version");
+    S.dataKey = v.version;
     renderSync(v.sync, v.git);
     const key = v.version + "|" + (v.sync && v.sync.at) + "|" + (v.git && v.git.state);
     if (S.version && key !== S.version && !S.editing && !isTyping() && !document.getElementById("drawer").classList.contains("open")) await refresh();
@@ -1217,8 +1218,18 @@ function sigFilter(rows, f, skip) {
     && (!needle || [s.company_name, s.company_number, s.meaning, ...s.charges.flatMap((c) => c.lenders.map((l) => l.display))].some((v) => (v || "").toLowerCase().includes(needle))));
 }
 const countBy = (rows, key) => rows.reduce((m, s) => { for (const k of [].concat(s[key])) m[k] = (m[k] || 0) + 1; return m; }, {});
-async function renderSignals() {
+// The signal list is large: fetch it once per data version and reuse it for every filter click.
+let SIG_CACHE = null;
+async function getSignals() {
+  if (SIG_CACHE && SIG_CACHE.key === S.dataKey) return SIG_CACHE.d;
   const d = await get("/api/signals");
+  SIG_CACHE = { key: S.dataKey, d };
+  return d;
+}
+const SIG_PAGE = 120;
+async function renderSignals(keepShown = false) {
+  const d = await getSignals();
+  if (!keepShown) S.sigShown = SIG_PAGE;
   document.getElementById("nav-signals").textContent = d.total || "";
   const f = S.sigF;
   const rows = sigFilter(d.rows, f);
@@ -1259,9 +1270,12 @@ async function renderSignals() {
       </form>
       <div class="fb-foot"><span>Showing <b>${rows.length}</b> of ${plural(d.total, "signal")}</span>${active || f.theme ? `<button class="link-btn" id="sf-clear">Clear filters</button>` : ""}</div>
     </section>
-    <div id="sig-list" class="sig-list">${rows.map((s) => signalCard(s)).join("") || `<div class="card empty"><span class="disc" data-cat="cloud">${icon("signals")}</span><h2>${d.total ? "No signals match these filters" : "No signals yet"}</h2><p>${d.total ? "Try another group or clear the filters." : "Signals appear as the radar collects charges and fetches each borrower's older ones."}</p></div>`}</div>
+    <div id="sig-list" class="sig-list">${rows.slice(0, S.sigShown).map((s) => signalCard(s)).join("") || `<div class="card empty"><span class="disc" data-cat="cloud">${icon("signals")}</span><h2>${d.total ? "No signals match these filters" : "No signals yet"}</h2><p>${d.total ? "Try another group or clear the filters." : "Signals appear as the radar collects charges and fetches each borrower's older ones."}</p></div>`}</div>
+    ${rows.length > S.sigShown ? `<div class="more-row"><button class="btn" id="sig-more">Show ${Math.min(SIG_PAGE, rows.length - S.sigShown)} more <span class="muted">(${rows.length - S.sigShown} not shown yet)</span></button></div>` : ""}
   </div>`;
   const again = () => renderSignals().then(() => fadeIn(document.getElementById("sig-list")));
+  const more = document.getElementById("sig-more");
+  if (more) more.onclick = () => { const y = window.scrollY; S.sigShown += SIG_PAGE; renderSignals(true).then(() => window.scrollTo(0, y)); };
   main.querySelectorAll("[data-theme]").forEach((b) => (b.onclick = () => { f.theme = b.dataset.theme; if (f.type && f.theme && THEME_OF_TYPE(d, f.type) !== f.theme) f.type = ""; again(); }));
   main.querySelectorAll("[data-type]").forEach((b) => (b.onclick = () => { f.type = b.dataset.type; again(); }));
   const form = document.getElementById("sf");

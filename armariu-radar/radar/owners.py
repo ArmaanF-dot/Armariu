@@ -375,8 +375,9 @@ def groups(conn) -> dict[str, dict]:
     return out
 
 
-def profile(conn, norm: str) -> dict | None:
-    """The stored lookup for one lender, shaped for the app and the agents' queues."""
+def profile(conn, norm: str, group_map: dict | None = None) -> dict | None:
+    """The stored lookup for one lender, shaped for the app and the agents' queues.
+    Pass `group_map` (from groups()) when calling this for many lenders, to read the table once."""
     r = conn.execute("SELECT * FROM lender_profiles WHERE name_norm = ?", (norm,)).fetchone()
     if not r:
         return None
@@ -402,7 +403,7 @@ def profile(conn, norm: str) -> dict | None:
     links = conn.execute("SELECT * FROM lender_links WHERE name_norm = ?", (norm,)).fetchone()
     siblings = []
     if group and group.get("name") and not group.get("nominee"):
-        siblings = [n for n, g in groups(conn).items() if n != norm and
+        siblings = [n for n, g in (group_map if group_map is not None else groups(conn)).items() if n != norm and
                     ((g.get("number") and g.get("number") == group.get("number")) or g.get("name") == group.get("name"))]
     return {
         "matched": True, "matched_by": r["matched_by"], "checked": r["fetched_at"],
