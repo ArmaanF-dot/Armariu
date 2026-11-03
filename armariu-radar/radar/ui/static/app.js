@@ -155,6 +155,7 @@ const ICONS = {
   lenders: '<path d="M3 21h18M5 21V10M19 21V10M9 21v-7M15 21v-7M2 10l10-6 10 6"/>',
   lenderview: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   scorecard: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>',
+  watch: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
   pack: '<path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/>',
   reports: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/>',
   status: '<path d="M3 12h4l3-8 4 16 3-8h4"/>',
@@ -183,7 +184,7 @@ const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[name
 const NAV = [
   ["overview", "Overview", null], ["signals", "Signals", "count"], ["decisions", "Decisions", "count"], ["reports", "Reports and drafts", null],
   ["|Register"], ["charges", "Charges", null], ["lenders", "Lender directory", null],
-  ["|Additions"], ["lenderview", "Lender view", null], ["scorecard", "Scorecard", null], ["pack", "Weekly pack", null],
+  ["|Additions"], ["lenderview", "Lender view", null], ["scorecard", "Scorecard", null], ["watch", "Refinance watch", null], ["pack", "Weekly pack", null],
   ["|Radar"], ["status", "Status", null],
 ];
 document.getElementById("nav").innerHTML = NAV.map(([k, label, extra]) => k.startsWith("|")
@@ -191,9 +192,9 @@ document.getElementById("nav").innerHTML = NAV.map(([k, label, extra]) => k.star
   : `<li><a href="#/${k}" data-view="${k}">${icon(k)}<span>${label}</span>${extra ? `<span class="count" id="nav-${k}"></span>` : ""}</a></li>`).join("");
 
 const VIEWS = { overview: renderOverview, signals: renderSignals, decisions: renderDecisions, charges: renderCharges, lenders: renderLenders, reports: renderReports, status: renderStatus,
-  lenderview: renderLenderView, scorecard: renderScorecard, pack: renderPack };
+  lenderview: renderLenderView, scorecard: renderScorecard, watch: renderWatch, pack: renderPack };
 const VIEW_TITLES = { overview: "Overview", signals: "Signals", decisions: "Decisions", charges: "Charges", lenders: "Lender directory", reports: "Reports and drafts", status: "Status",
-  lenderview: "Lender view", scorecard: "Scorecard", pack: "Weekly pack" };
+  lenderview: "Lender view", scorecard: "Scorecard", watch: "Refinance watch", pack: "Weekly pack" };
 let routing = Promise.resolve();
 function route() {
   const name = (location.hash.replace(/^#\//, "").split("?")[0]) || "overview";
@@ -617,6 +618,29 @@ async function renderScorecard() {
     <p>Re-run with <code>python -m radar.scorecard backtest --window 180</code>. The live log (<code>signals_published.csv</code>) starts only after the validation gate and is never mixed with these numbers.</p></section>
   </div>`;
   wireRebuild();
+}
+
+// ------------------------------------------------------------------ refinance watch
+let watchHideProp = false;
+async function renderWatch() {
+  const a = await loadAdditions(), s = a.snapshot, W = s && s.refi_watch;
+  if (!W) { main.innerHTML = `<div class="grid anim-root">${snapshotBar(a, "Refinance watch")}<div class="card span-12"><p>Rebuild to create the refinance watch.</p></div></div>`; wireRebuild(); return; }
+  const bt = W.backtest, months = Math.round(W.window_days / 30.4);
+  setSub(`Odds of refinancing within ${months} months, model ${W.model_version}`);
+  const draw = () => {
+    const rows = W.rows.filter((r) => !watchHideProp || r.sector !== "Property and real estate").slice(0, 150);
+    document.getElementById("rw-body").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener"><b>${esc(r.company_name)}</b></a><div class="muted">${esc(r.company_number)} · ${esc(r.sector)}</div></td>
+      <td class="num"><b>${pct1(r.odds_12m)}</b><div class="muted">${r.lift}× average</div></td><td>${esc(r.reasons)}</td><td>${esc(r.newest_lender)}<div class="muted">${esc(r.newest_created || "")}</div></td></tr>`).join("");
+  };
+  main.innerHTML = `<div class="grid anim-root">${snapshotBar(a, "Refinance watch")}
+    <div class="card span-12"><div class="notice">${icon("alert")}<div><b>Read as odds.</b> ${esc(W.caveat)} Loans due within a year (from accounts) and ownership changes are being added as further clues.</div></div></div>
+    ${bt.tiers.map((t) => `<section class="card span-3"><span class="pill" data-cat="review">Backtest, top ${esc(t.top)}</span><div class="lift-v count-up">${pct1(t.hit_rate)}</div><div class="muted">refinanced within ${months} months, ${t.lift}× the ${pct1(bt.base_rate)} average (${Number(t.companies).toLocaleString("en-GB")} company-dates)</div></section>`).join("")}
+    <section class="card span-12"><div class="card-head"><div><h2>Most likely to refinance</h2><p>Tested from ${esc(bt.test_cutoffs[0])} on dates the score never saw (learned from the year to ${esc(bt.train_end)}).</p></div>
+      <label class="row-gap"><input type="checkbox" id="rw-prop" ${watchHideProp ? "checked" : ""}> Hide property companies</label></div>
+      <div class="table-wrap"><table class="stack"><thead><tr><th>Company</th><th class="num">Odds</th><th>Why it scores</th><th>Newest lender</th></tr></thead><tbody id="rw-body"></tbody></table></div></section>
+  </div>`;
+  document.getElementById("rw-prop").onchange = (e) => { watchHideProp = e.target.checked; draw(); };
+  draw(); wireRebuild();
 }
 
 // ------------------------------------------------------------------ Module E: weekly pack
