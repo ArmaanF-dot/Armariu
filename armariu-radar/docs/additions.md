@@ -84,12 +84,14 @@ validation passes. It was built because Armaan asked for it; it is not hosted an
 (GitHub Pages or elsewhere) is his decision after the gate, ideally with the legal check on the
 not-advice wording.
 
-Imagery: both apps draw an animated City-at-dusk skyline. A real photo can be dropped in as
-`static/img/hero.jpg` in either app and fades in over it (see the README in each `img` folder).
+Imagery: both apps open on a photo of a city at dusk that `skyline.js` animates on a canvas (Ken Burns
+drift, rippling reflection, twinkling lights found in the photo, beacons, a plane). Settings sit in
+`static/img/hero.json`; see the README in each `img` folder. The drawn skyline is the fallback.
 
 ## Decisions for Armaan (the plan's open questions, with the defaults used)
 
-1. Hit definition: further charge within 90 days (used) or 180 days, or insolvency within 12 months.
+1. Hit definition: decided 3 Nov 2026, a further charge within 90 days. (A 180-day window gave lower
+   lift in the backtest: refinancing 1.14 vs 1.19, add-on 1.15 vs 1.20.)
 2. Property lenders: hidden by default in the portal and the pack, shown in the owner view.
 3. Featured companies: the pack names companies (company-level facts only); switch to aggregates if preferred.
 4. Where the scorecard is published: portal, newsletter, or both.

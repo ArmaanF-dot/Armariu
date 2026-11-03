@@ -36,13 +36,12 @@ svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 .menu-sheet{display:none}
 /* ---------- hero */
 .hero{position:relative;min-height:min(92vh,880px);display:flex;align-items:flex-end;overflow:hidden;color:#f2eee6;isolation:isolate;padding-top:110px}
-.skyline-canvas,.hero-photo{position:absolute;inset:0;z-index:-3}
+.skyline-canvas{position:absolute;inset:0;z-index:-3}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.hero-photo{z-index:-2;background-size:cover;background-position:center;opacity:0;transform:scale(1.12);transition:opacity 1.6s ease}
-.hero-photo.in{opacity:1;animation:kenburns 38s ease-in-out infinite alternate}
-@keyframes kenburns{from{transform:scale(1.12) translate(0,0)}to{transform:scale(1.02) translate(-2%,-1.5%)}}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(5,7,12,.72) 0%,rgba(5,7,12,.35) 42%,rgba(5,7,12,0) 68%),linear-gradient(180deg,rgba(5,7,12,.55) 0%,rgba(5,7,12,0) 30%,rgba(5,7,12,0) 55%,rgba(10,13,20,.92) 92%,var(--ink) 100%)}
 :root[data-theme="light"] .hero::after{background:linear-gradient(180deg,rgba(5,7,12,.55) 0%,rgba(5,7,12,0) 30%,rgba(5,7,12,.1) 55%,rgba(5,7,12,.85) 100%)}
+.hero h1,.hero .lede{text-shadow:0 2px 22px rgba(3,5,10,.6)}
+@media (max-width:720px){.hero::after{background:linear-gradient(180deg,rgba(5,7,12,.6) 0%,rgba(5,7,12,.45) 28%,rgba(5,7,12,.72) 50%,rgba(5,7,12,.74) 66%,rgba(10,13,20,.94) 90%,var(--ink) 100%)}}
 .hero-inner{width:100%;max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,48px) 56px}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);padding:7px 12px;border:1px solid rgba(232,176,75,.35);border-radius:999px;background:rgba(10,13,20,.35);backdrop-filter:blur(8px)}
 .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--up);box-shadow:0 0 0 0 rgba(95,211,166,.7);animation:pulse 2s infinite}

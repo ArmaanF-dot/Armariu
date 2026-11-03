@@ -1,0 +1,7 @@
+{
+  "about": "Settings for hero.jpg, as fractions of the photo's width and height (0 = left/top, 1 = right/bottom). waterline: where the water starts; below it the reflection ripples and sparkles. focus: the point kept in view when the photo is cropped. beacons: aviation lights that blink. Delete this file if you swap in a photo without water; the photo then just drifts and twinkles.",
+  "source": "Supplied by Armaan on 3 Nov 2026 (New York skyline at dusk). Check the licence before the site is hosted.",
+  "waterline": 0.568,
+  "focus": [0.5, 0.45],
+  "beacons": [[0.0419, 0.2282], [0.3436, 0.2192], [0.659, 0.1282], [0.688, 0.1244]]
+}
