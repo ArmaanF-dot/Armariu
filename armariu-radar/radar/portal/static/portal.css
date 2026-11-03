@@ -178,3 +178,43 @@ select{background:var(--panel);color:var(--text);border:1px solid var(--line-2);
   .sig-grid{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+/* ---------- insights charts (palette validated with the dataviz checks, light and dark) */
+:root{--g-bank:#3987e5;--g-private_credit:#d95926;--g-specialist:#199e70;--g-property:#c98500;--g-other:#6b7285}
+:root[data-theme="light"]{--g-bank:#2a78d6;--g-private_credit:#eb6834;--g-specialist:#1baf7a;--g-property:#eda100;--g-other:#9aa1ae}
+[data-g="bank"],[data-s="add_on"]{--c:var(--g-bank)}[data-g="private_credit"],[data-s="refinancing"]{--c:var(--g-private_credit)}
+[data-g="specialist"],[data-s="first_facility"]{--c:var(--g-specialist)}[data-g="property"]{--c:var(--g-property)}[data-g="other"]{--c:var(--g-other)}
+.chart .mk,svg .mk{fill:var(--c);transition:opacity .15s}
+svg:has(.hl) .mk:not(.hl){opacity:.45}
+.chart .ln{fill:none;stroke:var(--c);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .dot-end{fill:var(--c);stroke:var(--panel);stroke-width:2}
+.chart .xhair{stroke:var(--text);stroke-opacity:.3}
+svg .ref{stroke:var(--text);stroke-opacity:.55;stroke-width:1.2}
+svg .leader{stroke:var(--faint);stroke-width:1}
+svg .note{fill:var(--faint);font:11px var(--mono)}
+svg .end-lbl{fill:var(--text);font:12px var(--sans)}svg .end-lbl .faint{fill:var(--faint);font-size:11px}
+svg .rlbl{fill:var(--muted);font:12.5px var(--sans)}svg .rval{fill:var(--text);font:12px var(--mono)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--c);flex:none}
+.legend .sw{margin-right:0}
+.trow{display:flex;gap:8px;align-items:center;margin-top:3px}.trow b{margin-left:auto;padding-left:16px;font-weight:500}
+.faint{color:var(--faint)}.small{font-size:12px}
+.tip b{font-weight:600}
+.insights .h{font:400 clamp(26px,3vw,38px)/1.05 var(--serif);letter-spacing:-.01em;margin:8px 0 0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px}
+.stat .v{font:400 clamp(34px,3.6vw,48px)/1 var(--serif)}.stat .l{color:var(--muted);font-size:13.5px;margin-top:8px}.stat .d{font:11.5px var(--mono);color:var(--faint);margin-top:8px}
+.seg-bar{display:flex;gap:2px;height:14px;margin:6px 0 16px}.seg-bar i{display:block;background:var(--g-private_credit);opacity:var(--o);min-width:2px}
+.seg-bar i:first-child{border-radius:4px 0 0 4px}.seg-bar i:last-child{border-radius:0 4px 4px 0}
+.mini-list.tight li{padding:7px 0}.mini-list.tight .sw{margin-right:8px;vertical-align:-1px}
+.tbl.moves td{padding-top:7px;padding-bottom:7px}
+.mv{font:500 12px var(--mono);color:var(--faint)}.mv.up{color:var(--up)}.mv.dn{color:var(--down)}.mv.new{color:var(--accent)}
+.hm{display:grid;gap:2px;font-size:12px;margin-top:4px}
+.hm-corner{font:10.5px var(--mono);color:var(--faint);align-self:end;padding:0 6px 6px 0}
+.hm-h{color:var(--muted);text-align:center;padding-bottom:6px;align-self:end;line-height:1.2}
+.hm-r{color:var(--muted);align-self:center;padding-right:8px}
+.hm-c{height:44px;display:grid;place-items:center;border-radius:4px;background:color-mix(in oklab,var(--g-bank) var(--p),var(--panel-2));color:var(--text);cursor:default}
+.hm-c.inv{color:#fff}.hm-c:hover{outline:2px solid var(--text);outline-offset:-2px}
+details.tview{margin-top:12px;font-size:13px}details.tview summary{cursor:pointer;color:var(--muted);font-size:12.5px}
+.tbl.small td,.tbl.small th{padding:6px 8px;font-size:12.5px}
+@media (max-width:960px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.stats{grid-template-columns:1fr}.hm{font-size:11px}.hm-c{height:38px}}
+[id^="ch-"] svg{width:100%;height:auto;stroke:none;overflow:visible}
