@@ -1,0 +1,54 @@
+{"name_norm": "RIVERSTONE CREDIT MANAGEMENT", "category": "direct_lender", "parent_firm": "Riverstone", "confidence": 0.8, "reason": "Credit manager name (Riverstone Credit Management LLC); six charges on a trading-company holding group"}
+{"name_norm": "SKIDDLE", "category": "other", "parent_firm": "Spotlight Topco Limited", "confidence": 0.5, "reason": "Ticketing/events platform (SIC 62090) charging small live-event companies; likely supplier or advance funding, not a lender"}
+{"name_norm": "VIDA PROPERTY SOLUTIONS", "category": "property_lender", "parent_firm": null, "confidence": 0.5, "reason": "Owned by one person, SIC 68100; charges on hotel and land-development borrowers suggest private property lending"}
+{"name_norm": "CHRISTOPHER MARTIN", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "LHV BANK", "category": "bank", "parent_firm": "AS LHV Group", "confidence": 0.97, "reason": "SIC 64191 Banks; UK bank owned by Estonian LHV Group"}
+{"name_norm": "DEBORAH NEELY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; co-chargee with family members and their company"}
+{"name_norm": "KILLYGORE INVESTMENTS", "category": "other", "parent_firm": null, "confidence": 0.92, "reason": "related party: controlled by the Neelys who share directors with both borrowers"}
+{"name_norm": "ROBERT THOMAS CLYDE NEELY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; shared director of the borrowers"}
+{"name_norm": "HAYRULLAH LEVENT NAMLI", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "JONATHAN EDWARD LEWIS", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "MATTHEW ARTHAN", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; borrower A M Arthan shares the surname"}
+{"name_norm": "RICHARD JOHN SURMAN", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; borrower Surman Land shares the surname"}
+{"name_norm": "BRYCG A", "category": "property_lender", "parent_firm": "Linton London Investments Ltd", "confidence": 0.85, "reason": "Brycg is a property bridging lender family; property borrowers (SIC 41100/68100); owner chain ends at Linton London Investments"}
+{"name_norm": "RAJ GILL", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "MAGNET CAPITAL", "category": "property_lender", "parent_firm": null, "confidence": 0.65, "reason": "SIC 64999 finance company owned by two individuals; borrower is a house builder (41100/41202)"}
+{"name_norm": "JOSEPH IAIN PATTIE", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "RENANTIS UK", "category": "other", "parent_firm": "Nadara Limited", "confidence": 0.6, "reason": "Renewable energy developer/operator charging an electricity-generation company; not a financial lender"}
+{"name_norm": "GTS SSAS", "category": "other", "parent_firm": null, "confidence": 0.75, "reason": "SSAS is a small self-administered pension scheme; lends to a property company"}
+{"name_norm": "ALKHOZAMA INVESTMENTS", "category": "other", "parent_firm": null, "confidence": 0.4, "reason": "Registered overseas entity held by individuals; lends to a property/holding group, likely investor or related funding"}
+{"name_norm": "BRIAN TOMLINSON", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; co-chargee with other individuals on a holding company"}
+{"name_norm": "CARLEY LEANNE HASSELL", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; co-chargee with Liam John Hassell on L H Electrical holdings"}
+{"name_norm": "CRAIG RIPLEY DICKEY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "DARREN PENN", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; co-chargee with Tomlinsons"}
+{"name_norm": "FALCON CAPITAL INVESTMENTS", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Dissolved company (SIC 66120) charging a fund-management borrower; purpose unclear"}
+{"name_norm": "FMP WEST MIDLANDS", "category": "other", "parent_firm": "Pendennis Shipyard (Holdings) Limited", "confidence": 0.7, "reason": "intra-group: chargee name matches borrower FMP (Midlands) Limited and the FMP group"}
+{"name_norm": "GLAS SAS AS PLEDGE ADMINISTRATOR", "category": "security_agent", "parent_firm": "GLAS", "confidence": 0.96, "reason": "GLAS acting as pledge administrator, a security agent role"}
+{"name_norm": "GRIPTITE GROUP", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Single-owner head-office company (SIC 70100); likely related party or trade creditor of a car dealer"}
+{"name_norm": "HARPENDEN BUILDING SOCIETY", "category": "bank", "parent_firm": null, "confidence": 0.97, "reason": "Building society"}
+{"name_norm": "IAN TAYLOR AND MATTHEW ALLSOP", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Two personal names"}
+{"name_norm": "JUNE TOMLINSON", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; co-chargee with Brian Tomlinson and Darren Penn"}
+{"name_norm": "LIAM JOHN HASSELL", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name; co-chargee with Carley Leanne Hassell"}
+{"name_norm": "MICHAEL HAMILTON AMISS", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "ROBERT SCOTT LILES", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "SONIC FUNDING CAPITAL 2", "category": "property_lender", "parent_firm": "Phoenix Funding Partners Limited", "confidence": 0.75, "reason": "Numbered funding vehicle (financial holding SIC 64205) lending to a property company (68100/68209)"}
+{"name_norm": "UK MORTAGE LENDING LTD TRADING AS PEPPER MONEY", "category": "property_lender", "parent_firm": "Pepper Money", "confidence": 0.88, "reason": "Pepper Money mortgage lender; borrower is a property company (68209)"}
+{"name_norm": "VAN HEEMSTRA HOLDING B V", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Dutch holding company co-chargee with another Dutch holding; likely shareholder funding of a restaurant/property borrower"}
+{"name_norm": "WASIM JAMAL WADAIR AND JAVED UMER", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Two personal names"}
+{"name_norm": "WILONMETO HOLDING B V", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Dutch holding company co-chargee with Van Heemstra Holding; likely shareholder funding"}
+{"name_norm": "YORK FORTY FOUR", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Family-owned leisure company (SIC 93290) charging a farm/property borrower; not a recognised lender"}
+{"name_norm": "BRENDA FELDMAN", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Personal-services company owned by one person, co-chargee with private investors on a small bridging company"}
+{"name_norm": "COLENKO CAPITAL 1", "category": "property_lender", "parent_firm": null, "confidence": 0.6, "reason": "Numbered capital vehicle lending to a property company (SIC 68100)"}
+{"name_norm": "NURTON DEVELOPMENTS QUINTUS", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Land developer (Nurton Developments) charging a housebuilder; likely land-sale/overage security, not a lender"}
+{"name_norm": "ONESAVINGS BANK PLC TRADING AS KENT RELIANCE", "category": "bank", "parent_firm": "OSB Group Plc", "confidence": 0.97, "reason": "OneSavings Bank plc, SIC 64191 Banks; Kent Reliance trading name; same group as siblings"}
+{"name_norm": "DENMARK SQUARE LTD T AS MONEY AND CO", "category": "other", "parent_firm": "Money&Co", "confidence": 0.55, "reason": "Trading as Money&Co, a peer-to-peer/crowdfunding lending platform; borrower is a solicitors LLP"}
+{"name_norm": "FINANCE FOR ENTERPRISE LIMITED CO NO 01925556", "category": "direct_lender", "parent_firm": null, "confidence": 0.6, "reason": "Fund management company (SIC 66300) providing loans to SMEs, matched on Companies House"}
+{"name_norm": "GROWTH LENDING 2020", "category": "direct_lender", "parent_firm": "Growth Lending Group Limited", "confidence": 0.82, "reason": "Growth lending vehicle; siblings GL 2024 and GAPCAP; floating charge over a trading tech company"}
+{"name_norm": "DBW INVESTMENTS 10", "category": "direct_lender", "parent_firm": null, "confidence": 0.5, "reason": "Numbered investment vehicle with full floating charge over a trading company; no further evidence"}
+{"name_norm": "PETER KELLY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "MOURANT PROPERTY TRUSTEES LTD AND MOURANT AND CO TRUSTEES", "category": "other", "parent_firm": "Mourant", "confidence": 0.7, "reason": "Landlord-side trustee holding a rent deposit deed, not a lender"}
+{"name_norm": "BRITISH OVERSEAS BANK NOMINEES LIMITED AND WGTC NOMINEES", "category": "other", "parent_firm": null, "confidence": 0.7, "reason": "Nominee landlord entities holding a rent deposit deed"}
+{"name_norm": "DYNAMOROS", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "Overseas entity landlord holding a rent deposit deed"}
+{"name_norm": "BATH AND NORTH EAST SOMERSET COUNCIL", "category": "public_sector", "parent_firm": null, "confidence": 0.8, "reason": "Local authority holding a rent deposit"}
+{"name_norm": "ROYSCOT TRUST", "category": "asset_finance", "parent_firm": null, "confidence": 0.88, "reason": "Royscot leasing family (co-chargees are Royscot leasing companies); master agreement over motor/leasing borrower"}
+{"name_norm": "GENERAL GUARANTEE CORPORATION", "category": "asset_finance", "parent_firm": null, "confidence": 0.8, "reason": "Deed of charge by assignment under principal agreements for a motor/leasing borrower; hire-purchase finance house"}
