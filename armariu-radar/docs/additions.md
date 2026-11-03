@@ -34,14 +34,15 @@ any review round. The plan's target is 90% after two rounds; the top 20 unmapped
 `output/review/unmapped_lenders_<date>.csv` (mostly buy-to-let lenders such as Godiva, Fleet,
 The Mortgage Lender).
 
-**B. Signals.** `radar/charge_signals.py`, rule version `v1`. First facility (no charge in the prior
-3 years, only when the borrower's full history was fetched), refinancing (another lender's charge
+**B. Signals.** `radar/charge_signals.py`, rule version `v2`. First facility (no charge in the prior
+3 years and no older charge still outstanding, only when the borrower's full history was fetched), refinancing (another lender's charge
 satisfied within 90 days either side; dated when both filings are public), add-on (same lender,
 earlier charge still outstanding). Charges created the same day for the same lenders are one deal,
 so a property portfolio does not produce a run of add-ons. Explanations state filing facts only.
-Week of 26 Oct 2026: 3,293 signals (1,606 first facility, 580 refinancing, 1,107 add-on).
-Acceptance still needs Armaan: hand-check the 30 in `output/signals/handcheck_<date>.csv`
-(target 80% sensible).
+Week of 26 Oct 2026: 2,969 signals (1,282 first facility, 580 refinancing, 1,107 add-on).
+Hand-check, 3 Nov 2026: Armaan marked 28 of 30 Right (93%, target 80%). Both misses were first
+facilities at companies with an older charge still outstanding; v2 fixes that and drops exactly those
+two rows, so the same sample now scores 28 of 28.
 
 **C. Lender view.** `radar/lender_view.py`. League table with trailing 4 and 13 weeks, sector cut,
 new entrants, top 10 refinancing flows, syndication proxy. Every table prints its window and the
@@ -56,7 +57,7 @@ no look-ahead. Same database, same numbers (tested).
 
 | Signal | n | Hit rate | Baseline | Lift |
 |---|---:|---:|---:|---:|
-| First facility | 2,053 | 26.1% | 68.2% | 0.38 |
+| First facility | 1,594 | 27.4% | 67.7% | 0.41 |
 | Refinancing | 3,726 | 81.8% | 69.0% | 1.19 |
 | Add-on | 9,822 | 80.6% | 67.4% | 1.20 |
 

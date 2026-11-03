@@ -11,8 +11,8 @@ A "deal" is the set of charges created on the same day for the same lenders (a d
 charges, or one charge per property). Signals attach to the first charge of a deal, and a deal's own
 charges never count as each other's "earlier charge".
 
-v1 rules (the first three of the plan; club, all-assets and cluster wait until after the gate):
-  first_facility  the company's first registered charge, or none in the prior 3 years
+Rules (the first three of the plan; club, all-assets and cluster wait until after the gate):
+  first_facility  no charge in the prior 3 years and no older charge still outstanding (v2)
   refinancing     a charge satisfied for lender X within 90 days (either side) of a new charge for lender Y
   add_on          a new charge by a lender that already holds an outstanding charge on the company
 """
@@ -28,7 +28,7 @@ from pathlib import Path
 from . import config
 from .charge_history import Charge, Company, load_companies
 
-RULE_VERSION = "v1"
+RULE_VERSION = "v2"   # v2, 3 Nov 2026: first facility also needs no older charge still outstanding
 FIRST_FACILITY_LOOKBACK_DAYS = 3 * 365
 REFI_WINDOW_DAYS = 90
 SIGNAL_TYPES = ("first_facility", "refinancing", "add_on")
@@ -88,12 +88,14 @@ def for_company(co: Company) -> list[dict]:
         if co.fetched:
             recent = [o for o in earlier if (d - _d(o.filed)).days <= FIRST_FACILITY_LOOKBACK_DAYS]
             same_day_other = [o for o in cs if o.filed == c.filed and o.charge_id != c.charge_id and not same_deal(o)]
-            if not recent and not same_day_other:
+            # an older charge not yet satisfied on this date means the company already has a lender
+            still_open = [o for o in earlier if not _d(o.satisfied) or _d(o.satisfied) > d]
+            if not recent and not same_day_other and not still_open:
                 prior = (f"The company's last earlier charge was filed {_fmt(earlier[-1].filed)}."
                          if earlier else "No earlier charge is on record.")
                 out.append(_row("first_facility", co, c, c.filed,
                     f"{who} registered a charge, filed {_fmt(c.filed)}. {prior} "
-                    "The company shows no registered charge in the three years before it.", None))
+                    "The company shows no registered charge in the three years before it, and no older charge still outstanding.", None))
 
         # refinancing: a charge for a different lender was satisfied within 90 days of this one.
         # One signal per new charge, citing the satisfaction closest in time (ties: earlier filing).
