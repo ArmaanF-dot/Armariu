@@ -5,10 +5,10 @@
   "coverage": "full",
   "coverage_note": "",
   "counts": {
-    "A": 3,
+    "A": 9,
     "B": 315,
     "C": 1619,
-    "D": 226,
+    "D": 220,
     "E": 1358
   },
   "total": 3521,
