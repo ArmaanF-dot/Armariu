@@ -38,9 +38,15 @@ def refresh_rule_matches(conn, rules) -> dict:
         norm, display = row["name_norm"], row["display"]
         rule = find_rule(norm, rules)
         existing = conn.execute(
-            "SELECT source FROM lender_classifications WHERE name_norm = ?", (norm,)
+            "SELECT display_name, category, parent_firm, confidence, source, review_status, reason "
+            "FROM lender_classifications WHERE name_norm = ?", (norm,)
         ).fetchone()
         if rule:
+            want = (display, rule.category, rule.parent_firm or None, rule.confidence, rule.source,
+                    "ok" if rule.source == "human" else "auto_ok", f"rule:{rule.match_type}:{rule.pattern}")
+            if existing and tuple(existing) == want:
+                counts["rule_matched"] += 1
+                continue  # already up to date: don't rewrite (keeps the database file unchanged between syncs)
             conn.execute(
                 "INSERT INTO lender_classifications VALUES (?,?,?,?,?,?,?,?,?) "
                 "ON CONFLICT(name_norm) DO UPDATE SET display_name=excluded.display_name, "

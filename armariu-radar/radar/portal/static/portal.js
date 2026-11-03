@@ -25,7 +25,7 @@ addEventListener("hashchange", route);
 function route() {
   if (!D) return;
   const r = location.hash.replace(/^#\/?/, "").split("?")[0] || "home";
-  const views = { home, league, signals, watch, lenders, record, method };
+  const views = { home, insights, league, signals, watch, lenders, record, method };
   const v = views[r] ? r : "home";
   document.body.classList.toggle("home", v === "home");
   $$("[data-route]").forEach((a) => a.classList.toggle("on", a.dataset.route === v));
@@ -34,7 +34,7 @@ function route() {
   app.innerHTML = "";
   views[v]();
   app.firstElementChild?.classList.add("page-enter");
-  document.title = `${{ home: "Overview", league: "League table", signals: "Signals", watch: "Refinance watch", lenders: "Lenders", record: "Track record", method: "Method" }[v]} · Armariu`;
+  document.title = `${{ home: "Overview", insights: "Insights", league: "League table", signals: "Signals", watch: "Refinance watch", lenders: "Lenders", record: "Track record", method: "Method" }[v]} · Armariu`;
   scrollTo({ top: 0 });
   wire();
   onScroll();
@@ -134,8 +134,10 @@ function home() {
       <div class="grid">${bt.map((r) => `<div class="card s4"><span class="badge warn">Backtest</span><h3 style="margin-top:14px">${esc(D.signal_labels[r.signal_type])}</h3>
         <div class="lift num" data-count="${r.lift}" data-dec="2" data-suf="×">0</div><p class="sub" style="margin-top:8px">${pct(r.hit_rate)} saw a further charge within 90 days vs ${pct(r.baseline_rate)} for comparable charges. n = ${fmt(r.signals)}.</p></div>`).join("")}</div>
     </section>
+    ${homeInsights()}
   </div></div>`;
   ArmariuSkyline.mount($(".hero"));
+  drawHomeInsights();
   let mode = "share";
   trendChart($("#trend"), $("#trend-legend"), mode);
   $$(".seg button").forEach((b) => (b.onclick = () => { mode = b.dataset.m; $$(".seg button").forEach((x) => x.setAttribute("aria-pressed", x === b)); trendChart($("#trend"), $("#trend-legend"), mode); }));
@@ -249,11 +251,13 @@ function watch() {
   const bt = W.backtest, months = Math.round(W.window_days / 30.4);
   app.innerHTML = `<div class="wrap page-top"><div class="sec-head"><div><span class="kicker">Refinance watch</span><h2>Who is most likely to refinance next</h2><p>Every company with a loan still registered against it, scored on what its filings show: the age of its newest loan and the lender's type, its recent borrowing, how many loans it has outstanding, and whether its lender is cutting back. ${esc(W.caveat)}</p></div><span class="badge warn">Backtest · ${esc(W.model_version)}</span></div>
     <div class="kpis" style="margin-bottom:28px">${bt.tiers.map((t) => `<div class="kpi"><div class="v num">${pct(t.hit_rate)}</div><div class="l">of the top ${esc(t.top)} refinanced within ${months} months</div><div class="d" style="color:#b9bcc6">${t.lift}× the ${pct(bt.base_rate)} average</div></div>`).join("")}</div>
+    ${watchCharts()}
     <p class="caveat" style="margin:-14px 0 22px">Tested on ${fmt(bt.rows)} company-dates from ${esc(bt.test_cutoffs[0])} onwards, which the score never saw while it was built (it learned from the year to ${esc(bt.train_end)}).</p>
     <div class="controls"><label class="switch"><input type="checkbox" id="hp" ${S.hideProp ? "checked" : ""}>Hide property borrowers</label>
       <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="wq" placeholder="Company, number or lender"></div></div>
     <div class="card" style="padding:6px 8px;overflow-x:auto"><table class="tbl"><thead><tr><th>Company</th><th>Sector</th><th class="r">Odds, ${months} months</th><th>Why it scores</th><th>Newest lender</th></tr></thead><tbody id="wt"></tbody></table></div></div>`;
   let q = "";
+  drawWatchCharts();
   $("#hp").onchange = (e) => { S.hideProp = e.target.checked; draw(); };
   $("#wq").oninput = (e) => { q = e.target.value.toLowerCase(); draw(); };
   function draw() {
@@ -306,7 +310,9 @@ function record() {
       <div><div class="ci" title="Hit rate with 95% interval; the grey tick is the baseline"><div class="rng" style="left:${r.ci_low * 100}%;width:${(r.ci_high - r.ci_low) * 100}%"></div>${r.baseline_rate ? `<div class="base" style="left:${r.baseline_rate * 100}%"></div>` : ""}<div class="pt" style="left:${r.hit_rate * 100}%"></div></div>
         <div style="display:flex;justify-content:space-between;font:11px var(--mono);color:var(--faint)"><span>0%</span><span>Hit rate ${pct(r.hit_rate, 1)} (${pct(r.ci_low, 1)} to ${pct(r.ci_high, 1)}) · baseline ${r.baseline_rate ? pct(r.baseline_rate, 1) : "n/a"}</span><span>100%</span></div></div>
       <div style="text-align:right"><div class="lift num" data-count="${r.lift || 0}" data-dec="2" data-suf="×">0</div><div class="sub" style="margin:4px 0 0">lift vs baseline</div></div></div>`).join("")}</div>
+    ${recordWatchCard()}
     <div class="card reveal" style="margin-top:18px"><h3>Read this before the numbers</h3><p class="prose" style="margin:6px 0 0">${esc(D.bias_note)} Signal window: ${dLong(rows[0]?.window_start)} to ${dLong(rows[0]?.window_end)}. Outcome: ${esc(rows[0]?.outcome || "")}. Signals use filing dates only, so nothing here looks ahead. A live, append-only log starts once the newsletter is published; it will never be mixed with these figures.</p></div></div>`;
+  drawRecordWatch();
 }
 
 // ------------------------------------------------------------------ method
@@ -331,9 +337,17 @@ function downloads() {
   $("#drawer-body").innerHTML = `<span class="kicker">Data</span><h2>Download</h2><p class="sub">CSV files of what this portal shows. Company-level facts only.</p>
     <ul class="mini-list"><li><span><b>League table</b><br><span style="color:var(--faint);font-size:12px">${dLong(w.start)} to ${dLong(w.end)}</span></span><button class="pill-btn" id="d1">CSV</button></li>
     <li><span><b>Signals</b><br><span style="color:var(--faint);font-size:12px">${fmt(D.signals.length)} rows, last four weeks</span></span><button class="pill-btn" id="d2">CSV</button></li>
+    <li><span><b>Insights tables</b><br><span style="color:var(--faint);font-size:12px">weekly series, sectors, lender moves</span></span><button class="pill-btn" id="d4">CSV</button></li>
     <li><span><b>Scorecard (backtest)</b><br><span style="color:var(--faint);font-size:12px">rules ${esc(D.rule_version)}</span></span><button class="pill-btn" id="d3">CSV</button></li></ul><p class="caveat">${esc(D.caveat)} ${esc(D.not_advice)}</p>`;
   $("#d1").onclick = () => save(`armariu_league_${w.start}.csv`, csv(w.league.filter((r) => r.class !== "individual").map((r) => ({ ...r, window_start: w.start, window_end: w.end })), ["window_start", "window_end", "lender", "class", "this_week", "trailing_4w", "trailing_13w", "low_observations"]));
   $("#d2").onclick = () => save(`armariu_signals_${D.built}.csv`, csv(D.signals, ["signal_date", "signal_type", "company_number", "company_name", "sector", "lender_names", "other_lender", "explanation", "filing_url"]));
   $("#d3").onclick = () => save(`armariu_scorecard_backtest.csv`, csv(D.scorecard, Object.keys(D.scorecard[0] || {})));
+  $("#d4").onclick = () => { const I = D.insights || {}; const rows = [];
+    (I.flow_weeks || []).forEach((r) => { const sw = (I.signal_weeks || []).find((x) => x.week_start === r.week_start) || {};
+      rows.push({ table: "weekly", key: r.week_start, observed_only: r.observed_only, new_charges: r.new, satisfied: r.satisfied, all_asset_charges: r.all_assets, private_credit_charges: r.private_credit, refinancing: sw.refinancing, first_facility: sw.first_facility, add_on: sw.add_on }); });
+    (I.sectors || []).forEach((r) => rows.push({ table: "sector", key: r.sector, new_charges: r.total, ...Object.fromEntries(Object.keys(I.group_labels).map((g) => [g, r[g]])) }));
+    (I.league_moves || []).forEach((r) => rows.push({ table: "league_moves", key: r.lender, class: r.class, rank: r.rank, prior_rank: r.prior_rank, charges_4w: r.charges_4w }));
+    (I.refi_moves || []).forEach((r) => rows.push({ table: "refinancing_moves", key: `${r.from}>${r.to}`, refinancing: r.signals }));
+    save(`armariu_insights_${D.built}.csv`, csv(rows, ["table", "key", "observed_only", "new_charges", "satisfied", "all_asset_charges", "private_credit_charges", "refinancing", "first_facility", "add_on", "bank", "private_credit", "specialist", "property", "other", "class", "rank", "prior_rank", "charges_4w"])); };
   $("#drawer").classList.add("open");
 }

@@ -12,6 +12,7 @@ Each borrower's charges come from two places, merged by charge id:
 from __future__ import annotations
 
 import json
+from functools import lru_cache
 from datetime import date, timedelta
 
 from . import config, sectors
@@ -51,11 +52,16 @@ CATEGORY_WORDS = {
 }
 
 
-def _d(s) -> date | None:
+@lru_cache(maxsize=65536)
+def _parse_day(s: str) -> date | None:
     try:
-        return date.fromisoformat(str(s)[:10]) if s else None
+        return date.fromisoformat(s[:10])
     except ValueError:
         return None
+
+
+def _d(s) -> date | None:
+    return _parse_day(str(s)) if s else None
 
 
 def _years(a: date, b: date) -> float:
@@ -79,12 +85,19 @@ class Namer:
     def __init__(self, conn, rules=None):
         self.cache = {r["name_norm"]: r["category"] for r in conn.execute(
             "SELECT name_norm, category FROM lender_classifications")}
+        self._raw: dict[str, tuple[str, str]] = {}
         try:
             self.rules = rules if rules is not None else load_rules()
         except (OSError, ValueError):
             self.rules = []
 
     def category(self, raw: str) -> tuple[str, str]:
+        hit = self._raw.get(raw)
+        if hit is None:
+            hit = self._raw[raw] = self._category(raw)
+        return hit
+
+    def _category(self, raw: str) -> tuple[str, str]:
         norm = normalise_name(raw)
         if norm in self.cache:
             return norm, self.cache[norm]
@@ -97,17 +110,26 @@ class Namer:
 def company_charges(conn, number: str, namer: Namer) -> tuple[list[dict], bool]:
     """Every charge we know of for one borrower, oldest first, and whether its full history was fetched."""
     number = number.upper()
+    hist = conn.execute("SELECT * FROM borrower_history WHERE company_number = ?", (number,)).fetchall()
+    regs = conn.execute("SELECT * FROM charges WHERE company_number = ? AND deleted = 0", (number,)).fetchall()
+    persons: dict[str, list[str]] = {}
+    for p in conn.execute("SELECT charge_id, name_raw FROM charge_persons WHERE company_number = ? "
+                          "ORDER BY charge_id, name_raw", (number,)):
+        persons.setdefault(p[0], []).append(p[1])
+    fetched = conn.execute("SELECT 1 FROM borrower_history_fetched WHERE company_number = ?", (number,)).fetchone()
+    return _assemble(number, hist, regs, persons, namer), bool(fetched)
+
+
+def _assemble(number: str, hist, regs, persons: dict, namer: Namer) -> list[dict]:
     out: dict[str, dict] = {}
-    for r in conn.execute("SELECT * FROM borrower_history WHERE company_number = ?", (number,)):
+    for r in hist:
         out[r["charge_id"]] = {
             "charge_id": r["charge_id"], "status": r["status"], "created_on": r["created_on"],
             "delivered_on": r["delivered_on"], "satisfied_on": r["satisfied_on"],
             "charge_type": r["classification"], "names": json.loads(r["persons"] or "[]"), "on_register": False,
         }
-    for r in conn.execute("SELECT * FROM charges WHERE company_number = ? AND deleted = 0", (number,)):
-        names = [p[0] for p in conn.execute(
-            "SELECT name_raw FROM charge_persons WHERE company_number = ? AND charge_id = ? ORDER BY name_raw",
-            (number, r["charge_id"]))]
+    for r in regs:
+        names = persons.get(r["charge_id"]) or []
         out[r["charge_id"]] = {  # the register copy is the freshest
             "charge_id": r["charge_id"], "status": r["status"], "created_on": r["created_on"],
             "delivered_on": r["delivered_on"], "satisfied_on": r["satisfied_on"],
@@ -127,8 +149,7 @@ def company_charges(conn, number: str, namer: Namer) -> tuple[list[dict], bool]:
         del c["names"]
         rows.append(c)
     rows.sort(key=lambda c: (c["deal_date"] or "", c["charge_id"]))
-    fetched = conn.execute("SELECT 1 FROM borrower_history_fetched WHERE company_number = ?", (number,)).fetchone()
-    return rows, bool(fetched)
+    return rows
 
 
 def _who(charge: dict) -> str:
@@ -163,23 +184,26 @@ def for_company(number: str, name: str | None, charges: list[dict], fetched: boo
     company = {"number": number, "name": name or number, "sectors": sectors.sectors_of(sic_codes)}
     recent = today - timedelta(days=RECENT_DAYS)
     out, used = [], set()
+    # Parse each charge's deal date and lender set once (big property borrowers have thousands of charges).
+    D = {c["charge_id"]: _d(c["deal_date"]) for c in charges}
+    N = {c["charge_id"]: _names(c) for c in charges}
 
     # New charges: group charges made on the same day for the same lenders into one deal.
     deals: dict[tuple, list[dict]] = {}
     for c in charges:
-        d = _d(c["deal_date"])
+        d = D[c["charge_id"]]
         if d and d >= recent:
-            deals.setdefault((c["deal_date"][:10], frozenset(_names(c))), []).append(c)
+            deals.setdefault((c["deal_date"][:10], frozenset(N[c["charge_id"]])), []).append(c)
     for (_, names), group in sorted(deals.items(), key=lambda kv: kv[0][0], reverse=True):
         new = group[0]
-        d = _d(new["deal_date"])
+        d = D[new["charge_id"]]
         ids = {c["charge_id"] for c in group}
-        older = [c for c in charges if c["charge_id"] not in ids and (_d(c["deal_date"]) or date.min) < d]
+        older = [c for c in charges if c["charge_id"] not in ids and (D[c["charge_id"]] or date.min) < d]
         what = CATEGORY_WORDS.get(new["primary"], "a lender")
         many = f" ({len(group)} charges registered together)" if len(group) > 1 else ""
         repaid = [c for c in older if c["status"] != "outstanding" and _d(c["satisfied_on"])
                   and -REFI_AFTER_DAYS <= (_d(c["satisfied_on"]) - d).days <= REFI_BEFORE_DAYS
-                  and not (_names(c) & names)]
+                  and not (N[c["charge_id"]] & names)]
         if repaid:
             old = repaid[-1]
             extra = ""
@@ -190,25 +214,25 @@ def for_company(number: str, name: str | None, charges: list[dict], fetched: boo
             elif old["primary"] in ("direct_lender", "security_agent") and new["primary"] in ("direct_lender", "security_agent"):
                 extra = "One private credit lender replaced another."
             out.append(_signal("refinanced", company, d,
-                f"{_who(old)} ({CATEGORY_WORDS.get(old['primary'], 'a lender')}, charge from {_d(old['deal_date']).year if _d(old['deal_date']) else 'an unknown year'}) "
+                f"{_who(old)} ({CATEGORY_WORDS.get(old['primary'], 'a lender')}, charge from {D[old['charge_id']].year if D[old['charge_id']] else 'an unknown year'}) "
                 f"was marked repaid on {_fmt(_d(old['satisfied_on']))}, and {_who(new)} ({what}) took security on {_fmt(d)}{many}. "
                 "That pattern usually means the old loan was refinanced.", group + [old], extra))
             used.update(c["charge_id"] for c in group + [old])
             continue
         live = [c for c in older if c["status"] == "outstanding"]
-        same = [c for c in live if _names(c) & names]
-        other = [c for c in live if not (_names(c) & names)]
+        same = [c for c in live if N[c["charge_id"]] & names]
+        other = [c for c in live if not (N[c["charge_id"]] & names)]
         if other:
             o = other[-1]
             out.append(_signal("alongside", company, d,
                 f"{_who(new)} ({what}) took security on {_fmt(d)}{many} while {_who(o)} still holds a charge from "
-                f"{_d(o['deal_date']).year if _d(o['deal_date']) else 'an unknown year'}. That points to extra borrowing: "
+                f"{D[o['charge_id']].year if D[o['charge_id']] else 'an unknown year'}. That points to extra borrowing: "
                 "a second loan, a separate facility, or lenders sharing the same security.", group + [o]))
         elif same:
             o = same[-1]
             out.append(_signal("top_up", company, d,
                 f"{_who(new)} took another charge on {_fmt(d)}{many}; it already held one from "
-                f"{_d(o['deal_date']).year if _d(o['deal_date']) else 'an unknown year'}. Often an amended, increased or extended loan.",
+                f"{D[o['charge_id']].year if D[o['charge_id']] else 'an unknown year'}. Often an amended, increased or extended loan.",
                 group + [o]))
         elif not fetched:
             continue  # without the full history we can't tell a first loan from a refinancing
@@ -224,12 +248,20 @@ def for_company(number: str, name: str | None, charges: list[dict], fetched: boo
         used.update(ids)
 
     # Repaid with nothing new since: one signal per repayment date.
+    # The newest deal date among the *other* charges, from the two newest overall (was an O(n^2) scan).
+    ranked = sorted(charges, key=lambda n: D[n["charge_id"]] or date.min, reverse=True)[:2]
+
+    def _latest_other(c):
+        for n in ranked:
+            if n is not c:
+                return D[n["charge_id"]] or date.min
+        return date.min
     repaid_on: dict[date, list[dict]] = {}
     for c in charges:
         s = _d(c["satisfied_on"])
         if c["charge_id"] in used or c["status"] == "outstanding" or not s or s < recent or c["primary"] == "individual":
             continue
-        if any(n is not c and (_d(n["deal_date"]) or date.min) >= s - timedelta(days=REFI_BEFORE_DAYS) for n in charges):
+        if _latest_other(c) >= s - timedelta(days=REFI_BEFORE_DAYS):
             continue
         repaid_on.setdefault(s, []).append(c)
     for s, group in sorted(repaid_on.items(), reverse=True):
@@ -248,17 +280,17 @@ def for_company(number: str, name: str | None, charges: list[dict], fetched: boo
     # Private credit lenders in place long enough that a refinancing is often near: one signal per lender.
     seen: set = set()
     for c in charges:
-        d = _d(c["deal_date"])
+        d = D[c["charge_id"]]
         if c["status"] != "outstanding" or not d or c["primary"] not in MATURITY_CATEGORIES or c["charge_id"] in seen:
             continue
-        same = [n for n in charges if n["status"] == "outstanding" and (n is c or _names(n) & _names(c))]
+        same = [n for n in charges if n["status"] == "outstanding" and (n is c or N[n["charge_id"]] & N[c["charge_id"]])]
         seen.update(n["charge_id"] for n in same)
         age = _years(d, today)
         if not MATURITY_MIN_YEARS <= age <= MATURITY_MAX_YEARS:
             continue
         latest = max(same, key=lambda n: n["deal_date"] or "")
         later = (f" It has taken {len(same) - 1} more charge{'s' if len(same) > 2 else ''} since, the latest on "
-                 f"{_fmt(_d(latest['deal_date']))}, which can mean the loan was already increased, amended or extended."
+                 f"{_fmt(D[latest['charge_id']])}, which can mean the loan was already increased, amended or extended."
                  if len(same) > 1 else "")
         stage = ("is in the window where these loans are often refinanced" if age < 5
                  else "is near the end of a typical term")
@@ -274,10 +306,25 @@ def all_signals(conn, today: date | None = None, namer: Namer | None = None) -> 
     today = today or date.today()
     namer = namer or Namer(conn)
     out = []
+    # Read everything in four queries rather than four per borrower.
+    hist: dict[str, list] = {}
+    for r in conn.execute("SELECT * FROM borrower_history WHERE company_number IN "
+                          "(SELECT company_number FROM charges WHERE deleted = 0)"):
+        hist.setdefault(r["company_number"], []).append(r)
+    regs: dict[str, list] = {}
+    for r in conn.execute("SELECT * FROM charges WHERE deleted = 0"):
+        regs.setdefault(r["company_number"], []).append(r)
+    persons: dict[str, dict[str, list[str]]] = {}
+    for p in conn.execute("SELECT company_number, charge_id, name_raw FROM charge_persons "
+                          "ORDER BY company_number, charge_id, name_raw"):
+        persons.setdefault(p[0], {}).setdefault(p[1], []).append(p[2])
+    fetched_set = {r[0] for r in conn.execute("SELECT company_number FROM borrower_history_fetched")}
     for r in conn.execute(
             "SELECT DISTINCT c.company_number, co.name, co.sic_codes FROM charges c LEFT JOIN companies co "
             "ON co.company_number = c.company_number WHERE c.deleted = 0"):
-        charges, fetched = company_charges(conn, r["company_number"], namer)
+        num = r["company_number"]
+        charges = _assemble(num.upper(), hist.get(num, []), regs.get(num, []), persons.get(num, {}), namer)
+        fetched = num in fetched_set
         sic = json.loads(r["sic_codes"]) if r["sic_codes"] else []
         out += for_company(r["company_number"], r["name"], charges, fetched, today, sic)
     out.sort(key=lambda s: (s["date"] or ""), reverse=True)

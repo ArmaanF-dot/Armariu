@@ -548,6 +548,11 @@ class ClassifyTests(TempDirTest):
         self.assertEqual(tuple(self.status("HSBC UK BANK")), ("bank", "seed", "auto_ok"))
         self.assertEqual(self.status("GLAS TRUST CORPORATION")["category"], "security_agent")
 
+    def test_refresh_leaves_unchanged_rows_alone(self):
+        before = self.conn.total_changes
+        classify.refresh_rule_matches(self.conn, load_rules())
+        self.assertEqual(self.conn.total_changes, before)   # nothing rewritten, so the db file stays the same
+
     def test_queue_has_only_unknown_names(self):
         q = self.tmp / "queue.jsonl"
         n = classify.build_queue(self.conn, q)
@@ -782,6 +787,18 @@ class DbSyncTests(TempDirTest):
         # The working folder and current branch are untouched.
         self.assertEqual(self.git("status", "--porcelain"), "?? data/")
 
+    def test_fetch_if_changed_skips_unchanged_copy(self):
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)
+        self.db.unlink()
+        tmp, blob = dbsync.fetch_if_changed(self.db)
+        self.assertIsNotNone(tmp)
+        self.assertTrue(self.db.exists() is False)   # nothing replaced until install()
+        dbsync.install(tmp, blob, self.db)
+        self.assertTrue(self.db.exists())
+        again, same = dbsync.fetch_if_changed(self.db)
+        self.assertIsNone(again)
+        self.assertEqual(same, blob)
+
 
 class ReviewAppTests(TempDirTest):
     """The review app's actions, with git turned off (folder isn't a repo)."""
@@ -974,6 +991,18 @@ class ReviewAppHttpTests(ReviewAppTests):
         self.assertEqual(self.req("/static/../../schema.sql")[0], 404)
         self.assertEqual(self.req("/api/lender?name=nobody")[0], 404)
         self.assertEqual(json.loads(self.req("/api/summary")[1])["charges"], 9)
+
+    def test_heavy_pages_are_cached_and_gzipped(self):
+        import gzip
+        r = self.urllib.Request(self.base + "/api/signals", headers={"Accept-Encoding": "gzip"})
+        with self.urllib.urlopen(r, timeout=5) as resp:
+            self.assertEqual(resp.headers["Content-Encoding"], "gzip")
+            first = json.loads(gzip.decompress(resp.read()))
+        self.assertIn("rows", first)
+        self.assertEqual(json.loads(self.req("/api/signals")[1]), first)   # plain copy for non-gzip clients
+        self.assertTrue(any(k.startswith("/api/signals") for k in self.app.cache))
+        self.req("/api/decide", {"name": "JOHN EXAMPLE", "category": "individual"})
+        self.assertFalse(self.app.cache)   # a decision clears every cached page
 
 
 if __name__ == "__main__":

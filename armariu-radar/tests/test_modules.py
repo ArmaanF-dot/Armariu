@@ -187,6 +187,24 @@ class ViewAndScorecardTests(unittest.TestCase):
         self.assertIn("not deals", md)
         self.assertIn("Partial window", md)
 
+    def test_insights_counts_and_no_individuals(self):
+        from radar import insights
+        person = ("A private individual", "PRIVATE INDIVIDUAL", "individual")
+        cos = self.cos()
+        cos["3"] = Company("3", "Three", ["68100"], "2024-06-01", "active", True,
+                           [ch("p", "2026-10-28", [person], co="3")])
+        for c in cos["1"].charges:
+            c.on_register, c.floating_all = True, True
+        out = insights.build_insights(cos, [], [{"odds_12m": 0.45, "sector": "S", "base_rate": 0.12}],
+                                      date(2026, 11, 3), date(2026, 10, 20))
+        wk = out["flow_weeks"][-1]
+        self.assertEqual((wk["new"], wk["register"], wk["all_assets"], wk["private_credit"]), (4, 2, 2, 3))
+        self.assertFalse(wk["observed_only"])
+        self.assertTrue(out["flow_weeks"][0]["observed_only"])
+        self.assertNotIn("individual", [m["class"] for m in out["league_moves"]])
+        self.assertEqual(out["watch"]["high"], 1)
+        self.assertNotIn("private individual", json.dumps(out).lower())
+
     def test_wilson_interval(self):
         lo, hi = scorecard.wilson(50, 100)
         self.assertAlmostEqual(lo, 0.404, places=2)

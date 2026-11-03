@@ -102,3 +102,22 @@ drift, rippling reflection, twinkling lights found in the photo, beacons, a plan
 
 Scheduled lender view and pack jobs, the live `signals_published.csv` log, the club, all-assets and
 cluster rules, and any automation of Module F.
+
+## Insights page and a faster review app (3 Nov 2026)
+
+**Client portal, Insights.** `radar/insights.py` adds an `insights` block to the snapshot (public):
+signals by week and type, private credit and all-asset debenture shares by week, repayments per new
+charge, league movement (last 4 weeks vs the 4 before, non-property), refinancing between lender
+types, private credit concentration, lender mix by borrower sector and age, all-asset debentures by
+lender type, and the spread of Refinance watch odds overall and by sector. Charts live in
+`radar/portal/static/insights.js` (plain SVG) and also appear on the Refinance watch and Track record
+pages and as a teaser on the overview. Weeks before the stream started are hatched ("observed
+borrowers only"). All-asset figures use register charges only, since the history API has no charge
+details. No region cut: the radar does not store borrower addresses. Every chart has a table view.
+
+**Review app speed.** Heavy pages (Overview, Signals, Decisions, Directory, Lenders, Charges, lender
+and company panels) are cached until the data behind them changes, gzipped, and built in the
+background after start-up and each sync. Measured on the 3 Nov database: Signals 3.7 s and 20 MB to
+about 0.03 s and 2 MB; Overview 3.7 s to 0.002 s cached (2.4 s cold); Decisions 1.9 s to 0.01 s
+cached (0.5 s cold). Sync downloads the cloud database outside the database lock and skips unchanged
+copies (`data/radar.db.source` remembers which copy is in place).
