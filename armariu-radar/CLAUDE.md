@@ -36,7 +36,7 @@ through files in this folder.
 | `data/lender_notes.json` | people only (research notes, via the review app) |
 | `data/lender_aliases.csv`, `data/large_primes.csv` | people only (Module A aliases; Module F exclusions) |
 | `classify/queue.jsonl`, `output/weekly/`, `output/monthly/` | pipeline only |
-| `output/signals/`, `output/lender_view/`, `output/scorecard/`, `output/weekly_pack/`, `output/snapshot/`, `output/review/`, `output/contracts/`, `output/accounts/`, `output/ownership/` | the additions' commands only (not committed) |
+| `output/signals/`, `output/lender_view/`, `output/scorecard/`, `output/weekly_pack/`, `output/snapshot/`, `output/review/`, `output/contracts/`, `output/accounts/`, `output/ownership/`, `output/profile/` | the additions' commands only (not committed) |
 | `radar/portal/` | people only (via pull request); the client portal is read-only and never hosted before the validation gate |
 | `classify/results/` | classifier agent |
 | `classify/second_queue.jsonl`, `classify/referee_queue.jsonl` | pipeline only |
@@ -83,6 +83,8 @@ python -m radar.charge_signals        # Module B: rule-based signals (rule versi
 python -m radar.accounts fetch        # free bulk accounts for our companies (range requests, resumable)
 python -m radar.ownership fetch       # free owner register (PSC snapshot) for our companies
 python -m radar.refi_watch compare    # BACKTEST: Refinance watch rw1 against rw2 (accounts + owner clues)
+python -m radar.profile fetch         # free Basic Company Data (size, postcode district, name changes) for our companies
+python -m radar.refi_ml               # BACKTEST: ML model, one free dataset at a time (needs scikit-learn; docs/refi_datasets.md)
 python -m radar.lender_view           # Module C: lender league, sectors, flows, syndication
 python -m radar.scorecard backtest    # Module D: BACKTEST hit rates vs baseline, Wilson intervals
 python -m radar.weekly_pack           # Module E: weekly_pack.md + commentary prompt (paste by hand)
