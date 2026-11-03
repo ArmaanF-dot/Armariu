@@ -16,10 +16,18 @@ its score band in that history. `backtest` learns on an earlier year and scores 
 saw. Measured 3 Nov 2026 (12 months): top 1% refinanced 54%, against 11% for all companies; with a
 90-day window the same score gave 22% against 3%. History covers only companies that borrowed after
 20 Oct 2026, which flatters absolute rates; the lift is the steadier number.
-Clues still to add when the data is reachable: loans due within a year (accounts), ownership changes.
+
+rw2 (tested 3 Nov 2026, not live) adds clues from Companies House's free accounts and owner register
+(radar.accounts, radar.ownership): bank loans due within a year, the share of the balance sheet due
+within a year, how debts moved against the year before, new owners, and board changes. On the same
+unseen months it did worse at the top: top 1% hit 45.7% at 12 months (rw1 52.9%) and 12.7% at 90
+days (rw1 21.6%). Owner changes reversed between the learning and test years, and the accounts clues
+mostly repeat what recent borrowing already says; most small firms file accounts with no loan split.
+`compare` reruns the test, so rw2 can be promoted if it wins once more history has built up.
 
     python -m radar.refi_watch [--as-of 2026-11-03] [--top 200]
     python -m radar.refi_watch backtest
+    python -m radar.refi_watch compare   # rw1 against rw2, 90 days and 12 months (needs accounts + ownership fetched)
 """
 from __future__ import annotations
 
@@ -27,18 +35,25 @@ import argparse
 import csv
 import math
 from collections import Counter, defaultdict
+from dataclasses import dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
 
 from . import config
 from .charge_history import Company, load_companies
 
-MODEL_VERSION = "rw1"
+MODEL_VERSION = "rw1"   # the live score; rw2 (accounts and owners) lost in the 3 Nov 2026 backtest
 WINDOW = 365   # days; 90 and 180 were tested too (see the docstring)
-CLUES = ("age_cls", "recent", "nopen", "pullback", "property")
+CLUES_RW1 = ("age_cls", "recent", "nopen", "pullback", "property")
+CLUES_FILED = ("due_1y", "short_debt", "debt_shift", "owner_change", "board_change", "director_change")   # rw2: accounts and owner register
+CLUES = CLUES_RW1                  # live clues
+CLUES_RW2 = CLUES_RW1 + CLUES_FILED   # experiment: `python -m radar.refi_watch compare`
 LABELS = {
     "age_cls": "Newest open loan", "recent": "Recent borrowing", "nopen": "Loans outstanding",
     "pullback": "Lender's new lending", "property": "Property company",
+    "due_1y": "Bank loans in the latest accounts", "short_debt": "Share of the balance sheet due within a year",
+    "debt_shift": "Change since the year before", "owner_change": "Owners",
+    "director_change": "Director appointments", "board_change": "Directors",
 }
 CAVEAT = ("Odds, not a forecast: filings carry no loan end dates. The odds are how often companies with a "
           "similar score refinanced within 12 months in the past.")
@@ -96,7 +111,128 @@ def _pullback(vol, key, on: date) -> str:
     return "falling by half or more" if r < 0.5 else "steady" if r < 1.5 else "growing"
 
 
-def features(co: Company, on: date, vol) -> dict | None:
+@dataclass
+class Filed:
+    """Accounts and owner-register history (radar.accounts, radar.ownership); empty when not fetched."""
+    accounts: dict = field(default_factory=dict)   # number -> filings sorted by known_from
+    owners: dict = field(default_factory=dict)     # number -> owner records
+    directors: dict = field(default_factory=dict)  # number -> [(appointed_on, resigned_on)], from borrower_officers
+
+
+def load_directors(conn) -> dict:
+    """Officer appointments the pipeline fetched (ingest.officers); empty until it has run."""
+    out: dict = {}
+    if conn is None or not conn.execute("SELECT 1 FROM sqlite_master WHERE name = 'borrower_officers'").fetchone():
+        return out
+    for r in conn.execute("SELECT company_number, appointed_on, resigned_on FROM borrower_officers"):
+        out.setdefault(r[0], []).append((r[1], r[2]))
+    return out
+
+
+def load_filed(conn=None) -> Filed:
+    from . import accounts, ownership
+    return Filed(accounts.load(), ownership.load(), load_directors(conn))
+
+
+def _money(v) -> bool:
+    return v is not None and v >= 1000
+
+
+def filed_features(co: Company, on: date, filed: Filed | None) -> dict:
+    """rw2 clues from the latest accounts and the owner register that were public before `on`."""
+    if filed is None or not (filed.accounts or filed.owners or filed.directors):
+        return {k: "not checked" for k in CLUES_FILED}
+    accs = [a for a in filed.accounts.get(co.number, []) if _d(a["known_from"]) < on]
+    accs = [a for a in accs if (on - _d(a["balance_sheet_date"])).days <= 730]
+    out = {}
+    if not accs:
+        out["due_1y"] = out["short_debt"] = out["debt_shift"] = "no recent accounts"
+        out["board_change"] = "unknown"
+    else:
+        a = accs[-1]
+        l1, la = a["loans_1y"], a["loans_after"]
+        due_by = _d(a["balance_sheet_date"]) + timedelta(days=365)
+        if l1 is None and la is None:
+            out["due_1y"] = "not broken down"
+        elif _money(l1) and not _money(la):
+            out["due_1y"] = "all due within a year" + (", due date passed" if on > due_by else "")
+        elif _money(l1):
+            out["due_1y"] = "some due within a year" + (", due date passed" if on > due_by else "")
+        elif _money(la):
+            out["due_1y"] = "all due after a year"
+        else:
+            out["due_1y"] = "none"
+        c1, ca, tl = a["creditors_1y"], a["creditors_after"] or 0.0, a["total_assets_less_cl"]
+        if c1 is None or tl is None or c1 + tl <= 0:
+            out["short_debt"] = "not broken down"
+        else:
+            r = c1 / (c1 + tl)   # current creditors / total assets
+            out["short_debt"] = "under a quarter" if r < 0.25 else "a quarter to a half" if r < 0.5 \
+                else "half to three quarters" if r < 0.75 else "over three quarters"
+        out["debt_shift"] = _debt_shift(a)
+        fps = [x["officers_fp"] for x in accs if x["officers_fp"]]
+        out["board_change"] = "unknown" if len(fps) < 2 else "changed between the last two accounts" \
+            if fps[-1] != fps[-2] else "same as the accounts before"
+    created = _d(co.created)
+    lag = timedelta(days=ownership_lag())
+    changes = []
+    for o in filed.owners.get(co.number, []):
+        for k in ("notified_on", "ceased_on"):
+            d = _d(o.get(k))
+            if not d or d + lag >= on or d == date(2016, 4, 6):   # 6 Apr 2016: the register began
+                continue
+            if k == "notified_on" and created and (d - created).days <= 60:
+                continue   # the founding owners, not a change
+            changes.append(d)
+    last = max(changes, default=None)
+    months = (on - last).days / 30.44 if last else None
+    out["director_change"] = _director_change(co, on, filed, lag)
+    out["owner_change"] = "no change on record" if last is None else "changed in the last 6 months" if months < 6 \
+        else "changed 6 to 12 months ago" if months < 12 else "changed 1 to 3 years ago" if months < 36 else "changed over 3 years ago"
+    return out
+
+
+def _debt_shift(a: dict) -> str:
+    """How the debts in the latest accounts moved against the year before (comparatives in the same filing)."""
+    after, p_after = a.get("creditors_after") or 0.0, a.get("prev_creditors_after")
+    c1, p_c1 = a.get("creditors_1y"), a.get("prev_creditors_1y")
+    if p_after is None and p_c1 is None:
+        return "no comparatives"
+    if (p_after or 0) >= 50_000 and after < 0.2 * p_after:
+        # long-term debt left the after-one-year line: it fell due (or was repaid)
+        return "long-term debt now due or repaid" if (c1 or 0) > (p_c1 or 0) else "long-term debt repaid"
+    if c1 is not None and p_c1 and c1 >= 100_000 and c1 > 1.5 * p_c1:
+        return "debts due within a year up by half or more"
+    if after >= 50_000 and (p_after or 0) < 0.5 * after:
+        return "new long-term debt"
+    return "little change"
+
+
+def _director_change(co: Company, on: date, filed: Filed, lag: timedelta) -> str:
+    """Latest director appointment or resignation public before `on` (founding directors ignored)."""
+    if co.number not in filed.directors:
+        return "not checked"
+    created, dates = _d(co.created), []
+    for appointed, resigned in filed.directors[co.number]:
+        a, r = _d(appointed), _d(resigned)
+        if a and not (created and (a - created).days <= 60):
+            dates.append(a)
+        if r:
+            dates.append(r)
+    dates = [d for d in dates if d + lag < on]
+    if not dates:
+        return "no change on record"
+    months = (on - max(dates)).days / 30.44
+    return "changed in the last 6 months" if months < 6 else "changed 6 to 12 months ago" if months < 12 \
+        else "changed over a year ago"
+
+
+def ownership_lag() -> int:
+    from .ownership import LAG_DAYS
+    return LAG_DAYS
+
+
+def features(co: Company, on: date, vol, filed: Filed | None = None) -> dict | None:
     """Clues for one company on one date, or None if it has nothing outstanding."""
     open_ = [c for c in co.charges if _start(c) and _start(c) < on and not (_d(c.satisfied) and _d(c.satisfied) <= on)]
     if not open_:
@@ -110,33 +246,35 @@ def features(co: Company, on: date, vol) -> dict | None:
         "nopen": "one" if len(open_) == 1 else "two or three" if len(open_) <= 3 else "four or more",
         "pullback": _pullback(vol, key, on),
         "property": "yes" if co.sector == "Property and real estate" else "no",
+        **filed_features(co, on, filed),
         "_newest": newest,
     }
 
 
-def outcome(co: Company, on: date) -> bool:
-    end = on + timedelta(days=WINDOW)
+def outcome(co: Company, on: date, window: int | None = None) -> bool:
+    end = on + timedelta(days=window or WINDOW)
     sat = any(_d(c.satisfied) and on < _d(c.satisfied) <= end and _start(c) and _start(c) < on for c in co.charges)
     new = any(_d(c.filed) and on < _d(c.filed) <= end for c in co.charges)
     return sat and new
 
 
-def examples(companies, cutoffs, vol):
+def examples(companies, cutoffs, vol, filed: Filed | None = None, window: int | None = None):
     out = []
     for co in companies.values():
         for on in cutoffs:
-            f = features(co, on, vol)
+            f = features(co, on, vol, filed)
             if f:
-                out.append((f, outcome(co, on)))
+                out.append((f, outcome(co, on, window)))
     return out
 
 
 class Model:
-    def __init__(self, rows):
+    def __init__(self, rows, clues=CLUES):
+        self.clues = tuple(clues)
         self.n = len(rows)
         self.base = (sum(y for _, y in rows) / self.n) if self.n else 0.0
         self.points: dict = {}
-        for clue in CLUES:
+        for clue in self.clues:
             cnt = defaultdict(lambda: [0, 0])
             for x, y in rows:
                 cnt[x[clue]][0] += 1; cnt[x[clue]][1] += y
@@ -151,7 +289,7 @@ class Model:
             self.bands.append((part[0][0], sum(y for _, y in part) / len(part)))
 
     def score(self, x) -> float:
-        return sum(self.points.get((c, x[c]), 0.0) for c in CLUES)
+        return sum(self.points.get((c, x[c]), 0.0) for c in self.clues)
 
     def odds(self, s: float) -> float:
         rate = self.bands[0][1] if self.bands else self.base
@@ -161,7 +299,7 @@ class Model:
         return rate
 
     def reasons(self, x, top=3) -> list[str]:
-        parts = sorted(((self.points.get((c, x[c]), 0.0), c) for c in CLUES), reverse=True)
+        parts = sorted(((self.points.get((c, x[c]), 0.0), c) for c in self.clues), reverse=True)
         return [f"{LABELS[c]}: {x[c]}" for p, c in parts[:top] if p > 0.05]
 
 
@@ -172,17 +310,18 @@ def _cutoffs(end: date, years: float = 1.5, step: int = 61) -> list[date]:
     return sorted(out)
 
 
-def learn(companies, as_of: date, vol=None) -> Model:
+def learn(companies, as_of: date, vol=None, filed: Filed | None = None) -> Model:
     vol = vol or lender_volumes(companies)
-    return Model(examples(companies, _cutoffs(as_of - timedelta(days=WINDOW + 1)), vol))
+    return Model(examples(companies, _cutoffs(as_of - timedelta(days=WINDOW + 1)), vol, filed))
 
 
-def watchlist(companies, as_of: date, top: int = 200, model: Model | None = None) -> tuple[list[dict], Model]:
+def watchlist(companies, as_of: date, top: int = 200, model: Model | None = None,
+              filed: Filed | None = None) -> tuple[list[dict], Model]:
     vol = lender_volumes(companies)
-    model = model or learn(companies, as_of, vol)
+    model = model or learn(companies, as_of, vol, filed)
     rows = []
     for co in companies.values():
-        f = features(co, as_of, vol)
+        f = features(co, as_of, vol, filed)
         if not f:
             continue
         s = model.score(f)
@@ -201,14 +340,19 @@ def watchlist(companies, as_of: date, top: int = 200, model: Model | None = None
 
 
 def backtest(companies, train_end: date = date(2025, 1, 1), test_start: date = date(2025, 4, 1),
-             test_end: date = date(2026, 10, 20)) -> dict:
-    """Learn on the 12 months to train_end, score test cutoffs the model never saw."""
-    vol = lender_volumes(companies)
-    model = Model(examples(companies, _cutoffs(train_end, years=1.0), vol))
+             test_end: date = date(2026, 10, 20), filed: Filed | None = None, clues=CLUES,
+             window: int | None = None, vol=None, strict: bool = False) -> dict:
+    """Learn on the 12 months to train_end, score test cutoffs the model never saw.
+
+    strict=True also drops training cutoffs whose outcome window runs into the test period."""
+    window = window or WINDOW
+    vol = vol or lender_volumes(companies)
+    train = [c for c in _cutoffs(train_end, years=1.0) if not strict or c + timedelta(days=window) <= test_start]
+    model = Model(examples(companies, train, vol, filed, window), clues)
     tests, on = [], test_start
-    while on <= test_end - timedelta(days=WINDOW):
+    while on <= test_end - timedelta(days=window):
         tests.append(on); on += timedelta(days=61)
-    te = examples(companies, tests, vol)
+    te = examples(companies, tests, vol, filed, window)
     base = sum(y for _, y in te) / len(te) if te else 0.0
     ranked = sorted(((model.score(x), y) for x, y in te), key=lambda t: -t[0])
     tiers = []
@@ -216,8 +360,35 @@ def backtest(companies, train_end: date = date(2025, 1, 1), test_start: date = d
         k = max(1, int(len(ranked) * q))
         hit = sum(y for _, y in ranked[:k]) / k
         tiers.append({"top": f"{int(q * 100)}%", "companies": k, "hit_rate": round(hit, 4), "lift": round(hit / base, 1) if base else None})
-    return {"label": "BACKTEST", "model_version": MODEL_VERSION, "train_end": train_end.isoformat(),
-            "test_cutoffs": [t.isoformat() for t in tests], "rows": len(te), "base_rate": round(base, 4), "tiers": tiers}
+    return {"label": "BACKTEST", "model_version": "rw2" if set(clues) - set(CLUES_RW1) else "rw1",
+            "window_days": window, "train_end": train_end.isoformat(),
+            "train_cutoffs": [t.isoformat() for t in train], "test_cutoffs": [t.isoformat() for t in tests], "rows": len(te), "base_rate": round(base, 4), "tiers": tiers}
+
+
+# 90 days: learn on the year to Jul 2025, test Oct 2025 on; 12 months: the default split above
+SPLITS = {90: dict(train_end=date(2025, 7, 1), test_start=date(2025, 10, 1), test_end=date(2026, 10, 1)),
+          365: dict(train_end=date(2025, 1, 1), test_start=date(2025, 4, 1), test_end=date(2026, 10, 20))}
+
+
+def compare(companies, filed: Filed) -> list[dict]:
+    """rw1 against rw2 and against rw1 plus each new clue alone, on the same unseen dates."""
+    vol, out = lender_volumes(companies), []
+    variants = [("rw1", CLUES_RW1), ("rw2", CLUES_RW2)] + [(f"rw1 + {LABELS[c].lower()}", CLUES_RW1 + (c,)) for c in CLUES_FILED]
+    for window, split in SPLITS.items():
+        for name, clues in variants:
+            r = backtest(companies, filed=filed, clues=clues, window=window, vol=vol, **split)
+            out.append({"window_days": window, "variant": name, **r})
+    return out
+
+
+def render_compare(results: list[dict]) -> str:
+    out = ["BACKTEST: Refinance watch rw1 against rw2 (accounts and owner clues)", "",
+           "| Window | Score | Base rate | Top 1% | Top 5% | Top 10% |", "|---|---|---:|---:|---:|---:|"]
+    for r in results:
+        t = {x["top"]: x for x in r["tiers"]}
+        out.append(f"| {r['window_days']} days | {r['variant']} | {r['base_rate']:.1%} | " +
+                   " | ".join(f"{t[k]['hit_rate']:.1%} ({t[k]['lift']}x)" for k in ("1%", "5%", "10%")) + " |")
+    return "\n".join(out) + "\n"
 
 
 def render_md(rows, bt, as_of: date) -> str:
@@ -247,13 +418,16 @@ def main(argv=None):
     from .aliases import Resolver
     from .db import connect
     p = argparse.ArgumentParser(prog="python -m radar.refi_watch")
-    p.add_argument("cmd", nargs="?", default="list", choices=("list", "backtest"))
+    p.add_argument("cmd", nargs="?", default="list", choices=("list", "backtest", "compare"))
     p.add_argument("--as-of", default=date.today().isoformat())
     p.add_argument("--top", type=int, default=200)
     p.add_argument("--out", default=str(config.OUTPUT_DIR / "refi_watch"))
     a = p.parse_args(argv)
     conn = connect()
     companies = load_companies(conn, Resolver(conn))
+    if a.cmd == "compare":
+        print(render_compare(compare(companies, load_filed(conn))))
+        return
     bt = backtest(companies)
     if a.cmd == "backtest":
         print(render_md([], bt, date.fromisoformat(a.as_of)))

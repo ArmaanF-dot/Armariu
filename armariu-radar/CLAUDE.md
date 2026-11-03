@@ -13,7 +13,9 @@ through files in this folder.
    `classify/queue.jsonl` (unknown lender names) and `output/weekly/*` (digests).
    It also looks up unclear lenders on Companies House (`radar/owners.py`: the lender's own
    record, the chain of majority owners up to the controlling group, and whether it shares owners
-   or directors with its borrowers), all within one shared rate limit and time budget.
+   or directors with its borrowers), all within one shared rate limit and time budget. Last, with time
+   left over, it fetches borrowers' officer appointments (`borrower_officers`: roles and dates, no names)
+   for the Refinance watch.
 2. **Classifier agent** answers the queue into `classify/results/*.jsonl`.
 3. The next pipeline run validates and loads those results.
    - Unsure or headline answers (direct lender, security agent) go to `classify/second_queue.jsonl`
@@ -34,7 +36,7 @@ through files in this folder.
 | `data/lender_notes.json` | people only (research notes, via the review app) |
 | `data/lender_aliases.csv`, `data/large_primes.csv` | people only (Module A aliases; Module F exclusions) |
 | `classify/queue.jsonl`, `output/weekly/`, `output/monthly/` | pipeline only |
-| `output/signals/`, `output/lender_view/`, `output/scorecard/`, `output/weekly_pack/`, `output/snapshot/`, `output/review/`, `output/contracts/` | the additions' commands only (not committed) |
+| `output/signals/`, `output/lender_view/`, `output/scorecard/`, `output/weekly_pack/`, `output/snapshot/`, `output/review/`, `output/contracts/`, `output/accounts/`, `output/ownership/` | the additions' commands only (not committed) |
 | `radar/portal/` | people only (via pull request); the client portal is read-only and never hosted before the validation gate |
 | `classify/results/` | classifier agent |
 | `classify/second_queue.jsonl`, `classify/referee_queue.jsonl` | pipeline only |
@@ -78,6 +80,9 @@ python -m radar.monthly [--month YYYY-MM]  # MR01/MR04 extract + lender groups +
 python -m radar.review set "NAME" direct_lender --parent "Firm"
 python -m radar.aliases review        # Module A: unmapped lender names, most frequent first
 python -m radar.charge_signals        # Module B: rule-based signals (rule version on every row)
+python -m radar.accounts fetch        # free bulk accounts for our companies (range requests, resumable)
+python -m radar.ownership fetch       # free owner register (PSC snapshot) for our companies
+python -m radar.refi_watch compare    # BACKTEST: Refinance watch rw1 against rw2 (accounts + owner clues)
 python -m radar.lender_view           # Module C: lender league, sectors, flows, syndication
 python -m radar.scorecard backtest    # Module D: BACKTEST hit rates vs baseline, Wilson intervals
 python -m radar.weekly_pack           # Module E: weekly_pack.md + commentary prompt (paste by hand)
