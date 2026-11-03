@@ -11,3 +11,18 @@ LendInvest,LENDINVEST BTL,property,
 LendInvest,LENDINVEST SECURITY TRUSTEES,property,security trustee vehicle of LendInvest
 Barclays,BARCLAYS SECURITY TRUSTEE,trustee_agent,Barclays-owned security trustee; real lender may be hidden
 Funding Circle,FUNDING CIRCLE,other,marketplace platform; confirm class in review
+Godiva Mortgages,GODIVA MORTGAGES,property,buy-to-let; Coventry Building Society group. Added 3 Nov 2026 from the review sheet (sure)
+Fleet Mortgages,FLEET MORTGAGES,property,buy-to-let; Starling group (sure)
+The Mortgage Lender,THE MORTGAGE LENDER,property,buy-to-let; Shawbrook group (sure)
+Quantum Mortgages,QUANTUM MORTGAGES,property,specialist buy-to-let (fairly sure)
+Keystone Property Finance,KEYSTONE PROPERTY FINANCE,property,specialist buy-to-let (sure)
+Vida Bank,VIDA BANK LIMITED TRADING AS VIDA HOMELOANS,property,specialist mortgage bank; company lending is buy-to-let (fairly sure)
+Vida Bank,VIDA BANK,property,same lender (fairly sure)
+United National Bank,UNITED NATIONAL BANK,bank,UK bank (sure)
+SME Invoice Finance,SME INVOICE FINANCE,abl_invoice,invoice finance (fairly sure)
+Ultimate Bridging Finance,ULTIMATE BRIDGING FINANCE,property,bridging; Ultimate Finance group (fairly sure)
+CHL Mortgages,CHL MORTGAGES FOR INTERMEDIARIES,property,buy-to-let (fairly sure)
+Bizcap,BIZCAP,direct_lender,online small-business lender (fairly sure)
+Quantum Development Finance,QUANTUM DEVELOPMENT FINANCE,property,development finance (fairly sure)
+West One Loans,WEST ONE SECURED LOANS,property,bridging and buy-to-let (sure)
+Gatehouse Bank,GATEHOUSE BANK,bank,Islamic bank lending mostly on property (sure)
