@@ -544,6 +544,7 @@ const Term = (() => {
     if (!isOn() || !built) return;
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); $("#t-q").focus(); $("#t-q").select(); return; }
     const helpOn = $("#t-help").classList.contains("on");
+    if (e.key === "Escape" && e.target.id === "t-q") return;   // the search box clears itself
     if (e.key === "Escape") {
       if (helpOn) help(false); else if (field) e.target.blur(); else if (detail) closeDetail();
       e.stopImmediatePropagation(); return;
