@@ -1,0 +1,1002 @@
+{
+ "_note": "Twenty real charge records from the Companies House charges stream, saved as stream events for tests. Company-level public data only: records whose chargees include an individual were left out.",
+ "events": [
+  {
+   "data": {
+    "charge_code": "036935343034",
+    "charge_number": 3034,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-16",
+    "delivered_on": "2026-10-16",
+    "etag": "ba8388cb2a74248eba40829835a9f59d731eff54",
+    "links": {
+     "self": "/company/03693534/charges/8DTRUxnwmK-apdFoSsZEepvLMJs"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "description": "A fixed charge schedule dated 16/10/2026 and issued by the companies to bal global finance (UK) limited (\u201cbal\u201d) (\u201cthe company\u201d) pursuant to a master charge agreement dated 23RD july 2001 and made between the company bal (\u201cthe master charge\u201d).",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Bal Global Finance (UK) LTD"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-16",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/03693534/filing-history/MzU1MTM2NDI5MGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 1,
+    "type": "changed"
+   },
+   "resource_id": "8DTRUxnwmK-apdFoSsZEepvLMJs",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/03693534/charges/8DTRUxnwmK-apdFoSsZEepvLMJs"
+  },
+  {
+   "data": {
+    "charge_code": "060096080008",
+    "charge_number": 8,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-03-13",
+    "delivered_on": "2026-03-13",
+    "etag": "e3d7c44ee8082a6e3b016410753420602f6e5eae",
+    "links": {
+     "self": "/company/06009608/charges/Wdr_ICcK50g0jsFU_lgNKENhPfU"
+    },
+    "particulars": {
+     "contains_negative_pledge": true,
+     "description": "32B station road, gerrards cross SL9 8EL as is registered at the land registry with leasehold title absolute under title number BM482081.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Santok Asset Management Limited"
+     }
+    ],
+    "satisfied_on": "2026-10-20",
+    "status": "fully-satisfied",
+    "transactions": [
+     {
+      "delivered_on": "2026-03-13",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/06009608/filing-history/MzUxMDIzMDc5MmFkaXF6a2N4"
+      }
+     },
+     {
+      "delivered_on": "2026-10-20",
+      "filing_type": "charge-satisfaction",
+      "links": {
+       "filing": "/company/06009608/filing-history/MzU1MjAzMTc4MGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 2,
+    "type": "changed"
+   },
+   "resource_id": "Wdr_ICcK50g0jsFU_lgNKENhPfU",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/06009608/charges/Wdr_ICcK50g0jsFU_lgNKENhPfU"
+  },
+  {
+   "data": {
+    "charge_code": "062585450026",
+    "charge_number": 26,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-09",
+    "delivered_on": "2026-10-16",
+    "etag": "a776f1654a8c366e1559372c3225bee362f14ce6",
+    "links": {
+     "self": "/company/06258545/charges/bTQOuFWbywrxLldfEjIgaIm0otE"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_floating_charge": true,
+     "contains_negative_pledge": true,
+     "description": "Land on the south side of church road, stambourne, halstead registered at hm land registry with title number EX865566. For more details of land, ship, aircraft or intellectual property charged please refer to the instrument.",
+     "floating_charge_covers_all": true,
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Magnet Capital 2026 Limited"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-16",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/06258545/filing-history/MzU1MTM2NTg1NmFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 3,
+    "type": "changed"
+   },
+   "resource_id": "bTQOuFWbywrxLldfEjIgaIm0otE",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/06258545/charges/bTQOuFWbywrxLldfEjIgaIm0otE"
+  },
+  {
+   "data": {
+    "charge_code": "070861750002",
+    "charge_number": 2,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2016-05-24",
+    "delivered_on": "2016-05-26",
+    "etag": "dd34ac34ae151c335004c1ef491c63bac83ce2ba",
+    "links": {
+     "self": "/company/07086175/charges/s4s7Wh-ckLzCwguAwKrS301ZtAE"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_floating_charge": true,
+     "contains_negative_pledge": true,
+     "floating_charge_covers_all": true
+    },
+    "persons_entitled": [
+     {
+      "name": "Rbs Invoice Finance Limited"
+     }
+    ],
+    "satisfied_on": "2026-10-20",
+    "status": "fully-satisfied",
+    "transactions": [
+     {
+      "delivered_on": "2016-05-26",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/07086175/filing-history/MzE0OTQ3NzkzMGFkaXF6a2N4"
+      }
+     },
+     {
+      "delivered_on": "2026-10-20",
+      "filing_type": "charge-satisfaction",
+      "links": {
+       "filing": "/company/07086175/filing-history/MzU1MjAzMDU1MGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 4,
+    "type": "changed"
+   },
+   "resource_id": "s4s7Wh-ckLzCwguAwKrS301ZtAE",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/07086175/charges/s4s7Wh-ckLzCwguAwKrS301ZtAE"
+  },
+  {
+   "data": {
+    "charge_code": "101356480016",
+    "charge_number": 16,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-01",
+    "delivered_on": "2026-10-16",
+    "etag": "c54d3b7d52943a6dc05c37637eeba8c28987eb93",
+    "links": {
+     "self": "/company/10135648/charges/vNmF-6yNgbgtqbajIlrBs61dpUY"
+    },
+    "particulars": {
+     "contains_negative_pledge": true,
+     "description": "Flat 1 19 church street rhyl LL18 3AA t/n CYM198249.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Handelsbanken PLC"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-16",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/10135648/filing-history/MzU1MjAwNTQ1M2FkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 5,
+    "type": "changed"
+   },
+   "resource_id": "vNmF-6yNgbgtqbajIlrBs61dpUY",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/10135648/charges/vNmF-6yNgbgtqbajIlrBs61dpUY"
+  },
+  {
+   "data": {
+    "charge_code": "103257440005",
+    "charge_number": 5,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2021-05-06",
+    "delivered_on": "2021-05-15",
+    "etag": "5d4ba04a8e9929e3760d4f7bfda848dfbe63fb01",
+    "links": {
+     "self": "/company/10325744/charges/ySSVFIcS1XYnwCzMyqHhRyDol5U"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "description": "60 birkin avenue nottingham.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Paragon Bank PLC"
+     }
+    ],
+    "satisfied_on": "2026-10-17",
+    "status": "fully-satisfied",
+    "transactions": [
+     {
+      "delivered_on": "2021-05-15",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/10325744/filing-history/MzMwMTY4NjUwOGFkaXF6a2N4"
+      }
+     },
+     {
+      "delivered_on": "2026-10-17",
+      "filing_type": "charge-satisfaction",
+      "links": {
+       "filing": "/company/10325744/filing-history/MzU1MTk3NjAyOGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 6,
+    "type": "changed"
+   },
+   "resource_id": "ySSVFIcS1XYnwCzMyqHhRyDol5U",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/10325744/charges/ySSVFIcS1XYnwCzMyqHhRyDol5U"
+  },
+  {
+   "data": {
+    "charge_code": "103528150021",
+    "charge_number": 21,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-16",
+    "delivered_on": "2026-10-19",
+    "etag": "f18df37bb6210ed13fabc70944913d05022c4a8f",
+    "links": {
+     "self": "/company/10352815/charges/Q0nyptjRhicyL7u85htnLwKpHy0"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_negative_pledge": true,
+     "description": "67 longfellow crescent, sholver, OL1 4QN registered under title number GM476303.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "National Westminster Bank PLC"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-19",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/10352815/filing-history/MzU1MTc1ODM4NGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 7,
+    "type": "changed"
+   },
+   "resource_id": "Q0nyptjRhicyL7u85htnLwKpHy0",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/10352815/charges/Q0nyptjRhicyL7u85htnLwKpHy0"
+  },
+  {
+   "data": {
+    "charge_code": "104000200003",
+    "charge_number": 3,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2017-11-23",
+    "delivered_on": "2017-12-05",
+    "etag": "7005f7fd915edb250df6ca8ed5d4c538f53b3bcc",
+    "links": {
+     "self": "/company/10400020/charges/CzOAdNbWR_b_eutem6stVrC7KVI"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_negative_pledge": true,
+     "description": "35 north road ilford essex.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Paragon Bank PLC"
+     }
+    ],
+    "satisfied_on": "2026-10-17",
+    "status": "fully-satisfied",
+    "transactions": [
+     {
+      "delivered_on": "2017-12-05",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/10400020/filing-history/MzE5MjQ3MTUzNmFkaXF6a2N4"
+      }
+     },
+     {
+      "delivered_on": "2026-10-17",
+      "filing_type": "charge-satisfaction",
+      "links": {
+       "filing": "/company/10400020/filing-history/MzU1MTk3NjAzMmFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 8,
+    "type": "changed"
+   },
+   "resource_id": "CzOAdNbWR_b_eutem6stVrC7KVI",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/10400020/charges/CzOAdNbWR_b_eutem6stVrC7KVI"
+  },
+  {
+   "data": {
+    "charge_code": "105852050004",
+    "charge_number": 4,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2018-12-19",
+    "delivered_on": "2018-12-20",
+    "etag": "5eb42b77236cb54cf388c0fd58ec19cad93e8758",
+    "links": {
+     "self": "/company/10585205/charges/PvToexk8R6qVcf-OtHAFAigN1zU"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "description": "3 pasture rise clayton bradford BD14 6LX title number YY79506.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Paragon Bank PLC"
+     }
+    ],
+    "satisfied_on": "2026-10-17",
+    "status": "fully-satisfied",
+    "transactions": [
+     {
+      "delivered_on": "2018-12-20",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/10585205/filing-history/MzIyMjY2NjUzNGFkaXF6a2N4"
+      }
+     },
+     {
+      "delivered_on": "2026-10-17",
+      "filing_type": "charge-satisfaction",
+      "links": {
+       "filing": "/company/10585205/filing-history/MzU1MTk3NjA1MmFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 9,
+    "type": "changed"
+   },
+   "resource_id": "PvToexk8R6qVcf-OtHAFAigN1zU",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/10585205/charges/PvToexk8R6qVcf-OtHAFAigN1zU"
+  },
+  {
+   "data": {
+    "charge_code": "108976220001",
+    "charge_number": 1,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2018-02-12",
+    "delivered_on": "2018-02-21",
+    "etag": "d826f61502cfc7056e5f174ace1e27d55c95b9e5",
+    "links": {
+     "self": "/company/10897622/charges/vaDQpfQWeJDsnIvLWIMIOOq8Cw4"
+    },
+    "particulars": {
+     "contains_floating_charge": true,
+     "floating_charge_covers_all": true
+    },
+    "persons_entitled": [
+     {
+      "name": "Paragon Bank PLC"
+     },
+     {
+      "name": "Paragon Mortgages (2010) Limited"
+     }
+    ],
+    "satisfied_on": "2026-10-17",
+    "status": "fully-satisfied",
+    "transactions": [
+     {
+      "delivered_on": "2018-02-21",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/10897622/filing-history/MzE5ODI2MDUxN2FkaXF6a2N4"
+      }
+     },
+     {
+      "delivered_on": "2026-10-17",
+      "filing_type": "charge-satisfaction",
+      "links": {
+       "filing": "/company/10897622/filing-history/MzU1MTk3NjAzNWFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 10,
+    "type": "changed"
+   },
+   "resource_id": "vaDQpfQWeJDsnIvLWIMIOOq8Cw4",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/10897622/charges/vaDQpfQWeJDsnIvLWIMIOOq8Cw4"
+  },
+  {
+   "data": {
+    "charge_code": "114658530002",
+    "charge_number": 2,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-09-29",
+    "delivered_on": "2026-10-16",
+    "etag": "f84ad02f823f30709e298fa4e3a807e436455967",
+    "links": {
+     "self": "/company/11465853/charges/oy1LbSJZCPYXFgK1dNxWAZEpO3w"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_negative_pledge": true,
+     "description": "A general pledge.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Hsbc UK Bank PLC"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-16",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/11465853/filing-history/MzU1MTQwNTQ5NWFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 11,
+    "type": "changed"
+   },
+   "resource_id": "oy1LbSJZCPYXFgK1dNxWAZEpO3w",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/11465853/charges/oy1LbSJZCPYXFgK1dNxWAZEpO3w"
+  },
+  {
+   "data": {
+    "charge_code": "117341950001",
+    "charge_number": 1,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2021-08-03",
+    "delivered_on": "2021-08-06",
+    "etag": "aeab1ac57da6c06aa3889954e498876ba703711a",
+    "links": {
+     "self": "/company/11734195/charges/oo5BPyJCFzN6cdpQPqmD5Ce_rPk"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_negative_pledge": true
+    },
+    "persons_entitled": [
+     {
+      "name": "Rothschild & Co Wealth Management UK Limited"
+     }
+    ],
+    "satisfied_on": "2026-10-20",
+    "status": "fully-satisfied",
+    "transactions": [
+     {
+      "delivered_on": "2021-08-06",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/11734195/filing-history/MzMwOTk5ODUxN2FkaXF6a2N4"
+      }
+     },
+     {
+      "delivered_on": "2026-10-20",
+      "filing_type": "charge-satisfaction",
+      "links": {
+       "filing": "/company/11734195/filing-history/MzU1MjAzMDE0OGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 12,
+    "type": "changed"
+   },
+   "resource_id": "oo5BPyJCFzN6cdpQPqmD5Ce_rPk",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/11734195/charges/oo5BPyJCFzN6cdpQPqmD5Ce_rPk"
+  },
+  {
+   "data": {
+    "charge_code": "148096160007",
+    "charge_number": 7,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-16",
+    "delivered_on": "2026-10-19",
+    "etag": "0398b39b2a15c57a3f4c19d95e533421b41e89a5",
+    "links": {
+     "self": "/company/14809616/charges/9frgjzIlrA_uuPms803YL8RpckM"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_negative_pledge": true,
+     "description": "Firstly all that leasehold property known as flat 4, 8-10 chandler road, bexhill-on-sea TN39 3QN more particularly comprised in a lease of even date made between walker rhymes limited (1) and living shapes LTD (2). secondly all that leasehold property known as flat 5, 8-10 chandler road, bexhill-on-sea TN39 3QN more particularly comprised in a lease of even date made between walker rhymes limited (1) and living shapes LTD (2).",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "B. M. Samuels Finance Group Limited"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-19",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/14809616/filing-history/MzU1MTc1ODM3OWFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 13,
+    "type": "changed"
+   },
+   "resource_id": "9frgjzIlrA_uuPms803YL8RpckM",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/14809616/charges/9frgjzIlrA_uuPms803YL8RpckM"
+  },
+  {
+   "data": {
+    "charge_code": "152421190002",
+    "charge_number": 2,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-15",
+    "delivered_on": "2026-10-19",
+    "etag": "bd1e13136b403057290655338b51e472be0385e3",
+    "links": {
+     "self": "/company/15242119/charges/MOab8IIds19dtN2BuZnCrjSUhQw"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_floating_charge": true,
+     "contains_negative_pledge": true,
+     "description": "Not applicable.",
+     "floating_charge_covers_all": true,
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Hsbc UK Bank PLC as Security Trustee for the Secured Parties"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-19",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/15242119/filing-history/MzU1MTc1NzkzOWFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 14,
+    "type": "changed"
+   },
+   "resource_id": "MOab8IIds19dtN2BuZnCrjSUhQw",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/15242119/charges/MOab8IIds19dtN2BuZnCrjSUhQw"
+  },
+  {
+   "data": {
+    "charge_code": "152421300002",
+    "charge_number": 2,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-15",
+    "delivered_on": "2026-10-19",
+    "etag": "55d13b662b4ad6514edf2e15e2fbbe3f9f826afa",
+    "links": {
+     "self": "/company/15242130/charges/wfjRFvsGECiuq8vL3EoGd0XPKWg"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_floating_charge": true,
+     "contains_negative_pledge": true,
+     "description": "Not applicable.",
+     "floating_charge_covers_all": true,
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Hsbc UK Bank PLC as Security Trustee for the Secured Parties"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-19",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/15242130/filing-history/MzU1MTc1Nzk0N2FkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 15,
+    "type": "changed"
+   },
+   "resource_id": "wfjRFvsGECiuq8vL3EoGd0XPKWg",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/15242130/charges/wfjRFvsGECiuq8vL3EoGd0XPKWg"
+  },
+  {
+   "data": {
+    "charge_code": "155606180005",
+    "charge_number": 5,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2025-12-09",
+    "delivered_on": "2025-12-10",
+    "etag": "86edccca14865a02e84a9f825a447b16ea79bfd6",
+    "links": {
+     "self": "/company/15560618/charges/Ng2G74kl9f1QomqBVKs8cCBk9rs"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_negative_pledge": true,
+     "description": "All the leasehold property known as 67A bankfield avenue, manchester, M13 0YQ registered at hm land registry under title number MAN108575.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Ms Lending Spv 1 Limited"
+     }
+    ],
+    "satisfied_on": "2026-10-20",
+    "status": "fully-satisfied",
+    "transactions": [
+     {
+      "delivered_on": "2025-12-10",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/15560618/filing-history/MzQ5MzQyMTE3NGFkaXF6a2N4"
+      }
+     },
+     {
+      "delivered_on": "2026-10-20",
+      "filing_type": "charge-satisfaction",
+      "links": {
+       "filing": "/company/15560618/filing-history/MzU1MjAyOTUwMGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 16,
+    "type": "changed"
+   },
+   "resource_id": "Ng2G74kl9f1QomqBVKs8cCBk9rs",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/15560618/charges/Ng2G74kl9f1QomqBVKs8cCBk9rs"
+  },
+  {
+   "data": {
+    "charge_code": "155606180006",
+    "charge_number": 6,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2025-12-09",
+    "delivered_on": "2025-12-10",
+    "etag": "0374e7e4b84fb51cf53760a3907f038d6c706d57",
+    "links": {
+     "self": "/company/15560618/charges/_pvMue7np-oL5OM6HGgn9ZKfTXs"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_floating_charge": true,
+     "contains_negative_pledge": true,
+     "description": "All the leasehold property known as 67A bankfield avenue, manchester, M13 0YQ registered at hm land registry under title number MAN108575.",
+     "floating_charge_covers_all": true,
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Ms Lending Spv 1 Limited"
+     }
+    ],
+    "satisfied_on": "2026-10-20",
+    "status": "fully-satisfied",
+    "transactions": [
+     {
+      "delivered_on": "2025-12-10",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/15560618/filing-history/MzQ5MzQyMTc5OGFkaXF6a2N4"
+      }
+     },
+     {
+      "delivered_on": "2026-10-20",
+      "filing_type": "charge-satisfaction",
+      "links": {
+       "filing": "/company/15560618/filing-history/MzU1MjAyOTQxM2FkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 17,
+    "type": "changed"
+   },
+   "resource_id": "_pvMue7np-oL5OM6HGgn9ZKfTXs",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/15560618/charges/_pvMue7np-oL5OM6HGgn9ZKfTXs"
+  },
+  {
+   "data": {
+    "charge_code": "159113430020",
+    "charge_number": 20,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-14",
+    "delivered_on": "2026-10-19",
+    "etag": "75e3e54de981b822d1c9ae74983aaffe40290dbd",
+    "links": {
+     "self": "/company/15911343/charges/TJJa-tf00AYYiuz7uQ3vOlYnW20"
+    },
+    "particulars": {
+     "contains_fixed_charge": true,
+     "contains_negative_pledge": true,
+     "description": "Land known as apartment 433, 319 ordsall lane, salford M5 3RF, to be registered at the land registry and forming part of freehold title MAN440736.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Onesavings Bank PLC"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-19",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/15911343/filing-history/MzU1MTc1ODA0MGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 18,
+    "type": "changed"
+   },
+   "resource_id": "TJJa-tf00AYYiuz7uQ3vOlYnW20",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/15911343/charges/TJJa-tf00AYYiuz7uQ3vOlYnW20"
+  },
+  {
+   "data": {
+    "charge_code": "171134190001",
+    "charge_number": 1,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-15",
+    "delivered_on": "2026-10-16",
+    "etag": "fd80e715ca7a563d371f91c540d3b1e48978df7d",
+    "links": {
+     "self": "/company/17113419/charges/dE1SRz_8cy230kckHP3_iF9jLM4"
+    },
+    "more_than_four_persons_entitled": true,
+    "particulars": {
+     "contains_fixed_charge": true,
+     "description": "N/A.",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "The Society Incorporated by Lloyd's Act 1871 by the Name of Lloyd's"
+     },
+     {
+      "name": "The Trustees (As Defined in the Instrument)"
+     },
+     {
+      "name": "The Beneficiaries (As Defined in the Instrument)"
+     },
+     {
+      "name": "The Premiums Trustees (As Defined in the Instrument)"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-16",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/17113419/filing-history/MzU1MTM2NTg1MGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 19,
+    "type": "changed"
+   },
+   "resource_id": "dE1SRz_8cy230kckHP3_iF9jLM4",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/17113419/charges/dE1SRz_8cy230kckHP3_iF9jLM4"
+  },
+  {
+   "data": {
+    "charge_code": "174296610001",
+    "charge_number": 1,
+    "classification": {
+     "description": "A registered charge",
+     "type": "charge-description"
+    },
+    "created_on": "2026-10-12",
+    "delivered_on": "2026-10-19",
+    "etag": "abd3dc7b84462233bbcb2acfab7b72b7a79b2784",
+    "links": {
+     "self": "/company/17429661/charges/LhUqEaQGg3JcDQ4PzSzJkrrncOM"
+    },
+    "particulars": {
+     "contains_negative_pledge": true,
+     "description": "Title number: SGL389921. Property: 88C london road, london (SE23 3PE).",
+     "type": "brief-description"
+    },
+    "persons_entitled": [
+     {
+      "name": "Fortys Capital 1 Limited"
+     }
+    ],
+    "status": "outstanding",
+    "transactions": [
+     {
+      "delivered_on": "2026-10-19",
+      "filing_type": "create-charge-with-deed",
+      "links": {
+       "filing": "/company/17429661/filing-history/MzU1MTc3NjI1OGFkaXF6a2N4"
+      }
+     }
+    ]
+   },
+   "event": {
+    "published_at": "2026-10-21T09:00:00",
+    "timepoint": 20,
+    "type": "changed"
+   },
+   "resource_id": "LhUqEaQGg3JcDQ4PzSzJkrrncOM",
+   "resource_kind": "company-charges",
+   "resource_uri": "/company/17429661/charges/LhUqEaQGg3JcDQ4PzSzJkrrncOM"
+  }
+ ],
+ "fields_seen": [
+  "charge_code",
+  "charge_number",
+  "classification",
+  "created_on",
+  "delivered_on",
+  "etag",
+  "links",
+  "more_than_four_persons_entitled",
+  "particulars",
+  "persons_entitled",
+  "satisfied_on",
+  "status",
+  "transactions"
+ ]
+}

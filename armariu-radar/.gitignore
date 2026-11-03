@@ -13,3 +13,12 @@ __pycache__/
 *.pyc
 .venv/
 data/*.download
+# Additions: generated outputs (rebuilt from the database; not committed)
+output/signals/
+output/lender_view/
+output/scorecard/
+output/weekly_pack/
+output/snapshot/
+output/review/
+output/contracts/
+portal_site/

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Armariu · UK private credit radar</title>
+<meta name="description" content="Who is lending to UK companies, read from Companies House charge filings every week.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0f17'/%3E%3Cpath d='M8 23 16 9l8 14M11.5 17h9' stroke='%23e8b04b' stroke-width='2.4' fill='none' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem("armariu-portal-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="portal.css">
+<script src="portal.js" defer></script>
+</head>
+<body>
+<header class="nav" id="nav">
+  <a class="wordmark" href="#/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 23 16 9l8 14M11.5 17h9"/></svg><span>Armariu</span></a>
+  <nav aria-label="Sections">
+    <a href="#/" data-route="home">Overview</a>
+    <a href="#/league" data-route="league">League table</a>
+    <a href="#/signals" data-route="signals">Signals</a>
+    <a href="#/lenders" data-route="lenders">Lenders</a>
+    <a href="#/record" data-route="record">Track record</a>
+    <a href="#/method" data-route="method">Method</a>
+  </nav>
+  <div class="nav-right">
+    <button class="ghost" id="theme" aria-label="Switch light or dark"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+    <button class="pill-btn" id="download"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Data</button>
+    <button class="ghost burger" id="burger" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+<main id="app" tabindex="-1"><div class="boot"><span></span>Loading the radar</div></main>
+<footer class="foot">
+  <div class="foot-inner">
+    <div><b>Armariu</b><p>UK private credit intelligence from Companies House charge filings.</p></div>
+    <p class="small" id="foot-note"></p>
+  </div>
+</footer>
+<aside class="drawer" id="drawer" aria-hidden="true"><div class="drawer-panel" role="dialog" aria-modal="true"><button class="ghost close" id="drawer-close" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div id="drawer-body"></div></div></aside>
+<div class="tip" id="tip"></div>
+<div class="menu-sheet" id="sheet"></div>
+<script src="skyline.js" defer></script>
+</body>
+</html>

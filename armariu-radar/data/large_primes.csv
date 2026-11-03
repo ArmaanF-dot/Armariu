@@ -1,0 +1,18 @@
+# Module F: large government suppliers and primes to exclude from the small-supplier filter.
+# Matched as whole words on the normalised supplier name. Hand-curated; extend as you review leads.
+pattern,note
+CAPITA,large prime
+SERCO,large prime
+G4S,large prime
+MITIE,large prime
+KIER,large prime
+BALFOUR BEATTY,large prime
+AMEY,large prime
+ATKINS,large prime
+FUJITSU,large prime
+IBM,large prime
+ACCENTURE,large prime
+DELOITTE,big four
+PWC,big four
+KPMG,big four
+EY,big four

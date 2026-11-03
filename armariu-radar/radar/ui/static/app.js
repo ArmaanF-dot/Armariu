@@ -153,6 +153,9 @@ const ICONS = {
   decisions: '<path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/>',
   charges: '<path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',
   lenders: '<path d="M3 21h18M5 21V10M19 21V10M9 21v-7M15 21v-7M2 10l10-6 10 6"/>',
+  lenderview: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  scorecard: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>',
+  pack: '<path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/>',
   reports: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/>',
   status: '<path d="M3 12h4l3-8 4 16 3-8h4"/>',
   cloud: '<path d="M7 18a4 4 0 0 1-.6-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/>',
@@ -180,14 +183,17 @@ const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[name
 const NAV = [
   ["overview", "Overview", null], ["signals", "Signals", "count"], ["decisions", "Decisions", "count"], ["reports", "Reports and drafts", null],
   ["|Register"], ["charges", "Charges", null], ["lenders", "Lender directory", null],
+  ["|Additions"], ["lenderview", "Lender view", null], ["scorecard", "Scorecard", null], ["pack", "Weekly pack", null],
   ["|Radar"], ["status", "Status", null],
 ];
 document.getElementById("nav").innerHTML = NAV.map(([k, label, extra]) => k.startsWith("|")
   ? `<li class="group">${k.slice(1)}</li>`
   : `<li><a href="#/${k}" data-view="${k}">${icon(k)}<span>${label}</span>${extra ? `<span class="count" id="nav-${k}"></span>` : ""}</a></li>`).join("");
 
-const VIEWS = { overview: renderOverview, signals: renderSignals, decisions: renderDecisions, charges: renderCharges, lenders: renderLenders, reports: renderReports, status: renderStatus };
-const VIEW_TITLES = { overview: "Overview", signals: "Signals", decisions: "Decisions", charges: "Charges", lenders: "Lender directory", reports: "Reports and drafts", status: "Status" };
+const VIEWS = { overview: renderOverview, signals: renderSignals, decisions: renderDecisions, charges: renderCharges, lenders: renderLenders, reports: renderReports, status: renderStatus,
+  lenderview: renderLenderView, scorecard: renderScorecard, pack: renderPack };
+const VIEW_TITLES = { overview: "Overview", signals: "Signals", decisions: "Decisions", charges: "Charges", lenders: "Lender directory", reports: "Reports and drafts", status: "Status",
+  lenderview: "Lender view", scorecard: "Scorecard", pack: "Weekly pack" };
 let routing = Promise.resolve();
 function route() {
   const name = (location.hash.replace(/^#\//, "").split("?")[0]) || "overview";
@@ -208,7 +214,16 @@ function route() {
   });
 }
 // Cards rise in one after another when a section opens; live refreshes don't animate.
+function countUp(el) {
+  const text = el.textContent.trim(), m = /^([\d,]+(?:\.\d+)?)(.*)$/.exec(text);
+  if (!m || reduced()) return;
+  const to = Number(m[1].replace(/,/g, "")), dec = (m[1].split(".")[1] || "").length, t0 = performance.now();
+  const step = (t) => { const k = Math.min(1, (t - t0) / 1100), e = 1 - Math.pow(1 - k, 4);
+    el.textContent = (to * e).toLocaleString("en-GB", { minimumFractionDigits: dec, maximumFractionDigits: dec }) + m[2]; if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
 function animateIn(el) {
+  el.querySelectorAll(".sv.num, .fig .v.num, .mini .v.num, .count-up").forEach(countUp);
   const target = el.querySelector(".anim-root") || el;
   target.classList.remove("enter-stagger"); void target.offsetWidth; target.classList.add("enter-stagger");
   setTimeout(() => target.classList.remove("enter-stagger"), 900);
@@ -424,6 +439,7 @@ async function renderOverview() {
   const mixTotal = o.mix.reduce((a, m) => a + m.count, 0);
   const feedIcon = { cloud: "cloud", agent: "agent", you: "you" };
   main.innerHTML = `<div class="grid anim-root">
+    <div class="span-12" id="ov-banner-slot"></div>
     <section class="card span-8 hero-card">
       <div class="card-head"><div><h2>Charges delivered</h2><p>${S.chartWeekly ? "Last 12 weeks" : "Last 30 days"}. Hover for the breakdown, click a point to list those charges.</p></div>
         <div class="seg" role="group" aria-label="Period"><button data-period="daily" aria-pressed="${!S.chartWeekly}">Daily</button><button data-period="weekly" aria-pressed="${!!S.chartWeekly}">Weekly</button></div></div>
@@ -479,6 +495,7 @@ async function renderOverview() {
       </tbody></table></div>
     </section>
   </div>`;
+  placeBanner(o, waitingTotal);
   drawOverviewChart(o);
   main.querySelectorAll("[data-period]").forEach((b) => (b.onclick = () => {
     S.chartWeekly = b.dataset.period === "weekly";
@@ -497,6 +514,129 @@ async function renderOverview() {
     b.onmouseenter = () => main.querySelectorAll(".donut path").forEach((p) => (p.style.opacity = p.dataset.key === (b.dataset.mix || b.dataset.key) ? 1 : .35));
     b.onmouseleave = () => main.querySelectorAll(".donut path").forEach((p) => (p.style.opacity = 1));
   });
+}
+
+// One banner element, kept across live refreshes so its skyline keeps running instead of restarting.
+let ovBanner = null;
+function placeBanner(o, waiting) {
+  const slot = document.getElementById("ov-banner-slot");
+  if (!slot) return;
+  const h = new Date().getHours(), greet = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
+  if (!ovBanner) {
+    ovBanner = document.createElement("section");
+    ovBanner.className = "ov-banner"; ovBanner.dataset.seed = "5";
+    ovBanner.dataset.photo = "/static/img/hero.jpg";   // optional: drop a photo there and it fades in over the skyline
+    ovBanner.innerHTML = `<div class="ov-banner-inner"><div class="eyebrow-dot"><i></i><span id="ovb-date"></span></div><h1 id="ovb-greet"></h1><p id="ovb-line"></p>
+      <div class="ov-banner-actions"><a class="btn primary" href="#/pack">${icon("pack")}Weekly pack</a><a class="btn glass" href="#/lenderview">${icon("lenderview")}Lender view</a><a class="btn glass" href="#/decisions">${icon("decisions")}Decisions</a></div></div>`;
+    if (window.ArmariuSkyline) ArmariuSkyline.mount(ovBanner);
+  }
+  ovBanner.querySelector("#ovb-date").textContent = new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+  ovBanner.querySelector("#ovb-greet").textContent = `${greet}, Armaan.`;
+  ovBanner.querySelector("#ovb-line").innerHTML = `This week so far: <b>${o.this_week.total.toLocaleString("en-GB")}</b> charges delivered, <b>${o.this_week.direct}</b> to direct lenders. ${waiting ? `<b>${waiting}</b> decision${waiting === 1 ? "" : "s"} waiting for you.` : "Nothing is waiting for you."}`;
+  slot.replaceWith(ovBanner);
+}
+
+// ------------------------------------------------------------------ additions: shared bits
+const CLASS_CAT = { bank: "bank", direct_lender: "direct_lender", abl_invoice: "abl_specialist", asset_finance: "asset_finance", trustee_agent: "security_agent",
+  government_backed: "public_sector", property: "property_lender", individual: "individual", other: "other" };
+let ADD = null, addWeek = 0, addHideProp = true;
+async function loadAdditions() { ADD = await get("/api/additions"); return ADD; }
+function classChip(snap, cls) { return `<span class="cat" data-cat="${CLASS_CAT[cls] || "other"}">${esc((snap.class_labels || {})[cls] || cls)}</span>`; }
+function snapshotBar(a, what) {
+  const s = a.snapshot, j = a.job;
+  return `<div class="card span-12 snap-bar"><span class="disc" data-cat="cloud">${icon("clock")}</span><div><b>${s ? `${what} built ${fmtDate(s.built)} from the database` : "Not built yet"}</b><br><span class="muted">${j.running ? "Rebuilding now, about 30 seconds…" : j.error ? `Last rebuild failed: ${esc(j.error)}` : "Rebuild after the database updates. Rules only, no AI, the same data always gives the same numbers."}</span></div>
+    <button class="btn soft" id="rebuild" ${j.running ? "disabled" : ""}>${icon("refi")}${j.running ? "Rebuilding" : "Rebuild"}</button></div>`;
+}
+function wireRebuild() {
+  const b = document.getElementById("rebuild");
+  if (!b) return;
+  b.onclick = async () => { b.disabled = true; await post("/api/additions/rebuild", {}); toast("Rebuilding the lender view and scorecard");
+    const wait = async () => { const a = await get("/api/additions"); if (a.job.running) return setTimeout(wait, 2500); ADD = a; if (a.job.error) toast(a.job.error, true); else toast("Rebuilt"); refresh(); }; setTimeout(wait, 2500); };
+}
+const pct1 = (x) => `${(Number(x) * 100).toFixed(1)}%`;
+
+// ------------------------------------------------------------------ Module C: lender view
+async function renderLenderView() {
+  const a = await loadAdditions(), s = a.snapshot;
+  if (!s) { main.innerHTML = `<div class="grid anim-root">${snapshotBar(a, "Lender view")}<div class="card span-12 empty"><span class="disc" data-cat="cloud">${icon("lenderview")}</span><p>Press Rebuild to build the lender view from the database.</p></div></div>`; wireRebuild(); return; }
+  const weeks = s.weeks, w = weeks[weeks.length - 1 - addWeek] || weeks[weeks.length - 1];
+  setSub(`${fmtDate(w.start)} to ${fmtDate(w.end)}${w.complete ? "" : ", partial window"}`);
+  const league = w.league.filter((r) => r.class !== "individual" && (!addHideProp || r.class !== "property"));
+  const max = Math.max(1, ...league.map((r) => r.this_week)), secMax = Math.max(1, ...w.sectors.map((r) => r.lender_charges));
+  const cov = s.aliases.coverage, synMax = Math.max(1, ...w.syndication.map((r) => r.all_charges));
+  main.innerHTML = `<div class="grid anim-root">
+    ${snapshotBar(a, "Lender view")}
+    ${w.complete ? "" : `<div class="card span-12"><div class="notice">${icon("alert")}<div><b>Partial window.</b> ${esc(s.sample_caveat)}</div></div></div>`}
+    <section class="card span-8">
+      <div class="card-head"><div><h2>League table</h2><p>New charges per lender this week, with trailing 4 and 13 week counts. ${w.raw_charges.toLocaleString("en-GB")} raw charges; a charge naming several lenders counts once for each.</p></div>
+        <div class="row-gap"><select id="lv-week" class="select">${weeks.map((x, i) => `<option value="${weeks.length - 1 - i}">${fmtDate(x.start)}</option>`).reverse().join("")}</select>
+        <label class="check"><input type="checkbox" id="lv-prop" ${addHideProp ? "checked" : ""}> Hide property</label></div></div>
+      <div class="table-wrap"><table class="stack"><thead><tr><th>#</th><th>Lender</th><th>Type</th><th class="num">This week</th><th></th><th class="num">4 wks</th><th class="num">13 wks</th></tr></thead><tbody>
+      ${league.slice(0, 30).map((r, i) => `<tr><td class="muted num">${i + 1}</td><td class="lead"><b>${esc(r.lender)}</b>${r.low_observations ? ' <span class="pill" data-cat="review" title="Fewer than 5 charges in 13 weeks">few</span>' : ""}</td><td>${classChip(s, r.class)}</td>
+        <td class="num"><b>${r.this_week}</b></td><td style="width:22%"><div class="hbar" data-cat="${CLASS_CAT[r.class] || "other"}"><i style="width:${(r.this_week / max) * 100}%"></i></div></td><td class="num">${r.trailing_4w}</td><td class="num">${r.trailing_13w}</td></tr>`).join("")}
+      </tbody></table></div>
+      <p class="fine">${esc(s.caveat)}</p>
+    </section>
+    <section class="card span-4">
+      <div class="card-head"><div><h2>Name matching</h2><p>Module A. Share of the last 12 months' charges that map to one canonical lender or the trustee class.</p></div></div>
+      <div class="gauge"><div class="gauge-v count-up">${(cov.share * 100).toFixed(1)}%</div><div class="gauge-l">${cov.mapped.toLocaleString("en-GB")} of ${cov.charges.toLocaleString("en-GB")} charges · target 90%</div>
+        <div class="hbar big"><i style="width:${cov.share * 100}%"></i><span class="target" style="left:90%"></span></div></div>
+      <h3 class="mini-h">Map these next</h3>
+      <ul class="plain-list">${s.aliases.review.slice(0, 10).map((r) => `<li><span><b>${esc(r.example)}</b>${r.suggested_canonical ? `<br><span class="muted">close to ${esc(r.suggested_canonical)} (${r.similarity})</span>` : ""}</span><span class="num">${r.charges}</span></li>`).join("")}</ul>
+      <p class="fine">Write the full list with <code>python -m radar.aliases review</code>, then add rows to <code>data/lender_aliases.csv</code>.</p>
+    </section>
+    <section class="card span-6"><div class="card-head"><div><h2>Refinancing flows</h2><p>Lender X to lender Y, 13 weeks to ${fmtDate(w.end)}. A pattern in the filings, not proof.</p></div></div>
+      <ul class="plain-list">${w.flows.map((f) => `<li><span>${esc(f.from_lender)} <span class="arrow">→</span> <b>${esc(f.to_lender)}</b></span><span class="num">${f.signals_13w}</span></li>`).join("") || "<li>None yet.</li>"}</ul></section>
+    <section class="card span-6"><div class="card-head"><div><h2>Sector cut</h2><p>Lender-charge credits by borrower sector this week.</p></div></div>
+      ${w.sectors.slice(0, 10).map((r) => `<div class="sec-row"><span>${esc(r.sector)}</span><div class="hbar"><i style="width:${(r.lender_charges / secMax) * 100}%"></i></div><span class="num">${r.lender_charges}</span></div>`).join("")}</section>
+    <section class="card span-6"><div class="card-head"><div><h2>New entrants</h2><p>Lenders with no charge in the prior 12 months among observed borrowers.</p></div></div>
+      <ul class="plain-list">${w.new_entrants.slice(0, 10).map((e) => `<li><span>${classChip(s, e.class)} ${esc(e.lender)}</span><span class="num">${e.this_week}</span></li>`).join("") || "<li>None.</li>"}</ul></section>
+    <section class="card span-6"><div class="card-head"><div><h2>Syndication proxy</h2><p>Charges naming a security trustee or agent, per week.</p></div></div>
+      <div class="cols">${w.syndication.map((r) => `<div class="col" title="Week of ${esc(r.week_start)}: ${r.agent_charges} agent charges, ${r.multi_lender_charges} multi-lender, ${r.all_charges} in all"><i style="height:${(r.agent_charges / Math.max(1, ...w.syndication.map((x) => x.agent_charges))) * 100}%"></i><span>${shortDate(r.week_start)}</span></div>`).join("")}</div>
+      <p class="fine">Reconciliation: ${w.reconciliation.raw_charges} raw charges, ${w.reconciliation.charges_with_a_lender} name a lender, ${w.reconciliation.lender_credits} lender credits. ${w.reconciliation.ok ? "Totals reconcile." : "Totals do not reconcile: check the data."}</p></section>
+  </div>`;
+  document.getElementById("lv-week").value = String(addWeek);
+  document.getElementById("lv-week").onchange = (e) => { addWeek = Number(e.target.value); refresh(); };
+  document.getElementById("lv-prop").onchange = (e) => { addHideProp = e.target.checked; refresh(); };
+  wireRebuild();
+}
+
+// ------------------------------------------------------------------ Module D: scorecard
+async function renderScorecard() {
+  const a = await loadAdditions(), s = a.snapshot;
+  if (!s) { main.innerHTML = `<div class="grid anim-root">${snapshotBar(a, "Scorecard")}</div>`; wireRebuild(); return; }
+  setSub(`Backtest, rules ${s.rule_version}`);
+  main.innerHTML = `<div class="grid anim-root">${snapshotBar(a, "Scorecard")}
+    <div class="card span-12"><div class="notice">${icon("alert")}<div><b>Backtest, not a live record.</b> ${esc(s.bias_note)}</div></div></div>
+    ${s.scorecard.map((r) => `<section class="card span-4 score-card"><div class="card-head"><div><span class="pill" data-cat="review">Backtest</span><h2 style="margin-top:10px">${esc(s.signal_labels[r.signal_type])}</h2><p>${Number(r.signals).toLocaleString("en-GB")} signals, ${Number(r.outcomes_observed).toLocaleString("en-GB")} hits${r.small_sample ? ", small sample" : ""}</p></div></div>
+      <div class="lift-v count-up">${r.lift ? `${r.lift}×` : "n/a"}</div><div class="muted">lift against the matched baseline</div>
+      <div class="ci-track"><div class="ci-rng" style="left:${r.ci_low * 100}%;width:${(r.ci_high - r.ci_low) * 100}%"></div>${r.baseline_rate ? `<div class="ci-base" style="left:${r.baseline_rate * 100}%"></div>` : ""}<div class="ci-pt" style="left:${r.hit_rate * 100}%"></div></div>
+      <dl class="facts"><dt>Hit rate</dt><dd>${pct1(r.hit_rate)} <span class="muted">(${pct1(r.ci_low)} to ${pct1(r.ci_high)})</span></dd><dt>Baseline</dt><dd>${r.baseline_rate ? pct1(r.baseline_rate) : "n/a"} <span class="muted">(${esc(r.baseline_coverage)} matched)</span></dd><dt>Outcome</dt><dd>${esc(r.outcome)}</dd><dt>Window</dt><dd>${esc(r.window_start)} to ${esc(r.window_end)}</dd></dl></section>`).join("")}
+    <section class="card span-12 prose"><h2>How to read it</h2><p>The dot is the hit rate with its 95% Wilson interval; the tick is the baseline: charges without that signal, in the same sector and company age band, weighted to match. Lift above 1 means the signal is followed by further borrowing more often than comparable charges. Signals use filing dates only and only count once their 90-day window has closed before the radar started watching. Outcome definitions are a proposal waiting for your sign-off (90 or 180 days, or insolvency within 12 months).</p>
+    <p>Re-run with <code>python -m radar.scorecard backtest --window 180</code>. The live log (<code>signals_published.csv</code>) starts only after the validation gate and is never mixed with these numbers.</p></section>
+  </div>`;
+  wireRebuild();
+}
+
+// ------------------------------------------------------------------ Module E: weekly pack
+async function renderPack() {
+  const p = await get("/api/pack"), j = p.job;
+  setSub(p.built ? `Built ${fmtTime(p.built)}` : "Not built yet");
+  main.innerHTML = `<div class="grid anim-root">
+    <section class="card span-12 pack-steps">
+      ${[["pack", "Build the pack", "Facts from the lender view, signals and scorecard."], ["note", "Draft in a Claude chat", "Copy the pack and prompt, paste into a chat on your plan. Never an API call."], ["check", "Check every number", "Rewrite what you disagree with and add your view."], ["mail", "Publish", "After the gate, add featured signals to the live log."]]
+        .map(([ic, t, d], i) => `<div class="step"><span class="disc" data-cat="${["cloud", "agent", "review", "draft"][i]}">${icon(ic)}</span><div><b>${i + 1}. ${t}</b><br><span class="muted">${d}</span></div></div>`).join("")}
+    </section>
+    ${p.failed ? `<div class="card span-12"><div class="notice bad">${icon("alert")}<div><b>The last pack build failed.</b><pre class="fail">${esc(p.failed.slice(0, 1200))}</pre></div></div></div>` : ""}
+    <section class="card span-12">
+      <div class="card-head"><div><h2>This week's pack</h2><p>${p.content ? "Read it, then copy it with the prompt into a Claude chat for a first draft." : "No pack yet. Build one for last week."}</p></div>
+        <div class="row-gap"><button class="btn soft" id="pk-copy" ${p.content ? "" : "disabled"}>${icon("note")}Copy pack and prompt</button><button class="btn primary" id="pk-build" ${j.running ? "disabled" : ""}>${icon("pack")}${j.running ? "Building…" : "Build last week's pack"}</button></div></div>
+      ${p.content ? `<div class="prose pack-md">${md(p.content)}</div>` : `<div class="empty"><span class="disc" data-cat="cloud">${icon("pack")}</span><p>The build takes about a minute.</p></div>`}
+    </section></div>`;
+  document.getElementById("pk-build").onclick = async (e) => { e.target.disabled = true; await post("/api/pack/build", {}); toast("Building the weekly pack");
+    const wait = async () => { const q = await get("/api/pack"); if (q.job.running) return setTimeout(wait, 3000); toast(q.job.error ? "The pack build failed: see the notice" : "Pack built", !!q.job.error); refresh(); }; setTimeout(wait, 3000); };
+  const cp = document.getElementById("pk-copy");
+  if (cp) cp.onclick = async () => { try { await navigator.clipboard.writeText(`${p.prompt}\n\n---\n\n${p.content}`); toast("Copied. Paste it into a Claude chat."); } catch (e) { toast("Couldn't copy: select the text instead", true); } };
 }
 
 // ------------------------------------------------------------------ lending-history strip
