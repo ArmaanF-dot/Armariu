@@ -13,7 +13,9 @@ through files in this folder.
    `classify/queue.jsonl` (unknown lender names) and `output/weekly/*` (digests).
    It also looks up unclear lenders on Companies House (`radar/owners.py`: the lender's own
    record, the chain of majority owners up to the controlling group, and whether it shares owners
-   or directors with its borrowers), all within one shared rate limit and time budget.
+   or directors with its borrowers), all within one shared rate limit and time budget. Last, with time
+   left over, it fetches borrowers' officer appointments (`borrower_officers`: roles and dates, no names)
+   for the Refinance watch.
 2. **Classifier agent** answers the queue into `classify/results/*.jsonl`.
 3. The next pipeline run validates and loads those results.
    - Unsure or headline answers (direct lender, security agent) go to `classify/second_queue.jsonl`

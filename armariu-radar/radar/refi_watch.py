@@ -45,14 +45,15 @@ from .charge_history import Company, load_companies
 MODEL_VERSION = "rw1"   # the live score; rw2 (accounts and owners) lost in the 3 Nov 2026 backtest
 WINDOW = 365   # days; 90 and 180 were tested too (see the docstring)
 CLUES_RW1 = ("age_cls", "recent", "nopen", "pullback", "property")
-CLUES_FILED = ("due_1y", "short_debt", "debt_shift", "owner_change", "board_change")   # rw2: accounts and owner register
+CLUES_FILED = ("due_1y", "short_debt", "debt_shift", "owner_change", "board_change", "director_change")   # rw2: accounts and owner register
 CLUES = CLUES_RW1                  # live clues
 CLUES_RW2 = CLUES_RW1 + CLUES_FILED   # experiment: `python -m radar.refi_watch compare`
 LABELS = {
     "age_cls": "Newest open loan", "recent": "Recent borrowing", "nopen": "Loans outstanding",
     "pullback": "Lender's new lending", "property": "Property company",
     "due_1y": "Bank loans in the latest accounts", "short_debt": "Share of the balance sheet due within a year",
-    "debt_shift": "Change since the year before", "owner_change": "Owners", "board_change": "Directors",
+    "debt_shift": "Change since the year before", "owner_change": "Owners",
+    "director_change": "Director appointments", "board_change": "Directors",
 }
 CAVEAT = ("Odds, not a forecast: filings carry no loan end dates. The odds are how often companies with a "
           "similar score refinanced within 12 months in the past.")
@@ -115,11 +116,22 @@ class Filed:
     """Accounts and owner-register history (radar.accounts, radar.ownership); empty when not fetched."""
     accounts: dict = field(default_factory=dict)   # number -> filings sorted by known_from
     owners: dict = field(default_factory=dict)     # number -> owner records
+    directors: dict = field(default_factory=dict)  # number -> [(appointed_on, resigned_on)], from borrower_officers
 
 
-def load_filed() -> Filed:
+def load_directors(conn) -> dict:
+    """Officer appointments the pipeline fetched (ingest.officers); empty until it has run."""
+    out: dict = {}
+    if conn is None or not conn.execute("SELECT 1 FROM sqlite_master WHERE name = 'borrower_officers'").fetchone():
+        return out
+    for r in conn.execute("SELECT company_number, appointed_on, resigned_on FROM borrower_officers"):
+        out.setdefault(r[0], []).append((r[1], r[2]))
+    return out
+
+
+def load_filed(conn=None) -> Filed:
     from . import accounts, ownership
-    return Filed(accounts.load(), ownership.load())
+    return Filed(accounts.load(), ownership.load(), load_directors(conn))
 
 
 def _money(v) -> bool:
@@ -128,7 +140,7 @@ def _money(v) -> bool:
 
 def filed_features(co: Company, on: date, filed: Filed | None) -> dict:
     """rw2 clues from the latest accounts and the owner register that were public before `on`."""
-    if filed is None or not (filed.accounts or filed.owners):
+    if filed is None or not (filed.accounts or filed.owners or filed.directors):
         return {k: "not checked" for k in CLUES_FILED}
     accs = [a for a in filed.accounts.get(co.number, []) if _d(a["known_from"]) < on]
     accs = [a for a in accs if (on - _d(a["balance_sheet_date"])).days <= 730]
@@ -174,6 +186,7 @@ def filed_features(co: Company, on: date, filed: Filed | None) -> dict:
             changes.append(d)
     last = max(changes, default=None)
     months = (on - last).days / 30.44 if last else None
+    out["director_change"] = _director_change(co, on, filed, lag)
     out["owner_change"] = "no change on record" if last is None else "changed in the last 6 months" if months < 6 \
         else "changed 6 to 12 months ago" if months < 12 else "changed 1 to 3 years ago" if months < 36 else "changed over 3 years ago"
     return out
@@ -193,6 +206,25 @@ def _debt_shift(a: dict) -> str:
     if after >= 50_000 and (p_after or 0) < 0.5 * after:
         return "new long-term debt"
     return "little change"
+
+
+def _director_change(co: Company, on: date, filed: Filed, lag: timedelta) -> str:
+    """Latest director appointment or resignation public before `on` (founding directors ignored)."""
+    if co.number not in filed.directors:
+        return "not checked"
+    created, dates = _d(co.created), []
+    for appointed, resigned in filed.directors[co.number]:
+        a, r = _d(appointed), _d(resigned)
+        if a and not (created and (a - created).days <= 60):
+            dates.append(a)
+        if r:
+            dates.append(r)
+    dates = [d for d in dates if d + lag < on]
+    if not dates:
+        return "no change on record"
+    months = (on - max(dates)).days / 30.44
+    return "changed in the last 6 months" if months < 6 else "changed 6 to 12 months ago" if months < 12 \
+        else "changed over a year ago"
 
 
 def ownership_lag() -> int:
@@ -394,7 +426,7 @@ def main(argv=None):
     conn = connect()
     companies = load_companies(conn, Resolver(conn))
     if a.cmd == "compare":
-        print(render_compare(compare(companies, load_filed())))
+        print(render_compare(compare(companies, load_filed(conn))))
         return
     bt = backtest(companies)
     if a.cmd == "backtest":

@@ -45,4 +45,10 @@ masking personal names as individuals.
 - An L2 logistic regression on the same clues gave the same picture, so the simple point model
   isn't what's holding it back.
 
+## Director changes (pipeline step, added 3 Nov 2026)
+The scheduled pipeline now finishes with `ingest.officers`, which uses Companies House REST time left
+over after the other lookups. It stores each borrower's officer appointments (role and dates only, no
+names) in `borrower_officers`. The `director_change` clue reads "not checked" until a company has been
+fetched. Once most borrowers are covered, rerun `compare` to see whether it helps.
+
 Rerun: `python -m radar.accounts fetch && python -m radar.ownership fetch && python -m radar.refi_watch compare`.

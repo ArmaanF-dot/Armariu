@@ -90,3 +90,36 @@ class FiledFeatureTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class _FakeCH:
+    def __init__(self, pages):
+        self.pages = pages
+
+    def get(self, path, params=None):
+        return self.pages.get(path)
+
+    def out_of_time(self):
+        return False
+
+
+class DirectorTests(unittest.TestCase):
+    def test_pipeline_step_keeps_dates_and_roles_but_no_names(self):
+        from radar import ingest
+        from radar.db import connect
+        conn = connect(":memory:")
+        conn.execute("INSERT INTO charges (company_number, charge_id, delivered_on, deleted, first_seen_at) VALUES ('1', 'a', '2026-01-01', 0, 'x')")
+        ch = _FakeCH({"/company/1/officers": {"total_results": 2, "items": [
+            {"name": "EXAMPLE, Jane", "officer_role": "director", "appointed_on": "2015-01-02",
+             "links": {"self": "/company/1/appointments/x"}},
+            {"name": "SAMPLE, John", "officer_role": "director", "appointed_on": "2025-11-01",
+             "resigned_on": "2026-02-01", "links": {"self": "/company/1/appointments/y"}}]}})
+        self.assertEqual(ingest.officers(conn, ch), 1)
+        rows = [tuple(r) for r in conn.execute("SELECT * FROM borrower_officers ORDER BY appointed_on")]
+        self.assertEqual([(r[2], r[3], r[4]) for r in rows], [("director", "2015-01-02", None), ("director", "2025-11-01", "2026-02-01")])
+        self.assertNotIn("Jane", repr(rows))
+        d = rw.load_directors(conn)
+        f = rw.Filed({}, {}, d)
+        self.assertEqual(rw.filed_features(co(), date(2026, 2, 15), f)["director_change"], "changed in the last 6 months")
+        self.assertEqual(rw.filed_features(co(), date(2025, 11, 15), f)["director_change"], "no change on record")
+        self.assertEqual(rw.filed_features(co("2"), date(2026, 2, 15), f)["director_change"], "not checked")

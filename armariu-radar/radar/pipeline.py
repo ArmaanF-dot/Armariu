@@ -45,7 +45,9 @@ def run(minutes: float, enrich_limit: int, queue_limit: int, rest_minutes: float
         client = ingest.RestClient(rest_key, budget_seconds=rest_minutes * 60)
         for key, step in (("enriched", lambda: ingest.enrich(conn, client, enrich_limit)),
                           ("lender_owners", lambda: owners.fetch(conn, client, limit=80, links_limit=30)),
-                          ("histories", lambda: ingest.history(conn, client, enrich_limit))):
+                          ("histories", lambda: ingest.history(conn, client, enrich_limit)),
+                          # last, so it only uses time left over: director changes for the Refinance watch
+                          ("officers", lambda: ingest.officers(conn, client, enrich_limit))):
             try:
                 summary[key] = step()
             except Exception as exc:  # keep going: the other steps are still useful

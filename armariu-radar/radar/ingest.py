@@ -379,6 +379,66 @@ def history(conn, client: RestClient, limit: int = 100, max_age_days: int = 30) 
     return n
 
 
+OFFICERS_DDL = """
+CREATE TABLE IF NOT EXISTS borrower_officers (
+    company_number TEXT NOT NULL,
+    officer_id     TEXT NOT NULL,   -- hash of the appointment link: no names are stored
+    role           TEXT,
+    appointed_on   TEXT,
+    resigned_on    TEXT,
+    PRIMARY KEY (company_number, officer_id)
+);
+CREATE TABLE IF NOT EXISTS borrower_officers_fetched (
+    company_number TEXT PRIMARY KEY,
+    fetched_at     TEXT NOT NULL,
+    total          INTEGER
+);
+"""
+
+
+def officers(conn, client: RestClient, limit: int = 100, max_age_days: int = 90) -> int:
+    """Fetch borrowers' officer appointments, past and present, into borrower_officers.
+
+    Used by the Refinance watch (director changes). Only roles and dates are kept, never names.
+    Borrowers never fetched go first, newest loan first; others are refreshed after `max_age_days`.
+    """
+    import hashlib
+    from datetime import datetime, timedelta, timezone
+    conn.executescript(OFFICERS_DDL)
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=max_age_days)).isoformat(timespec="seconds")
+    rows = conn.execute(
+        "SELECT c.company_number, MAX(c.delivered_on) AS latest FROM charges c "
+        "LEFT JOIN borrower_officers_fetched f ON f.company_number = c.company_number "
+        "WHERE c.deleted = 0 AND (f.company_number IS NULL OR f.fetched_at < ?) "
+        "GROUP BY c.company_number ORDER BY (f.company_number IS NOT NULL), latest DESC LIMIT ?",
+        (cutoff, limit)).fetchall()
+    n = 0
+    for r in rows:
+        if client.out_of_time():
+            break
+        num, items, start = r["company_number"], [], 0
+        while True:
+            page = client.get(f"/company/{num}/officers", {"items_per_page": 100, "start_index": start})
+            got = (page or {}).get("items") or []
+            items += got
+            start += len(got)
+            if not got or start >= int((page or {}).get("total_results") or 0):
+                break
+        conn.execute("DELETE FROM borrower_officers WHERE company_number = ?", (num,))
+        for i, item in enumerate(items):
+            link = ((item.get("links") or {}).get("self") or (item.get("links") or {}).get("officer", {}).get("appointments")
+                    or f"{num}-{i}")
+            conn.execute("INSERT OR REPLACE INTO borrower_officers VALUES (?,?,?,?,?)",
+                         (num, hashlib.sha1(link.encode()).hexdigest()[:12], item.get("officer_role"),
+                          item.get("appointed_on"), item.get("resigned_on")))
+        conn.execute("INSERT OR REPLACE INTO borrower_officers_fetched VALUES (?,?,?)", (num, now_iso(), len(items)))
+        n += 1
+        if n % 25 == 0:
+            conn.commit()
+    conn.commit()
+    return n
+
+
 # --------------------------------------------------------------------------- CLI
 
 def _need(var: str) -> str:
