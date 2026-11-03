@@ -1,0 +1,13 @@
+# Module A alias table: one row per spelling of a lender, mapped to one canonical lender.
+# Curated by hand. `alias` is matched on the normalised name (upper case, no punctuation, no
+# Ltd/PLC/LLP/UK). Hand rows always beat the group table, the category rules and fuzzy matching.
+# class: bank | direct_lender | abl_invoice | asset_finance | trustee_agent | government_backed | property | other
+canonical,alias,class,notes
+Together,TOGETHER COMMERCIAL FINANCE,property,largest lender by filings in the Oct 2026 trial window
+Together,TOGETHER PERSONAL FINANCE,property,same group
+The Mortgage Works,THE MORTGAGE WORKS,property,buy-to-let arm; parent not asserted here
+Kensington,KENSINGTON MORTGAGE COMPANY,property,
+LendInvest,LENDINVEST BTL,property,
+LendInvest,LENDINVEST SECURITY TRUSTEES,property,security trustee vehicle of LendInvest
+Barclays,BARCLAYS SECURITY TRUSTEE,trustee_agent,Barclays-owned security trustee; real lender may be hidden
+Funding Circle,FUNDING CIRCLE,other,marketplace platform; confirm class in review

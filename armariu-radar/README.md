@@ -125,6 +125,22 @@ the page refreshes within seconds of any change. Every decision is written to `d
 and pushed to GitHub straight away, so the next cloud run uses it. The bottom-left corner shows
 whether it's up to date and whether your last decision reached GitHub.
 
+## Additions: lender view, signals, scorecard, weekly pack and the client portal
+
+Six modules from the additions plan, all rules-only (details and numbers in `docs/additions.md`):
+lender-name matching, rule-based signals, a lender-side weekly view, a backtest scorecard, a weekly
+pack you paste into a Claude chat by hand, and a manual contract-win lead sheet. In the review app
+they are under **Additions**. Press **Rebuild** after the database updates.
+
+The **client portal** is a separate, read-only site for customers: league table, signals with
+filing links, lender profiles, the scorecard and the method, with CSV downloads.
+```
+.venv\Scripts\python.exe -m radar.portal            # opens http://127.0.0.1:8790
+.venv\Scripts\python.exe -m radar.portal export site  # static copy, for hosting after the gate
+```
+It only listens on your PC. Both apps show an animated skyline; drop a photo at
+`radar/ui/static/img/hero.jpg` or `radar/portal/static/img/hero.jpg` to fade one in.
+
 ## Your weekly routine (about 15 minutes)
 
 The quickest way is the review app (above). The same steps from the command line, if you prefer

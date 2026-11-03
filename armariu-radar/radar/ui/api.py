@@ -13,6 +13,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 from .. import config, consensus, dbsync, export, owners, sectors, signals as sig
+from .. import snapshot as snap_mod, weekly_pack
 from ..classify import refresh_rule_matches
 from ..db import connect, get_meta
 from ..normalise import family_key, normalise_name
@@ -811,3 +812,67 @@ def wait_for_git(git: Git, timeout: float = 10.0) -> None:
                 return
         time.sleep(0.05)
 
+
+
+# --------------------------------------------------------------------------- additions (Modules A to E)
+# The snapshot takes about 30 seconds to build on the full database, so it is built in the background
+# and the pages read the cached file.
+JOBS = {"snapshot": {"running": False, "error": "", "finished": ""},
+        "pack": {"running": False, "error": "", "finished": ""}}
+PACK_DIR = config.OUTPUT_DIR / "weekly_pack"
+
+
+def _run_job(name: str, lock, fn) -> dict:
+    job = JOBS[name]
+    if job["running"]:
+        return {"ok": True, "already": True}
+    job.update(running=True, error="")
+
+    def work():
+        try:
+            with lock:
+                conn = connect()
+                try:
+                    fn(conn)
+                finally:
+                    conn.close()
+            job["finished"] = _now()
+        except Exception as exc:  # noqa: BLE001  (shown on the page, never swallowed)
+            job["error"] = f"{type(exc).__name__}: {exc}"
+        finally:
+            job["running"] = False
+
+    threading.Thread(target=work, daemon=True).start()
+    return {"ok": True}
+
+
+def additions() -> dict:
+    return {"snapshot": snap_mod.load(), "job": JOBS["snapshot"]}
+
+
+def rebuild_additions(lock) -> dict:
+    return _run_job("snapshot", lock, lambda conn: snap_mod.write(snap_mod.build_snapshot(conn)))
+
+
+def pack() -> dict:
+    md = PACK_DIR / "weekly_pack.md"
+    failed = PACK_DIR / "WEEKLY_PACK_FAILED.txt"
+    return {"content": md.read_text(encoding="utf-8") if md.exists() else "",
+            "failed": failed.read_text(encoding="utf-8") if failed.exists() else "",
+            "prompt": weekly_pack.COMMENTARY_PROMPT, "job": JOBS["pack"],
+            "built": datetime.fromtimestamp(md.stat().st_mtime, timezone.utc).isoformat(timespec="seconds") if md.exists() else ""}
+
+
+def build_pack(lock, week_start: str = "") -> dict:
+    from datetime import timedelta
+    from ..lender_view import week_of
+    ws = date.fromisoformat(week_start) if week_start else week_of(date.today() - timedelta(days=7))[0]
+
+    def fn(conn):
+        try:
+            weekly_pack.run(ws, PACK_DIR, conn=conn)
+        except Exception:
+            import traceback
+            weekly_pack.notify_failure(f"Weekly pack for week starting {ws} failed:\n{traceback.format_exc()}", PACK_DIR)
+            raise
+    return _run_job("pack", lock, fn)

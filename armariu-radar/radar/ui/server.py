@@ -22,7 +22,8 @@ from . import api
 
 STATIC = Path(__file__).resolve().parent / "static"
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
-         ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml"}
+         ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+         ".png": "image/png", ".webp": "image/webp"}
 
 
 class App:
@@ -120,6 +121,10 @@ def make_handler(app: App, port: int):
                     return self._json(app.with_db(api.signals, q.get("type", "")))
                 if url.path == "/api/company":
                     return self._json(app.with_db(api.company, q.get("number", "")))
+                if url.path == "/api/additions":
+                    return self._json(api.additions())
+                if url.path == "/api/pack":
+                    return self._json(api.pack())
                 if url.path == "/api/lender":
                     return self._json(app.with_db(api.lender, q.get("name", "")))
                 return self._error(HTTPStatus.NOT_FOUND, "Not found")
@@ -156,6 +161,10 @@ def make_handler(app: App, port: int):
                     res = api.save_draft(app.git, body["path"], str(body["content"]))
                 elif path == "/api/draft/status":
                     res = api.set_draft_status(app.git, body["path"], body["status"])
+                elif path == "/api/additions/rebuild":
+                    res = api.rebuild_additions(app.db_lock)
+                elif path == "/api/pack/build":
+                    res = api.build_pack(app.db_lock, str(body.get("week_start") or ""))
                 elif path == "/api/sync":
                     app.sync.wake() if app.sync_enabled else app.sync.run_once()
                     res = {"ok": True}
