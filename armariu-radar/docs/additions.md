@@ -121,3 +121,25 @@ background after start-up and each sync. Measured on the 3 Nov database: Signals
 about 0.03 s and 2 MB; Overview 3.7 s to 0.002 s cached (2.4 s cold); Decisions 1.9 s to 0.01 s
 cached (0.5 s cold). Sync downloads the cloud database outside the database lock and skips unchanged
 copies (`data/radar.db.source` remembers which copy is in place).
+
+## Terminal mode on the customer site (3 Nov 2026)
+
+A second, dense view of the same read-only data, for people who live in tables. The clean view stays
+the default; the **Terminal** button in the top bar (or the `` ` `` key) switches, and **Clean view**
+switches back. The choice is remembered per browser.
+
+- **Screens** (keys 1 to 7): Monitor (KPIs, league top 20, latest signals, watchlist, charges by lender
+  type, signals by week, refinance watch, refinancing flows, league movers), League table, Signals,
+  Refinance watch, Lenders, Watchlist, Track record.
+- **Search** (`/` or Ctrl+K): jumps to any lender, any company in the data (by name or company number),
+  or a screen code such as LEAG. Opens a side panel with the lender's sectors, latest charges, flows and
+  signals, or the company's signals, refinance odds and recent charges, each linked to its filing.
+- **Tables**: click a header (or `s` / `r`) to sort; filter box, type chips and sector menus; `d`
+  downloads what the table shows as CSV. Up to 400 rows are drawn at a time to stay fast.
+- **Watchlist**: `w` or the star on any row. Kept in this browser only (localStorage), never sent anywhere.
+- **Saved between visits**: screen, week, hide-property, every table's filters and sort.
+- **Help**: `?` lists every shortcut.
+
+Code: `radar/portal/static/terminal.js` and `terminal.css`; charts reuse `insights.js` and its validated
+palette. Same rules as the rest of the portal: no write endpoints, company-level facts only, and rows that
+read as a private individual are dropped again on the client.

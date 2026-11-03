@@ -24,6 +24,7 @@ fetch("data.json").then((r) => r.json()).then((d) => { D = d; foot(); route(); }
 addEventListener("hashchange", route);
 function route() {
   if (!D) return;
+  if (typeof Term !== "undefined" && Term.isOn()) return Term.render();   // terminal mode draws its own screens
   const r = location.hash.replace(/^#\/?/, "").split("?")[0] || "home";
   const views = { home, insights, league, signals, watch, lenders, record, method };
   const v = views[r] ? r : "home";
@@ -45,6 +46,7 @@ addEventListener("scroll", onScroll, { passive: true });
 $("#burger").onclick = () => { const s = $("#sheet"); s.innerHTML = $$(".nav nav a").map((a) => a.outerHTML).join(""); s.classList.toggle("open"); };
 $("#theme").onclick = () => { const t = document.documentElement.dataset.theme === "light" ? "dark" : "light"; document.documentElement.dataset.theme = t; try { localStorage.setItem("armariu-portal-theme", t); } catch (e) {} };
 $("#download").onclick = downloads;
+$("#to-term").onclick = () => Term.setMode(true);
 function foot() { $("#foot-note").innerHTML = `${esc(D.caveat)} ${esc(D.not_advice)} Source: Companies House charges register; contains public sector information licensed under the Open Government Licence v3.0. Data built ${dLong(D.built)}, signal rules ${esc(D.rule_version)}.`; }
 
 // ------------------------------------------------------------------ helpers
