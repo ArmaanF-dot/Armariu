@@ -25,7 +25,7 @@ addEventListener("hashchange", route);
 function route() {
   if (!D) return;
   const r = location.hash.replace(/^#\/?/, "").split("?")[0] || "home";
-  const views = { home, league, signals, lenders, record, method };
+  const views = { home, league, signals, watch, lenders, record, method };
   const v = views[r] ? r : "home";
   document.body.classList.toggle("home", v === "home");
   $$("[data-route]").forEach((a) => a.classList.toggle("on", a.dataset.route === v));
@@ -34,7 +34,7 @@ function route() {
   app.innerHTML = "";
   views[v]();
   app.firstElementChild?.classList.add("page-enter");
-  document.title = `${{ home: "Overview", league: "League table", signals: "Signals", lenders: "Lenders", record: "Track record", method: "Method" }[v]} · Armariu`;
+  document.title = `${{ home: "Overview", league: "League table", signals: "Signals", watch: "Refinance watch", lenders: "Lenders", record: "Track record", method: "Method" }[v]} · Armariu`;
   scrollTo({ top: 0 });
   wire();
   onScroll();
@@ -238,6 +238,27 @@ function signals() {
     $("#scount").textContent = `${fmt(rows.length)} signals. ${S.sigType !== "all" ? SIG_BLURB[S.sigType] : ""}`;
     $("#sg").innerHTML = rows.slice(0, S.sigN).map(sigCard).join("") || `<p class="empty">No signals match.</p>`;
     $("#more").style.display = rows.length > S.sigN ? "" : "none";
+  }
+  draw();
+}
+
+// ------------------------------------------------------------------ refinance watch
+function watch() {
+  const W = D.refi_watch;
+  if (!W) { app.innerHTML = `<div class="wrap page-top"><p class="empty">The refinance watch has not been built yet.</p></div>`; return; }
+  const bt = W.backtest, months = Math.round(W.window_days / 30.4);
+  app.innerHTML = `<div class="wrap page-top"><div class="sec-head"><div><span class="kicker">Refinance watch</span><h2>Who is most likely to refinance next</h2><p>Every company with a loan still registered against it, scored on what its filings show: the age of its newest loan and the lender's type, its recent borrowing, how many loans it has outstanding, and whether its lender is cutting back. ${esc(W.caveat)}</p></div><span class="badge warn">Backtest · ${esc(W.model_version)}</span></div>
+    <div class="kpis" style="margin-bottom:28px">${bt.tiers.map((t) => `<div class="kpi"><div class="v num">${pct(t.hit_rate)}</div><div class="l">of the top ${esc(t.top)} refinanced within ${months} months</div><div class="d" style="color:#b9bcc6">${t.lift}× the ${pct(bt.base_rate)} average</div></div>`).join("")}</div>
+    <p class="caveat" style="margin:-14px 0 22px">Tested on ${fmt(bt.rows)} company-dates from ${esc(bt.test_cutoffs[0])} onwards, which the score never saw while it was built (it learned from the year to ${esc(bt.train_end)}).</p>
+    <div class="controls"><label class="switch"><input type="checkbox" id="hp" ${S.hideProp ? "checked" : ""}>Hide property borrowers</label>
+      <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="wq" placeholder="Company, number or lender"></div></div>
+    <div class="card" style="padding:6px 8px;overflow-x:auto"><table class="tbl"><thead><tr><th>Company</th><th>Sector</th><th class="r">Odds, ${months} months</th><th>Why it scores</th><th>Newest lender</th></tr></thead><tbody id="wt"></tbody></table></div></div>`;
+  let q = "";
+  $("#hp").onchange = (e) => { S.hideProp = e.target.checked; draw(); };
+  $("#wq").oninput = (e) => { q = e.target.value.toLowerCase(); draw(); };
+  function draw() {
+    const rows = W.rows.filter((r) => (!S.hideProp || r.sector !== PROPERTY_SECTOR) && (!q || (r.company_name + r.company_number + r.newest_lender).toLowerCase().includes(q))).slice(0, 100);
+    $("#wt").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div style="font:11px var(--mono);color:var(--faint)">${esc(r.company_number)}</div></td><td>${esc(r.sector)}</td><td class="r num">${pct(r.odds_12m)}<div style="font:11px var(--mono);color:var(--faint)">${r.lift}× average</div></td><td style="font-size:13px;color:var(--muted)">${esc(r.reasons)}</td><td style="font-size:13px">${esc(r.newest_lender)}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">No companies match.</td></tr>`;
   }
   draw();
 }

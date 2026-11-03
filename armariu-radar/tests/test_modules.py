@@ -6,7 +6,7 @@ import json
 import sys
 import tempfile
 import unittest
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -84,6 +84,12 @@ class AliasTests(unittest.TestCase):
     def test_deterministic(self):
         names = ["HSBC UK Bank PLC", "Lloyds Bank PLC", "Zed Funding Ltd"]
         self.assertEqual([aliases.Resolver(None).resolve(n) for n in names], [aliases.Resolver(None).resolve(n) for n in names])
+
+    def test_bare_personal_names_are_individuals(self):
+        r = aliases.Resolver(None)
+        self.assertEqual(r.resolve("John William Neaverson").cls, "individual")
+        self.assertNotEqual(r.resolve("Derwent London Plc").cls, "individual")
+        self.assertNotEqual(r.resolve("Green Borough Holdings").cls, "individual")
 
     def test_alias_conflict_is_an_error(self):
         with tempfile.TemporaryDirectory() as d:
@@ -276,3 +282,28 @@ class RealFixtureTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RefiWatchTests(unittest.TestCase):
+    def setUp(self):
+        from radar import refi_watch
+        self.rw = refi_watch
+
+    def test_features_need_an_open_charge(self):
+        co = company([ch("old", "2020-01-01", [B], "fully-satisfied", "2021-01-01")])
+        self.assertIsNone(self.rw.features(co, date(2026, 1, 1), {}))
+
+    def test_outcome_is_a_payoff_plus_a_new_charge(self):
+        co = company([ch("old", "2024-01-01", [B], "fully-satisfied", "2025-03-01"), ch("new", "2025-03-05", [A])])
+        self.assertTrue(self.rw.outcome(co, date(2025, 1, 1)))
+        only_new = company([ch("old", "2024-01-01", [B]), ch("new", "2025-03-05", [A])])
+        self.assertFalse(self.rw.outcome(only_new, date(2025, 1, 1)))
+
+    def test_no_peeking_and_deterministic(self):
+        cos = {str(i): company([ch(f"a{i}", "2023-01-01", [B], "fully-satisfied", "2024-06-01"), ch(f"b{i}", "2024-06-03", [A])], number=f"{i:08d}")
+               for i in range(40)}
+        rows1, m1 = self.rw.watchlist(cos, date(2025, 1, 1), top=5)
+        rows2, _ = self.rw.watchlist(cos, date(2025, 1, 1), top=5)
+        self.assertEqual(rows1, rows2)
+        # learned only on cutoffs whose window had closed before the run date
+        self.assertTrue(all(c <= date(2025, 1, 1) - timedelta(days=self.rw.WINDOW) for c in self.rw._cutoffs(date(2025, 1, 1) - timedelta(days=self.rw.WINDOW + 1))))

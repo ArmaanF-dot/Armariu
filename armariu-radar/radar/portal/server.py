@@ -28,7 +28,7 @@ TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=u
          ".svg": "image/svg+xml", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png",
          ".webp": "image/webp", ".json": "application/json"}
 PUBLIC_KEYS = ("built", "rule_version", "coverage_start", "caveat", "sample_caveat", "bias_note", "not_advice",
-               "class_labels", "signal_labels", "totals", "weeks", "series", "lenders", "signals", "scorecard")
+               "class_labels", "signal_labels", "totals", "weeks", "series", "lenders", "signals", "scorecard", "refi_watch")
 
 
 def public_data(snap: dict) -> dict:
@@ -36,6 +36,10 @@ def public_data(snap: dict) -> dict:
     out = {k: snap.get(k) for k in PUBLIC_KEYS}
     out["signals"] = [s for s in out.get("signals") or []
                       if "private individual" not in (s.get("lender_names", "") + s.get("other_lender", "")).lower()]
+    if out.get("refi_watch"):   # never name individuals: drop rows whose newest lender is one
+        rw = dict(out["refi_watch"])
+        rw["rows"] = [r for r in rw.get("rows") or [] if "private individual" not in r.get("newest_lender", "").lower()]
+        out["refi_watch"] = rw
     return out
 
 

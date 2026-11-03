@@ -85,6 +85,22 @@ def _tokens(norm: str) -> list[str]:
     return [t for t in norm.split() if t not in _NOISE]
 
 
+_ORG_WORDS = set("""LIMITED LTD PLC LLP LP LLC INC CORP CORPORATION COMPANY CO SA NV AG GMBH BV SARL SPA AB AS OY
+BANK BANKING TRUST TRUSTEE TRUSTEES CAPITAL FINANCE FINANCIAL FUNDING FUND FUNDS HOLDINGS HOLDING GROUP PARTNERS
+PARTNERSHIP INVESTMENTS INVESTMENT SECURITIES MANAGEMENT SERVICES COUNCIL BOROUGH CITY COUNTY AUTHORITY ASSOCIATION
+SOCIETY BUILDING UNIVERSITY COLLEGE SCHOOL MINISTERS SECRETARY STATE ENGLAND SCOTLAND WALES HOMES LENDING LOANS LOAN
+MORTGAGE MORTGAGES PROPERTY PROPERTIES ESTATE ESTATES LEASING ASSET ASSETS CREDIT INVOICE COMMERCIAL DEVELOPMENT
+DEVELOPMENTS VENTURES ENTERPRISES INTERNATIONAL UK BRITISH NATIONAL ROYAL BOARD AGENCY LENDER LENDERS PENSION SCHEME
+SSAS SIPP THE AND OF FOR LTD. LIMITED. CHARITY FOUNDATION CHURCH DIOCESE HOUSING""".split())
+
+
+def looks_like_person(name: str) -> bool:
+    """Two to four plain words with no organisation word: almost certainly a person (e.g. JOHN SMITH)."""
+    import re
+    words = re.sub(r"[.,'()]", " ", (name or "").upper()).replace("&", " ").split()
+    return 2 <= len(words) <= 4 and all(w.isalpha() for w in words) and not (set(words) & _ORG_WORDS)
+
+
 def alias_key(raw: str) -> str:
     """Normalise a spelling: lower-case rules of the plan, via the repo's normaliser (upper case,
     no punctuation, no Ltd/PLC/LLP) plus a dropped trailing UK, then whitespace collapsed."""
@@ -146,10 +162,11 @@ class Resolver:
 
     def resolve(self, raw: str) -> Resolved:
         norm = normalise_name(raw)
-        if norm in self._memo:
-            return self._memo[norm]
+        mk = (raw or "").strip().upper()   # raw, not norm: "X PLC" and a person called "X" normalise alike
+        if mk in self._memo:
+            return self._memo[mk]
         res = self._resolve(raw, norm)
-        self._memo[norm] = res
+        self._memo[mk] = res
         return res
 
     def _resolve(self, raw: str, norm: str) -> Resolved:
@@ -173,7 +190,10 @@ class Resolver:
             canon, cls, _ = best
             return Resolved(canon, lender_key(canon), cls, "fuzzy", cat)
         canon = _display(norm)
-        return Resolved(canon, lender_key(canon), _CATEGORY_CLASS.get(cat, "other"), "unmapped", cat)
+        cls = _CATEGORY_CLASS.get(cat, "other")
+        if cls == "other" and looks_like_person(raw):   # never let a person's name through as a lender
+            cls = "individual"
+        return Resolved(canon, lender_key(canon), cls, "unmapped", cat)
 
     def _fuzzy(self, ak: str, threshold: float = FUZZY_THRESHOLD):
         """Best known lender at or above the threshold. Requires the same first four letters so
