@@ -1,5 +1,7 @@
 # Refinance watch accuracy at 90 days, by group (BACKTEST, 4 Nov 2026)
 
+> Superseded by [refi_odds_table.md](refi_odds_table.md) (live score rw3, 90 days and 12 months, top 1/5/10/25% and rest).
+
 **In short:** for ordinary companies (10 loans or fewer) the top 10% of the list switched to a new
 lender within 90 days 4.5% of the time, about **3x** their 1.4% average (95% range 2.7x to 3.5x).
 For ordinary companies **outside property**, the audience a private credit lender cares about, it is
