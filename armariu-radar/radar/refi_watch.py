@@ -36,6 +36,11 @@ from 41% to 52% (2025) and 39% to 50% (2024), and the top 10% by about 2 points;
 (10 or fewer charges) the gain is about 1 point in the top 10%. 16 other history clues and the charges'
 own wording (fixed or floating, all assets, title numbers, negative pledge) gave nothing measurable.
 
+Odds are read from two tables since 4 Nov 2026, one for ordinary companies and one for serial borrowers
+(SERIAL_MIN or more charges filed): a shared table showed ordinary companies' top tenth 28% against 21%
+actual and serial borrowers' top fifth 36% against 49%. Logistic, boosted, survival and blended models
+were also tested and none ranked ordinary companies better (docs/refi_methods.md).
+
     python -m radar.refi_watch [--as-of 2026-11-03] [--top 200]
     python -m radar.refi_watch backtest
     python -m radar.refi_watch compare   # rw1 against rw3 and rw2, 90 days and 12 months (needs accounts + ownership fetched)
@@ -68,6 +73,7 @@ LABELS = {
     "debt_shift": "Change since the year before", "owner_change": "Owners",
     "director_change": "Director appointments", "board_change": "Directors",
 }
+SERIAL_MIN = 11   # charges filed before the date; serial borrowers get their own odds table
 CAVEAT = ("Odds, not a forecast: filings carry no loan end dates. The odds are how often companies with a "
           "similar score refinanced within 12 months in the past.")
 
@@ -320,6 +326,7 @@ def features(co: Company, on: date, vol, filed: Filed | None = None) -> dict | N
         "lender_rate": _rate_band(max((r for r in rates if r is not None), default=None)),
         **filed_features(co, on, filed),
         "_newest": newest,
+        "_serial": sum(1 for c in co.charges if _d(c.filed) and _d(c.filed) < on) >= SERIAL_MIN,
     }
 
 
@@ -352,20 +359,32 @@ class Model:
                 cnt[x[clue]][0] += 1; cnt[x[clue]][1] += y
             for v, (n, h) in cnt.items():   # smoothed towards the base rate; tiny groups score 0
                 self.points[(clue, v)] = math.log(((h + 2 * self.base) / (n + 2)) / self.base) if n >= 30 and self.base else 0.0
-        # calibration: hit rate by score band (20 equal bands)
-        scored = sorted(((self.score(x), y) for x, y in rows), key=lambda t: t[0])
-        self.bands = []
-        k = max(1, len(scored) // 20)
+        # calibration: hit rate by score band (20 equal bands), one table for everyone and one each for
+        # ordinary and serial borrowers. Serial borrowers refinance far more often at the same score, so a
+        # shared table understated their odds and overstated ordinary companies' (4 Nov 2026 backtest).
+        self.bands = self._bands([(self.score(x), y) for x, y in rows])
+        self.seg_bands = {}
+        for seg in (False, True):
+            part = [(self.score(x), y) for x, y in rows if bool(x.get("_serial")) == seg]
+            if len(part) >= 400:
+                self.seg_bands[seg] = self._bands(part)
+
+    @staticmethod
+    def _bands(scored, n=20):
+        scored = sorted(scored, key=lambda t: t[0])
+        out, k = [], max(1, len(scored) // n)
         for i in range(0, len(scored), k):
             part = scored[i:i + k]
-            self.bands.append((part[0][0], sum(y for _, y in part) / len(part)))
+            out.append((part[0][0], sum(y for _, y in part) / len(part)))
+        return out
 
     def score(self, x) -> float:
         return sum(self.points.get((c, x[c]), 0.0) for c in self.clues)
 
-    def odds(self, s: float) -> float:
-        rate = self.bands[0][1] if self.bands else self.base
-        for lo, r in self.bands:
+    def odds(self, s: float, serial: bool | None = None) -> float:
+        bands = self.seg_bands.get(serial, self.bands) if serial is not None else self.bands
+        rate = bands[0][1] if bands else self.base
+        for lo, r in bands:
             if s >= lo:
                 rate = r
         return rate
@@ -398,10 +417,12 @@ def watchlist(companies, as_of: date, top: int = 200, model: Model | None = None
             continue
         s = model.score(f)
         newest = f["_newest"]
+        odds = model.odds(s, f["_serial"])
         rows.append({
             "company_number": co.number, "company_name": co.name, "sector": co.sector, "score": round(s, 3),
-            "odds_12m": round(model.odds(s), 4), "base_rate": round(model.base, 4),
-            "lift": round(model.odds(s) / model.base, 1) if model.base else None,
+            "odds_12m": round(odds, 4), "base_rate": round(model.base, 4),
+            "lift": round(odds / model.base, 1) if model.base else None,
+            "serial_borrower": f["_serial"],
             "reasons": "; ".join(model.reasons(f)),
             "newest_lender": ", ".join(sorted({"A private individual" if cls == "individual" else n for n, _, cls in newest.lenders})),
             "newest_created": newest.created or newest.filed, "model_version": MODEL_VERSION,

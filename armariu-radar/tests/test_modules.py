@@ -325,3 +325,16 @@ class RefiWatchTests(unittest.TestCase):
         self.assertEqual(rows1, rows2)
         # learned only on cutoffs whose window had closed before the run date
         self.assertTrue(all(c <= date(2025, 1, 1) - timedelta(days=self.rw.WINDOW) for c in self.rw._cutoffs(date(2025, 1, 1) - timedelta(days=self.rw.WINDOW + 1))))
+
+
+class RefiOddsBySegmentTests(unittest.TestCase):
+    def test_serial_and_ordinary_get_their_own_odds(self):
+        from radar.refi_watch import Model
+        x = lambda serial: {"age_cls": "a", "recent": "none", "nopen": "one", "pullback": "steady",
+                            "property": "no", "since_sat": "never", "lender_rate": "unknown", "_serial": serial}
+        rows = [(x(False), i % 10 == 0) for i in range(1000)] + [(x(True), i % 2 == 0) for i in range(1000)]
+        m = Model(rows)
+        s = m.score(x(False))
+        self.assertAlmostEqual(m.odds(s, False), 0.1, places=2)
+        self.assertAlmostEqual(m.odds(s, True), 0.5, places=2)
+        self.assertAlmostEqual(m.odds(s), 0.3, delta=0.21)   # shared table still there for callers without a segment
