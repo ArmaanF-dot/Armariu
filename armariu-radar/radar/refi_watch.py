@@ -41,6 +41,9 @@ Odds are read from two tables since 4 Nov 2026, one for ordinary companies and o
 actual and serial borrowers' top fifth 36% against 49%. Logistic, boosted, survival and blended models
 were also tested and none ranked ordinary companies better (docs/refi_methods.md).
 
+At 90 days, row by row (ordinary, non-property, property, serial), with counts, 95% ranges and the
+"switched lender" definition: radar.refi_accuracy and docs/refi_accuracy_90d.md.
+
     python -m radar.refi_watch [--as-of 2026-11-03] [--top 200]
     python -m radar.refi_watch backtest
     python -m radar.refi_watch compare   # rw1 against rw3 and rw2, 90 days and 12 months (needs accounts + ownership fetched)
@@ -425,7 +428,7 @@ def watchlist(companies, as_of: date, top: int = 200, model: Model | None = None
             "serial_borrower": f["_serial"],
             "reasons": "; ".join(model.reasons(f)),
             "newest_lender": ", ".join(sorted({"A private individual" if cls == "individual" else n for n, _, cls in newest.lenders})),
-            "newest_created": newest.created or newest.filed, "model_version": MODEL_VERSION,
+            "newest_created": newest.created or newest.filed, "newest_filing_url": newest.url, "model_version": MODEL_VERSION,
             "filing_url": f"https://find-and-update.company-information.service.gov.uk/company/{co.number}/charges",
         })
     rows.sort(key=lambda r: (-r["score"], r["company_number"]))

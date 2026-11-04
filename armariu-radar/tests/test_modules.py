@@ -338,3 +338,30 @@ class RefiOddsBySegmentTests(unittest.TestCase):
         self.assertAlmostEqual(m.odds(s, False), 0.1, places=2)
         self.assertAlmostEqual(m.odds(s, True), 0.5, places=2)
         self.assertAlmostEqual(m.odds(s), 0.3, delta=0.21)   # shared table still there for callers without a segment
+
+
+class RefiAccuracy90Tests(unittest.TestCase):
+    def test_switch_needs_a_different_lender(self):
+        from radar.refi_accuracy import outcomes
+        on = date(2025, 1, 1)
+        switch = company([ch("old", "2024-01-01", [B], "fully-satisfied", "2025-02-01"), ch("new", "2025-02-03", [A])])
+        same = company([ch("old", "2024-01-01", [B], "fully-satisfied", "2025-02-01"), ch("new", "2025-02-03", [B])])
+        repaid = company([ch("old", "2024-01-01", [B], "fully-satisfied", "2025-02-01")])
+        late = company([ch("old", "2024-01-01", [B], "fully-satisfied", "2025-02-01"), ch("new", "2025-05-01", [A])])
+        self.assertEqual(outcomes(switch, on), {"switched": True, "any": True, "repaid": True})
+        self.assertEqual(outcomes(same, on), {"switched": False, "any": True, "repaid": True})
+        self.assertEqual(outcomes(repaid, on), {"switched": False, "any": False, "repaid": True})
+        self.assertEqual(outcomes(late, on), {"switched": False, "any": False, "repaid": True})   # outside 90 days
+
+    def test_only_charges_filed_before_the_date_count(self):
+        from radar.refi_accuracy import known_on
+        co = company([ch("a", "2024-01-01", [B]), ch("b", "2025-01-02", [A])])
+        self.assertEqual([c.charge_id for c in known_on(co, date(2025, 1, 1)).charges], ["a"])
+
+    def test_test_windows_close_before_coverage_starts(self):
+        from radar.refi_accuracy import test_dates
+        cos = {"1": company([ch("a", "2026-11-01", [B])])}
+        ds = test_dates(cos, stop=date(2026, 10, 20))
+        self.assertEqual(ds[0], date(2025, 1, 1))
+        self.assertTrue(all(d + timedelta(days=90) < date(2026, 10, 20) for d in ds))
+        self.assertEqual(ds[-1], date(2026, 7, 1))
