@@ -282,6 +282,10 @@ class SectorTests(unittest.TestCase):
         self.assertEqual(sectors.sectors_of(["99999"]), ["dormant"])
         self.assertEqual(sectors.sectors_of([]), ["unknown"])
         self.assertEqual(sectors.sectors_of(["bad"]), ["unknown"])
+        self.assertEqual(sectors.sectors_of(["25400"]), ["defence"])
+        self.assertEqual(sectors.sectors_of(["84220", "25990"]), ["defence", "manufacturing"])
+        self.assertEqual(sectors.sectors_of(["30300"]), ["defence"])
+        self.assertEqual(sectors.label("defence"), "Defence and aerospace")
 
 
 class TriageTests(unittest.TestCase):

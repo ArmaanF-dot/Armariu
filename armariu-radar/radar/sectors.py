@@ -12,6 +12,7 @@ SECTORS = {
     "holding": "Holding company",
     "real_estate": "Property and real estate",
     "construction": "Construction",
+    "defence": "Defence and aerospace",
     "manufacturing": "Manufacturing",
     "tech_media": "Technology and media",
     "healthcare": "Healthcare and care",
@@ -34,6 +35,13 @@ _CODES = {
     "64209": "holding", "70100": "holding", "64306": "real_estate",  # REITs
     "41100": "real_estate",  # development of building projects: property developers
     "99999": "dormant", "74990": "dormant",  # dormant company; non-trading company
+    # Defence and aerospace (the plan's "government and defence suppliers" niche). Taken out of
+    # manufacturing and public sector so lenders to this niche can be filtered on their own.
+    "25400": "defence",  # manufacture of weapons and ammunition
+    "30300": "defence",  # manufacture of air and spacecraft and related machinery
+    "30400": "defence",  # manufacture of military fighting vehicles
+    "33160": "defence",  # repair and maintenance of aircraft and spacecraft
+    "84220": "defence",  # defence activities
 }
 # SIC 2007 divisions (first two digits) -> sector.
 _DIVISIONS = (
