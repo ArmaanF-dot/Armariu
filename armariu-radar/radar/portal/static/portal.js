@@ -255,18 +255,41 @@ function watch() {
     <div class="kpis" style="margin-bottom:28px">${bt.tiers.map((t) => `<div class="kpi"><div class="v num">${pct(t.hit_rate)}</div><div class="l">of the top ${esc(t.top)} refinanced within ${months} months</div><div class="d" style="color:#b9bcc6">${t.lift}× the ${pct(bt.base_rate)} average</div></div>`).join("")}</div>
     ${watchCharts()}
     <p class="caveat" style="margin:-14px 0 22px">Tested on ${fmt(bt.rows)} company-dates from ${esc(bt.test_cutoffs[0])} onwards, which the score never saw while it was built (it learned from the year to ${esc(bt.train_end)}).</p>
+    ${W.accuracy_90d?.table?.length ? `<div class="card" style="padding:18px 20px;margin-bottom:26px" id="acc90"></div>` : ""}
     <div class="controls"><label class="switch"><input type="checkbox" id="hp" ${S.hideProp ? "checked" : ""}>Hide property borrowers</label>
       <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="wq" placeholder="Company, number or lender"></div></div>
     <div class="card" style="padding:6px 8px;overflow-x:auto"><table class="tbl"><thead><tr><th>Company</th><th>Sector</th><th class="r">Odds, ${months} months</th><th>Why it scores</th><th>Newest lender</th></tr></thead><tbody id="wt"></tbody></table></div></div>`;
   let q = "";
   drawWatchCharts();
+  if (W.accuracy_90d?.table?.length) drawAccuracy90(W.accuracy_90d, "switched");
   $("#hp").onchange = (e) => { S.hideProp = e.target.checked; draw(); };
   $("#wq").oninput = (e) => { q = e.target.value.toLowerCase(); draw(); };
   function draw() {
     const rows = W.rows.filter((r) => (!S.hideProp || r.sector !== PROPERTY_SECTOR) && (!q || (r.company_name + r.company_number + r.newest_lender).toLowerCase().includes(q))).slice(0, 100);
-    $("#wt").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div style="font:11px var(--mono);color:var(--faint)">${esc(r.company_number)}</div></td><td>${esc(r.sector)}</td><td class="r num">${pct(r.odds_12m)}<div style="font:11px var(--mono);color:var(--faint)">${r.lift}× average</div></td><td style="font-size:13px;color:var(--muted)">${esc(r.reasons)}</td><td style="font-size:13px">${esc(r.newest_lender)}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">No companies match.</td></tr>`;
+    $("#wt").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div style="font:11px var(--mono);color:var(--faint)">${esc(r.company_number)}</div></td><td>${esc(r.sector)}</td><td class="r num">${pct(r.odds_12m)}<div style="font:11px var(--mono);color:var(--faint)">${r.lift}× average</div></td><td style="font-size:13px;color:var(--muted)">${esc(r.reasons)}</td><td style="font-size:13px">${esc(r.newest_lender)}${r.newest_filing_url ? `<div><a href="${esc(r.newest_filing_url)}" target="_blank" rel="noopener" style="font:11px var(--mono)">Filing ↗</a></div>` : ""}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">No companies match.</td></tr>`;
   }
   draw();
+}
+
+// 90-day accuracy by group, held-out months (radar/refi_accuracy.py). Ordinary companies lead: serial
+// borrowers who refinance all the time inflate the mixed rows.
+function drawAccuracy90(A, o) {
+  const tiers = ["All", "Top 10%", "Top 5%", "Top 1%"], groups = [...new Set(A.table.map((r) => r.group))];
+  const cell = (g, t) => {
+    const r = A.table.find((x) => x.group === g && x.tier === t);
+    if (!r) return `<td class="r">–</td>`;
+    const v = r[o], ci = v.ci || [];
+    return `<td class="r num">${pct(v.rate, 1)}<div style="font:11px var(--mono);color:var(--faint)">${ci.length ? `${pct(ci[0], 1)}–${pct(ci[1], 1)}` : ""}</div><div style="font:11px var(--mono);color:var(--faint)">${fmt(v.hits)} of ${fmt(r.company_dates)}${t !== "All" && v.lift_group ? ` · ${v.lift_group}×` : ""}</div></td>`;
+  };
+  const label = { switched: "Switched lender", any: "Any refinance", repaid: "Repaid" };
+  $("#acc90").innerHTML = `<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:start"><div><h3 style="font:400 22px var(--serif);margin:0">How often the list was right within 90 days</h3>
+      <p class="sub" style="margin:6px 0 0">Learned on 2024, tested on ${A.test_dates.length} months from ${esc(A.test_dates[0])} to ${esc(A.test_dates[A.test_dates.length - 1])} it never saw. Top 10%, 5% and 1% are ranked within each row's group. Under each rate: the 95% range, then hits out of company-dates and the lift over that group's own average.</p></div>
+      <span class="badge warn">Backtest · lead list, not a forecast</span></div>
+    <div class="controls" style="margin:14px 0 6px">${Object.keys(label).map((k) => `<button class="chip" data-acc="${k}" aria-pressed="${k === o}">${label[k]}</button>`).join("")}</div>
+    <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Group</th>${tiers.map((t) => `<th class="r">${t === "All" ? "Everyone in group" : t}</th>`).join("")}</tr></thead>
+    <tbody>${groups.map((g) => `<tr><td>${esc(g)}</td>${tiers.map((t) => cell(g, t)).join("")}</tr>`).join("")}</tbody></table></div>
+    <p class="caveat">${esc(A.definition)} Only a switch to a new lender is a lead for a competing lender. ${esc(A.caveat)}</p>`;
+  $$("#acc90 [data-acc]").forEach((b) => (b.onclick = () => drawAccuracy90(A, b.dataset.acc)));
 }
 
 // ------------------------------------------------------------------ lenders

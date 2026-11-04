@@ -21,7 +21,7 @@ from .charge_history import load_companies
 from .charge_signals import RULE_VERSION, all_signals, in_window
 from .lender_view import CAVEAT, SAMPLE_CAVEAT, build, display_name, row_key, week_of
 from .scorecard import BIAS_NOTE, backtest
-from . import refi_watch
+from . import refi_accuracy, refi_watch
 from .insights import build_insights
 from .weekly_pack import NOT_ADVICE
 
@@ -106,20 +106,22 @@ def build_snapshot(conn, today: date | None = None, weeks: int = 13) -> dict:
                                         "sector", "lender_names", "other_lender", "explanation", "filing_url")}
                     for s in recent_sigs[:1500]],
         "scorecard": bt,
-        "refi_watch": _refi(companies, today, refi_rows, refi_model),
+        "refi_watch": _refi(companies, today, refi_rows, refi_model, cov_d),
         "insights": build_insights(companies, sigs, refi_rows, today, cov_d, weeks),
         "aliases": {"coverage": cv, "review": review_rows(conn, resolver, (today - timedelta(days=365)).isoformat(), 20)},
     }
 
 
-def _refi(companies, today: date, rows=None, model=None) -> dict:
+def _refi(companies, today: date, rows=None, model=None, cov_d: date | None = None) -> dict:
     if rows is None:
         rows, model = refi_watch.watchlist(companies, today, top=100000)
     prop = "Property and real estate"   # keep a full list for each view, since property dominates the top
     rows = [r for r in rows if r["sector"] == prop][:300] + [r for r in rows if r["sector"] != prop][:300]
     rows.sort(key=lambda r: (-r["score"], r["company_number"]))
     return {"caveat": refi_watch.CAVEAT, "model_version": refi_watch.MODEL_VERSION, "window_days": refi_watch.WINDOW,
-            "base_rate": round(model.base, 4), "backtest": refi_watch.backtest(companies), "rows": rows}
+            "base_rate": round(model.base, 4), "backtest": refi_watch.backtest(companies), "rows": rows,
+            # 90 days, by group, with counts and 95% ranges (radar.refi_accuracy; docs/refi_accuracy_90d.md)
+            "accuracy_90d": refi_accuracy.evaluate(companies, reps=500, stop=cov_d)}
 
 
 def write(snap: dict, path=None) -> Path:
