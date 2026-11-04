@@ -36,7 +36,7 @@ DIR = config.OUTPUT_DIR / "population"
 DB = DIR / "sample.db"
 MAX_NUMBER = 16_600_000
 SEED = 20261104
-LIMIT, WINDOW = 560, 300.0     # requests per 5 minutes, under CH's 600
+LIMIT, WINDOW = 400, 300.0     # requests per 5 minutes: leaves room under CH's 600 for the pipeline and backfill
 PIPELINE_MINUTE = 23           # radar.yml runs at :23 every 3 hours (UTC); pause then so it keeps the rate limit
 
 DDL = """
@@ -80,6 +80,17 @@ def _pipeline_running(now=None) -> bool:
 
 
 def _fetch(client, num):
+    for wait in (300, 600, 900, 1200):   # another job is using the shared quota: back off, don't crash
+        try:
+            return _fetch_once(client, num)
+        except RuntimeError as e:
+            if "429" not in str(e):
+                raise
+            time.sleep(wait)
+    return _fetch_once(client, num)
+
+
+def _fetch_once(client, num):
     prof = client.company(num)
     reg = bool(prof and (prof.get("links") or {}).get("charges"))
     return num, prof, reg, (list(client.charges(num)) if reg else [])
