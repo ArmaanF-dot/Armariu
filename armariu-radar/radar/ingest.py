@@ -239,12 +239,18 @@ class RestClient:
         self.session = session or requests.Session()
         self.limit, self.window = limit, window
         self._calls: deque[float] = deque()
+        self.calls = 0   # requests sent this run (all steps), reported in the pipeline summary
         # One client is shared by every step of a run, so they share one rate limit. The time
         # budget lets steps stop cleanly (and pick up next run) instead of running the job long.
         self.deadline = time.monotonic() + budget_seconds if budget_seconds else None
 
     def out_of_time(self) -> bool:
         return self.deadline is not None and time.monotonic() >= self.deadline
+
+    def extend(self, seconds: float) -> None:
+        """Add time to the budget (the backfill's extra minutes, used only after the live steps)."""
+        if self.deadline is not None:
+            self.deadline += seconds
 
     def time_left(self) -> float | None:
         return None if self.deadline is None else self.deadline - time.monotonic()
@@ -258,6 +264,7 @@ class RestClient:
             log.info("Rate limit guard: sleeping %.0fs", wait)
             time.sleep(wait)
         self._calls.append(time.monotonic())
+        self.calls += 1
 
     def get(self, path: str, params=None):
         for attempt in range(3):

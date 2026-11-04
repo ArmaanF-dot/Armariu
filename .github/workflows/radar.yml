@@ -1,6 +1,9 @@
 # Runs the Armariu deal radar on GitHub's servers, so your PC can be off.
 #   1. Downloads the database from the 'radar-data' branch
-#   2. Runs the pipeline (Companies House stream + company lookups, no AI)
+#   2. Runs the pipeline (Companies House stream + company lookups, no AI). With time and quota left
+#      over, it also fetches older charge histories for a random sample of companies
+#      (radar/backfill.py), saved on its own 'radar-backfill' branch. Off switch: RADAR_BACKFILL "0".
+#      Extra minutes per run for that alone: repository variable BACKFILL_EXTRA_MINUTES (default 0).
 #   3. Saves the database back and commits the queue and weekly digests
 #   4. Runs the Claude agents that have work, on your Claude plan (CLAUDE_CODE_OAUTH_TOKEN):
 #      classifier, verifier (second opinion, Sonnet, about once a day), referee (Opus, only when
@@ -18,6 +21,9 @@ on:
       stream_minutes:
         description: "Minutes to listen to the Companies House stream"
         default: "2"
+      backfill_minutes:
+        description: "Extra minutes for the older-data backfill (blank = BACKFILL_EXTRA_MINUTES or 0)"
+        default: ""
       run_agents:
         description: "Run the Claude agents after the pipeline"
         type: boolean
@@ -41,6 +47,7 @@ jobs:
       CH_REST_KEY: ${{ secrets.CH_REST_KEY }}
       CH_STREAM_KEY: ${{ secrets.CH_STREAM_KEY }}
       RADAR_STORE_RAW: "0"
+      RADAR_BACKFILL: "1"
       PYTHONUNBUFFERED: "1"
     steps:
       - uses: actions/checkout@v4
@@ -71,15 +78,18 @@ jobs:
           fi
 
       - name: Restore database
-        run: python -m radar.dbsync pull || echo "Starting with a fresh database"
+        run: |
+          python -m radar.dbsync pull || echo "Starting with a fresh database"
+          python -m radar.dbsync pull --backfill || echo "Starting the older-data backfill fresh"
 
       - name: Pipeline
-        run: python -m radar.pipeline run --minutes "${{ inputs.stream_minutes || '2' }}" --enrich-limit 2000 --rest-minutes 12
+        run: python -m radar.pipeline run --minutes "${{ inputs.stream_minutes || '2' }}" --enrich-limit 2000 --rest-minutes 12 --backfill-minutes "${{ inputs.backfill_minutes || vars.BACKFILL_EXTRA_MINUTES || '0' }}"
 
       - name: Save database
         if: ${{ !cancelled() }}
         run: |
           if [ -f data/radar.db ]; then python -m radar.dbsync push; fi
+          if [ -f data/backfill.db ]; then python -m radar.dbsync push --backfill; fi
 
       - name: Commit queue and digests
         if: ${{ !cancelled() }}

@@ -1,10 +1,11 @@
 """One scheduled pass of the whole pipeline. No AI involved.
 
-    python -m radar.pipeline run [--minutes 10] [--enrich-limit 100] [--queue-limit 150]
+    python -m radar.pipeline run [--minutes 10] [--enrich-limit 100] [--queue-limit 150] [--backfill-minutes 0]
     python -m radar.pipeline status
 
-Steps: stream -> enrich borrowers -> fetch their full charge history -> apply agent results and reviewer flags -> re-apply
-lenders.csv rules -> rebuild the classifier queue -> write weekly digests.
+Steps: stream -> enrich borrowers -> fetch their full charge history -> (with RADAR_BACKFILL=1, spare
+quota only) older charge histories for a random sample, radar/backfill.py -> apply agent results and
+reviewer flags -> re-apply lenders.csv rules -> rebuild the classifier queue -> write weekly digests.
 Each step is independent: a failure is logged and the remaining steps still run.
 """
 from __future__ import annotations
@@ -14,14 +15,15 @@ import json
 import logging
 import os
 
-from . import classify, config, consensus, export, ingest, owners
+from . import backfill, classify, config, consensus, export, ingest, owners
 from .db import connect, get_meta, now_iso
 from .rules import load_rules
 
 log = logging.getLogger("radar.pipeline")
 
 
-def run(minutes: float, enrich_limit: int, queue_limit: int, rest_minutes: float = 12) -> dict:
+def run(minutes: float, enrich_limit: int, queue_limit: int, rest_minutes: float = 12,
+        backfill_minutes: float = 0) -> dict:
     conn = connect()
     summary: dict = {"started": now_iso()}
 
@@ -53,6 +55,16 @@ def run(minutes: float, enrich_limit: int, queue_limit: int, rest_minutes: float
             except Exception as exc:  # keep going: the other steps are still useful
                 summary[f"{key}_error"] = repr(exc)
                 log.exception("%s step failed", key)
+        summary["rest_calls_live"] = client.calls
+        if os.environ.get("RADAR_BACKFILL", "").strip() == "1":
+            # Last of all and on the same client: only the time and quota the live steps left over
+            # (plus any extra minutes, which only the backfill uses). Its own database file.
+            try:
+                summary["backfill"] = backfill.spare(client, backfill_minutes)
+            except Exception as exc:
+                summary["backfill_error"] = repr(exc)
+                log.exception("backfill step failed")
+            summary["rest_calls_total"] = client.calls
         summary["names_still_missing"] = conn.execute(
             "SELECT COUNT(DISTINCT c.company_number) FROM charges c LEFT JOIN companies co "
             "ON co.company_number = c.company_number WHERE co.company_number IS NULL").fetchone()[0]
@@ -102,10 +114,13 @@ def main(argv=None):
     r.add_argument("--queue-limit", type=int, default=150)
     r.add_argument("--rest-minutes", type=float, default=12,
                    help="time budget for Companies House lookups (names, lender owners, histories)")
+    r.add_argument("--backfill-minutes", type=float, default=0,
+                   help="extra minutes for the older-data backfill only (needs RADAR_BACKFILL=1)")
     sub.add_parser("status")
     args = p.parse_args(argv)
     if args.cmd == "run":
-        print(json.dumps(run(args.minutes, args.enrich_limit, args.queue_limit, args.rest_minutes), indent=2))
+        print(json.dumps(run(args.minutes, args.enrich_limit, args.queue_limit, args.rest_minutes,
+                             args.backfill_minutes), indent=2))
     else:
         print(json.dumps(status(), indent=2))
 

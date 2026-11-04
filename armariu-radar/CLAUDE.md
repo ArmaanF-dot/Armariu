@@ -15,7 +15,9 @@ through files in this folder.
    record, the chain of majority owners up to the controlling group, and whether it shares owners
    or directors with its borrowers), all within one shared rate limit and time budget. Last, with time
    left over, it fetches borrowers' officer appointments (`borrower_officers`: roles and dates, no names)
-   for the Refinance watch.
+   for the Refinance watch. Very last, only with quota and time still left (`radar/backfill.py`,
+   `RADAR_BACKFILL=1` in the workflow), it fetches older charge histories for a fixed random sample
+   of all companies that have ever had a charge, into `data/backfill.db` (own branch `radar-backfill`).
 2. **Classifier agent** answers the queue into `classify/results/*.jsonl`.
 3. The next pipeline run validates and loads those results.
    - Unsure or headline answers (direct lender, security agent) go to `classify/second_queue.jsonl`
@@ -84,6 +86,9 @@ python -m radar.accounts fetch        # free bulk accounts for our companies (ra
 python -m radar.ownership fetch       # free owner register (PSC snapshot) for our companies
 python -m radar.refi_watch compare    # BACKTEST: Refinance watch rw1 against rw3 (live) and rw2 (accounts + owner clues)
 python -m radar.profile fetch         # free Basic Company Data (size, postcode district, name changes) for our companies
+python -m radar.backfill status       # older-data backfill: sample size, fetched so far, days to go
+python -m radar.dbsync pull --backfill   # download the backfill sample the cloud workflow saved
+python -m radar.refi_accuracy --population sample   # BACKTEST on the random sample, not the live firms
 python -m radar.refi_ml               # BACKTEST: ML model, one free dataset at a time (needs scikit-learn; docs/refi_datasets.md)
 python -m radar.lender_view           # Module C: lender league, sectors, flows, syndication
 python -m radar.scorecard backtest    # Module D: BACKTEST hit rates vs baseline, Wilson intervals
