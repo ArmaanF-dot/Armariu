@@ -8,6 +8,10 @@ outstanding gets points for a handful of clues, learned from history:
   nopen     how many charges it has outstanding
   pullback  whether the newest open charge's lender has cut its new lending by half or more
   property  whether the company is in property
+  since_sat when the company last repaid a loan (rw3)
+  lender_rate  for each open loan, how often that lender's loans of the same age a year earlier were
+            repaid within that year; the highest across its open loans (rw3; the lender's type when
+            the lender has fewer than 20 such loans)
 
 The outcome is a refinance: within 12 months an outstanding charge is marked satisfied and a new
 charge is filed. Points are log-odds against the base rate, learned on cutoffs whose outcome window had
@@ -25,9 +29,16 @@ days (rw1 21.6%). Owner changes reversed between the learning and test years, an
 mostly repeat what recent borrowing already says; most small firms file accounts with no loan split.
 `compare` reruns the test, so rw2 can be promoted if it wins once more history has built up.
 
+rw3 (live from 4 Nov 2026) adds since_sat and lender_rate, both from the charge register alone, and now
+counts a charge only once it was filed (rw1 counted charges from their creation date, a small look-ahead
+in its backtest). On two unseen years (2024 and 2025 dates, docs/refi_features.md) it lifted the top 5%
+from 41% to 52% (2025) and 39% to 50% (2024), and the top 10% by about 2 points; for ordinary companies
+(10 or fewer charges) the gain is about 1 point in the top 10%. 16 other history clues and the charges'
+own wording (fixed or floating, all assets, title numbers, negative pledge) gave nothing measurable.
+
     python -m radar.refi_watch [--as-of 2026-11-03] [--top 200]
     python -m radar.refi_watch backtest
-    python -m radar.refi_watch compare   # rw1 against rw2, 90 days and 12 months (needs accounts + ownership fetched)
+    python -m radar.refi_watch compare   # rw1 against rw3 and rw2, 90 days and 12 months (needs accounts + ownership fetched)
 """
 from __future__ import annotations
 
@@ -42,15 +53,17 @@ from pathlib import Path
 from . import config
 from .charge_history import Company, load_companies
 
-MODEL_VERSION = "rw1"   # the live score; rw2 (accounts and owners) lost in the 3 Nov 2026 backtest
+MODEL_VERSION = "rw3"   # the live score: rw1 plus two history clues (4 Nov 2026); rw2 lost on 3 Nov 2026
 WINDOW = 365   # days; 90 and 180 were tested too (see the docstring)
 CLUES_RW1 = ("age_cls", "recent", "nopen", "pullback", "property")
+CLUES_RW3 = CLUES_RW1 + ("since_sat", "lender_rate")
 CLUES_FILED = ("due_1y", "short_debt", "debt_shift", "owner_change", "board_change", "director_change")   # rw2: accounts and owner register
-CLUES = CLUES_RW1                  # live clues
+CLUES = CLUES_RW3                  # live clues
 CLUES_RW2 = CLUES_RW1 + CLUES_FILED   # experiment: `python -m radar.refi_watch compare`
 LABELS = {
     "age_cls": "Newest open loan", "recent": "Recent borrowing", "nopen": "Loans outstanding",
     "pullback": "Lender's new lending", "property": "Property company",
+    "since_sat": "Last loan repaid", "lender_rate": "Lender's repayment rate at this loan age",
     "due_1y": "Bank loans in the latest accounts", "short_debt": "Share of the balance sheet due within a year",
     "debt_shift": "Change since the year before", "owner_change": "Owners",
     "director_change": "Director appointments", "board_change": "Directors",
@@ -80,14 +93,65 @@ def _age_band(years: float) -> str:
         else "2 to 5 years" if years < 5 else "over 5 years"
 
 
-def lender_volumes(companies: dict[str, Company]) -> dict:
-    vol: dict = defaultdict(Counter)
+class Volumes(dict):
+    """Lender key -> Counter of new charges by (year, month), plus each lender's (and lender type's)
+    charges as (filed, start, satisfied) for the repayment-rate clue."""
+
+    def __init__(self):
+        super().__init__()
+        self.by_key: dict = defaultdict(list)
+        self.by_cls: dict = defaultdict(list)
+        self.cache: dict = {}
+
+
+def lender_volumes(companies: dict[str, Company]) -> Volumes:
+    vol = Volumes()
     for co in companies.values():
         for c in co.charges:
             f = _d(c.filed)
             if f:
-                vol[_lender(c)[0]][(f.year, f.month)] += 1
+                key, cls = _lender(c)
+                vol.setdefault(key, Counter())[(f.year, f.month)] += 1
+                t = (f, _start(c) or f, _d(c.satisfied))
+                vol.by_key[key].append(t)
+                vol.by_cls[cls].append(t)
+    for d in (vol.by_key, vol.by_cls):
+        for v in d.values():
+            v.sort(key=lambda t: t[0])
     return vol
+
+
+def repay_rate(vol: Volumes, key, cls: str, age_days: int, on: date) -> float | None:
+    """Of this lender's loans that were the same age a year before `on`, the share repaid since.
+
+    Uses only charges filed, and repayments filed, by `on` (a satisfaction's date is its filing date).
+    Falls back to the lender's type when the lender had fewer than 20 such loans."""
+    band = _age_band(age_days / 365.25)
+
+    def table(kind, k, rows):
+        """One pass over a lender's (or type's) loans: (loans, repaid) by age band a year before `on`."""
+        ck = (kind, k, on)
+        if ck not in vol.cache:
+            p, out = on - timedelta(days=365), defaultdict(lambda: [0, 0])
+            for f, start, sat in rows:
+                if f >= p:
+                    break
+                if sat and sat <= p:
+                    continue
+                t = out[_age_band((p - start).days / 365.25)]
+                t[0] += 1
+                t[1] += bool(sat and sat <= on)
+            vol.cache[ck] = dict(out)
+        n, s = vol.cache[ck].get(band, (0, 0))
+        return s / n if n >= 20 else None
+
+    r = table("key", key, vol.by_key.get(key, [])) if key else None
+    return r if r is not None else table("cls", cls, vol.by_cls.get(cls, []))
+
+
+def _rate_band(r: float | None) -> str:
+    return "unknown" if r is None else "under 10%" if r < 0.10 else "10 to 20%" if r < 0.20 \
+        else "20 to 35%" if r < 0.35 else "over 35%"
 
 
 def _pullback(vol, key, on: date) -> str:
@@ -234,18 +298,26 @@ def ownership_lag() -> int:
 
 def features(co: Company, on: date, vol, filed: Filed | None = None) -> dict | None:
     """Clues for one company on one date, or None if it has nothing outstanding."""
-    open_ = [c for c in co.charges if _start(c) and _start(c) < on and not (_d(c.satisfied) and _d(c.satisfied) <= on)]
+    known = [c for c in co.charges if _d(c.filed) and _d(c.filed) < on]   # public before `on`
+    open_ = [c for c in known if not (_d(c.satisfied) and _d(c.satisfied) <= on)]
     if not open_:
         return None
-    newest = max(open_, key=lambda c: (_start(c), c.charge_id))
+    sats = [_d(c.satisfied) for c in known if _d(c.satisfied) and _d(c.satisfied) <= on]
+    since = (on - max(sats)).days if sats else None
+    rates = [repay_rate(vol, *_lender(c), (on - (_start(c) or _d(c.filed))).days, on) for c in open_] if isinstance(vol, Volumes) else []
+    newest = max(open_, key=lambda c: (_start(c) or _d(c.filed), c.charge_id))
     key, cls = _lender(newest)
     recent = sum(1 for c in co.charges if _d(c.filed) and on - timedelta(days=183) <= _d(c.filed) < on)
     return {
-        "age_cls": f"{_age_band((on - _start(newest)).days / 365.25)}, {cls.replace('_', ' ')}",
+        "age_cls": f"{_age_band((on - (_start(newest) or _d(newest.filed))).days / 365.25)}, {cls.replace('_', ' ')}",
         "recent": "none" if recent == 0 else "one" if recent == 1 else "two or more",
         "nopen": "one" if len(open_) == 1 else "two or three" if len(open_) <= 3 else "four or more",
         "pullback": _pullback(vol, key, on),
         "property": "yes" if co.sector == "Property and real estate" else "no",
+        "since_sat": "never" if since is None else "in the last 6 months" if since < 183 else "6 to 12 months ago" \
+            if since < 365 else "1 to 3 years ago" if since < 1096 else "over 3 years ago",
+        # highest repayment rate among its open loans: how often that lender's loans of that age were repaid within a year
+        "lender_rate": _rate_band(max((r for r in rates if r is not None), default=None)),
         **filed_features(co, on, filed),
         "_newest": newest,
     }
@@ -360,7 +432,8 @@ def backtest(companies, train_end: date = date(2025, 1, 1), test_start: date = d
         k = max(1, int(len(ranked) * q))
         hit = sum(y for _, y in ranked[:k]) / k
         tiers.append({"top": f"{int(q * 100)}%", "companies": k, "hit_rate": round(hit, 4), "lift": round(hit / base, 1) if base else None})
-    return {"label": "BACKTEST", "model_version": "rw2" if set(clues) - set(CLUES_RW1) else "rw1",
+    extra = set(clues) - set(CLUES_RW1)
+    return {"label": "BACKTEST", "model_version": "rw2" if extra & set(CLUES_FILED) else "rw3" if extra else "rw1",
             "window_days": window, "train_end": train_end.isoformat(),
             "train_cutoffs": [t.isoformat() for t in train], "test_cutoffs": [t.isoformat() for t in tests], "rows": len(te), "base_rate": round(base, 4), "tiers": tiers}
 
@@ -373,7 +446,7 @@ SPLITS = {90: dict(train_end=date(2025, 7, 1), test_start=date(2025, 10, 1), tes
 def compare(companies, filed: Filed) -> list[dict]:
     """rw1 against rw2 and against rw1 plus each new clue alone, on the same unseen dates."""
     vol, out = lender_volumes(companies), []
-    variants = [("rw1", CLUES_RW1), ("rw2", CLUES_RW2)] + [(f"rw1 + {LABELS[c].lower()}", CLUES_RW1 + (c,)) for c in CLUES_FILED]
+    variants = [("rw1", CLUES_RW1), ("rw3 (live)", CLUES_RW3), ("rw2", CLUES_RW2)] + [(f"rw1 + {LABELS[c].lower()}", CLUES_RW1 + (c,)) for c in CLUES_FILED]
     for window, split in SPLITS.items():
         for name, clues in variants:
             r = backtest(companies, filed=filed, clues=clues, window=window, vol=vol, **split)

@@ -82,7 +82,7 @@ python -m radar.aliases review        # Module A: unmapped lender names, most fr
 python -m radar.charge_signals        # Module B: rule-based signals (rule version on every row)
 python -m radar.accounts fetch        # free bulk accounts for our companies (range requests, resumable)
 python -m radar.ownership fetch       # free owner register (PSC snapshot) for our companies
-python -m radar.refi_watch compare    # BACKTEST: Refinance watch rw1 against rw2 (accounts + owner clues)
+python -m radar.refi_watch compare    # BACKTEST: Refinance watch rw1 against rw3 (live) and rw2 (accounts + owner clues)
 python -m radar.profile fetch         # free Basic Company Data (size, postcode district, name changes) for our companies
 python -m radar.refi_ml               # BACKTEST: ML model, one free dataset at a time (needs scikit-learn; docs/refi_datasets.md)
 python -m radar.lender_view           # Module C: lender league, sectors, flows, syndication
