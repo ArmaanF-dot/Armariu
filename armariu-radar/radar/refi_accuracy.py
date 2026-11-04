@@ -43,9 +43,15 @@ from .refi_watch import CLUES, MODEL_VERSION, Model, _d, _start, features, lende
 
 WINDOW = 90
 TRAIN = [date(2024, m, 1) for m in range(1, 11)]          # 90-day outcomes all closed by 30 Dec 2024
+TRAIN_365 = [date(2023, m, 1) for m in range(1, 13)]      # 12-month outcomes all closed by 1 Dec 2024
+
+
+def train_dates(window: int) -> list[date]:
+    """Learning dates whose whole outcome window closed before 2025, so no test answer leaks in."""
+    return TRAIN if window <= 90 else TRAIN_365
 TEST_FROM = date(2025, 1, 1)
 REPS = 1000
-DEFINITION = ("Switched lender: within 90 days a loan that was outstanding is marked repaid and a new "
+DEFINITION = ("Switched lender: within the window a loan that was outstanding is marked repaid and a new "
               "charge is filed for a lender that held none of the repaid loans. Any refinance: repaid and "
               "any new charge, same lender included. Repaid: a loan marked repaid, replaced or not.")
 CAVEAT = ("A lead list, not a forecast: filings carry no loan end dates, and these are past hit rates on "
@@ -95,15 +101,15 @@ def build_rows(companies, dates, vol, window: int = WINDOW):
     return out
 
 
-GROUPS = [   # ordinary companies first: serial borrowers inflate the mixed rows
-    ("Ordinary companies (10 loans or fewer)", lambda f: not f["_serial"]),
-    ("Ordinary, not property", lambda f: not f["_serial"] and f["property"] == "no"),
-    ("Not property", lambda f: f["property"] == "no"),
-    ("Property", lambda f: f["property"] == "yes"),
-    ("Serial borrowers (11+ loans)", lambda f: f["_serial"]),
+GROUPS = [
     ("Everyone", lambda f: True),
+    ("Ordinary companies (10 loans or fewer)", lambda f: not f["_serial"]),
+    ("Serial borrowers (11+ loans)", lambda f: f["_serial"]),
+    ("Property", lambda f: f["property"] == "yes"),
+    ("Not property", lambda f: f["property"] == "no"),
+    ("Ordinary, not property", lambda f: not f["_serial"] and f["property"] == "no"),
 ]
-TIERS = (None, 0.10, 0.05, 0.01)
+TIERS = (None, 0.01, 0.05, 0.10, 0.25, "rest")   # "rest" = everyone outside the top 25%
 OUTCOMES = ("switched", "any", "repaid")
 
 
@@ -135,7 +141,7 @@ def _interval(co_ids, ys, sel, rng, reps=REPS):
 def evaluate(companies, vol=None, window: int = WINDOW, reps: int = REPS, seed: int = 7,
              stop: date | None = None) -> dict:
     vol = vol or lender_volumes(companies)
-    train = [(f, o["any"]) for _, f, o in build_rows(companies, TRAIN, vol, window)]
+    train = [(f, o["any"]) for _, f, o in build_rows(companies, train_dates(window), vol, window)]
     model = Model(train, CLUES)
     dates = test_dates(companies, window, stop)
     rows = build_rows(companies, dates, vol, window)
@@ -150,13 +156,22 @@ def evaluate(companies, vol=None, window: int = WINDOW, reps: int = REPS, seed: 
         ranked = sorted(part, key=lambda r: (-model.score(r[1]), tie.random()))
         co_ids = [r[0] for r in ranked]
         for tier in TIERS:
-            k = len(ranked) if tier is None else max(1, int(len(ranked) * tier))
-            sel = [i < k for i in range(len(ranked))]
-            row = {"group": label, "tier": "All" if tier is None else f"Top {int(tier * 100)}%",
+            n = len(ranked)
+            if tier is None:
+                sel = [True] * n
+            elif tier == "rest":
+                k25 = max(1, int(n * 0.25))
+                sel = [i >= k25 for i in range(n)]
+            else:
+                k = max(1, int(n * tier))
+                sel = [i < k for i in range(n)]
+            k = sum(sel)
+            name = "All" if tier is None else "Rest (below top 25%)" if tier == "rest" else f"Top {int(tier * 100)}%"
+            row = {"group": label, "tier": name,
                    "company_dates": k, "companies": len({c for c, s in zip(co_ids, sel) if s})}
             for o in OUTCOMES:
                 ys = [int(r[2][o]) for r in ranked]
-                hits = sum(ys[:k])
+                hits = sum(y for y, s in zip(ys, sel) if s)
                 base = sum(ys) / len(ys)
                 rate = hits / k
                 ci, lci = _interval(co_ids, ys, sel, rng, reps)
@@ -166,7 +181,7 @@ def evaluate(companies, vol=None, window: int = WINDOW, reps: int = REPS, seed: 
                           "lift_everyone": round(rate / everyone[o], 2) if everyone.get(o) else None}
             table.append(row)
     return {"label": "BACKTEST", "model_version": MODEL_VERSION, "window_days": window,
-            "learned_on": [d.isoformat() for d in TRAIN], "test_dates": [d.isoformat() for d in dates],
+            "learned_on": [d.isoformat() for d in train_dates(window)], "test_dates": [d.isoformat() for d in dates],
             "rows": len(rows), "companies": len({r[0] for r in rows}), "definition": DEFINITION,
             "caveat": CAVEAT, "table": table}
 
@@ -181,7 +196,7 @@ def _ci(c):
 
 def render_md(res: dict) -> str:
     out = [f"BACKTEST: Refinance watch ({res['model_version']}) accuracy at {res['window_days']} days", "",
-           f"Learned on {len(res['learned_on'])} monthly dates in 2024; tested on {len(res['test_dates'])} monthly dates "
+           f"Learned on {len(res['learned_on'])} monthly dates {res['learned_on'][0]} to {res['learned_on'][-1]}; tested on {len(res['test_dates'])} monthly dates "
            f"{res['test_dates'][0]} to {res['test_dates'][-1]} ({res['rows']:,} company-dates, {res['companies']:,} companies).", "",
            f"_{res['definition']}_", "",
            "| Group | Rows | Company-dates | Companies | Switched lender | 95% range | Lift in group | Lift range | Any refinance | 95% range | Repaid |",
@@ -197,7 +212,8 @@ def render_md(res: dict) -> str:
 
 def write(res: dict, out_dir) -> tuple[Path, Path]:
     out = Path(out_dir); out.mkdir(parents=True, exist_ok=True)
-    j, m = out / "accuracy_90d.json", out / "accuracy_90d.md"
+    tag = "90d" if res.get("window_days", WINDOW) == WINDOW else f"{res['window_days']}d"
+    j, m = out / f"accuracy_{tag}.json", out / f"accuracy_{tag}.md"
     j.write_text(json.dumps(res, indent=1), encoding="utf-8")
     m.write_text(render_md(res), encoding="utf-8")
     return j, m
@@ -218,10 +234,12 @@ def main(argv=None):
     p = argparse.ArgumentParser(prog="python -m radar.refi_accuracy")
     p.add_argument("--out", default=str(config.OUTPUT_DIR / "refi_watch"))
     p.add_argument("--reps", type=int, default=REPS)
+    p.add_argument("--window", type=int, default=WINDOW, help="days: 90 (default) or 365")
     a = p.parse_args(argv)
     conn = connect()
     from .lender_view import coverage_start
-    res = evaluate(load_companies(conn, Resolver(conn)), reps=a.reps, stop=coverage_start(conn))
+    res = evaluate(load_companies(conn, Resolver(conn)), window=a.window, reps=a.reps,
+                   stop=coverage_start(conn))
     print(render_md(res))
     print("->", *write(res, a.out))
 
