@@ -1,6 +1,8 @@
 .env
 data/radar.db
 data/radar.db-journal
+data/backfill.db
+data/backfill.db-journal
 demo_output/
 logs/*
 !logs/.gitkeep

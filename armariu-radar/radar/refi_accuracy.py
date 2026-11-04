@@ -27,6 +27,8 @@ It is a lead list, not a forecast: filings carry no loan end dates, and nothing 
 with brokers or lenders yet.
 
     python -m radar.refi_accuracy            # print the table, write output/refi_watch/accuracy_90d.{md,json}
+    python -m radar.refi_accuracy --population sample   # same on the random sample (radar/backfill.py),
+                                                        # written to output/refi_watch/sample/
 """
 from __future__ import annotations
 
@@ -59,6 +61,12 @@ CAVEAT = ("A lead list, not a forecast: filings carry no loan end dates, and the
           "months the score never saw. Every company here had a charge filing (a new loan or a repayment) after "
           "20 Oct 2026, so firms that went quiet are missing and absolute rates run high; compare rows with each "
           "other. Not yet tested with brokers or lenders.")
+
+
+SAMPLE_CAVEAT = ("A lead list, not a forecast. Population: a random sample of live companies that have ever "
+                 "registered a charge (Companies House Basic Company Data), histories fetched in rank order, so "
+                 "rates are not inflated by recent activity. Companies dissolved since are missing. "
+                 "Not yet tested with brokers or lenders.")
 
 
 def _filed(c):
@@ -282,11 +290,25 @@ def main(argv=None):
     p.add_argument("--out", default=str(config.OUTPUT_DIR / "refi_watch"))
     p.add_argument("--reps", type=int, default=REPS)
     p.add_argument("--window", type=int, default=WINDOW, help="days: 90 (default), 180 or 365")
+    p.add_argument("--population", choices=("live", "sample"), default="live",
+                   help="live: companies the radar has seen (default); sample: the random backfill sample")
     a = p.parse_args(argv)
     conn = connect()
-    from .lender_view import coverage_start
-    res = evaluate(load_companies(conn, Resolver(conn)), window=a.window, reps=a.reps,
-                   stop=coverage_start(conn))
+    if a.population == "sample":
+        from . import backfill
+        bconn = backfill.connect()
+        companies = backfill.load_companies(conn, bconn, Resolver(conn))
+        if not companies:
+            raise SystemExit("No sample fetched yet (data/backfill.db): run `python -m radar.dbsync pull --backfill`.")
+        # Outcomes are fully seen up to the first fetch, and nothing selected these firms on the future.
+        res = evaluate(companies, window=a.window, reps=a.reps, stop=backfill.first_fetched(bconn))
+        res["population"], res["caveat"] = "random sample", SAMPLE_CAVEAT
+        if a.out == p.get_default("out"):
+            a.out = str(Path(a.out) / "sample")
+    else:
+        from .lender_view import coverage_start
+        res = evaluate(load_companies(conn, Resolver(conn)), window=a.window, reps=a.reps,
+                       stop=coverage_start(conn))
     print(render_md(res))
     print("->", *write(res, a.out))
 

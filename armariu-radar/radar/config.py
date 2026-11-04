@@ -22,6 +22,9 @@ def _load_dotenv(path: Path) -> None:
 _load_dotenv(ROOT / ".env")
 
 DB_PATH = Path(os.environ.get("RADAR_DB", ROOT / "data" / "radar.db"))
+# Older charge histories for a random sample of companies (radar/backfill.py), kept out of the live
+# database so the live copy stays small. Synced to its own branch by `dbsync --backfill`.
+BACKFILL_DB_PATH = Path(os.environ.get("RADAR_BACKFILL_DB", ROOT / "data" / "backfill.db"))
 LENDERS_CSV = ROOT / "data" / "lenders.csv"
 SCHEMA_PATH = ROOT / "schema.sql"
 QUEUE_PATH = ROOT / "classify" / "queue.jsonl"
