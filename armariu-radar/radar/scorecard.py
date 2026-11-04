@@ -59,12 +59,16 @@ def clustered(per_company: dict, reps: int = 1000, seed: int = 7) -> tuple[float
     if len(per_company) < 2:
         n = sum(v[0] for v in per_company.values()); k = sum(v[1] for v in per_company.values())
         return wilson(k, n)
-    import numpy as np
-    a = np.array([per_company[c] for c in sorted(per_company)], dtype=np.int64)
-    idx = np.random.default_rng(seed).integers(0, len(a), size=(reps, len(a)))
-    s = a[idx].sum(axis=1)
-    rate = s[:, 1] / np.maximum(s[:, 0], 1)
-    return float(np.quantile(rate, 0.025)), float(np.quantile(rate, 0.975))
+    import random   # plain Python: the pipeline does not install numpy
+    a = [per_company[c] for c in sorted(per_company)]
+    rng, k, rates = random.Random(seed), len(a), []
+    for _ in range(reps):
+        n = h = 0
+        for i in rng.choices(range(k), k=k):
+            n += a[i][0]; h += a[i][1]
+        rates.append(h / n if n else 0.0)
+    rates.sort()
+    return rates[int(0.025 * (reps - 1))], rates[int(0.975 * (reps - 1))]
 
 
 def _events(companies: dict[str, Company], start: date, cutoff: date, window: int):
