@@ -340,6 +340,50 @@ class RefiOddsBySegmentTests(unittest.TestCase):
         self.assertAlmostEqual(m.odds(s), 0.3, delta=0.21)   # shared table still there for callers without a segment
 
 
+class NameFixTests(unittest.TestCase):
+    """4 Nov 2026 audit: spellings that split one lender in two, or merged two different ones."""
+
+    def setUp(self):
+        self.r = aliases.Resolver(None)
+
+    def test_osb_trading_names_are_one_lender(self):
+        keys = {self.r.resolve(n).key for n in ("One Savings Bank PLC T/a Kent Reliance", "Precise Mortgages",
+                                                 "Charter Court Financial Servcies Limited Trading as Precise Mortgages",
+                                                 "OneSavings Bank PLC")}
+        self.assertEqual(len(keys), 1)
+
+    def test_compartments_are_one_vehicle(self):
+        a = self.r.resolve("Alo Tower S.À R.L., Acting with Respect of Its Compartment 1")
+        b = self.r.resolve("Alo Tower S.A.R.L.")
+        self.assertEqual(a.key, b.key)
+
+    def test_lloyds_bank_and_lloyds_of_london_stay_apart(self):
+        bank = self.r.resolve("Lloyd's Bank PLC")
+        self.assertEqual((bank.key, bank.cls), ("LLOYDS", "bank"))
+        market = self.r.resolve("The Society Incorporated by Lloyd's Act 1871 by the Name of Lloyd's")
+        self.assertNotEqual(market.key, "LLOYDS")
+        self.assertNotEqual(self.r.resolve("Lloyd's").cls, "individual")
+
+    def test_number_after_the_name_is_dropped(self):
+        self.assertEqual(self.r.resolve("Vida Bank Limited 09837692").key, self.r.resolve("Vida Bank").key)
+
+
+class PopulationSampleTests(unittest.TestCase):
+    def test_draw_order_is_fixed_and_unique(self):
+        from itertools import islice
+        from radar.population import MAX_NUMBER, numbers
+        a, b = list(islice(numbers(), 500)), list(islice(numbers(), 500))
+        self.assertEqual(a, b)
+        self.assertEqual(len(set(a)), 500)
+        self.assertTrue(all(len(n) == 8 and 1 <= int(n) <= MAX_NUMBER for n in a))
+
+    def test_pauses_while_the_pipeline_runs(self):
+        from datetime import datetime, timezone
+        from radar.population import _pipeline_running
+        self.assertTrue(_pipeline_running(datetime(2026, 11, 4, 21, 30, tzinfo=timezone.utc)))
+        self.assertFalse(_pipeline_running(datetime(2026, 11, 4, 22, 30, tzinfo=timezone.utc)))
+
+
 class RefiAccuracy90Tests(unittest.TestCase):
     def test_switch_needs_a_different_lender(self):
         from radar.refi_accuracy import outcomes
@@ -352,6 +396,26 @@ class RefiAccuracy90Tests(unittest.TestCase):
         self.assertEqual(outcomes(same, on), {"switched": False, "any": True, "repaid": True})
         self.assertEqual(outcomes(repaid, on), {"switched": False, "any": False, "repaid": True})
         self.assertEqual(outcomes(late, on), {"switched": False, "any": False, "repaid": True})   # outside 90 days
+
+    def test_agent_replacing_agent_is_not_a_switch(self):
+        from radar.refi_accuracy import outcomes
+        on = date(2025, 1, 1)
+        other_agent = ("Agent B", "AGENT B", "trustee_agent")
+        co = company([ch("old", "2024-01-01", [AGENT], "fully-satisfied", "2025-02-01"), ch("new", "2025-02-03", [other_agent])])
+        self.assertFalse(outcomes(co, on)["switched"])
+        self.assertTrue(outcomes(co, on)["any"])
+        to_lender = company([ch("old", "2024-01-01", [AGENT], "fully-satisfied", "2025-02-01"), ch("new", "2025-02-03", [B])])
+        self.assertTrue(outcomes(to_lender, on)["switched"])
+
+    def test_monthly_stability_ranks_within_each_date(self):
+        from radar.refi_accuracy import monthly
+        class M:
+            def score(self, f): return f["s"]
+        rows = [(str(i), {"s": i % 10}, {"switched": i % 10 == 9}, date(2025, 1 + i // 100, 1)) for i in range(300)]
+        st = monthly(rows, M(), lambda f: True)
+        self.assertEqual(len(st["months"]), 3)
+        self.assertEqual(st["rate_min"], 1.0)
+        self.assertEqual(st["months_below_1_5x"], 0)
 
     def test_only_charges_filed_before_the_date_count(self):
         from radar.refi_accuracy import known_on

@@ -22,7 +22,7 @@ Live score **rw3**, scored on months it never saw. Rerun with `python -m radar.r
 
 - **90 days:** learned on 10 monthly dates 2024-01-01 to 2024-10-01 (every outcome closed before 2025); tested on 19 monthly dates 2025-01-01 to 2026-07-01 (104,889 firm-months, 6,294 firms).
 - **12 months:** learned on 12 monthly dates 2023-01-01 to 2023-12-01 (every outcome closed before 2025); tested on 10 monthly dates 2025-01-01 to 2025-10-01 (51,749 firm-months, 5,516 firms).
-- Test windows end before 20 Oct 2026, when the radar began watching (every company in the data borrowed after that day).
+- Test windows end before 20 Oct 2026, when the radar began watching (every company in the data had a charge filing, a new loan or a repayment, after that day).
 - On each date only charges already filed at Companies House count. Levels are ranked **within each group**. Ranges resample firms, not rows, 1,000 times.
 - 12-month learning uses 2023 rather than 2024, because a 12-month window starting in 2024 would end inside the 2025 test period.
 - Ordinary = 10 or fewer charges filed before the date; serial = 11 or more. Property = main SIC code in property and real estate.
@@ -172,4 +172,42 @@ Live score **rw3**, scored on months it never saw. Rerun with `python -m radar.r
 - Lead with **ordinary companies**: top 10% switch lender 4.8% of the time in 90 days (3.3x) and 22.0% in 12 months (3.1x). Mixed rows (Everyone, Not property) are flattered by serial borrowers who refinance all the time.
 - **Ordinary, not property** is the weakest group: top 10% 2.3% in 90 days and 11.1% in 12 months, about 2.2x to 2.6x.
 - The Rest rows are the other side of the coin: firms the score rates low refinance well below their group's average.
-- Absolute rates run high because every firm here borrowed again later; compare rows with each other. A lead list, not a forecast, and not yet tested with brokers or lenders.
+- Absolute rates run high because every firm here had a charge filing after 20 Oct 2026 (70% a new loan, 30% only a repayment), so firms that went quiet are missing; compare rows with each other. A lead list, not a forecast, and not yet tested with brokers or lenders.
+
+## Update, 4 Nov 2026 evening: name fixes, 180 days, month-by-month and leads per switch
+
+Rerun on the 4 Nov database (more companies than above, so counts differ slightly) after the audit fixes:
+OSB, Credit Agricole, Alo Tower and Lloyds spellings merged; a lender acting as security agent keeps its
+own key; a security agent replacing another, with no lender named on either side, no longer counts as a
+switch. `--window 180` is new (learns on Jan to Jul 2024, tests Jan 2025 to Apr 2026).
+
+**Switched lender, top 10%, with leads per switch** (firms a lender works through for one switch):
+
+| Group | 90 days | 180 days | 12 months |
+|---|---|---|---|
+| Everyone | 13.3% (1 in 8), 5.2x | 23.4% (1 in 4), 4.6x | 35.8% (1 in 3), 3.8x |
+| Ordinary companies | 4.6% (1 in 22), 3.3x | 10.7% (1 in 9), 3.4x | 21.6% (1 in 5), 3.2x |
+| Property | 15.4% (1 in 6), 4.5x | 27.5% (1 in 4), 4.1x | 40.9% (1 in 2), 3.4x |
+| Ordinary, not property | 2.2% (1 in 45), 2.6x | 5.0% (1 in 20), 2.5x | 10.7% (1 in 9), 2.3x |
+
+Ordinary, not property, by level (95% range): 90 days 2.2% (1.6–2.9), 2.9% (1.8–4.1), 4.1% (1.7–6.9) for
+top 10/5/1%; 12 months 10.7% (8.0–13.8), 13.6% (9.2–18.2), 17.2% (6.4–28.7). **The ranges overlap at every
+window**, so the top 1% is not shown to beat the top 10% for these firms.
+
+**Month by month** (top 10% ranked within each test date, switched lender; lift lowest / median / highest,
+and months under 1.5x):
+
+| Group | 90 days | 180 days | 12 months |
+|---|---|---|---|
+| Everyone | 4.8 / 5.1 / 6.2x, 0 of 19 | 4.3 / 4.6 / 4.9x, 0 of 16 | 3.6 / 3.9 / 3.9x, 0 of 10 |
+| Ordinary companies | 2.6 / 3.3 / 4.5x, 0 of 19 | 2.9 / 3.3 / 4.0x, 0 of 16 | 3.0 / 3.2 / 3.3x, 0 of 10 |
+| Property | 4.0 / 4.7 / 5.7x, 0 of 19 | 3.7 / 4.2 / 4.5x, 0 of 16 | 3.1 / 3.4 / 3.7x, 0 of 10 |
+| Ordinary, not property | 0.5 / 2.5 / 5.2x, **4 of 19** | 1.3 / 2.6 / 3.7x, 2 of 16 | 1.5 / 2.4 / 3.2x, 1 of 10 |
+
+Ordinary companies and property are steady every month at every window. Ordinary non-property firms are
+not: at 90 days the list is no better than random in 4 of 19 months. Longer windows steady it.
+
+**Who is in the test.** Every company here had a charge filing after 20 Oct 2026: about 70% a new loan
+and 30% only a repayment or other update. Firms that went quiet are missing, so absolute rates run high.
+`radar/population.py` tests the same score on a random sample of all companies; see
+docs/refi_population.md.
