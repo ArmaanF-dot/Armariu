@@ -7,19 +7,21 @@ on:
     paths: [".github/workflows/contracts-test.yml", "armariu-radar/scripts/contracts_test/**"]
 permissions:
   contents: write
+  actions: read
 concurrency:
   group: contracts-test
   cancel-in-progress: true
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 340
+    timeout-minutes: 355
     defaults:
       run:
         working-directory: armariu-radar
     env:
       CH_REST_KEY: ${{ secrets.CH_REST_KEY }}
       PYTHONUNBUFFERED: "1"
+      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:

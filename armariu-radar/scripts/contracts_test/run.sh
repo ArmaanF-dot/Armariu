@@ -1,3 +1,4 @@
 set -u
 mkdir -p contracts_test_out
-python scripts/contracts_test/probe.py > contracts_test_out/probe.txt 2>&1
+python -m radar.dbsync pull || echo "no radar db"
+python scripts/contracts_test/fetch.py 2>&1 | tee -a contracts_test_out/fetch_log.txt
