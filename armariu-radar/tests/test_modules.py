@@ -331,7 +331,7 @@ class RefiOddsBySegmentTests(unittest.TestCase):
     def test_serial_and_ordinary_get_their_own_odds(self):
         from radar.refi_watch import Model
         x = lambda serial: {"age_cls": "a", "recent": "none", "nopen": "one", "pullback": "steady",
-                            "property": "no", "_serial": serial}
+                            "property": "no", "since_sat": "never", "lender_rate": "unknown", "_serial": serial}
         rows = [(x(False), i % 10 == 0) for i in range(1000)] + [(x(True), i % 2 == 0) for i in range(1000)]
         m = Model(rows)
         s = m.score(x(False))

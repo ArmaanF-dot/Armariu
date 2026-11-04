@@ -83,9 +83,38 @@ class FiledFeatureTests(unittest.TestCase):
     def test_without_fetched_data_every_clue_is_not_checked(self):
         self.assertEqual(set(rw.filed_features(co(), date(2026, 1, 1), None).values()), {"not checked"})
 
-    def test_live_score_is_still_rw1(self):
-        self.assertEqual(rw.CLUES, rw.CLUES_RW1)
-        self.assertEqual(rw.MODEL_VERSION, "rw1")
+    def test_live_score_is_rw3(self):
+        self.assertEqual(rw.CLUES, rw.CLUES_RW3)
+        self.assertEqual(rw.MODEL_VERSION, "rw3")
+        self.assertFalse(set(rw.CLUES) & set(rw.CLUES_FILED))
+
+
+def _ch(cid, filed, sat=None, lender="BANK"):
+    return Charge("9", cid, filed, filed, sat, "satisfied" if sat else "outstanding", [(lender, lender, "bank")])
+
+
+class HistoryClueTests(unittest.TestCase):
+    def test_charges_filed_after_the_date_are_ignored(self):
+        c = Company("9", "X", [], "2010-01-01", "active", True, [_ch("a", "2026-03-01")])
+        self.assertIsNone(rw.features(c, date(2026, 2, 1), rw.lender_volumes({"9": c})))
+
+    def test_last_repaid(self):
+        c = Company("9", "X", [], "2010-01-01", "active", True,
+                    [_ch("a", "2020-01-01", "2025-12-01"), _ch("b", "2024-01-01")])
+        f = rw.features(c, date(2026, 2, 1), rw.lender_volumes({"9": c}))
+        self.assertEqual(f["since_sat"], "in the last 6 months")
+        self.assertEqual(rw.features(c, date(2025, 11, 1), rw.lender_volumes({"9": c}))["since_sat"], "never")
+
+    def test_lender_rate_uses_only_repayments_known_by_the_date(self):
+        # 30 loans of one lender, all 1-2 years old a year before the date; 12 repaid in that year, 6 after it
+        cos = {}
+        for i in range(30):
+            sat = "2025-08-01" if i < 12 else "2026-06-01" if i < 18 else None
+            cos[str(i)] = Company(str(i), "X", [], "2010-01-01", "active", True, [_ch(f"c{i}", "2023-06-01", sat, "L")])
+        cos["new"] = Company("new", "Y", [], "2010-01-01", "active", True, [_ch("n", "2024-06-01", None, "L")])
+        vol = rw.lender_volumes(cos)
+        self.assertAlmostEqual(rw.repay_rate(vol, "L", "bank", 580, date(2026, 1, 1)), 12 / 30)
+        self.assertEqual(rw.features(cos["new"], date(2026, 1, 1), vol)["lender_rate"], "over 35%")
 
 
 if __name__ == "__main__":
