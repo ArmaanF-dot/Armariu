@@ -52,7 +52,7 @@ borrowers that later filed a charge, and the output says so.
 
 **D. Scorecard (backtest).** `radar/scorecard.py`. Outcome proposed: a further charge filed within
 90 days. Baseline: charges without the signal in the same sector and company-age band, weighted to
-match. 95% Wilson intervals. Only signals whose window closed before 20 Oct 2026 count, so there is
+match. 95% intervals resample companies (since 4 Nov 2026; Wilson before). Only signals whose window closed before 20 Oct 2026 count, so there is
 no look-ahead. Same database, same numbers (tested).
 
 | Signal | n | Hit rate | Baseline | Lift |

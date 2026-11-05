@@ -60,7 +60,7 @@ class Resolved:
 
 
 _ROLE = re.compile(r"\s+(FOR ITSELF\b.*|(ACTING )?AS (COMMON |SECURITY |COLLATERAL |FACILITY |NOTE )?(TRUSTEE|AGENT)\b.*|"
-                   r"ON BEHALF OF\b.*|IN ITS CAPACITY AS\b.*|CO NO\b.*|COMPANY NO\b.*|"
+                   r"ON BEHALF OF\b.*|IN ITS CAPACITY AS\b.*|ACTING (WITH |IN )?RESPECT OF\b.*|CO NO\b.*|COMPANY NO\b.*|COMPANY NUMBER\b.*|REGISTERED NUMBER\b.*|\d{6,8}$|"
                    r"(LONDON |UK )?BRANCH\b.*|A UK ESTABLISHMENT\b.*)$")
 _LEAD = re.compile(r"^(A )?(UK )?ESTABLISHMENT OF\s+")
 _TAIL = {"LIMITED", "LTD", "PLC", "LLP", "LP", "UK", "THE", "AND"}
@@ -177,7 +177,14 @@ class Resolver:
             return Resolved(hit[0], lender_key(hit[0]), hit[1], "alias", cat)
         g = group_lender(norm, cat, parent, self.group_rules)
         if cat == "security_agent":
-            canon = parent or (g.canonical if g.basis == "table" else _display(norm))
+            canon = parent or (g.canonical if g.basis == "table" else None)
+            if not canon and ak and ak != norm:
+                # the same firm acting as agent: 'CREDIT AGRICOLE CIB AS SECURITY TRUSTEE' keeps Credit Agricole's
+                # key, so a lender moving into the agent role on its own deal is not read as a new lender
+                inner = self._resolve(ak, ak)
+                if inner.mapped and inner.how != "agent":
+                    canon = inner.canonical
+            canon = canon or _display(norm)
             return Resolved(canon, lender_key(canon), "trustee_agent", "agent", cat)
         if g.basis == "table":
             # Armaan's group table is the more specific call ("HSBC INVOICE FINANCE" is ABL, not a bank)

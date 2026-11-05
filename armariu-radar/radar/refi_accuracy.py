@@ -8,7 +8,7 @@ How it is tested
   learn   the rw1 points and odds, from monthly dates in 2024 (Jan to Oct, so every 90-day outcome
           closed before 2025 began)
   test    the first of every month from Jan 2025, while the 90 days closed before the radar began
-          watching (20 Oct 2026): every company in the data borrowed after that day, so a window
+          watching (20 Oct 2026): every company in the data had a charge filing after that day, so a window
           running past it would partly see the answer
   known   on each date, only charges already filed at Companies House count (no look-ahead)
   ranks   top 10%, 5% and 1% are taken within each group, pooled across the test dates
@@ -45,20 +45,22 @@ from .refi_watch import CLUES, MODEL_VERSION, Model, _d, _start, features, lende
 
 WINDOW = 90
 TRAIN = [date(2024, m, 1) for m in range(1, 11)]          # 90-day outcomes all closed by 30 Dec 2024
+TRAIN_180 = [date(2024, m, 1) for m in range(1, 8)]       # 180-day outcomes all closed by 28 Dec 2024
 TRAIN_365 = [date(2023, m, 1) for m in range(1, 13)]      # 12-month outcomes all closed by 1 Dec 2024
 
 
 def train_dates(window: int) -> list[date]:
     """Learning dates whose whole outcome window closed before 2025, so no test answer leaks in."""
-    return TRAIN if window <= 90 else TRAIN_365
+    return TRAIN if window <= 90 else TRAIN_180 if window <= 180 else TRAIN_365
 TEST_FROM = date(2025, 1, 1)
 REPS = 1000
 DEFINITION = ("Switched lender: within the window a loan that was outstanding is marked repaid and a new "
               "charge is filed for a lender that held none of the repaid loans. Any refinance: repaid and "
               "any new charge, same lender included. Repaid: a loan marked repaid, replaced or not.")
 CAVEAT = ("A lead list, not a forecast: filings carry no loan end dates, and these are past hit rates on "
-          "months the score never saw. Every company here borrowed again later, so absolute rates run high; "
-          "compare rows with each other. Not yet tested with brokers or lenders.")
+          "months the score never saw. Every company here had a charge filing (a new loan or a repayment) after "
+          "20 Oct 2026, so firms that went quiet are missing and absolute rates run high; compare rows with each "
+          "other. Not yet tested with brokers or lenders.")
 
 
 SAMPLE_CAVEAT = ("A lead list, not a forecast. Population: a random sample of live companies that have ever "
@@ -76,19 +78,27 @@ def known_on(co: Company, on: date) -> Company:
     return replace(co, charges=[c for c in co.charges if _filed(c) and _filed(c) < on])
 
 
+def _agent_only(c) -> bool:
+    return bool(c.lenders) and all(cls == "trustee_agent" for _, _, cls in c.lenders)
+
+
 def outcomes(co: Company, on: date, window: int = WINDOW) -> dict:
     end = on + timedelta(days=window)
     repaid = [c for c in co.charges if _filed(c) and _filed(c) < on and _start(c) < on
               and _d(c.satisfied) and on < _d(c.satisfied) <= end]
     new = [c for c in co.charges if _d(c.filed) and on < _d(c.filed) <= end]
     old_keys = frozenset().union(*(c.lender_keys for c in repaid)) if repaid else frozenset()
-    switched = bool(repaid) and bool(old_keys) and any(c.lender_keys and not (c.lender_keys & old_keys) for c in new)
+    # a security trustee or agent replacing another, with no lender named on either side, is a change of
+    # agent, not a new lender (4 Nov 2026 audit: about 1% of switches)
+    old_agents = bool(repaid) and all(_agent_only(c) for c in repaid)
+    switched = bool(repaid) and bool(old_keys) and any(
+        c.lender_keys and not (c.lender_keys & old_keys) and not (old_agents and _agent_only(c)) for c in new)
     return {"switched": switched, "any": bool(repaid) and bool(new), "repaid": bool(repaid)}
 
 
 def test_dates(companies, window: int = WINDOW, stop: date | None = None) -> list[date]:
     """Monthly from TEST_FROM, while the 90 days have passed and end before `stop` (when the radar began
-    watching: every company in the data borrowed after that, so later windows would see it coming)."""
+    watching: every company in the data had a charge filing after that, so later windows would see it coming)."""
     last = max((_d(c.filed) for co in companies.values() for c in co.charges if _d(c.filed)), default=TEST_FROM)
     if stop:
         last = min(last, stop - timedelta(days=1))
@@ -105,7 +115,7 @@ def build_rows(companies, dates, vol, window: int = WINDOW):
         for on in dates:
             f = features(known_on(co, on), on, vol)
             if f:
-                out.append((co.number, f, outcomes(co, on, window)))
+                out.append((co.number, f, outcomes(co, on, window), on))
     return out
 
 
@@ -146,10 +156,32 @@ def _interval(co_ids, ys, sel, rng, reps=REPS):
     return q(rate), q(lift)
 
 
+def monthly(rows, model, keep, tier: float = 0.10) -> dict:
+    """Top `tier` ranked within each test date: how steady the switched-lender hit rate and lift are."""
+    by: dict = {}
+    for r in rows:
+        if keep(r[1]):
+            by.setdefault(r[3], []).append(r)
+    months = []
+    for on in sorted(by):
+        part = sorted(by[on], key=lambda r: (-model.score(r[1]), r[0]))
+        k = max(1, int(len(part) * tier))
+        hits, base = sum(r[2]["switched"] for r in part[:k]), sum(r[2]["switched"] for r in part) / len(part)
+        months.append({"date": on.isoformat(), "rows": len(part), "top": k, "hits": hits,
+                       "rate": round(hits / k, 4), "lift": round(hits / k / base, 2) if base else None})
+    lifts = sorted(m["lift"] for m in months if m["lift"] is not None)
+    rates = sorted(m["rate"] for m in months)
+    return {"months": months, "rate_min": rates[0] if rates else None, "rate_max": rates[-1] if rates else None,
+            "lift_min": lifts[0] if lifts else None, "lift_median": lifts[len(lifts) // 2] if lifts else None,
+            "lift_max": lifts[-1] if lifts else None, "months_below_1_5x": sum(l < 1.5 for l in lifts)}
+
+
 def evaluate(companies, vol=None, window: int = WINDOW, reps: int = REPS, seed: int = 7,
-             stop: date | None = None) -> dict:
-    vol = vol or lender_volumes(companies)
-    train = [(f, o["any"]) for _, f, o in build_rows(companies, train_dates(window), vol, window)]
+             stop: date | None = None, learn_on=None) -> dict:
+    """`learn_on`: companies to learn the points and odds from (default: the same companies). The random
+    population sample (radar.population) learns on the radar's own data, as the live list does."""
+    vol = vol or lender_volumes(learn_on or companies)
+    train = [(f, o["any"]) for _, f, o, _ in build_rows(learn_on or companies, train_dates(window), vol, window)]
     model = Model(train, CLUES)
     dates = test_dates(companies, window, stop)
     rows = build_rows(companies, dates, vol, window)
@@ -188,7 +220,8 @@ def evaluate(companies, vol=None, window: int = WINDOW, reps: int = REPS, seed: 
                           "lift_group_ci": [round(x, 2) for x in lci] if tier is not None and lci[0] is not None else None,
                           "lift_everyone": round(rate / everyone[o], 2) if everyone.get(o) else None}
             table.append(row)
-    return {"label": "BACKTEST", "model_version": MODEL_VERSION, "window_days": window,
+    stability = {label: monthly(rows, model, keep) for label, keep in GROUPS}
+    return {"label": "BACKTEST", "model_version": MODEL_VERSION, "window_days": window, "monthly_top10": stability,
             "learned_on": [d.isoformat() for d in train_dates(window)], "test_dates": [d.isoformat() for d in dates],
             "rows": len(rows), "companies": len({r[0] for r in rows}), "definition": DEFINITION,
             "caveat": CAVEAT, "table": table}
@@ -207,20 +240,34 @@ def render_md(res: dict) -> str:
            f"Learned on {len(res['learned_on'])} monthly dates {res['learned_on'][0]} to {res['learned_on'][-1]}; tested on {len(res['test_dates'])} monthly dates "
            f"{res['test_dates'][0]} to {res['test_dates'][-1]} ({res['rows']:,} company-dates, {res['companies']:,} companies).", "",
            f"_{res['definition']}_", "",
-           "| Group | Rows | Company-dates | Companies | Switched lender | 95% range | Lift in group | Lift range | Any refinance | 95% range | Repaid |",
-           "|---|---|---:|---:|---:|---|---:|---|---:|---|---:|"]
+           "| Group | Rows | Company-dates | Companies | Switched lender | 95% range | Leads per switch | Lift in group | Lift range | Any refinance | 95% range | Repaid |",
+           "|---|---|---:|---:|---:|---|---:|---:|---|---:|---|---:|"]
     for r in res["table"]:
         s, a, p = r["switched"], r["any"], r["repaid"]
         lr = s["lift_group_ci"]
-        out.append(f"| {r['group']} | {r['tier']} | {r['company_dates']:,} | {r['companies']:,} | {_pct(s['rate'])} ({s['hits']:,}) | {_ci(s['ci'])} | "
+        out.append(f"| {r['group']} | {r['tier']} | {r['company_dates']:,} | {r['companies']:,} | {_pct(s['rate'])} ({s['hits']:,}) | {_ci(s['ci'])} | {_per(s['rate'])} | "
                    f"{s['lift_group']}x | {f'{lr[0]}x to {lr[1]}x' if lr else '–'} | {_pct(a['rate'])} | {_ci(a['ci'])} | {_pct(p['rate'])} |")
-    out += ["", f"_{res['caveat']}_"]
+    st = res.get("monthly_top10")
+    if st:
+        out += ["", "Month by month, top 10% ranked within each test date (switched lender):", "",
+                "| Group | Hit rate, lowest to highest month | Lift, lowest / median / highest | Months under 1.5x |",
+                "|---|---|---|---:|"]
+        for g, m in st.items():
+            if m["lift_min"] is not None:
+                out.append(f"| {g} | {_pct(m['rate_min'])} to {_pct(m['rate_max'])} | {m['lift_min']}x / {m['lift_median']}x / "
+                           f"{m['lift_max']}x | {m['months_below_1_5x']} of {len(m['months'])} |")
+    out += ["", "_Leads per switch: how many firms from that level a lender would work through for one that "
+            "switched lender within the window (1 / hit rate)._", "", f"_{res['caveat']}_"]
     return "\n".join(out) + "\n"
+
+
+def _per(rate):
+    return f"{1 / rate:.0f}" if rate else "–"
 
 
 def write(res: dict, out_dir) -> tuple[Path, Path]:
     out = Path(out_dir); out.mkdir(parents=True, exist_ok=True)
-    tag = "90d" if res.get("window_days", WINDOW) == WINDOW else f"{res['window_days']}d"
+    tag = f"{res.get('window_days', WINDOW)}d"
     j, m = out / f"accuracy_{tag}.json", out / f"accuracy_{tag}.md"
     j.write_text(json.dumps(res, indent=1), encoding="utf-8")
     m.write_text(render_md(res), encoding="utf-8")
@@ -242,7 +289,7 @@ def main(argv=None):
     p = argparse.ArgumentParser(prog="python -m radar.refi_accuracy")
     p.add_argument("--out", default=str(config.OUTPUT_DIR / "refi_watch"))
     p.add_argument("--reps", type=int, default=REPS)
-    p.add_argument("--window", type=int, default=WINDOW, help="days: 90 (default) or 365")
+    p.add_argument("--window", type=int, default=WINDOW, help="days: 90 (default), 180 or 365")
     p.add_argument("--population", choices=("live", "sample"), default="live",
                    help="live: companies the radar has seen (default); sample: the random backfill sample")
     a = p.parse_args(argv)

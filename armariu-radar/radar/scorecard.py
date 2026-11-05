@@ -11,7 +11,8 @@ Design guards (from the plan):
     matching cohort rates weighted by how many signals fall in each cohort.
   * No look-ahead: signals use filing dates only; an event counts only if its outcome window has
     closed before the cut-off (the day the radar started watching); the rule version is frozen.
-  * Every rate carries a 95% Wilson interval. Small samples are shown, not hidden.
+  * Every rate carries a 95% interval that resamples companies, not charges (one company can file
+    many charges, so a per-charge Wilson interval is too narrow). Small samples are shown, not hidden.
   * Backtest and live results are never mixed: this file labels everything BACKTEST. The live log
     (signals_published.csv) only starts after the validation gate.
 Output is deterministic: the same database gives byte-identical files (only the run date is printed).
@@ -51,6 +52,25 @@ def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
     return (max(0.0, centre - half), min(1.0, centre + half))
 
 
+def clustered(per_company: dict, reps: int = 1000, seed: int = 7) -> tuple[float, float]:
+    """95% interval for a hit rate, resampling companies with replacement. `per_company`: company ->
+    [signals, hits]. Seeded, so a second run gives identical numbers. Falls back to Wilson when there are
+    under 2 companies."""
+    if len(per_company) < 2:
+        n = sum(v[0] for v in per_company.values()); k = sum(v[1] for v in per_company.values())
+        return wilson(k, n)
+    import random   # plain Python: the pipeline does not install numpy
+    a = [per_company[c] for c in sorted(per_company)]
+    rng, k, rates = random.Random(seed), len(a), []
+    for _ in range(reps):
+        n = h = 0
+        for i in rng.choices(range(k), k=k):
+            n += a[i][0]; h += a[i][1]
+        rates.append(h / n if n else 0.0)
+    rates.sort()
+    return rates[int(0.025 * (reps - 1))], rates[int(0.975 * (reps - 1))]
+
+
 def _events(companies: dict[str, Company], start: date, cutoff: date, window: int):
     """Every charge filed in [start, cutoff - window]: (company, charge, hit?). Outcome windows are closed."""
     last = cutoff - timedelta(days=window)
@@ -79,6 +99,7 @@ def backtest(companies: dict[str, Company], cutoff: date, months: int = 24, wind
             sig_by_charge[(s["company_number"], s["charge_id"])].add(s["signal_type"])
     strata: dict[tuple, dict] = defaultdict(lambda: {"all": [0, 0]})
     per_sig: dict[str, list] = {t: [] for t in SIGNAL_TYPES}
+    per_co: dict[str, dict] = {t: defaultdict(lambda: [0, 0]) for t in SIGNAL_TYPES}
     for co, c, hit in _events(companies, start, cutoff, window):
         stratum = (co.sector, co.age_band(c.filed))
         kinds = sig_by_charge.get((co.number, c.charge_id), set())
@@ -89,6 +110,7 @@ def backtest(companies: dict[str, Company], cutoff: date, months: int = 24, wind
             if t in kinds:
                 st[t][0] += 1; st[t][1] += int(hit)
                 per_sig[t].append(stratum)
+                per_co[t][co.number][0] += 1; per_co[t][co.number][1] += int(hit)
     rows = []
     for t in SIGNAL_TYPES:
         n = len(per_sig[t])
@@ -107,12 +129,13 @@ def backtest(companies: dict[str, Company], cutoff: date, months: int = 24, wind
                 exp += cnt * base_k / base_n
                 usable += cnt
         rate = hits / n if n else 0.0
-        lo, hi = wilson(hits, n)
+        lo, hi = clustered(dict(per_co[t])) if n else (0.0, 1.0)
         base = (exp / usable) if usable else None
         rows.append({"label": "BACKTEST", "signal_type": t, "rule_version": RULE_VERSION,
                      "outcome": f"further charge filed within {window} days", "window_start": start.isoformat(),
                      "window_end": (cutoff - timedelta(days=window)).isoformat(), "signals": n, "outcomes_observed": hits,
                      "hit_rate": f"{rate:.4f}", "ci_low": f"{lo:.4f}", "ci_high": f"{hi:.4f}",
+                     "ci_method": "companies resampled", "companies": len(per_co[t]),
                      "baseline_rate": f"{base:.4f}" if base is not None else "",
                      "baseline_coverage": f"{usable}/{n}",
                      "lift": f"{rate / base:.2f}" if base else "",
@@ -121,7 +144,7 @@ def backtest(companies: dict[str, Company], cutoff: date, months: int = 24, wind
 
 
 FIELDS = ("label", "signal_type", "rule_version", "outcome", "window_start", "window_end", "signals",
-          "outcomes_observed", "hit_rate", "ci_low", "ci_high", "baseline_rate", "baseline_coverage", "lift",
+          "outcomes_observed", "hit_rate", "ci_low", "ci_high", "ci_method", "companies", "baseline_rate", "baseline_coverage", "lift",
           "small_sample")
 
 

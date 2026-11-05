@@ -410,7 +410,7 @@ const Term = (() => {
   }
   function rec(m) {
     const rows = D.scorecard || [], W = D.refi_watch;
-    m.innerHTML = `<div class="t-grid">${pane("SC", `Signal scorecard · backtest · rules ${esc(D.rule_version)}`, "c12", `<span class="n">further charge within 90 days vs matched baseline · 95% Wilson</span>`, `<div id="t-sc"></div>`)}
+    m.innerHTML = `<div class="t-grid">${pane("SC", `Signal scorecard · backtest · rules ${esc(D.rule_version)}`, "c12", `<span class="n">further charge within 90 days vs matched baseline · 95% range by company</span>`, `<div id="t-sc"></div>`)}
       ${W ? pane("RT", `Refinance watch tiers · backtest · ${esc(W.model_version)}`, "c6", "", `<div id="t-rt"></div>`) : ""}
       ${pane("BN", "Read this before the numbers", "c6", "", `<div class="pb" style="color:var(--t-muted);line-height:1.5;font-family:var(--sans)">${esc(D.bias_note)} Signals use filing dates only, so nothing looks ahead. A live, append-only log starts once the newsletter is published; it will never be mixed with these figures.</div>`)}</div>`;
     table("sc", $("#t-sc"), { cols: [

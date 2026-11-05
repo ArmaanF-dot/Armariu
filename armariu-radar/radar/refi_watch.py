@@ -18,7 +18,7 @@ charge is filed. Points are log-odds against the base rate, learned on cutoffs w
 closed by the run date, so nothing peeks ahead. The odds shown next to a company are the hit rate of
 its score band in that history. `backtest` learns on an earlier year and scores later dates it never
 saw. Measured 3 Nov 2026 (12 months): top 1% refinanced 54%, against 11% for all companies; with a
-90-day window the same score gave 22% against 3%. History covers only companies that borrowed after
+90-day window the same score gave 22% against 3%. History covers only companies with a charge filing (new loan or repayment) after
 20 Oct 2026, which flatters absolute rates; the lift is the steadier number.
 
 rw2 (tested 3 Nov 2026, not live) adds clues from Companies House's free accounts and owner register

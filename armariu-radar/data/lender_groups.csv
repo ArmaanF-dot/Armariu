@@ -54,3 +54,7 @@ exact,TSB BANK,TSB,challenger_bank,
 exact,TSB,TSB,challenger_bank,
 contains,CO OPERATIVE BANK,Co-operative Bank,challenger_bank,judgement call: mid-tier rather than clearing
 contains,CLOSE BROTHERS,Close Brothers,abl_invoice,seed rule treats Close Brothers as asset-based / invoice finance
+contains,ONE SAVINGS BANK,OSB Group,challenger_bank,OSB Group (Kent Reliance); spelt apart from ONESAVINGS. Added 4 Nov 2026
+contains,KENT RELIANCE,OSB Group,challenger_bank,OSB Group trading name. Added 4 Nov 2026
+contains,PRECISE MORTGAGES,OSB Group,challenger_bank,OSB Group trading name (Charter Court). Added 4 Nov 2026
+contains,CHARTER COURT,OSB Group,challenger_bank,catches misspelt Charter Court Financial Services. Added 4 Nov 2026

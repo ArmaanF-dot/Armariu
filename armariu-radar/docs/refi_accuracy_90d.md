@@ -30,7 +30,7 @@ switch, so the switch rate is if anything a little low.
   outcome had closed before 2025.
 - **Tested** on the first of every month from Jan 2025 to Jul 2026 (19 dates; 104,889 company-dates,
   6,294 companies). Windows stop before 20 Oct 2026, when the radar began watching: every company in
-  the data borrowed after that day, so a window running past it would partly see the answer.
+  the data had a charge filing after that day, so a window running past it would partly see the answer.
 - On each date only charges **already filed** at Companies House count (no look-ahead).
 - Top 10%, 5% and 1% are ranked **within each group**, pooled across the test dates.
 - 95% ranges resample **companies**, not rows (a company can appear on all 19 dates), 1,000 times.
@@ -63,7 +63,7 @@ Full output, with the any-refinance and repaid columns: `output/refi_watch/accur
    only because serial non-property borrowers sit there.
 3. **Show the evidence.** Each name on the list now links to the filing of its newest open loan,
    next to the charge register link, so a reader can check why it is there.
-4. **Absolute rates run high.** Every company in the data borrowed again from 20 Oct 2026 on, so it
+4. **Absolute rates run high.** Every company in the data had a charge filing from 20 Oct 2026 on (a new loan, or for 30% only a repayment), so it
    is a set of active borrowers, not the whole market. Compare rows with each other, not with the
    market. Nothing here has been tested with brokers or lenders yet.
 
