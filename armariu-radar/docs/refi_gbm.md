@@ -52,3 +52,36 @@ Full tables: `output/refi_watch/gbm/live/gbm.md` after `python -m radar.refi_gbm
 - Rerun on the random sample once the backfill has data: `python -m radar.dbsync pull --backfill`, then
   `python -m radar.refi_gbm --population sample`.
 - If a serial-borrower or property list is ever wanted, LightGBM is the better ranker for it.
+
+## Follow-up the same night: walk-forward test and a locked window (`python -m radar.refi_gbm_wf`)
+Each year from 2021 is a fold. The models learn on every monthly date from 2018 whose outcome had closed, and rw3
+learns as it does live, on the latest year. The best variant was picked on the walk-forward years only (ordinary
+companies, top 10%), then scored **once** on a locked window: Jan to Jul 2026 for 90 days, Jul to Oct 2025 for 12
+months. The locked window has now been used and should not be used to choose models again.
+
+Variants: logistic regression, LightGBM (RoadSense-style), LightGBM with recent years weighted (half-life 1 year),
+LightGBM with a ranking objective (rank_xendcg), CatBoost with the lender's identity as a category, and rank blends
+with rw3.
+
+**Walk-forward years, ordinary companies, top 10%, switched lender**
+| | rw3 | Best variant | Gap (95%) |
+|---|---:|---:|---|
+| 90 days, 2021 to 2025 | 3.3% | 3.8% (LightGBM, recent years weighted) | +0.5 (+0.3 to +0.8) |
+| 12 months, 2021 to Jun 2025 | 16.4% | 18.0% (blend of rw3 and LightGBM) | +1.6 (+1.1 to +2.4) |
+
+Most variants beat rw3 in 2021 to 2024, and the gap shrinks in 2025. CatBoost with the lender's identity
+did not help (12 months: 15.8%).
+
+**Locked window, best variant vs rw3**
+| Group | 90 days: rw3 | LightGBM (recent years) | Gap (95%) | 12 months: rw3 | Blend | Gap (95%) |
+|---|---:|---:|---|---:|---:|---|
+| Ordinary, top 10% | 5.3% | 5.4% | +0.1 (-0.6 to +0.7) | 21.6% | 21.8% | +0.2 (-1.5 to +1.6) |
+| Ordinary, top 1% | 5.3% | 12.0% | +6.7 (+3.3 to +10.7) | 30.6% | 38.3% | +7.7 (-0.7 to +15.7) |
+| Ordinary, not property, top 10% | 1.3% | 1.8% | +0.5 (-0.1 to +1.3) | 12.8% | 12.0% | -0.8 (-2.9 to +1.4) |
+| Property, top 10% | 16.1% | 18.3% | +2.3 (+1.1 to +3.6) | 42.0% | 45.1% | +3.1 (+0.7 to +5.5) |
+| Serial, top 10% | 30.7% | 37.3% | +6.6 (+2.6 to +10.6) | 60.6% | 67.2% | +6.6 (+2.2 to +11.2) |
+
+**Verdict:** for ordinary companies' top 10%, the headline, LightGBM is level with rw3 on unseen months at both
+windows, so rw3 stays. LightGBM is clearly better for serial and property borrowers, and at 90 days for the very
+top 1% of ordinary companies. All of this is still radar data (rates about 3x high). Retest on the random sample
+when the backfill has data.

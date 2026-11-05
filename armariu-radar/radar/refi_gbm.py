@@ -95,7 +95,7 @@ def numeric(kc, on: date, vol) -> dict:
         "rate_max": max((r for r in rates if r is not None), default=math.nan),
         "rate_newest": rn if rn is not None else math.nan,
         "co_age": (on - created).days if created else math.nan, "past_switch": past,
-        "lender_cls": cls,
+        "lender_cls": cls, "lender_key": key or "none",
     }
 
 
