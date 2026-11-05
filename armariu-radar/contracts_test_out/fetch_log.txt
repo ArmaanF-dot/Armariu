@@ -95,3 +95,10 @@
 04:52:48 awards cf 2025-12: 3,763 rows
 04:52:51 awards fts 2025-12: 2,674 rows
 04:53:02 awards done {'cf': 306877, 'fts': 232583}
+04:53:11 bcd: 30,968 supplier numbers, 106,203 supplier names
+04:53:33   1,000,000 rows read, 22s
+04:53:54   2,000,000 rows read, 43s
+04:54:15   3,000,000 rows read, 64s
+04:54:37   4,000,000 rows read, 85s
+04:54:57   5,000,000 rows read, 106s
+04:55:13 bcd done {'live_companies': 5711778, 'charged': 831742, 'pool': 341848, 'pool_charged': 50191, 'candidates': 59470, 'snapshot': 'BasicCompanyDataAsOneFile-2026-11-01.zip'}
