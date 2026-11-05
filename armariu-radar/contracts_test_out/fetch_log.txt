@@ -76,3 +76,13 @@
 04:09:10 awards fts 2025-02: 4,990 rows
 04:13:54 awards cf 2025-03: 6,985 rows
 04:13:59 awards fts 2025-03: 5,137 rows
+04:18:45 awards cf 2025-04: 6,680 rows
+04:18:51 awards fts 2025-04: 5,392 rows
+04:23:34 awards cf 2025-05: 5,106 rows
+04:28:38 awards fts 2025-05: 6,136 rows
+04:28:44 awards cf 2025-06: 5,121 rows
+04:28:49 awards fts 2025-06: 4,967 rows
+04:33:32 awards cf 2025-07: 5,586 rows
+04:33:38 awards fts 2025-07: 5,928 rows
+04:38:19 awards cf 2025-08: 4,327 rows
+04:38:23 awards fts 2025-08: 4,361 rows
