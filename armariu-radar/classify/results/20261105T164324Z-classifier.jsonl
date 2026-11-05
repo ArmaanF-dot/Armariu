@@ -1,0 +1,44 @@
+{"name_norm": "UK RESIDENTIAL PROPERTIES", "category": "other", "parent_firm": null, "confidence": 0.45, "reason": "Property company owned by an individual lending to a contractor; likely related party, not a lender"}
+{"name_norm": "ROUNDSTONE PROPERTIES UK", "category": "other", "parent_firm": null, "confidence": 0.45, "reason": "Dissolved company with same individual owner as UK Residential Properties; likely related party"}
+{"name_norm": "ALTERI BLUE GROUP CAYMAN", "category": "unknown", "parent_firm": "Alteri", "confidence": 0.3, "reason": "Cayman vehicle charging all three Bensons for Beds group companies; likely PE sponsor or lender, unclear"}
+{"name_norm": "GILLIAN GREEN", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with another individual"}
+{"name_norm": "GORDON IAIN GREEN", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with another individual"}
+{"name_norm": "MOMLP", "category": "property_lender", "parent_firm": null, "confidence": 0.4, "reason": "New individual-owned SPV (SIC 68100) charging a property company; role unclear"}
+{"name_norm": "ST GEORGE S EDINBURGH", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Church/charity (SIC 85310) holding charges over an extra care developer; not a lender"}
+{"name_norm": "GRE FINANCE AGENT", "category": "security_agent", "parent_firm": null, "confidence": 0.85, "reason": "'Finance Agent' name; charges over property SPVs"}
+{"name_norm": "BATH AND WEST FINANCE 3", "category": "property_lender", "parent_firm": "Bath and West Finance", "confidence": 0.5, "reason": "Mortgage finance SIC (64922) numbered vehicle; borrower is a retailer so type uncertain"}
+{"name_norm": "ABERCASSIER LIMITED COMPANY NO 16190357", "category": "other", "parent_firm": null, "confidence": 0.75, "reason": "related party: holding company shares a director with the borrower"}
+{"name_norm": "ARCHIBALD WILLIAM SYDNEY HART", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "BRETT CLARK", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with other individuals"}
+{"name_norm": "CLIVE HILL LIMITED AND FAIRBRIDGE CAPITAL NO 2", "category": "property_lender", "parent_firm": "Fairbridge Capital", "confidence": 0.7, "reason": "Joint chargee including Fairbridge Capital (bridging lender); borrower SIC 68100"}
+{"name_norm": "DOURZANAC LIMITED COMPANY NO 16189678", "category": "other", "parent_firm": null, "confidence": 0.75, "reason": "related party: holding company shares a director with the borrower"}
+{"name_norm": "ETONBROOK", "category": "other", "parent_firm": null, "confidence": 0.4, "reason": "Family-owned construction company (SIC 42990) charging a regeneration developer; not a lender"}
+{"name_norm": "GLOBEX ENTERPRISES", "category": "other", "parent_firm": null, "confidence": 0.4, "reason": "Property letting company owned by an individual; likely related or private funder"}
+{"name_norm": "JACQUELINE WHITFIELD", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "PLANTE STORAGE HOLDINGS", "category": "other", "parent_firm": "Macquarie", "confidence": 0.5, "reason": "Macquarie-owned company charging a holdco; likely group or investor funding"}
+{"name_norm": "PMP DARK", "category": "other", "parent_firm": null, "confidence": 0.4, "reason": "US LLC charging a film/TV company; probably production financier, unclear"}
+{"name_norm": "REDINGTON FINANCE", "category": "property_lender", "parent_firm": "Redington Capital Holdings", "confidence": 0.8, "reason": "Mortgage finance SIC 64922; borrower is a property company"}
+{"name_norm": "RICHBOROUGH ESTATES GROUP", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Land promoter charging a trustee company; not a lender"}
+{"name_norm": "RUTH WARD", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, co-chargee with other individuals"}
+{"name_norm": "SAHA HOLDINGS", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Individual-owned holding company; likely shareholder or related funding"}
+{"name_norm": "STEPHEN WARD", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name, co-chargee with other individuals"}
+{"name_norm": "TONETTE CLARKE", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "ULTRAHUMAN HEALTHCARE", "category": "other", "parent_firm": null, "confidence": 0.65, "reason": "related party: shares ownership/directors with borrower Vio Healthtech"}
+{"name_norm": "CHERRY GODFREY FINANCE ISLE OF WIGHT", "category": "property_lender", "parent_firm": "Cherry Godfrey", "confidence": 0.85, "reason": "Cherry Godfrey is a property development lender; borrower SIC 68100"}
+{"name_norm": "ANDREW RICHARD FISCH AND NAOMI REBECCA FISCH", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Two personal names"}
+{"name_norm": "CBI PROPERTY PROJECTS", "category": "property_lender", "parent_firm": null, "confidence": 0.65, "reason": "Other credit granting SIC 64929; borrower a property developer"}
+{"name_norm": "MATTHEW BROWN AND DANIEL DAVID BROWN", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Two personal names"}
+{"name_norm": "CREST NICHOLSON OPERATIONS", "category": "other", "parent_firm": "Crest Nicholson", "confidence": 0.7, "reason": "Housebuilder charging another housebuilder; trade or land obligation, not lending"}
+{"name_norm": "THE TRUSTEES OF THE PETERBOROUGH SPORTS AND SOCIAL CLUB", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Club trustees, not a lender"}
+{"name_norm": "ELIZABETH ANNE WILLIAMS MICHAEL JOHN WILLIAMS MATTHEW DAVID WILLIAMS AND KATHERINE MARY KINGSLEY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Group of personal names, likely landowners with housebuilder"}
+{"name_norm": "STEPHEN HENRY BRANDON AND LESLEY BARBARA BRANDON", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Two personal names"}
+{"name_norm": "CHAVEREYS HOLDINGS", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "intra-group: name matches borrower Chavereys Limited"}
+{"name_norm": "BIZLEND", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Name suggests lender but no record found of what it is; floating charge over a travel firm"}
+{"name_norm": "WESSEX CARE", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Family-owned care company (SIC 87300) charging a taproom firm; not a lender"}
+{"name_norm": "HAITONG BANK S A LONDON BRANCH", "category": "bank", "parent_firm": "Haitong Bank", "confidence": 0.95, "reason": "Bank branch registered as UK establishment"}
+{"name_norm": "THE LAW DEBENTURE TRUST CORPORATION P L C", "category": "security_agent", "parent_firm": "Law Debenture", "confidence": 0.97, "reason": "Corporate trustee"}
+{"name_norm": "TRIMONT REAL ESTATE ADVISORS U K", "category": "security_agent", "parent_firm": "Trimont", "confidence": 0.8, "reason": "Real estate loan servicer/agent; real lender hidden"}
+{"name_norm": "BMW FINANCIAL SERVICES GB", "category": "asset_finance", "parent_firm": "BMW Group", "confidence": 0.92, "reason": "Captive vehicle finance company"}
+{"name_norm": "ST MARTIN S COURT OXFORD INVESTMENTS", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "Landlord holding rent deposit deed"}
+{"name_norm": "MARYHILL HOUSING ASSOCIATION", "category": "other", "parent_firm": null, "confidence": 0.7, "reason": "intra-group: housing association holding charge over its subsidiary Maryhill Living"}
+{"name_norm": "NEW ANGEL COURT", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "Landlord holding rent deposit deed"}
