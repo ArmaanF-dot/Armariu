@@ -102,3 +102,12 @@
 04:54:37   4,000,000 rows read, 85s
 04:54:57   5,000,000 rows read, 106s
 04:55:13 bcd done {'live_companies': 5711778, 'charged': 831742, 'pool': 341848, 'pool_charged': 50191, 'candidates': 59470, 'snapshot': 'BasicCompanyDataAsOneFile-2026-11-01.zip'}
+04:55:21 hist plan {'winners_matched': 58565, 'winners_charged_planned': 9000, 'controls_charged_planned': 9000}
+04:55:21 radar db: 9,927 companies with stored histories
+05:00:31 hist: 500 fetched, 5 reused, 500 calls
+05:05:38 hist: 1,000 fetched, 13 reused, 1,001 calls
+05:10:46 hist: 1,500 fetched, 18 reused, 1,503 calls
+05:15:53 hist: 2,000 fetched, 21 reused, 2,003 calls
+05:21:01 hist: 2,500 fetched, 25 reused, 2,503 calls
+05:26:09 hist: 3,000 fetched, 30 reused, 3,004 calls
+05:31:17 hist: 3,500 fetched, 35 reused, 3,505 calls
