@@ -30,3 +30,17 @@
 02:33:36 awards fts 2023-03: 4,983 rows
 02:38:21 awards cf 2023-04: 7,666 rows
 02:41:01 awards fts 2023-04: 4,310 rows
+02:41:11 awards cf 2023-05: 5,970 rows
+02:41:15 awards fts 2023-05: 4,063 rows
+02:45:58 awards cf 2023-06: 6,161 rows
+02:46:02 awards fts 2023-06: 3,523 rows
+02:48:46 awards cf 2023-07: 6,910 rows
+02:48:52 awards fts 2023-07: 4,134 rows
+02:49:02 awards cf 2023-08: 7,712 rows
+02:51:42 awards fts 2023-08: 5,795 rows
+02:51:50 awards cf 2023-09: 6,634 rows
+02:51:53 awards fts 2023-09: 4,482 rows
+02:56:38 awards cf 2023-10: 6,850 rows
+02:56:42 awards fts 2023-10: 5,531 rows
+03:01:26 awards cf 2023-11: 6,841 rows
+03:01:29 awards fts 2023-11: 5,315 rows
