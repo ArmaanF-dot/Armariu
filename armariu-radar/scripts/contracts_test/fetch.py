@@ -304,7 +304,13 @@ def match_awards():
                     if len(same) == 1:
                         num = same[0]["company_number"]
             if num:
-                out.setdefault(num, by_num[num])
+                out.setdefault(num, dict(by_num[num]))
+                try:
+                    v = float(a["value"]) if a["value"] else 0
+                except ValueError:
+                    v = 0
+                if v >= 100_000 and "2023-01-01" <= a["published"] <= "2025-10-15":
+                    out[num]["_event"] = True
     return out
 
 
@@ -333,7 +339,7 @@ def step_hist():
         return
     winners = match_awards()
     pool = load_bcd(OUT / "bcd_pool.csv.gz")
-    w_ch = sorted((n for n, r in winners.items() if int(r["charges_total"]) > 0), key=lambda n: rank("w", n))
+    w_ch = sorted((n for n, r in winners.items() if int(r["charges_total"]) > 0), key=lambda n: (not winners[n].get("_event"), rank("w", n)))
     c_ch = sorted((r["company_number"] for r in pool if int(r["charges_total"]) > 0 and r["company_number"] not in winners),
                   key=lambda n: rank("c", n))
     w_ch, c_ch = w_ch[:HIST_CAP_WINNERS], c_ch[:HIST_CAP_CONTROLS]
