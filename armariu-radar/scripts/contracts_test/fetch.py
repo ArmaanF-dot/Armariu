@@ -31,13 +31,13 @@ from radar.normalise import normalise_name  # noqa: E402
 
 OUT = Path("contracts_test_out")
 OUT.mkdir(exist_ok=True)
-START, END = date(2022, 1, 1), date(2026, 10, 31)
+START, END = date(2022, 1, 1), date(2025, 12, 31)
 CF = "https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search"
 FTS = "https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages"
 POOL_FRACTION = 0.06          # share of all live companies kept as the control pool
 HIST_CAP_WINNERS = int(os.environ.get("HIST_CAP_WINNERS", "9000"))
 HIST_CAP_CONTROLS = int(os.environ.get("HIST_CAP_CONTROLS", "9000"))
-JOB_DEADLINE = time.time() + float(os.environ.get("JOB_MINUTES", "330")) * 60
+JOB_DEADLINE = time.time() + float(os.environ.get("JOB_MINUTES", "340")) * 60
 AWARD_FIELDS = ("source", "release_id", "ocid", "published", "award_date", "value", "value_kind",
                 "supplier_name", "supplier_ids", "postcode", "scale", "buyer", "cpv", "title", "notice_url")
 
@@ -169,33 +169,40 @@ def fetch_day(source: str, day: date) -> list[dict]:
 
 
 def step_awards():
+    """Month by month, one gzip file per source and month, committed every ~20 minutes (resumable)."""
     path = OUT / "awards.csv.gz"
     if path.exists():
         log("awards: exists, skipping")
         return
-    days = [START + timedelta(days=i) for i in range((END - START).days + 1)]
-    lock = threading.Lock()
-    tmp = OUT / "awards.partial.csv"
-    fh = open(tmp, "w", newline="", encoding="utf-8")
-    w = csv.DictWriter(fh, fieldnames=AWARD_FIELDS)
-    w.writeheader()
-    counts = {"cf": 0, "fts": 0}
-
-    def job(arg):
-        src, d = arg
-        rows = fetch_day(src, d)
-        with lock:
-            w.writerows(rows)
-            counts[src] += len(rows)
-            if d.day == 1:
-                log(f"awards {src} {d}: total {counts[src]:,}")
-    jobs = [(s, d) for d in days for s in ("cf", "fts")]
-    with ThreadPoolExecutor(6) as ex:
-        list(ex.map(job, jobs))
-    fh.close()
-    with open(tmp, "rb") as src, gzip.open(path, "wb") as dst:
-        dst.write(src.read())
-    tmp.unlink()
+    chunks = OUT / "awards"
+    chunks.mkdir(exist_ok=True)
+    months = []
+    d = START
+    while d <= END:
+        months.append(d)
+        d = (d.replace(day=28) + timedelta(days=4)).replace(day=1)
+    last_commit = time.time()
+    with ThreadPoolExecutor(12) as ex:
+        for m in months:
+            nxt = (m.replace(day=28) + timedelta(days=4)).replace(day=1)
+            days = [m + timedelta(days=i) for i in range((min(nxt, END + timedelta(days=1)) - m).days)]
+            for src in ("cf", "fts"):
+                f = chunks / f"{src}-{m:%Y-%m}.csv.gz"
+                if f.exists():
+                    continue
+                rows = [r for lst in ex.map(lambda dd: fetch_day(src, dd), days) for r in lst]
+                with gzip.open(f, "wt", newline="", encoding="utf-8") as fh:
+                    w = csv.DictWriter(fh, fieldnames=AWARD_FIELDS); w.writeheader(); w.writerows(rows)
+                log(f"awards {src} {m:%Y-%m}: {len(rows):,} rows")
+            if time.time() - last_commit > 20 * 60:
+                commit(f"award notices to {m:%Y-%m}"); last_commit = time.time()
+    counts = {}
+    with gzip.open(path, "wt", newline="", encoding="utf-8") as out:
+        w = csv.DictWriter(out, fieldnames=AWARD_FIELDS); w.writeheader()
+        for f in sorted(chunks.glob("*.csv.gz")):
+            with gzip.open(f, "rt", encoding="utf-8") as fh:
+                rows = list(csv.DictReader(fh))
+            w.writerows(rows); src = f.name.split("-")[0]; counts[src] = counts.get(src, 0) + len(rows)
     (OUT / "awards_meta.json").write_text(json.dumps({"rows": counts, "from": str(START), "to": str(END)}))
     log("awards done", counts)
     commit("award notices")
@@ -373,7 +380,8 @@ def step_hist():
             break
         if num in radar:
             fh.write(json.dumps({"n": num, "g": grp, "src": "radar", "items": [
-                {"id": c[0], "status": c[1], "created_on": c[2], "delivered_on": c[3], "satisfied_on": c[4]} for c in radar[num]]}) + "\n")
+                {"id": c[0], "status": c[1], "created_on": c[2], "delivered_on": c[3], "satisfied_on": c[4],
+                 "persons": json.loads(c[5] or "[]") if (c[5] or "").startswith("[") else []} for c in radar[num]]}) + "\n")
             n_reused += 1
             continue
         while True:
