@@ -12,3 +12,13 @@
 01:53:45 awards fts 2022-06: 3,447 rows
 01:58:29 awards cf 2022-07: 6,734 rows
 01:58:33 awards fts 2022-07: 5,467 rows
+02:01:21 awards cf 2022-08: 6,122 rows
+02:01:26 awards fts 2022-08: 4,199 rows
+02:01:34 awards cf 2022-09: 6,105 rows
+02:06:14 awards fts 2022-09: 5,180 rows
+02:06:22 awards cf 2022-10: 5,929 rows
+02:09:01 awards fts 2022-10: 3,760 rows
+02:09:10 awards cf 2022-11: 6,752 rows
+02:09:14 awards fts 2022-11: 4,286 rows
+02:13:57 awards cf 2022-12: 5,209 rows
+02:19:06 awards fts 2022-12: 3,113 rows
