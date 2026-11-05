@@ -111,3 +111,10 @@
 05:21:01 hist: 2,500 fetched, 25 reused, 2,503 calls
 05:26:09 hist: 3,000 fetched, 30 reused, 3,004 calls
 05:31:17 hist: 3,500 fetched, 35 reused, 3,505 calls
+05:36:26 hist: 4,000 fetched, 42 reused, 4,007 calls
+05:45:36 hist: 4,500 fetched, 45 reused, 4,507 calls
+05:50:43 hist: 5,000 fetched, 49 reused, 5,008 calls
+05:55:51 hist: 5,500 fetched, 54 reused, 5,508 calls
+06:00:59 hist: 6,000 fetched, 60 reused, 6,012 calls
+06:06:07 hist: 6,500 fetched, 62 reused, 6,513 calls
+06:11:14 hist: 7,000 fetched, 67 reused, 7,013 calls
