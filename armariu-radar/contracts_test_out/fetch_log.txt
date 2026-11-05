@@ -54,3 +54,13 @@
 03:20:52 awards fts 2024-03: 5,814 rows
 03:25:37 awards cf 2024-04: 7,685 rows
 03:25:41 awards fts 2024-04: 6,306 rows
+03:30:27 awards cf 2024-05: 6,796 rows
+03:30:34 awards fts 2024-05: 10,755 rows
+03:35:17 awards cf 2024-06: 5,777 rows
+03:35:21 awards fts 2024-06: 8,008 rows
+03:40:07 awards cf 2024-07: 7,908 rows
+03:40:12 awards fts 2024-07: 6,216 rows
+03:44:56 awards cf 2024-08: 7,824 rows
+03:45:00 awards fts 2024-08: 6,064 rows
+03:49:43 awards cf 2024-09: 6,552 rows
+03:49:48 awards fts 2024-09: 5,025 rows
