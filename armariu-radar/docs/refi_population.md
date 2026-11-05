@@ -16,30 +16,38 @@ at random.
   Same test dates and outcome rules as the main table.
 - Not covered: Scottish and Northern Irish companies, and companies removed from the register.
 
-**Results (first 1,012 companies, 4 Nov 2026).** The same live rw3 score, tested on a random sample.
-Switched lender, with the 95% range in brackets. "Radar data" is the table in docs/refi_odds_table.md.
+**Results (1,501 companies with a charge register, 5 Nov 2026).** The same live rw3 score, tested on a
+random sample. Switched lender, 95% range in brackets, lift over the group's own average. "Radar data" is the
+table in docs/refi_odds_table.md.
 
 | | Random sample | Radar data |
 |---|---|---|
-| Ordinary firms, all, 90 days | 0.4% (0.2 to 0.6) | 1.4% |
-| Ordinary firms, top 10%, 90 days | 1.7% (0.5 to 3.2), 4.2x | 4.6%, 3.3x |
-| Ordinary firms, all, 12 months | 2.1% (1.2 to 3.0) | 6.8% |
-| Ordinary firms, top 10%, 12 months | 7.3% (3.0 to 12.4), 3.5x (1.8 to 5.7) | 21.6%, 3.2x |
-| Ordinary, not property, top 10%, 12 months | 3.6% (0.6 to 8.4), 2.2x (0.5 to 5.1) | 10.7%, 2.3x |
-| Property, top 10%, 12 months | 20.0% (8.4 to 32.7), 3.9x | 40.9%, 3.4x |
+| Ordinary firms, all, 90 days | 0.4% (0.2 to 0.5) | 1.4% |
+| Ordinary firms, top 10%, 90 days | 1.7% (0.8 to 2.8), 4.7x (2.7 to 6.6) | 4.6%, 3.3x |
+| Ordinary firms, all, 12 months | 1.9% (1.2 to 2.6) | 6.8% |
+| Ordinary firms, top 10%, 12 months | 7.1% (3.9 to 11.4), 3.8x (2.3 to 5.6) | 21.6%, 3.2x |
+| Property, top 10%, 12 months | 23.3% (12.4 to 35.6), 4.9x (3.1 to 7.2) | 40.9%, 3.4x |
+| Ordinary, not property, top 10%, 90 days | 1.3% (0.4 to 2.3), 4.6x (1.7 to 7.5) | 2.2%, 2.6x |
+| Ordinary, not property, top 10%, 12 months | 4.7% (1.5 to 8.9), 3.0x (1.2 to 5.1) | 10.7%, 2.3x |
 
-Leads per switch, ordinary firms top 10%: about 14 at 12 months and 61 at 90 days (radar data: 5 and 22).
-Month by month, 12 months, ordinary firms: lift between 2.7x and 4.8x, never under 1.5x (10 months).
-Ordinary non-property firms: under 1.5x in 4 of 10 months at 12 months.
+Scored: 21,474 company-dates (1,198 companies) at 90 days and 11,130 (1,159) at 12 months.
+Leads per switch, top 10%: ordinary firms about 14 at 12 months and 60 at 90 days; ordinary non-property
+about 21 and 78 (radar data: 5 and 22; 9 and 45).
+Month by month at 12 months the lift never fell below 2.5x for ordinary firms or for ordinary
+non-property firms (10 months each). At 90 days the single months are too thin to read: ordinary firms had
+no switch in the top 10% in 3 of 19 months and ordinary non-property firms in 6 of 19.
 
 **What it shows.**
-1. **Absolute rates are about 3 times lower** than the radar's own data suggests. This is the correction
-   the audit expected: firms that went quiet are in the sample, and they rarely switch lender.
-2. **The ranking still works** for ordinary firms and property firms: about 3 to 4 times the group
-   average, and the ranges stay above 1 for them.
-3. **For ordinary firms outside property the ranking is not shown to work**: the 12-month range is
-   0.5x to 5.1x and the 90-day range is similar.
-4. **The ranges are wide** because the sample is small (about 800 firms scored per window). The tables
-   will be rerun at 1,500 companies; do not quote the top 1% rows at all.
+1. **Absolute rates are about 3 times lower** than the radar's own data suggests (ordinary firms at
+   12 months: 1.9% against 6.8%). Firms that went quiet are in this sample and rarely switch lender.
+2. **The ranking holds on the random sample**, at about 3 to 5 times the group average for ordinary
+   and property firms, with ranges above 1 at both windows.
+3. **Ordinary firms outside property now show a lift too** (3.0x at 12 months, range 1.2 to 5.1; 4.6x at
+   90 days, range 1.7 to 7.5). The first 1,012 companies had put this in doubt; the ranges are still wide
+   and the lower ends are close to 1, so describe it as likely, not proven.
+4. **The top 1% and top 5% rows rest on a few dozen firms**: do not quote them.
 
 Quote the **random-sample rates**, not the radar-data rates, for anything a lender will see.
+
+**Limits.** England and Wales only, and only companies still on the register. Reruns will move the figures
+as the sample grows; the sampler resumes with `python -m radar.population sample --target N`.
