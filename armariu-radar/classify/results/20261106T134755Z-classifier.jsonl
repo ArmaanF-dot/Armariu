@@ -1,0 +1,51 @@
+{"name_norm": "CONISTON CAPITAL I", "category": "direct_lender", "parent_firm": null, "confidence": 0.55, "reason": "Fund-style LP name; charged MWA group companies alongside FDC Debt LP and MWA Finance NO1; no CH owners found"}
+{"name_norm": "DEAN CAMPBELL BANKS", "category": "individual", "parent_firm": null, "confidence": 0.8, "reason": "Personal name; co-chargee with MWA Finance NO1 Ltd, likely security trustee/holder for that vehicle"}
+{"name_norm": "EDWARD ROSENGARTEN", "category": "individual", "parent_firm": null, "confidence": 0.8, "reason": "Personal name; also a shared director of the MWA borrowers"}
+{"name_norm": "MARK GOODFELLOW", "category": "individual", "parent_firm": null, "confidence": 0.85, "reason": "Personal name"}
+{"name_norm": "MWA FINANCE NO1", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: shares director Edward Rosengarten with all 6 linked MWA borrowers; nominee-owned vehicle"}
+{"name_norm": "TRIODOS BANK UK", "category": "bank", "parent_firm": "Triodos Bank N.V.", "confidence": 0.98, "reason": "SIC 64191 Banks, owned by Triodos Bank N.V."}
+{"name_norm": "KREOS CAPITAL VII UK", "category": "direct_lender", "parent_firm": "Kreos Capital", "confidence": 0.95, "reason": "Numbered Kreos Capital fund vehicle; venture debt lender to tech/fintech borrowers"}
+{"name_norm": "FINNVERA", "category": "public_sector", "parent_firm": "Government of Finland", "confidence": 0.9, "reason": "Finnish state-owned export credit agency; lending to a ship-services borrower"}
+{"name_norm": "FDC DEBT LP ACTING BY ITS GENERAL PARTNER FDC GENERAL PARTNER LIMITED AS LENDER", "category": "direct_lender", "parent_firm": null, "confidence": 0.6, "reason": "Debt fund LP with general partner, lending to MWA group and Knighthood financial advisers (trading businesses)"}
+{"name_norm": "J ROCK INVESTMENTS", "category": "property_lender", "parent_firm": null, "confidence": 0.5, "reason": "SIC 64929 credit granting, individual owners; one of several private chargees on a property/construction borrower"}
+{"name_norm": "SANCTUARY HOUSING ASSOCIATION", "category": "other", "parent_firm": "Sanctuary Group", "confidence": 0.65, "reason": "Registered housing association; charges on developer/JV likely tied to affordable housing arrangements, not lending"}
+{"name_norm": "IAN STUART LANGDON", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "J ROCKS INVESTMENTS", "category": "property_lender", "parent_firm": null, "confidence": 0.5, "reason": "Likely variant of J Rock Investments; same borrower and charge date"}
+{"name_norm": "THE PROPERTY INVESTOR PARTNERSHIP", "category": "property_lender", "parent_firm": null, "confidence": 0.5, "reason": "SIC 68310 property company with one individual owner; charges on a property development SPV"}
+{"name_norm": "AMCOMRI GROUP", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: both borrowers share directors with it; holding company"}
+{"name_norm": "10XHUMANS", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Software/consulting company with individual owners; not a lender by SIC"}
+{"name_norm": "AMIN PROPERTIES HOLDINGS", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: borrower shares its owner/officer; property holding company"}
+{"name_norm": "CHARLIE BLUNT", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: shares director Simon Blunt with borrower Apex Bridging Loans; family investment company"}
+{"name_norm": "CHRISTINE RUBINA KIEFFER", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "DANCASTLE ASSOCIATES", "category": "property_lender", "parent_firm": null, "confidence": 0.6, "reason": "SIC 64922 mortgage finance, owned by one individual; chargee on property/construction borrower"}
+{"name_norm": "DIARMAD MURRAY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "HBB HOMES", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: owned by Simon Blunt, a director of borrower Apex Bridging Loans"}
+{"name_norm": "JAMES ANTHONY MENCE", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "JAMES OLIVER HOLDINGS LIMITED AND M CAPITAL ASSETS", "category": "property_lender", "parent_firm": null, "confidence": 0.45, "reason": "Two private companies jointly charging a property company (SIC 68100); no CH match"}
+{"name_norm": "JONATHAN PETER WOOD", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "MARTIN NIGEL HARTWELL", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "MEADOW CAFE", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Cafe company (SIC 56102) charging a pension trustee company; not a lender by business"}
+{"name_norm": "MIDDLETON ENTERPRISES", "category": "other", "parent_firm": "Middleton Enterprises (Holdings) Limited", "confidence": 0.5, "reason": "Family-owned company (SIC 96090) with charge over a bridging lender; investor funding, not a lender itself"}
+{"name_norm": "MIDDLETON ENTERPRISES 2", "category": "other", "parent_firm": "Middleton Enterprises (Holdings) Limited", "confidence": 0.5, "reason": "Same family group as Middleton Enterprises; investor funding Apex Bridging Loans"}
+{"name_norm": "RACHEL CATHERINE LONG", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "RBC EUROPE", "category": "bank", "parent_firm": "Royal Bank of Canada", "confidence": 0.97, "reason": "SIC 64191 Banks, owned by Royal Bank of Canada"}
+{"name_norm": "REGINA BROPHY", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "SOCIALLY RECRUITED LTD IN ADMINISTRATION", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: shares director Gareth Thyer-Jones with the borrower; recruitment company"}
+{"name_norm": "STILLKING FILMS SPOL S R O", "category": "other", "parent_firm": null, "confidence": 0.55, "reason": "Czech film production company charging a film production borrower; trade/production-services party"}
+{"name_norm": "TOSCAFUND GP 7", "category": "direct_lender", "parent_firm": "Toscafund Asset Management", "confidence": 0.5, "reason": "Numbered general-partner vehicle of Toscafund (asset manager); borrower is a property company so property_lender possible"}
+{"name_norm": "X250", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Newly formed consultancy company (SIC 70221/70229) with individual owners; charge over a bridging lender"}
+{"name_norm": "NEW HALL ESTATES", "category": "other", "parent_firm": "New Hall Estates Holdings Limited", "confidence": 0.65, "reason": "Land-owning developer charging Bellway Homes; likely land sale deferred consideration, not lending"}
+{"name_norm": "CLC CAPITAL SA", "category": "property_lender", "parent_firm": null, "confidence": 0.4, "reason": "Foreign capital company with no CH match; borrower is a care-home property SPV (SIC 68100)"}
+{"name_norm": "CGI FINANCE S A", "category": "unknown", "parent_firm": null, "confidence": 0.25, "reason": "Luxembourg-style finance entity; charge over a leisure/shipping borrower; no way to tell lender type"}
+{"name_norm": "NPIF II DEBT NW LP ACTING BY FWC NPIFII DEBT GP LIMITED AS THE GENERAL PARTNER OF NPIF II DEBT NW LP ACTING BY FW CAPITAL", "category": "direct_lender", "parent_firm": "FW Capital", "confidence": 0.8, "reason": "Northern Powerhouse Investment Fund II debt LP run by FW Capital (British Business Bank backed); lends to SMEs"}
+{"name_norm": "MWA FINANCE NO1 LTD DEAN CAMPBELL BANKS MARK GOODFELLOW AND EDWARD ROSENGARTEN", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "related party: combined name of MWA Finance NO1 and individuals tied to the MWA group"}
+{"name_norm": "LEND INVEST BTL", "category": "property_lender", "parent_firm": "Lend Invest", "confidence": 0.92, "reason": "Buy-to-let mortgage lender name; borrower is a residential property company"}
+{"name_norm": "FINNISH EXPORT CREDIT LTD AS LENDER", "category": "public_sector", "parent_firm": "Government of Finland", "confidence": 0.85, "reason": "Finnish state export credit company (Finnvera group) as lender; Finnvera acts as security agent on same charge"}
+{"name_norm": "CATHERINE ANN HUNT", "category": "individual", "parent_firm": null, "confidence": 0.9, "reason": "Personal name"}
+{"name_norm": "RICHMOND GROUP DEBT CAPITAL", "category": "other", "parent_firm": "Richmond Group Limited", "confidence": 0.8, "reason": "related party: shares owner/director Rachid Benamor with the only borrower checked"}
+{"name_norm": "FINANCE 365", "category": "direct_lender", "parent_firm": null, "confidence": 0.45, "reason": "SIC 64921 non-bank finance house, individual owners; one charge on a trading borrower, nature of lending unclear"}
+{"name_norm": "ORANMORE", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: owned by Paul McGowan (Amcomri owner) and shares director with borrower"}
+{"name_norm": "THE CEASING MEMBER S PREMIUMS TRUSTEES AS DEFINED IN THE INSTRUMENT", "category": "security_agent", "parent_firm": "Lloyd's", "confidence": 0.7, "reason": "Trustee party under Lloyd's instrument with beneficiaries and the Society of Lloyd's as co-chargees"}
+{"name_norm": "EUROBANK ERGASIAS S A", "category": "bank", "parent_firm": "Eurobank", "confidence": 0.97, "reason": "Greek commercial bank"}
+{"name_norm": "CHRISTOPHER BALL AND CATHERINE ROUND BALL", "category": "individual", "parent_firm": null, "confidence": 0.92, "reason": "Two personal names; legal charge securing £30,000 owed to them"}
+{"name_norm": "LLOYDS AND SCOTTISH TRUST", "category": "asset_finance", "parent_firm": null, "confidence": 0.5, "reason": "Dissolved finance house (Lloyds and Scottish) with a 1970 legal charge; historic"}
