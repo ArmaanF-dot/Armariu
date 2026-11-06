@@ -202,7 +202,8 @@ class ViewAndScorecardTests(unittest.TestCase):
         self.assertFalse(wk["observed_only"])
         self.assertTrue(out["flow_weeks"][0]["observed_only"])
         self.assertNotIn("individual", [m["class"] for m in out["league_moves"]])
-        self.assertEqual(out["watch"]["high"], 1)
+        self.assertEqual(out["watch"]["scored"], 1)
+        self.assertNotIn("buckets", out["watch"])   # absolute odds are not exported
         self.assertNotIn("private individual", json.dumps(out).lower())
 
     def test_wilson_interval(self):

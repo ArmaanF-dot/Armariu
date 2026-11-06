@@ -221,3 +221,23 @@ details.tview{margin-top:12px;font-size:13px}details.tview summary{cursor:pointe
 /* ---------- terminal toggle (terminal mode itself lives in terminal.css) */
 .ghost.term-btn{width:auto;padding:0 12px;gap:7px;display:inline-flex;align-items:center;font:500 13px var(--sans)}
 @media (max-width:720px){.ghost.term-btn span{display:none}.ghost.term-btn{width:38px;padding:0;justify-content:center}}
+/* ---------- measured hit rates (random sample) */
+.hr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.hr-card{display:flex;flex-direction:column;padding:22px 22px 18px}
+.hr-top{display:flex;flex-direction:column;gap:2px}.hr-top h3{font:600 15px var(--sans);margin:0}
+.hr-note{font-size:12px;color:var(--faint);line-height:1.4;min-height:34px}
+.hr-big{font:400 clamp(44px,5vw,60px)/1 var(--serif);letter-spacing:-.015em;margin-top:10px}
+.hr-l{font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.4}
+.hr-rng{font:12px var(--mono);color:var(--accent);margin-top:8px}
+.hr-sep{height:1px;background:var(--line);margin:16px 0 8px}
+.hr-row{display:flex;justify-content:space-between;gap:14px;align-items:baseline;padding:5px 0;font-size:13px;color:var(--muted)}
+.hr-row b{font:500 13px var(--mono);color:var(--text);text-align:right}.hr-row i{font-style:normal;color:var(--faint);font-weight:400}
+h3.blk{font:400 26px var(--serif);margin:0 0 6px;letter-spacing:-.01em}
+.mini{font:11px var(--mono);color:var(--faint)}
+.band{display:inline-block;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line-2);color:var(--muted);white-space:nowrap}
+.band.hot{color:var(--accent);border-color:rgba(232,176,75,.45);background:rgba(232,176,75,.09)}.band.dim{color:var(--faint)}
+.band-s{font:11px/1.35 var(--mono);color:var(--faint);margin-top:5px;max-width:230px}
+@media (max-width:960px){.hr-grid{grid-template-columns:1fr}.hr-note{min-height:0}}
+@media (max-width:560px){.hr-row{flex-direction:column;gap:2px}.hr-row b{text-align:left}.tbl.wl td,.tbl.wl th{padding-left:8px;padding-right:8px}.band-s{max-width:none}}
+.show-sm{display:none}
+@media (max-width:960px){.show-sm{display:block}.tbl.wl .band-s{display:none}}

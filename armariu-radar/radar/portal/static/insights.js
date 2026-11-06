@@ -154,26 +154,34 @@ function moveMatrix(el, moves, labels) {
   el.querySelectorAll(".hm-c").forEach((c) => { c.onmousemove = (e) => showTip(`${c.dataset.tip}${tipRow("", "Refinancing signals, 13 weeks", fmt(+c.dataset.n))}`, e.clientX, e.clientY); c.onmouseleave = hideTip; });
 }
 
-// ------------------------------------------------------------------ odds histogram (refinance watch)
-function oddsHistogram(el, w) {
-  const rows = w.buckets, W = Math.max(320, el.clientWidth || 600), H = 240, pl = 44, pr = 8, pt = 22, pb = 30;
-  const max = niceMax(Math.max(...rows.map((r) => r.companies)));
-  const bw = (W - pl - pr) / rows.length, bwid = Math.min(40, bw - 2), y = (v) => pt + (1 - v / max) * (H - pt - pb);
-  const ticks = [0, 0.5, 1].map((f) => f * max);
-  const base = w.base_rate, bx = rows.findIndex((r) => base >= r.from && base < r.to);
-  const baseX = bx >= 0 ? pl + bw * bx + bw * ((base - rows[bx].from) / (rows[bx].to - rows[bx].from)) : null;
-  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Companies by odds of refinancing within 12 months">
-    <g class="grid">${ticks.map((t) => `<line x1="${pl}" x2="${W - pr}" y1="${y(t)}" y2="${y(t)}"/>`).join("")}</g>
-    <g class="axis">${ticks.map((t) => `<text x="${pl - 6}" y="${y(t) + 4}" text-anchor="end">${compact(t)}</text>`).join("")}
-    ${rows.map((r, i) => `<text x="${pl + bw * i + bw / 2}" y="${H - 10}" text-anchor="middle">${Math.round(r.from * 100)}–${Math.round(r.to * 100)}%</text>`).join("")}</g>
-    ${rows.map((r, i) => `<path class="mk" data-i="${i}" data-s="${r.from >= w.high_odds ? "refinancing" : "add_on"}" d="${barPath(pl + bw * i + (bw - bwid) / 2, y(r.companies), bwid, y(0) - y(r.companies))}"/>`).join("")}
-    ${baseX ? `<line class="ref" x1="${baseX}" x2="${baseX}" y1="${pt - 8}" y2="${H - pb}"/><text class="note" x="${baseX + 5}" y="${pt - 10}">average ${pct(base)}</text>` : ""}</svg>`;
-  const svg = el.firstElementChild;
-  hover(svg, (e) => {
-    const t = e.target.closest(".mk"); svg.querySelectorAll(".hl").forEach((n) => n.classList.remove("hl"));
-    if (!t) return hideTip(); t.classList.add("hl"); const r = rows[+t.dataset.i];
-    showTip(`<b>Odds ${Math.round(r.from * 100)}% to ${Math.round(r.to * 100)}%</b>${tipRow("", "Companies", fmt(r.companies))}${tipRow("", "Share of scored", pct1(r.companies / w.scored))}`, e.clientX, e.clientY);
-  });
+// ------------------------------------------------------------------ measured hit rates (random sample)
+// The only absolute rates shown anywhere: radar/refi_sample.py, from a random sample of companies. Ranges are
+// 95%. The radar's own data runs about 3x high, so its rates are never exported.
+const rng1 = (c, u = "%") => `${c[0]}${u === "×" ? "" : u} to ${c[1]}${u}`;
+const SAMPLE_ORDER = ["ordinary", "property", "ordinary_np"];
+function sampleCards(S, { compact = false } = {}) {
+  const card = (k) => {
+    const g = S.groups[k], y = g["12m"], n = g["90d"];
+    return `<div class="card hr-card"><div class="hr-top"><h3>${esc(g.label)}</h3><span class="hr-note">${esc(g.note)}</span></div>
+      <div class="hr-big num">${y.top10}%</div>
+      <div class="hr-l">of the top 10% switched lender within 12 months</div>
+      <div class="hr-rng">95% range ${rng1(y.top10_ci)}</div>
+      <div class="hr-sep"></div>
+      <div class="hr-row"><span>Lift on the group average</span><b class="num">${y.lift.toFixed(1)}× <i>(${rng1(y.lift_ci, "×")})</i></b></div>
+      ${y.all != null ? `<div class="hr-row"><span>Average company, 12 months</span><b class="num">${y.all}% <i>(${rng1(y.all_ci)})</i></b></div>` : ""}
+      ${compact ? "" : `<div class="hr-row"><span>90 days, top 10%</span><b class="num">${n ? `${n.top10}% <i>(${rng1(n.top10_ci)}) · ${n.lift.toFixed(1)}×</i>` : `<i>not tested</i>`}</b></div>`}</div>`;
+  };
+  return `<div class="hr-grid">${SAMPLE_ORDER.map(card).join("")}</div>`;
+}
+function sampleNote(S) {
+  return `<p class="caveat">Measured on a random sample of ${fmt(S.companies)} England and Wales companies with a charge register, ${fmt(S.scored["12m"].company_dates)} company-dates at 12 months and ${fmt(S.scored["90d"].company_dates)} at 90 days, in months the score never saw (${esc(S.as_of)}). A switch is a repaid loan followed by a new charge from a lender not on the repaid loans. ${S.caveats.slice(1).map(esc).join(" ")}</p>`;
+}
+function bandTag(r, S) {
+  const g = S.groups[r.group], y = g && g["12m"];
+  if (r.group === "serial") return `<span class="band dim">Serial borrower</span><div class="band-s">11+ loans: not measured</div>`;
+  if (r.band === "top10" && y) return `<span class="band hot">Top 10%</span><div class="band-s">${y.top10}% switched in 12M (${rng1(y.top10_ci)}) · ${y.lift.toFixed(1)}×</div>`;
+  if (r.band === "top25") return `<span class="band">Top 25%</span><div class="band-s">above average, rate not measured</div>`;
+  return `<span class="band dim">Rest</span>`;
 }
 
 // ------------------------------------------------------------------ the Insights page
@@ -231,12 +239,9 @@ function insights() {
         ${tableHTML(["Week", "New charges", "Private credit share", "All-asset share", "Repaid per 100 new"], I.flow_weeks.map((r) => [dLong(r.week_start) + (r.observed_only ? " *" : ""), fmt(r.new), r.new ? pct1(r.private_credit / r.new) : "n/a", r.register ? pct1(r.all_assets / r.register) : "n/a", r.new ? Math.round((r.satisfied / r.new) * 100) : "n/a"]))}</div>
         <div class="card s5"><h3>All-asset debentures by lender type</h3><p class="sub">Share of each type's charges with a floating charge over all assets, charges read from the live register</p><div id="ch-deb"></div></div></div></section>
 
-    <section class="section reveal"><div class="sec-head"><div><span class="kicker">05 · Refinance watch</span><h3 class="h">How likely is a refinancing in the next year?</h3><p>Every company with a loan still registered, scored on its filings alone. ${fmt(I.watch.high)} of ${fmt(I.watch.scored)} companies have odds of ${pct(I.watch.high_odds)} or more.</p></div><button class="pill-btn" data-go="#/watch">Open the Refinance watch</button></div>
-      <div class="grid"><div class="card s7"><h3>Companies by odds of refinancing within 12 months</h3><p class="sub">Darker bars: odds of ${pct(I.watch.high_odds)} or more</p><div class="chart" id="ch-odds"></div>
-        <div class="legend"><span>${swatch("add_on", "s")}Below ${pct(I.watch.high_odds)}</span><span>${swatch("refinancing", "s")}${pct(I.watch.high_odds)} or more</span></div>
-        ${tableHTML(["Odds", "Companies"], I.watch.buckets.map((b) => [`${Math.round(b.from * 100)}% to ${Math.round(b.to * 100)}%`, fmt(b.companies)]))}</div>
-        <div class="card s5"><h3>Average odds by sector</h3><p class="sub">Sectors with 30 or more companies scored</p><div id="ch-wsec"></div></div></div>
-      <p class="caveat">${esc(D.refi_watch?.caveat || "")}</p></section>
+    <section class="section reveal"><div class="sec-head"><div><span class="kicker">05 · Refinance watch</span><h3 class="h">Who tends to switch lender, and how well the list ranks them</h3><p>${fmt(I.watch.scored)} companies with a loan still registered are scored on their filings alone. The figures below were measured on a random sample, not on this page's own data.</p></div><button class="pill-btn" data-go="#/watch">Open the Refinance watch</button></div>
+      ${D.refi_watch?.sample ? sampleCards(D.refi_watch.sample, { compact: true }) + sampleNote(D.refi_watch.sample) : ""}
+      <div class="grid" style="margin-top:18px"><div class="card s12"><h3>Relative score by sector</h3><p class="sub">Average score against the average company (1.0×). A ranking aid only: not a refinancing rate. Sectors with 30 or more companies scored</p><div id="ch-wsec"></div></div></div></section>
   </div>`;
   const draw = () => {
     let mode = $("#sig-m [aria-pressed=true]").dataset.m;
@@ -248,9 +253,7 @@ function insights() {
       { key: "private_credit", label: "Private credit or agent", short: "private credit", values: I.flow_weeks.map((r) => (r.new ? r.private_credit / r.new : null)) },
       { key: "bank", label: "All-asset floating charge", short: "all-asset", values: I.flow_weeks.map((r) => (r.register >= 20 ? r.all_assets / r.register : null)) }], { kind: "g" });
     hBars($("#ch-deb"), I.debentures.map((d) => ({ label: LBL(d.class), value: d.all_assets / d.charges, key: GROUPS_OF[d.class] || "other", tip: [["All-asset", fmt(d.all_assets)], ["Charges", fmt(d.charges)], ["Share", pct1(d.all_assets / d.charges)]] })), { max: 1 });
-    oddsHistogram($("#ch-odds"), I.watch);
-    const ws = I.watch.sectors.filter((s) => !["Sector not known yet", "Dormant or not trading"].includes(s.sector)).slice(0, 9);
-    hBars($("#ch-wsec"), ws.map((s) => ({ label: s.sector, value: s.mean_odds, tip: [["Companies scored", fmt(s.companies)], ["Average odds", pct1(s.mean_odds)], [`Odds ${pct(I.watch.high_odds)}+`, fmt(s.high)]] })), { kind: "s", key: "add_on", ref: I.watch.base_rate, refLabel: `average ${pct(I.watch.base_rate)}` });
+    sectorScores($("#ch-wsec"), I.watch);
   };
   draw();
   $$("#sig-m button").forEach((b) => (b.onclick = () => { $$("#sig-m button").forEach((x) => x.setAttribute("aria-pressed", x === b)); weeklyStack($("#ch-sig"), I.signal_weeks, SIG_STACK, SL, { kind: "s", share: b.dataset.m === "share" }); }));
@@ -262,32 +265,25 @@ function redrawOnResize(fn) { _resizeFn = fn; }
 addEventListener("resize", () => { clearTimeout(_resizeT); _resizeT = setTimeout(() => _resizeFn && document.body.contains($(".chart, #ch-sec, #ch-wt")) && _resizeFn(), 160); });
 
 // ------------------------------------------------------------------ extra charts on other pages
+function sectorScores(el, w) {
+  const rows = w.sectors.filter((x) => x.mean_lift != null && !["Sector not known yet", "Dormant or not trading"].includes(x.sector)).slice(0, 9);
+  hBars(el, rows.map((x) => ({ label: x.sector, value: x.mean_lift, tip: [["Companies scored", fmt(x.companies)], ["Relative score", `${x.mean_lift.toFixed(2)}×`]] })), { kind: "s", key: "add_on", fmtV: (v) => `${v.toFixed(1)}×`, ref: 1, refLabel: "average company" });
+}
 function watchCharts() {
   const I = D.insights; if (!I) return "";
-  return `<div class="grid" style="margin-bottom:22px"><div class="card s7"><h3>How the odds spread</h3><p class="sub">${fmt(I.watch.scored)} companies scored; ${fmt(I.watch.high)} have odds of ${pct(I.watch.high_odds)} or more</p><div class="chart" id="ch-odds"></div>
-    <div class="legend"><span>${swatch("add_on", "s")}Below ${pct(I.watch.high_odds)}</span><span>${swatch("refinancing", "s")}${pct(I.watch.high_odds)} or more</span></div></div>
-    <div class="card s5"><h3>Average odds by sector</h3><p class="sub">Sectors with 30 or more companies scored</p><div id="ch-wsec"></div></div></div>`;
+  return `<div class="card" style="margin-bottom:22px"><h3>Relative score by sector</h3><p class="sub">${fmt(I.watch.scored)} companies scored. Average score against the average company (1.0×): a ranking aid, not a refinancing rate. Sectors with 30 or more companies scored</p><div id="ch-wsec"></div></div>`;
 }
 function drawWatchCharts() {
-  const I = D.insights; if (!I || !$("#ch-odds")) return;
-  const draw = () => {
-    oddsHistogram($("#ch-odds"), I.watch);
-    hBars($("#ch-wsec"), I.watch.sectors.filter((s) => !["Sector not known yet", "Dormant or not trading"].includes(s.sector)).slice(0, 9).map((s) => ({ label: s.sector, value: s.mean_odds, tip: [["Companies scored", fmt(s.companies)], ["Average odds", pct1(s.mean_odds)], [`Odds ${pct(I.watch.high_odds)}+`, fmt(s.high)]] })), { kind: "s", key: "add_on", ref: I.watch.base_rate, refLabel: `average ${pct(I.watch.base_rate)}` });
-  };
+  const I = D.insights; if (!I || !$("#ch-wsec")) return;
+  const draw = () => sectorScores($("#ch-wsec"), I.watch);
   draw(); redrawOnResize(draw);
 }
 function recordWatchCard() {
-  const W = D.refi_watch; if (!W) return "";
-  const bt = W.backtest;
-  return `<div class="card reveal" style="margin-top:18px"><span class="badge warn">Backtest · ${esc(W.model_version)}</span><h3 style="margin-top:14px;font:400 28px var(--serif)">Refinance watch</h3>
-    <p class="sub">Share of companies that registered a new lender's charge within ${Math.round(W.window_days / 30.4)} months, by how highly the score ranked them. Tested on ${fmt(bt.rows)} company-dates the score never saw while it was built.</p><div id="ch-wt"></div>
-    ${tableHTML(["Ranked in the top", "Companies", "Refinanced", "Lift"], bt.tiers.map((t) => [t.top, fmt(t.companies), pct1(t.hit_rate), `${t.lift}×`]))}</div>`;
+  const W = D.refi_watch; if (!W || !W.sample) return "";
+  return `<div class="card reveal" style="margin-top:18px"><span class="badge warn">Backtest · random sample · ${esc(W.model_version)}</span><h3 style="margin-top:14px;font:400 28px var(--serif)">Refinance watch</h3>
+    <p class="sub">How often companies in the top 10% of the list switched lender, against the group average. Measured on companies drawn at random, in months the score never saw.</p>${sampleCards(W.sample)}${sampleNote(W.sample)}</div>`;
 }
-function drawRecordWatch() {
-  const W = D.refi_watch; if (!W || !$("#ch-wt")) return;
-  const draw = () => hBars($("#ch-wt"), W.backtest.tiers.map((t) => ({ label: `Top ${t.top}`, value: t.hit_rate, tip: [["Companies", fmt(t.companies)], ["Refinanced", pct1(t.hit_rate)], ["Lift", `${t.lift}×`]] })), { kind: "s", key: "refinancing", max: 1, ref: W.backtest.base_rate, refLabel: `average ${pct(W.backtest.base_rate)}` });
-  draw(); redrawOnResize(draw);
-}
+function drawRecordWatch() {}
 
 // ------------------------------------------------------------------ home page teaser
 function homeInsights() {

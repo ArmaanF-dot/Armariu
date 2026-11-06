@@ -125,6 +125,7 @@ def build_insights(companies: dict, sigs: list[dict], refi_rows: list[dict], tod
                              "mean_odds": round(s["odds_sum"] / s["companies"], 4)}
                             for s in sec.values() if s["companies"] >= 30), key=lambda s: -s["mean_odds"])
 
+    base = refi_rows[0]["base_rate"] if refi_rows else 0
     sectors_out = sorted(({"sector": k, "total": sum(v.values()), **{g: v.get(g, 0) for g in GROUP_LABELS}}
                           for k, v in sector_cls.items() if k != "Sector not known yet"), key=lambda r: -r["total"])
     return {
@@ -140,10 +141,10 @@ def build_insights(companies: dict, sigs: list[dict], refi_rows: list[dict], tod
                           **{g: age_cls[label].get(g, 0) for g in GROUP_LABELS}} for label, _, _ in AGE_BANDS],
         "debentures": sorted(({"class": k, "charges": v[0], "all_assets": v[1]} for k, v in class_debenture.items()
                               if k != "individual" and v[0] >= 20), key=lambda r: -r["all_assets"] / r["charges"]),
-        "watch": {"scored": len(refi_rows), "buckets": [{"from": ODDS_BUCKETS[i], "to": min(1.0, ODDS_BUCKETS[i + 1]),
-                                                          "companies": n} for i, n in enumerate(hist)],
-                  "high_odds": HIGH_ODDS, "high": sum(1 for r in refi_rows if r["odds_12m"] >= HIGH_ODDS),
-                  "base_rate": refi_rows[0]["base_rate"] if refi_rows else None, "sectors": watch_sectors[:12]},
+        # relative scores only: the model's absolute odds come from the radar's own data and run about 3x high
+        "watch": {"scored": len(refi_rows),
+                  "sectors": [{"sector": x["sector"], "companies": x["companies"],
+                               "mean_lift": round(x["mean_odds"] / base, 2) if base else None} for x in watch_sectors[:12]]},
     }
 
 
