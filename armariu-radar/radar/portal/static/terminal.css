@@ -135,7 +135,8 @@
   .t-top{flex-wrap:wrap;gap:6px 8px}.t-cmd{order:3;flex-basis:100%;max-width:none}.t-meta{display:none}
   .t-detail.on{position:fixed;inset:0;z-index:50;width:auto}.t-detail-in{width:auto}
   .t-help dl{grid-template-columns:1fr}
-  .t-f input[type=search]{min-width:0;flex:1}
+  .t-f input[type=search]{min-width:0;flex:1 1 100%}
+  .t-kpis{grid-template-columns:repeat(2,1fr)}.t-kpi:last-child:nth-child(odd){grid-column:1/-1}
   .t-status .cav{display:none}
 }
 .t-chart svg{display:block;width:100%;height:auto;fill:initial;stroke:none}

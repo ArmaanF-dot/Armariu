@@ -21,7 +21,7 @@ from .charge_history import load_companies
 from .charge_signals import RULE_VERSION, all_signals, in_window
 from .lender_view import CAVEAT, SAMPLE_CAVEAT, build, display_name, row_key, week_of
 from .scorecard import BIAS_NOTE, backtest
-from . import public_suppliers, refi_accuracy, refi_watch
+from . import public_suppliers, refi_accuracy, refi_sample, refi_watch
 from .insights import build_insights
 from .weekly_pack import NOT_ADVICE
 
@@ -143,9 +143,14 @@ def _refi(companies, today: date, rows=None, model=None, cov_d: date | None = No
     sup = public_suppliers.load() if sup is None else sup
     for r in rows:   # a description only: the tag never changes the score
         r["public_supplier"] = r["company_number"] in sup
-    prop = "Property and real estate"   # keep a full list for each view, since property dominates the top
-    rows = [r for r in rows if r["sector"] == prop][:300] + [r for r in rows if r["sector"] != prop][:300]
-    rows.sort(key=lambda r: (-r["score"], r["company_number"]))
+    refi_sample.add_bands(rows)   # rank band within each random-sample group, over every scored company
+    # a mix of every group (serial borrowers would otherwise fill the list), measured top bands first
+    by = {}
+    for r in rows:
+        by.setdefault(r["group"], []).append(r)
+    rows = by.get("property", [])[:250] + by.get("ordinary_np", [])[:250] + by.get("serial", [])[:100]
+    rank = {"top10": 3, "top25": 2, "rest": 1, None: 0}
+    rows.sort(key=lambda r: (-rank[r["band"]], -r["score"], r["company_number"]))
     return {"caveat": refi_watch.CAVEAT, "model_version": refi_watch.MODEL_VERSION, "window_days": refi_watch.WINDOW,
             "base_rate": round(model.base, 4), "backtest": refi_watch.backtest(companies), "rows": rows,
             "tag": {"label": public_suppliers.TAG, "help": public_suppliers.TAG_HELP},

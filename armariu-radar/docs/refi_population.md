@@ -51,3 +51,9 @@ Quote the **random-sample rates**, not the radar-data rates, for anything a lend
 
 **Limits.** England and Wales only, and only companies still on the register. Reruns will move the figures
 as the sample grows; the sampler resumes with `python -m radar.population sample --target N`.
+
+**Where the portal gets its figures.** The client portal and terminal quote only the random-sample rows
+above, typed into `radar/refi_sample.py` (change both together after a rerun). The export drops the model's
+absolute odds, the radar-data backtest tiers and the 90-day radar-data table. Each listed company shows its rank
+band inside its own group (property, ordinary non-property, serial borrowers); only the top 10% band carries a
+measured rate, serial borrowers none.

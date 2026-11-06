@@ -21,7 +21,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
-from .. import snapshot
+from .. import refi_sample, snapshot
 
 STATIC = Path(__file__).resolve().parent / "static"
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
@@ -31,6 +31,9 @@ PUBLIC_KEYS = ("built", "rule_version", "coverage_start", "caveat", "sample_cave
                "class_labels", "signal_labels", "totals", "weeks", "series", "lenders", "signals", "scorecard", "refi_watch", "working_capital", "insights")
 
 
+ROW_PRIVATE = ("odds_12m", "lift", "base_rate")   # the model's absolute odds come from the radar's own data
+
+
 def public_data(snap: dict) -> dict:
     """Only what a client may see. The owner's review list and alias coverage stay out."""
     out = {k: snap.get(k) for k in PUBLIC_KEYS}
@@ -38,7 +41,12 @@ def public_data(snap: dict) -> dict:
                       if "private individual" not in (s.get("lender_names", "") + s.get("other_lender", "")).lower()]
     if out.get("refi_watch"):   # never name individuals: drop rows whose newest lender is one
         rw = dict(out["refi_watch"])
-        rw["rows"] = [r for r in rw.get("rows") or [] if "private individual" not in r.get("newest_lender", "").lower()]
+        rw["rows"] = [{k: v for k, v in r.items() if k not in ROW_PRIVATE}
+                      for r in rw.get("rows") or [] if "private individual" not in r.get("newest_lender", "").lower()]
+        for k in ("backtest", "accuracy_90d", "base_rate", "caveat"):   # radar-data rates run about 3x high: never exported
+            rw.pop(k, None)
+        rw["sample"] = refi_sample.public()
+        rw["caveat"] = refi_sample.CAVEATS[2]
         out["refi_watch"] = rw
     return out
 
