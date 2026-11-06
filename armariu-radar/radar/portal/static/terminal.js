@@ -19,7 +19,7 @@ const Term = (() => {
     screen: "mon", week: 0, hideProp: true,
     leag: { sort: "this_week", dir: -1, q: "", cls: "all" },
     sig: { sort: "signal_date", dir: -1, q: "", type: "all", sector: "" },
-    rfw: { sort: "odds_12m", dir: -1, q: "", sector: "" },
+    rfw: { sort: "band", dir: -1, q: "", sector: "" },
     lend: { sort: "charges_13w", dir: -1, q: "", cls: "all" },
     wl: { sort: "label", dir: 1, q: "" },
   };
@@ -217,13 +217,19 @@ const Term = (() => {
     { k: "other_lender", label: "Other side", cls: "dim" },
     { k: "_f", label: "Filing", nosort: true, h: (s) => `<a href="${esc(s.filing_url)}" target="_blank" rel="noopener">CH ↗</a>` },
   ];
+  const SMP = () => D.refi_watch?.sample;
+  const BAND_RANK = { top10: 3, top25: 2, rest: 1, x: 0 };
+  const rg = (c) => `${c[0]}–${c[1]}%`;
+  const bandCell = (r) => (r.group === "serial" ? '<span class="dim">Serial</span>' : r.band === "top10" ? "<b>Top 10%</b>" : r.band === "top25" ? "Top 25%" : '<span class="dim">Rest</span>');
+  const bandRate = (r) => { const y = SMP()?.groups?.[r.group]?.["12m"]; return r.band === "top10" && y ? `${y.top10}% (${rg(y.top10_ci)})` : r.group === "serial" ? "not measured" : ""; };
   const RFW_COLS = [
     { k: "_s", label: "", nosort: true, cls: "w1", h: (r) => star(ckey(r.company_number)) },
     { k: "company_name", label: "Company", cls: "nm" },
     { k: "company_number", label: "No.", cls: "dim" },
     { k: "sector", label: "Sector", cls: "dim" },
-    { k: "odds_12m", label: "Odds 12M", r: true, h: (r) => pct(r.odds_12m, 1) },
-    { k: "lift", label: "Lift", r: true, h: (r) => `${r.lift}×` },
+    { k: "score", label: "Score", r: true, title: "model score: higher ranks higher; not a probability", h: (r) => Number(r.score).toFixed(2) },
+    { k: "band", label: "Band", v: (r) => BAND_RANK[r.band || "x"] * 1000 + r.score, h: (r) => bandCell(r) },
+    { k: "measured", label: "Measured, 12M", nosort: true, cls: "dim", h: (r) => bandRate(r) },
     { k: "newest_lender", label: "Newest lender" },
     { k: "newest_created", label: "Newest loan", h: (r) => (r.newest_created ? dShort(r.newest_created) : "") },
     { k: "reasons", label: "Why it scores", cls: "why", nosort: true, h: (r) => `<span title="${esc(r.reasons)}">${esc(r.reasons)}</span>` },
@@ -296,7 +302,7 @@ const Term = (() => {
     const w = wk(), ser = D.series[D.series.length - 1] || {}, I = D.insights || {};
     const recent = D.signals.filter((s) => s.signal_date >= w.start && s.signal_date <= w.end);
     const n = (t) => recent.filter((s) => s.signal_type === t).length;
-    const tier = D.refi_watch?.backtest?.tiers?.[0];
+    const og = SMP()?.groups?.ordinary?.["12m"];
     const kp = [
       ["Charges, week", fmt(w.raw_charges), `${dShort(w.start)}–${dShort(w.end)}${w.complete ? "" : " · partial"}`],
       ["Private credit", fmt(ser.direct_lender || 0), "charges, latest series week"],
@@ -304,7 +310,7 @@ const Term = (() => {
       ["Refinancing", fmt(n("refinancing")), "signals this week"],
       ["First facility", fmt(n("first_facility")), "signals this week"],
       ["Add-on", fmt(n("add_on")), "signals this week"],
-      ["Watch, top " + (tier?.top || ""), tier ? pct(tier.hit_rate) : "–", tier ? `refinanced · ${tier.lift}× avg · backtest` : "not built"],
+      ["Watch, top 10%", og ? `${og.top10}%` : "–", og ? `switched lender in 12M (${rg(og.top10_ci)}) · ${og.lift.toFixed(1)}× · random sample` : "not built"],
       ["Watchlist", fmt(WL.length), "saved in this browser"],
     ];
     m.innerHTML = `<div class="t-kpis" style="margin-bottom:8px">${kp.map(([l, v, s]) => `<div class="t-kpi"><div class="l">${esc(l)}</div><div class="v">${v}</div><div class="s">${esc(s)}</div></div>`).join("")}</div>
@@ -314,7 +320,7 @@ const Term = (() => {
         ${pane("wl", "Watchlist", "c3", `<button class="lnk n" data-go="wl">6 WL ›</button>`, `<div class="scroll" id="m-wl" style="max-height:440px"></div>`)}
         ${pane("mix", "Charges by lender type · 13 weeks", "c5", `<span class="n">count</span>`, `<div class="t-chart" id="m-mix"></div>`)}
         ${pane("sigw", "Signals by week", "c4", `<span class="n">count</span>`, `<div class="t-chart" id="m-sigw"></div>`)}
-        ${pane("rfw", "Refinance watch · top odds", "c3", `<button class="lnk n" data-go="rfw">4 RFW ›</button>`, `<div class="scroll" id="m-rfw" style="max-height:300px"></div>`)}
+        ${pane("rfw", "Refinance watch · top ranked", "c3", `<button class="lnk n" data-go="rfw">4 RFW ›</button>`, `<div class="scroll" id="m-rfw" style="max-height:300px"></div>`)}
         ${pane("flows", "Top refinancing flows · 13 weeks", "c6", "", `<div class="scroll" id="m-flows" style="max-height:260px"></div>`)}
         ${pane("moves", "League movers · 4 weeks vs prior 4", "c6", I.league_moves_prior_partial ? `<span class="n">prior window partly observed</span>` : "", `<div class="scroll" id="m-moves" style="max-height:260px"></div>`)}
       </div>`;
@@ -323,7 +329,7 @@ const Term = (() => {
     table("m-leag", $("#m-leag"), { cols: LEAGUE_COLS(w).filter((c) => !["_t", "trailing_13w"].includes(c.k)), rows: leagueRows({ q: "", cls: "all" }).slice(0, 20), state: lst, keyOf: (r) => lkey(r.lender, r.class), labelOf: (r) => r.lender });
     table("m-sig", $("#m-sig"), { cols: SIG_COLS.filter((c) => ["signal_date", "signal_type", "company_name", "lender_names"].includes(c.k)), rows: sigRows({ q: "", type: "all", sector: "" }).slice(0, 40), state: { sort: "signal_date", dir: -1 }, keyOf: (s) => ckey(s.company_number), labelOf: (s) => s.company_name });
     wlTable($("#m-wl"), true);
-    table("m-rfw", $("#m-rfw"), { cols: RFW_COLS.filter((c) => ["company_name", "odds_12m", "lift"].includes(c.k)), rows: rfwRows({ q: "", sector: "" }).slice(0, 25), state: { sort: "odds_12m", dir: -1 }, keyOf: (r) => ckey(r.company_number), labelOf: (r) => r.company_name });
+    table("m-rfw", $("#m-rfw"), { cols: RFW_COLS.filter((c) => ["company_name", "band"].includes(c.k)), rows: rfwRows({ q: "", sector: "" }).slice(0, 25), state: { sort: "band", dir: -1 }, keyOf: (r) => ckey(r.company_number), labelOf: (r) => r.company_name });
     const flows = (w.flows || []).filter((f) => !isPerson(f.from_lender + f.to_lender));
     table("m-flows", $("#m-flows"), {
       cols: [{ k: "from_lender", label: "From (satisfied)" }, { k: "_a", label: "", nosort: true, h: () => '<span class="dim">→</span>' }, { k: "to_lender", label: "To (new charge)", cls: "nm" }, { k: "signals_13w", label: "Signals", r: true }],
@@ -367,9 +373,9 @@ const Term = (() => {
     if (!W) { m.innerHTML = `<p class="t-empty">The refinance watch has not been built yet.</p>`; return; }
     const st = T.rfw, sectors = [...new Set(W.rows.map((r) => r.sector))].sort();
     const fb = filterBar("rfw", st, { selects: [{ key: "sector", label: "Sector", opts: sectors }] }, () => redraw());
-    const tiers = W.backtest?.tiers || [];
-    m.innerHTML = `<div class="t-kpis" style="margin-bottom:8px">${tiers.map((t) => `<div class="t-kpi"><div class="l">Top ${esc(t.top)} · backtest</div><div class="v">${pct(t.hit_rate)}</div><div class="s">refinanced in 12M · ${t.lift}× the ${pct(W.backtest.base_rate)} avg</div></div>`).join("")}</div>`
-      + pane("R", `Refinance watch · ${esc(W.model_version)}`, "c12", `<span class="n">odds, not a forecast</span>`, fb.html + `<div id="t-rfw"></div><p class="t-empty">${esc(W.caveat)}</p>`);
+    const SM = SMP(), grp = SM ? ["ordinary", "property", "ordinary_np"].map((k) => [SM.groups[k], SM.groups[k]["12m"]]) : [];
+    m.innerHTML = `<div class="t-kpis" style="margin-bottom:8px">${grp.map(([g, y]) => `<div class="t-kpi"><div class="l">${esc(g.label)} · top 10%</div><div class="v">${y.top10}%</div><div class="s">switched lender in 12M · range ${rg(y.top10_ci)} · ${y.lift.toFixed(1)}× the group (${y.lift_ci[0]}–${y.lift_ci[1]}×)</div></div>`).join("")}</div>`
+      + pane("R", `Refinance watch · ${esc(W.model_version)}`, "c12", `<span class="n">ranking, not a forecast</span>`, fb.html + `<div id="t-rfw"></div><p class="t-empty">${esc(W.caveat)} ${SM ? `Rates: random sample of ${fmt(SM.companies)} England and Wales companies, 95% ranges, months the score never saw. ${esc(SM.caveats[3])} ${esc(SM.caveats[4])}` : ""}</p>`);
     const redraw = () => { active = table("rfw", $("#t-rfw"), { cols: RFW_COLS, rows: rfwRows(st), state: st, keyOf: (r) => ckey(r.company_number), labelOf: (r) => r.company_name, countEl: fb.count() }); };
     redraw(); fb.wire();
   }
@@ -390,16 +396,16 @@ const Term = (() => {
       }
       const c = IDX.companies.get(x.k.slice(2));
       const last = c?.signals.slice().sort((a, b) => b.signal_date.localeCompare(a.signal_date))[0];
-      return { ...x, kind: "Company", label: c?.name || x.label, sigs: c?.signals.length || 0, odds: c?.watch?.odds_12m ?? null, latest: last?.signal_date || c?.charges[0]?.date || "", note: last ? D.signal_labels[last.signal_type] : c?.watch ? "Refinance watch" : c ? "charges seen" : "not in this build" };
+      return { ...x, kind: "Company", label: c?.name || x.label, sigs: c?.signals.length || 0, odds: c?.watch ? (c.watch.band === "top10" ? "Top 10%" : c.watch.band === "top25" ? "Top 25%" : c.watch.group === "serial" ? "Serial" : "Rest") : null, latest: last?.signal_date || c?.charges[0]?.date || "", note: last ? D.signal_labels[last.signal_type] : c?.watch ? "Refinance watch" : c ? "charges seen" : "not in this build" };
     });
   }
   function wlTable(el, compact = false) {
     if (!WL.length) { el.innerHTML = `<p class="t-wl-empty">Nothing saved yet. Press <kbd>w</kbd> on any row, or the ☆ beside it, to watch a lender or company. The list stays in this browser only.</p>`; return; }
     const cols = compact
-      ? [{ k: "label", label: "Name", cls: "nm" }, { k: "kind", label: "", cls: "dim", h: (r) => (r.kind === "Lender" ? "L" : "C") }, { k: "fig", label: "Now", r: true, v: (r) => (r.kind === "Lender" ? r.wk : r.sigs), h: (r) => (r.kind === "Lender" ? `${r.wk} wk` : r.odds != null ? pct(r.odds) : `${r.sigs} sig`) }]
+      ? [{ k: "label", label: "Name", cls: "nm" }, { k: "kind", label: "", cls: "dim", h: (r) => (r.kind === "Lender" ? "L" : "C") }, { k: "fig", label: "Now", r: true, v: (r) => (r.kind === "Lender" ? r.wk : r.sigs), h: (r) => (r.kind === "Lender" ? `${r.wk} wk` : r.odds != null ? r.odds : `${r.sigs} sig`) }]
       : [{ k: "_s", label: "", nosort: true, cls: "w1", h: (r) => star(r.k) }, { k: "kind", label: "Kind" }, { k: "label", label: "Name", cls: "nm" }, { k: "note", label: "Type / latest", cls: "dim" },
         { k: "wk", label: "Wk", r: true, h: (r) => (r.kind === "Lender" ? r.wk : "") }, { k: "w13", label: "13W", r: true, h: (r) => (r.kind === "Lender" ? r.w13 ?? "" : "") },
-        { k: "sigs", label: "Signals 4W", r: true, h: (r) => (r.kind === "Company" ? r.sigs : "") }, { k: "odds", label: "Refi odds", r: true, h: (r) => (r.odds != null ? pct(r.odds, 1) : "") },
+        { k: "sigs", label: "Signals 4W", r: true, h: (r) => (r.kind === "Company" ? r.sigs : "") }, { k: "odds", label: "Refi band", r: true, h: (r) => (r.odds != null ? r.odds : "") },
         { k: "latest", label: "Latest", h: (r) => (r.latest ? dShort(r.latest) : "") }, { k: "_t", label: "Trend", nosort: true, h: (r) => (r.weeks ? spark(r.weeks, r.cls) : "") }, { k: "added", label: "Added", cls: "dim" }];
     return table(compact ? "m-wl" : "wl", el, { cols, rows: wlRows().filter((r) => compact || !T.wl.q || r.label.toLowerCase().includes(T.wl.q.toLowerCase())), state: compact ? { sort: "label", dir: 1 } : T.wl, keyOf: (r) => r.k, labelOf: (r) => r.label });
   }
@@ -411,7 +417,7 @@ const Term = (() => {
   function rec(m) {
     const rows = D.scorecard || [], W = D.refi_watch;
     m.innerHTML = `<div class="t-grid">${pane("SC", `Signal scorecard · backtest · rules ${esc(D.rule_version)}`, "c12", `<span class="n">further charge within 90 days vs matched baseline · 95% range by company</span>`, `<div id="t-sc"></div>`)}
-      ${W ? pane("RT", `Refinance watch tiers · backtest · ${esc(W.model_version)}`, "c6", "", `<div id="t-rt"></div>`) : ""}
+      ${W?.sample ? pane("RT", `Refinance watch · random-sample backtest · ${esc(W.model_version)}`, "c6", "", `<div id="t-rt"></div><p class="t-empty">Switched lender, 95% ranges. ${esc(W.sample.caveats[1])}</p>`) : ""}
       ${pane("BN", "Read this before the numbers", "c6", "", `<div class="pb" style="color:var(--t-muted);line-height:1.5;font-family:var(--sans)">${esc(D.bias_note)} Signals use filing dates only, so nothing looks ahead. A live, append-only log starts once the newsletter is published; it will never be mixed with these figures.</div>`)}</div>`;
     table("sc", $("#t-sc"), { cols: [
       { k: "signal_type", label: "Signal", v: (r) => D.signal_labels[r.signal_type], h: (r) => sigTag(r.signal_type) },
@@ -423,8 +429,8 @@ const Term = (() => {
       { k: "lift", label: "Lift", r: true, v: (r) => num(r.lift), h: (r) => (r.lift ? `${r.lift}×` : "") },
       { k: "window", label: "Window", nosort: true, cls: "dim", h: (r) => `${dShort(r.window_start)} ${r.window_start?.slice(0, 4)} – ${dShort(r.window_end)} ${r.window_end?.slice(0, 4)}` },
     ], rows, state: { sort: "lift", dir: -1 }, keyOf: () => null, labelOf: () => "" });
-    if (W) table("rt", $("#t-rt"), { cols: [{ k: "top", label: "Tier" }, { k: "hit_rate", label: "Refinanced 12M", r: true, h: (t) => pct(t.hit_rate, 1) }, { k: "lift", label: "Lift", r: true, h: (t) => `${t.lift}×` }],
-      rows: W.backtest?.tiers || [], state: null, keyOf: () => null, labelOf: () => "" });
+    if (W?.sample) table("rt", $("#t-rt"), { cols: [{ k: "label", label: "Group, top 10%", cls: "nm" }, { k: "rate", label: "12M rate", r: true, h: (t) => `${t.y.top10}%` }, { k: "ci", label: "95% range", r: true, nosort: true, h: (t) => rg(t.y.top10_ci) }, { k: "lift", label: "Lift", r: true, h: (t) => `${t.y.lift}× (${t.y.lift_ci[0]}–${t.y.lift_ci[1]})` }],
+      rows: ["ordinary", "property", "ordinary_np"].map((k) => ({ label: W.sample.groups[k].label, y: W.sample.groups[k]["12m"] })), state: null, keyOf: () => null, labelOf: () => "" });
   }
 
   // ---------------------------------------------------------------- detail pane
@@ -467,7 +473,7 @@ const Term = (() => {
     const lenders = [...new Map(c.charges.map((x) => [lkey(x.lender, x.cls), x])).values()];
     return `<button class="x" aria-label="Close (Esc)">Esc ✕</button><span class="t-ty">Company · ${esc(c.num)}</span><h2>${esc(c.name)}</h2><div class="sub">${esc(c.sector || "Sector not known yet")}</div>
       <div class="acts"><button class="t-btn ${inWL(k) ? "on" : ""}" data-wl="${esc(c.name)}">${inWL(k) ? "★ Watching" : "☆ Watch"} <kbd>w</kbd></button><a class="t-btn" href="https://find-and-update.company-information.service.gov.uk/company/${encodeURIComponent(c.num)}/charges" target="_blank" rel="noopener">Charges at Companies House ↗</a></div>
-      ${wr ? `<h4>Refinance watch · ${esc(wr.model_version)}</h4><div class="stats"><div><b>${pct(wr.odds_12m, 1)}</b><span>odds, 12 months</span></div><div><b>${wr.lift}×</b><span>vs ${pct(wr.base_rate)} avg</span></div><div><b>${wr.newest_created ? dShort(wr.newest_created) : "–"}</b><span>newest loan</span></div></div>
+      ${wr ? `<h4>Refinance watch · ${esc(wr.model_version)}</h4><div class="stats"><div><b>${bandCell(wr)}</b><span>rank band in its group</span></div><div><b>${bandRate(wr) || "–"}</b><span>measured, 12 months</span></div><div><b>${wr.newest_created ? dShort(wr.newest_created) : "–"}</b><span>newest loan</span></div></div>
         <div class="row"><span class="m">Newest lender</span><span>${esc(wr.newest_lender)}</span></div><p class="note" style="margin-top:6px">${esc(wr.reasons)}</p>` : ""}
       ${sigs.length ? `<h4>Signals · last four weeks · ${sigs.length}</h4>${sigs.map((s) => `<div class="row"><span>${sigTag(s.signal_type)} <span class="m">${dShort(s.signal_date)}</span><br><span style="color:var(--t-muted);font-family:var(--sans)">${esc(s.explanation)}</span></span><a href="${esc(s.filing_url)}" target="_blank" rel="noopener">CH ↗</a></div>`).join("")}` : ""}
       ${lenders.length ? `<h4>Recent charges seen</h4>${c.charges.map((x) => `<div class="row"><span><button class="lnk" data-open="${esc(lkey(x.lender, x.cls))}">${esc(x.lender)}</button><br><span class="m">${esc(LBL(x.cls))} · ${dShort(x.date)}</span></span><a href="${esc(x.url)}" target="_blank" rel="noopener">CH ↗</a></div>`).join("")}` : ""}
