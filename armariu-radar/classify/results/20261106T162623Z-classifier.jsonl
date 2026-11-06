@@ -1,0 +1,27 @@
+{"name_norm": "TWINWIN", "category": "property_lender", "parent_firm": null, "confidence": 0.7, "reason": "SIC 64921/64922 (mortgage finance); lends to a property company on two charges; owned by one person, now in liquidation"}
+{"name_norm": "CAPITALFLOW DESIGNATED ACTIVITY COMPANY", "category": "asset_finance", "parent_firm": "Capitalflow", "confidence": 0.65, "reason": "Irish DAC; name suggests Capitalflow SME/equipment finance; no Companies House match, charges over a trading company"}
+{"name_norm": "AVIVA PUBLIC PRIVATE FINANCE", "category": "property_lender", "parent_firm": "Aviva Plc", "confidence": 0.5, "reason": "Aviva group lending vehicle; legal charge over a property-letting borrower (SIC 68209); not clearly a fund or bank"}
+{"name_norm": "G F JOB", "category": "other", "parent_firm": null, "confidence": 0.85, "reason": "related party: construction firm shares all three owners/directors with the borrower"}
+{"name_norm": "GERALD MURPHY", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "FACTORY INVESTMENTS", "category": "unknown", "parent_firm": null, "confidence": 0.3, "reason": "Property-letting company owned by one person charging a finance-SIC borrower; purpose unclear"}
+{"name_norm": "KEITH MORRIS", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "KIRAN KUMAR MORZERIA AND HARINA MORZERIA", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Two personal names"}
+{"name_norm": "MICHAEL ARTHUR JOHNSON", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "NEW MODEL GVPL 4", "category": "other", "parent_firm": "New Model Venture Capital Limited", "confidence": 0.6, "reason": "related party: parent's owner James King is a shared owner/director with the borrower; VC holding vehicle"}
+{"name_norm": "NISHA SINGH AND JASON SINGH", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Two personal names"}
+{"name_norm": "RB INTERNATIONAL HOLDINGS", "category": "other", "parent_firm": null, "confidence": 0.75, "reason": "intra-group: chargee name 'RB' matches borrower 'RBOPCO2'; holding company"}
+{"name_norm": "RIPLINGHAM ESTATES", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Estates/landowner company with person owners charging a housebuilder; likely land arrangement, not a lender"}
+{"name_norm": "ELLIT PINE AND JOSHUA PINE AS TRUSTEES FOR THE FRANK PINE LIMITED PENSION SCHEME", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "Pension scheme trustees lending to a property company"}
+{"name_norm": "ROMACO SPV 1", "category": "property_lender", "parent_firm": "Romaco Limited", "confidence": 0.8, "reason": "Numbered funding SPV (SIC 64999) of Romaco group; borrower is a property company; siblings share group"}
+{"name_norm": "QUBE FUNDING", "category": "property_lender", "parent_firm": null, "confidence": 0.7, "reason": "Finance company (SIC 64999) with 'Funding' name, charge over a property company"}
+{"name_norm": "PIPI PROPERTIES", "category": "other", "parent_firm": null, "confidence": 0.5, "reason": "Property-letting company owned by individuals lending to another property company; not a lender business"}
+{"name_norm": "PRIME UK PROPERTIES", "category": "other", "parent_firm": "Real Advisory Limited", "confidence": 0.8, "reason": "related party: shares owners with the borrower; co-chargee with Quattro and T.Six"}
+{"name_norm": "QUATTRO INVESTMENTS", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "related party: shares owners/directors with the borrower; co-chargee with related entities"}
+{"name_norm": "T SIX", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Family LLP co-chargee alongside related-party chargees on same property charge; likely related party"}
+{"name_norm": "TRUSTEES OF THE JETSTREAM SSAS", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "SSAS pension scheme trustees lending to a property company"}
+{"name_norm": "DESMOND MCFADDEN", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with family members"}
+{"name_norm": "EMMET MCFADDEN", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with family members"}
+{"name_norm": "SHANE MCFADDEN", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name, co-chargee with family members"}
+{"name_norm": "RICHARD BENNETT GREEN", "category": "individual", "parent_firm": null, "confidence": 0.95, "reason": "Personal name"}
+{"name_norm": "MOUNT EDEN LAND", "category": "other", "parent_firm": null, "confidence": 0.8, "reason": "Landlord holding a rent deposit deed; overseas company"}
+{"name_norm": "TAYLOR PATTERSON TRUSTEES LIMITED FJ AND J WRATHALL", "category": "other", "parent_firm": null, "confidence": 0.6, "reason": "Trustees of what looks like a private/pension arrangement for named individuals; secures a related developer's debts"}
