@@ -13,7 +13,7 @@ const SIG_ORDER = ["refinancing", "first_facility", "add_on"];
 const SIG_BLURB = { refinancing: "A lender's charge was satisfied within 90 days of a new lender's charge.", first_facility: "No registered charge in the three years before.", add_on: "An existing lender took further security." };
 const PROPERTY_SECTOR = "Property and real estate";
 let D = null;
-const S = { week: 0, cls: "all", hideProp: true, q: "", sigType: "all", sigSector: "", sigN: 24, lq: "", lcls: "all" };
+const S = { week: 0, cls: "all", hideProp: true, q: "", sigType: "all", sigSector: "", sigN: 24, lq: "", lcls: "all", psOnly: false, wcSize: "all", wcSector: "", wcNum: false, wcN: 100 };
 const app = $("#app");
 const LBL = (k) => (D && D.class_labels[k]) || k;
 
@@ -26,7 +26,7 @@ function route() {
   if (!D) return;
   if (typeof Term !== "undefined" && Term.isOn()) return Term.render();   // terminal mode draws its own screens
   const r = location.hash.replace(/^#\/?/, "").split("?")[0] || "home";
-  const views = { home, insights, league, signals, watch, lenders, record, method };
+  const views = { home, insights, league, signals, watch, capital, lenders, record, method };
   const v = views[r] ? r : "home";
   document.body.classList.toggle("home", v === "home");
   $$("[data-route]").forEach((a) => a.classList.toggle("on", a.dataset.route === v));
@@ -35,7 +35,7 @@ function route() {
   app.innerHTML = "";
   views[v]();
   app.firstElementChild?.classList.add("page-enter");
-  document.title = `${{ home: "Overview", insights: "Insights", league: "League table", signals: "Signals", watch: "Refinance watch", lenders: "Lenders", record: "Track record", method: "Method" }[v]} · Armariu`;
+  document.title = `${{ home: "Overview", insights: "Insights", league: "League table", signals: "Signals", watch: "Refinance watch", capital: "Working capital", lenders: "Lenders", record: "Track record", method: "Method" }[v]} · Armariu`;
   scrollTo({ top: 0 });
   wire();
   onScroll();
@@ -53,6 +53,9 @@ function foot() { $("#foot-note").innerHTML = `${esc(D.caveat)} ${esc(D.not_advi
 const week = () => D.weeks[D.weeks.length - 1 - S.week] || { league: [], sectors: [], flows: [], new_entrants: [], syndication: [] };
 const prevWeek = () => D.weeks[D.weeks.length - 2 - S.week];
 const profile = (name, cls) => D.lenders.find((l) => l.lender === name && l.class === cls) || D.lenders.find((l) => l.lender === name);
+// "Public-sector supplier": a description of the firm, never part of a score (radar/public_suppliers.py).
+const PS_HELP = "Won at least one public contract notice worth £100k or more (2022 to 2025). Describes the firm, not a timing signal; not part of the refinance score.";
+const psTag = (on) => on ? `<span class="pstag" title="${esc(PS_HELP)}">Public-sector supplier</span>` : "";
 const tag = (cls) => `<span class="tag" data-c="${esc(cls)}"><span class="dot"></span>${esc(LBL(cls))}</span>`;
 function spark(vals, cls) {
   if (!vals || !vals.length) return "";
@@ -153,7 +156,7 @@ function pickSignals(n) {
 function sigCard(s) {
   return `<article class="sig" data-t="${esc(s.signal_type)}"><div class="top"><span class="type">${esc(D.signal_labels[s.signal_type])}</span><span class="num" style="font-size:12px;color:var(--faint)">${dLong(s.signal_date)}</span></div>
   <h4>${esc(s.company_name)}</h4><p>${esc(s.explanation)}</p>
-  <div class="meta"><span>${esc(s.sector)} · ${esc(s.company_number)}</span><a href="${esc(s.filing_url)}" target="_blank" rel="noopener">Filing ↗</a></div></article>`;
+  ${s.public_supplier ? `<div style="margin:0 0 10px">${psTag(true)}</div>` : ""}<div class="meta"><span>${esc(s.sector)} · ${esc(s.company_number)}</span><a href="${esc(s.filing_url)}" target="_blank" rel="noopener">Filing ↗</a></div></article>`;
 }
 
 // ------------------------------------------------------------------ trend chart (stacked area)
@@ -246,63 +249,81 @@ function signals() {
   draw();
 }
 
+// Property and serial-borrower rows are ranked by a boosted model (radar/refi_hybrid.py). The random-sample rates
+// above were measured with the points model, so say so rather than let them read as the boosted model's own.
+function hybridNote(H) {
+  if (!H || !H.live) return "";
+  return `<p class="caveat">Serial borrowers (11+ loans) and property companies are ranked by a boosted model (LightGBM). On months it never saw it ranked them better than the points model, on the radar's own data, which runs about 3 times high. The random-sample rates above were measured with the points model; the boosted model has not been scored on the sample yet.</p>`;
+}
+
 // ------------------------------------------------------------------ refinance watch
 function watch() {
   const W = D.refi_watch;
   if (!W) { app.innerHTML = `<div class="wrap page-top"><p class="empty">The refinance watch has not been built yet.</p></div>`; return; }
-  const bt = W.backtest, months = Math.round(W.window_days / 30.4);
-  app.innerHTML = `<div class="wrap page-top"><div class="sec-head"><div><span class="kicker">Refinance watch</span><h2>Who is most likely to refinance next</h2><p>Every company with a loan still registered against it, scored on what its filings show: the age of its newest loan and the lender's type, its recent borrowing, how many loans it has outstanding, and whether its lender is cutting back. ${esc(W.caveat)}</p></div><span class="badge warn">Backtest · ${esc(W.model_version)}</span></div>
-    <div class="kpis" style="margin-bottom:28px">${bt.tiers.map((t) => `<div class="kpi"><div class="v num">${pct(t.hit_rate)}</div><div class="l">of the top ${esc(t.top)} refinanced within ${months} months</div><div class="d" style="color:#b9bcc6">${t.lift}× the ${pct(bt.base_rate)} average</div></div>`).join("")}</div>
-    ${watchCharts()}
-    ${hybridNote(W.hybrid)}
-    <p class="caveat" style="margin:-14px 0 22px">Tested on ${fmt(bt.rows)} company-dates from ${esc(bt.test_cutoffs[0])} onwards, which the score never saw while it was built (it learned from the year to ${esc(bt.train_end)}).</p>
-    ${W.accuracy_90d?.table?.length ? `<div class="card" style="padding:18px 20px;margin-bottom:26px" id="acc90"></div>` : ""}
+  const SM = W.sample;
+  app.innerHTML = `<div class="wrap page-top"><div class="sec-head"><div><span class="kicker">Refinance watch</span><h2>Who tends to switch lender next</h2><p>Every company with a loan still registered against it, ranked on what its filings show: the age of its newest loan and the lender's type, its recent borrowing, how many loans it has outstanding, and whether its lender is cutting back. A lead list, not a forecast: filings carry no loan end dates, so it says who, not when.</p></div><span class="badge warn">Backtest · ${esc(W.model_version)}</span></div>
+    <h3 class="blk">How well the ranking worked</h3>
+    <p class="sub" style="margin:0 0 14px">Companies in the top 10% of their group, followed for 12 months. Tested on a random sample of companies, in months the score never saw.</p>
+    ${SM ? sampleCards(SM) + sampleNote(SM) : ""}${hybridNote(W.hybrid)}
+    <div style="height:26px"></div>${watchCharts()}
+    <h3 class="blk">The list</h3>
     <div class="controls"><label class="switch"><input type="checkbox" id="hp" ${S.hideProp ? "checked" : ""}>Hide property borrowers</label>
+      <label class="switch" title="${esc(PS_HELP)}"><input type="checkbox" id="pso" ${S.psOnly ? "checked" : ""}>Public-sector suppliers only</label>
       <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="wq" placeholder="Company, number or lender"></div></div>
-    <div class="card" style="padding:6px 8px;overflow-x:auto"><table class="tbl"><thead><tr><th>Company</th><th>Sector</th><th class="r">Odds, ${months} months</th><th>Why it scores</th><th>Newest lender</th></tr></thead><tbody id="wt"></tbody></table></div></div>`;
+    <div class="card" style="padding:6px 8px;overflow-x:auto"><table class="tbl wl"><thead><tr><th>Company</th><th class="hide-sm">Sector</th><th>Rank band</th><th class="hide-sm">Why it scores</th><th class="hide-sm">Newest lender</th></tr></thead><tbody id="wt"></tbody></table></div>
+    <p class="caveat">Shown in score order, 100 at a time. The band is the company's rank within its own group (property, ordinary, serial borrowers) and only the top 10% has a measured rate.</p></div>`;
   let q = "";
   drawWatchCharts();
-  if (W.accuracy_90d?.table?.length) drawAccuracy90(W.accuracy_90d, "switched");
   $("#hp").onchange = (e) => { S.hideProp = e.target.checked; draw(); };
   $("#wq").oninput = (e) => { q = e.target.value.toLowerCase(); draw(); };
+  $("#pso").onchange = (e) => { S.psOnly = e.target.checked; draw(); };
   function draw() {
-    const rows = W.rows.filter((r) => (!S.hideProp || r.sector !== PROPERTY_SECTOR) && (!q || (r.company_name + r.company_number + r.newest_lender).toLowerCase().includes(q))).slice(0, 100);
-    $("#wt").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div style="font:11px var(--mono);color:var(--faint)">${esc(r.company_number)}</div></td><td>${esc(r.sector)}</td><td class="r num">${pct(r.odds_12m)}<div style="font:11px var(--mono);color:var(--faint)">${r.lift}× average${r.scorer === "lightgbm" ? " · boosted model" : ""}</div></td><td style="font-size:13px;color:var(--muted)">${esc(r.reasons)}</td><td style="font-size:13px">${esc(r.newest_lender)}${r.newest_filing_url ? `<div><a href="${esc(r.newest_filing_url)}" target="_blank" rel="noopener" style="font:11px var(--mono)">Filing ↗</a></div>` : ""}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">No companies match.</td></tr>`;
+    const rows = W.rows.filter((r) => (!S.hideProp || r.sector !== PROPERTY_SECTOR) && (!S.psOnly || r.public_supplier) && (!q || (r.company_name + r.company_number + r.newest_lender).toLowerCase().includes(q))).slice(0, 100);
+    $("#wt").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div class="mini">${esc(r.company_number)}${r.scorer === "lightgbm" ? " · boosted model" : ""}</div>${r.public_supplier ? `<div style="margin-top:5px">${psTag(true)}</div>` : ""}<div class="mini show-sm">${esc(r.newest_lender)}</div></td><td class="hide-sm">${esc(r.sector)}</td><td>${SM ? bandTag(r, SM) : ""}</td><td class="hide-sm" style="font-size:13px;color:var(--muted)">${esc(r.reasons)}</td><td class="hide-sm" style="font-size:13px">${esc(r.newest_lender)}${r.newest_filing_url ? `<div><a href="${esc(r.newest_filing_url)}" target="_blank" rel="noopener" class="mini">Filing ↗</a></div>` : ""}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">No companies match.</td></tr>`;
   }
   draw();
 }
 
-// Which companies are ranked by the boosted model (serial borrowers and property), and what the time-split test showed.
-function hybridNote(H) {
-  if (!H) return "";
-  const rows = (H.backtest?.table || []).filter((r) => r.tier === "Top 10%" && r.model === "LightGBM");
-  const t = rows.length ? `<table class="tbl" style="margin-top:10px"><thead><tr><th>Group, top 10%</th><th class="r">Live score</th><th class="r">Boosted model</th><th class="r">Gap, 95% range</th></tr></thead><tbody>${rows.map((r) => {
-    const base = H.backtest.table.find((x) => x.group === r.group && x.tier === r.tier && x.model !== "LightGBM");
-    return `<tr><td>${esc(r.group)}</td><td class="r num">${pct(base?.rate, 1)}</td><td class="r num">${pct(r.rate, 1)}</td><td class="r num">${(r.diff * 100).toFixed(1)} pts (${(r.diff_ci[0] * 100).toFixed(1)} to ${(r.diff_ci[1] * 100).toFixed(1)})</td></tr>`;
-  }).join("")}</tbody></table>` : "";
-  return `<div class="card" style="padding:16px 20px;margin-bottom:22px"><h3 style="font:400 20px var(--serif);margin:0">${H.live ? "Serial borrowers and property companies use a boosted model" : "Scored by the points model"}</h3>
-    <p class="sub" style="margin:6px 0 0">${H.live ? "Companies with 11 or more loans, and property companies, are ranked by a LightGBM model that learned from 2019 on. It ranked them better than the points model on months it never saw. Everyone else keeps the points model, which did as well or better for them. " : ""}${esc(H.sample_note)}</p>${t}</div>`;
-}
-
-// 90-day accuracy by group, held-out months (radar/refi_accuracy.py). Ordinary companies lead: serial
-// borrowers who refinance all the time inflate the mixed rows.
-function drawAccuracy90(A, o) {
-  const tiers = ["All", "Top 10%", "Top 5%", "Top 1%"], groups = [...new Set(A.table.map((r) => r.group))];
-  const cell = (g, t) => {
-    const r = A.table.find((x) => x.group === g && x.tier === t);
-    if (!r) return `<td class="r">–</td>`;
-    const v = r[o], ci = v.ci || [];
-    return `<td class="r num">${pct(v.rate, 1)}<div style="font:11px var(--mono);color:var(--faint)">${ci.length ? `${pct(ci[0], 1)}–${pct(ci[1], 1)}` : ""}</div><div style="font:11px var(--mono);color:var(--faint)">${fmt(v.hits)} of ${fmt(r.company_dates)}${t !== "All" && v.lift_group ? ` · ${v.lift_group}×` : ""}</div></td>`;
-  };
-  const label = { switched: "Switched lender", any: "Any refinance", repaid: "Repaid" };
-  $("#acc90").innerHTML = `<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:start"><div><h3 style="font:400 22px var(--serif);margin:0">How often the list was right within 90 days</h3>
-      <p class="sub" style="margin:6px 0 0">Learned on 2024, tested on ${A.test_dates.length} months from ${esc(A.test_dates[0])} to ${esc(A.test_dates[A.test_dates.length - 1])} it never saw. Top 10%, 5% and 1% are ranked within each row's group. Under each rate: the 95% range, then hits out of company-dates and the lift over that group's own average.</p></div>
-      <span class="badge warn">Backtest · lead list, not a forecast</span></div>
-    <div class="controls" style="margin:14px 0 6px">${Object.keys(label).map((k) => `<button class="chip" data-acc="${k}" aria-pressed="${k === o}">${label[k]}</button>`).join("")}</div>
-    <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Group</th>${tiers.map((t) => `<th class="r">${t === "All" ? "Everyone in group" : t}</th>`).join("")}</tr></thead>
-    <tbody>${groups.map((g) => `<tr><td>${esc(g)}</td>${tiers.map((t) => cell(g, t)).join("")}</tr>`).join("")}</tbody></table></div>
-    <p class="caveat">${esc(A.definition)} Only a switch to a new lender is a lead for a competing lender. ${esc(A.caveat)}</p>`;
-  $$("#acc90 [data-acc]").forEach((b) => (b.onclick = () => drawAccuracy90(A, b.dataset.acc)));
+// ------------------------------------------------------------------ working capital (who, not when)
+const gbp = (n) => n >= 1e6 ? `£${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1)}m` : `£${Math.round(n / 1e3)}k`;
+function capital() {
+  const C = D.working_capital;
+  if (!C) { app.innerHTML = `<div class="wrap page-top"><p class="empty">The working-capital list has not been built yet.</p></div>`; return; }
+  const F = C.findings, fc = F.first_charge_12m, all = F.all_12m, later = F.vs_later_winners_12m;
+  const sectors = [...new Set(C.rows.map((r) => r.sector))].sort();
+  app.innerHTML = `<div class="wrap page-top"><div class="sec-head"><div><span class="kicker">Working capital</span><h2>Public-sector suppliers with no loan on record</h2><p>Companies that won public contracts worth £100k or more and have no registered charge on record. For invoice finance and working-capital lenders looking for firms that may need new lending. It tells you who, not when: a contract notice is not a reason to call this week.</p></div><span class="badge warn">Backtest · lead list, not a forecast</span></div>
+    <div class="kpis" style="margin-bottom:18px">
+      <div class="kpi"><div class="v num">${pct(fc.suppliers, 1)}</div><div class="l">took a first charge within 12 months</div><div class="d" style="color:#b9bcc6">vs ${pct(fc.similar, 2)} for similar firms, about ${fc.ratio}×</div></div>
+      <div class="kpi"><div class="v num">1 in ${fc.contacts_per_hit}</div><div class="l">would take a first charge within a year</div><div class="d" style="color:#b9bcc6">at the tested rate</div></div>
+      <div class="kpi"><div class="v num">${pct(all.suppliers, 1)}</div><div class="l">of all suppliers took any new charge in 12 months</div><div class="d" style="color:#b9bcc6">vs ${pct(all.similar, 1)}, ${all.ratio}× (${all.range[0]} to ${all.range[1]})</div></div>
+      <div class="kpi"><div class="v num">${later.ratio}×</div><div class="l">after a win vs firms that win a year later</div><div class="d" style="color:#b9bcc6">${later.range[0]} to ${later.range[1]}: the win does not time it</div></div></div>
+    <p class="caveat" style="margin:0 0 22px">Held-out months ${esc(F.held_out)}, 95% ranges in brackets. ${esc(C.caveat)} Notices run to ${dLong(C.notices_to)}. ${fmt(C.tagged)} companies carry the public-sector supplier tag; ${fmt(C.leads)} are micro or small with no charge on record, and the ${fmt(C.shown)} with the most recent notices are shown here.</p>
+    <div class="controls" id="wcsz"></div>
+    <div class="controls"><select id="wcsec"><option value="">All sectors</option>${sectors.map((s) => `<option ${s === S.wcSector ? "selected" : ""}>${esc(s)}</option>`).join("")}</select>
+      <label class="switch" title="Name matches may be wrong about 1 time in 10"><input type="checkbox" id="wcnum" ${S.wcNum ? "checked" : ""}>Matched by company number only</label>
+      <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="wcq" placeholder="Company, number or buyer"></div></div>
+    <p class="caveat" id="wccount" style="margin:0 0 10px"></p>
+    <div class="card" style="padding:6px 8px;overflow-x:auto"><table class="tbl"><thead><tr><th>Company</th><th>Sector</th><th class="hide-sm">Size</th><th class="r">£100k+ notices</th><th>Latest notice</th><th class="hide-sm">Match</th></tr></thead><tbody id="wct"></tbody></table></div>
+    <div class="more"><button class="pill-btn" id="wcmore">Show more</button></div>
+    <p class="caveat">${esc(C.source)} Ordered by latest notice, then number of notices: a convenience, not a tested ranking.</p></div>`;
+  let q = "";
+  $("#wcsec").onchange = (e) => { S.wcSector = e.target.value; S.wcN = 100; draw(); };
+  $("#wcnum").onchange = (e) => { S.wcNum = e.target.checked; S.wcN = 100; draw(); };
+  $("#wcq").oninput = (e) => { q = e.target.value.toLowerCase(); S.wcN = 100; draw(); };
+  $("#wcmore").onclick = () => { S.wcN += 100; draw(); };
+  function draw() {
+    const base = C.rows.filter((r) => (!S.wcSector || r.sector === S.wcSector) && (!S.wcNum || r.match === "number") && (!q || (r.company_name + r.company_number + r.last_buyer).toLowerCase().includes(q)));
+    $("#wcsz").innerHTML = [["all", "All sizes"], ["micro", "Micro"], ["small", "Small"]].map(([k, l]) => `<button class="chip" data-sz="${k}" aria-pressed="${S.wcSize === k}">${l} <span class="num" style="opacity:.6">${fmt(base.filter((r) => k === "all" || r.size_band === k).length)}</span></button>`).join("");
+    $$("#wcsz .chip").forEach((b) => (b.onclick = () => { S.wcSize = b.dataset.sz; S.wcN = 100; draw(); }));
+    const rows = base.filter((r) => S.wcSize === "all" || r.size_band === S.wcSize);
+    $("#wccount").textContent = `${fmt(rows.length)} companies.`;
+    $("#wct").innerHTML = rows.slice(0, S.wcN).map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div style="font:11px var(--mono);color:var(--faint)">${esc(r.company_number)}${r.postcode_district ? ` · ${esc(r.postcode_district)}` : ""}${r.age_years != null ? ` · ${r.age_years} yrs` : ""}</div></td>
+      <td>${esc(r.sector)}</td><td class="hide-sm">${esc(r.size)}</td><td class="r num">${fmt(r.notices_100k)}<div style="font:11px var(--mono);color:var(--faint)">largest ${gbp(r.largest_gbp)}</div></td>
+      <td style="font-size:13px">${dLong(r.last_notice)}<div style="color:var(--muted)">${esc(cut(r.last_buyer, 48))}${r.notice_url ? ` · <a href="${esc(r.notice_url)}" target="_blank" rel="noopener">Notice ↗</a>` : ""}</div></td>
+      <td class="hide-sm" style="font-size:12px;color:${r.match === "number" ? "var(--muted)" : "var(--accent)"}">${r.match === "number" ? "Company number" : "By name, check"}</td></tr>`).join("") || `<tr><td colspan="6" class="empty">No companies match.</td></tr>`;
+    $("#wcmore").style.display = rows.length > S.wcN ? "" : "none";
+  }
+  draw();
 }
 
 // ------------------------------------------------------------------ lenders
@@ -376,9 +397,11 @@ function downloads() {
     <ul class="mini-list"><li><span><b>League table</b><br><span style="color:var(--faint);font-size:12px">${dLong(w.start)} to ${dLong(w.end)}</span></span><button class="pill-btn" id="d1">CSV</button></li>
     <li><span><b>Signals</b><br><span style="color:var(--faint);font-size:12px">${fmt(D.signals.length)} rows, last four weeks</span></span><button class="pill-btn" id="d2">CSV</button></li>
     <li><span><b>Insights tables</b><br><span style="color:var(--faint);font-size:12px">weekly series, sectors, lender moves</span></span><button class="pill-btn" id="d4">CSV</button></li>
+    ${D.working_capital ? `<li><span><b>Working-capital leads</b><br><span style="color:var(--faint);font-size:12px">${fmt(D.working_capital.shown)} public-sector suppliers, no charge on record</span></span><button class="pill-btn" id="d5">CSV</button></li>` : ""}
     <li><span><b>Scorecard (backtest)</b><br><span style="color:var(--faint);font-size:12px">rules ${esc(D.rule_version)}</span></span><button class="pill-btn" id="d3">CSV</button></li></ul><p class="caveat">${esc(D.caveat)} ${esc(D.not_advice)}</p>`;
   $("#d1").onclick = () => save(`armariu_league_${w.start}.csv`, csv(w.league.filter((r) => r.class !== "individual").map((r) => ({ ...r, window_start: w.start, window_end: w.end })), ["window_start", "window_end", "lender", "class", "this_week", "trailing_4w", "trailing_13w", "low_observations"]));
-  $("#d2").onclick = () => save(`armariu_signals_${D.built}.csv`, csv(D.signals, ["signal_date", "signal_type", "company_number", "company_name", "sector", "lender_names", "other_lender", "explanation", "filing_url"]));
+  $("#d2").onclick = () => save(`armariu_signals_${D.built}.csv`, csv(D.signals, ["signal_date", "signal_type", "company_number", "company_name", "sector", "public_supplier", "lender_names", "other_lender", "explanation", "filing_url"]));
+  if (D.working_capital) $("#d5").onclick = () => save(`armariu_working_capital_${D.built}.csv`, csv(D.working_capital.rows, ["company_number", "company_name", "sector", "size", "age_years", "postcode_district", "notices_100k", "value_gbp", "largest_gbp", "last_notice", "buyers", "last_buyer", "notice_url", "match_note", "why", "filing_url"]));
   $("#d3").onclick = () => save(`armariu_scorecard_backtest.csv`, csv(D.scorecard, Object.keys(D.scorecard[0] || {})));
   $("#d4").onclick = () => { const I = D.insights || {}; const rows = [];
     (I.flow_weeks || []).forEach((r) => { const sw = (I.signal_weeks || []).find((x) => x.week_start === r.week_start) || {};
