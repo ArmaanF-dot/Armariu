@@ -143,3 +143,13 @@ switches back. The choice is remembered per browser.
 Code: `radar/portal/static/terminal.js` and `terminal.css`; charts reuse `insights.js` and its validated
 palette. Same rules as the rest of the portal: no write endpoints, company-level facts only, and rows that
 read as a private individual are dropped again on the client.
+
+## Public-sector supplier tag and working-capital list (ps1)
+
+Source: the 5 Nov 2026 contract-wins test (`research/contract-wins-test-2026-11-05.md` in the project files). Contracts Finder and Find a Tender award notices 2022 to 2025 (Open Government Licence v3.0), matched to Companies House Basic Company Data of 1 Nov 2026 by the company number in the notice, otherwise a name that matches exactly one live company (about 1 in 10 name matches may be wrong).
+
+- **Tag:** "Public-sector supplier" = at least one notice of £100k or more. It describes the firm. It is **not** part of the Refinance watch score and does not move any rank; it only shows as a label and a filter on Signals and the Refinance watch.
+- **Working-capital list:** tagged micro and small companies with no charge on record (in the company data or the radar's own register), company types that can borrow. Large primes (`data/large_primes.csv`) are excluded. Medium and larger firms are left out because the lift did not hold for them (1.1x, range 0.7 to 1.6).
+- **What it says:** held-out Jan 2024 to Oct 2025, tagged firms with no earlier charge took a first charge within 12 months 2.7% of the time against 0.65% for similar firms (about 4x, 1 in 37). All tagged winners: 6.4% against 4.1% (1.6x).
+- **What it does not say:** nothing about timing. Firms that first win a year or more later borrow just as much (0.88x, range 0.74 to 1.09), so there is no "won a contract, call now" trigger, and the list order (latest notice, then notice count) is not a tested ranking.
+- **Refresh:** `python -m radar.public_suppliers build awards.csv.gz bcd_candidates.csv.gz` with the two files from the contracts pull, then `python -m radar.snapshot`. The cloud workspace cannot reach those sites, so the pull runs as a GitHub Actions job.

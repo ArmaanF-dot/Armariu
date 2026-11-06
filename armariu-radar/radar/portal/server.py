@@ -28,7 +28,7 @@ TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=u
          ".svg": "image/svg+xml", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png",
          ".webp": "image/webp", ".json": "application/json"}
 PUBLIC_KEYS = ("built", "rule_version", "coverage_start", "caveat", "sample_caveat", "bias_note", "not_advice",
-               "class_labels", "signal_labels", "totals", "weeks", "series", "lenders", "signals", "scorecard", "refi_watch", "insights")
+               "class_labels", "signal_labels", "totals", "weeks", "series", "lenders", "signals", "scorecard", "refi_watch", "working_capital", "insights")
 
 
 ROW_PRIVATE = ("odds_12m", "lift", "base_rate")   # the model's absolute odds come from the radar's own data

@@ -221,6 +221,10 @@ details.tview{margin-top:12px;font-size:13px}details.tview summary{cursor:pointe
 /* ---------- terminal toggle (terminal mode itself lives in terminal.css) */
 .ghost.term-btn{width:auto;padding:0 12px;gap:7px;display:inline-flex;align-items:center;font:500 13px var(--sans)}
 @media (max-width:720px){.ghost.term-btn span{display:none}.ghost.term-btn{width:38px;padding:0;justify-content:center}}
+
+/* Public-sector supplier tag: a description of the firm, not a score input */
+.pstag{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:11px;font-weight:500;letter-spacing:.02em;padding:2px 8px;border-radius:999px;color:var(--muted);border:1px dashed var(--line-2);cursor:help}
+.pstag::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--muted)}
 /* ---------- measured hit rates (random sample) */
 .hr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .hr-card{display:flex;flex-direction:column;padding:22px 22px 18px}
