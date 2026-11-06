@@ -249,6 +249,13 @@ function signals() {
   draw();
 }
 
+// Property and serial-borrower rows are ranked by a boosted model (radar/refi_hybrid.py). The random-sample rates
+// above were measured with the points model, so say so rather than let them read as the boosted model's own.
+function hybridNote(H) {
+  if (!H || !H.live) return "";
+  return `<p class="caveat">Serial borrowers (11+ loans) and property companies are ranked by a boosted model (LightGBM). On months it never saw it ranked them better than the points model, on the radar's own data, which runs about 3 times high. The random-sample rates above were measured with the points model; the boosted model has not been scored on the sample yet.</p>`;
+}
+
 // ------------------------------------------------------------------ refinance watch
 function watch() {
   const W = D.refi_watch;
@@ -257,7 +264,7 @@ function watch() {
   app.innerHTML = `<div class="wrap page-top"><div class="sec-head"><div><span class="kicker">Refinance watch</span><h2>Who tends to switch lender next</h2><p>Every company with a loan still registered against it, ranked on what its filings show: the age of its newest loan and the lender's type, its recent borrowing, how many loans it has outstanding, and whether its lender is cutting back. A lead list, not a forecast: filings carry no loan end dates, so it says who, not when.</p></div><span class="badge warn">Backtest · ${esc(W.model_version)}</span></div>
     <h3 class="blk">How well the ranking worked</h3>
     <p class="sub" style="margin:0 0 14px">Companies in the top 10% of their group, followed for 12 months. Tested on a random sample of companies, in months the score never saw.</p>
-    ${SM ? sampleCards(SM) + sampleNote(SM) : ""}
+    ${SM ? sampleCards(SM) + sampleNote(SM) : ""}${hybridNote(W.hybrid)}
     <div style="height:26px"></div>${watchCharts()}
     <h3 class="blk">The list</h3>
     <div class="controls"><label class="switch"><input type="checkbox" id="hp" ${S.hideProp ? "checked" : ""}>Hide property borrowers</label>
@@ -272,7 +279,7 @@ function watch() {
   $("#pso").onchange = (e) => { S.psOnly = e.target.checked; draw(); };
   function draw() {
     const rows = W.rows.filter((r) => (!S.hideProp || r.sector !== PROPERTY_SECTOR) && (!S.psOnly || r.public_supplier) && (!q || (r.company_name + r.company_number + r.newest_lender).toLowerCase().includes(q))).slice(0, 100);
-    $("#wt").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div class="mini">${esc(r.company_number)}</div>${r.public_supplier ? `<div style="margin-top:5px">${psTag(true)}</div>` : ""}<div class="mini show-sm">${esc(r.newest_lender)}</div></td><td class="hide-sm">${esc(r.sector)}</td><td>${SM ? bandTag(r, SM) : ""}</td><td class="hide-sm" style="font-size:13px;color:var(--muted)">${esc(r.reasons)}</td><td class="hide-sm" style="font-size:13px">${esc(r.newest_lender)}${r.newest_filing_url ? `<div><a href="${esc(r.newest_filing_url)}" target="_blank" rel="noopener" class="mini">Filing ↗</a></div>` : ""}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">No companies match.</td></tr>`;
+    $("#wt").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div class="mini">${esc(r.company_number)}${r.scorer === "lightgbm" ? " · boosted model" : ""}</div>${r.public_supplier ? `<div style="margin-top:5px">${psTag(true)}</div>` : ""}<div class="mini show-sm">${esc(r.newest_lender)}</div></td><td class="hide-sm">${esc(r.sector)}</td><td>${SM ? bandTag(r, SM) : ""}</td><td class="hide-sm" style="font-size:13px;color:var(--muted)">${esc(r.reasons)}</td><td class="hide-sm" style="font-size:13px">${esc(r.newest_lender)}${r.newest_filing_url ? `<div><a href="${esc(r.newest_filing_url)}" target="_blank" rel="noopener" class="mini">Filing ↗</a></div>` : ""}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">No companies match.</td></tr>`;
   }
   draw();
 }

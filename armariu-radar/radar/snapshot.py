@@ -21,7 +21,7 @@ from .charge_history import load_companies
 from .charge_signals import RULE_VERSION, all_signals, in_window
 from .lender_view import CAVEAT, SAMPLE_CAVEAT, build, display_name, row_key, week_of
 from .scorecard import BIAS_NOTE, backtest
-from . import public_suppliers, refi_accuracy, refi_sample, refi_watch
+from . import public_suppliers, refi_accuracy, refi_hybrid, refi_sample, refi_watch
 from .insights import build_insights
 from .weekly_pack import NOT_ADVICE
 
@@ -95,6 +95,7 @@ def build_snapshot(conn, today: date | None = None, weeks: int = 13) -> dict:
     bt = backtest(companies, cov_d, 24, 90, sigs)
     cv = coverage(conn, resolver, (today - timedelta(days=365)).isoformat())
     refi_rows, refi_model = refi_watch.watchlist(companies, today, top=100000)
+    hybrid = _hybrid(companies, today, refi_rows, refi_model)
     sup = public_suppliers.load()
     out_sigs = [{k: s[k] for k in ("signal_id", "signal_date", "signal_type", "company_number", "company_name",
                                    "sector", "lender_names", "other_lender", "explanation", "filing_url")}
@@ -110,11 +111,29 @@ def build_snapshot(conn, today: date | None = None, weeks: int = 13) -> dict:
         "weeks": views, "series": series, "lenders": lenders,
         "signals": out_sigs,
         "scorecard": bt,
-        "refi_watch": _refi(companies, today, refi_rows, refi_model, cov_d, sup),
+        "refi_watch": _refi(companies, today, refi_rows, refi_model, cov_d, sup, hybrid),
         "working_capital": working_capital(companies, today, sup),
         "insights": build_insights(companies, sigs, refi_rows, today, cov_d, weeks),
         "aliases": {"coverage": cv, "review": review_rows(conn, resolver, (today - timedelta(days=365)).isoformat(), 20)},
     }
+
+
+def _hybrid(companies, today: date, rows, model) -> dict:
+    """LightGBM for serial and property rows, rw3 for the rest (radar.refi_hybrid). Falls back to rw3 on any
+    failure, so the list never breaks because the optional model could not run."""
+    try:
+        _, status = refi_hybrid.rerank(rows, companies, today, model, refi_watch.lender_volumes(companies))
+    except Exception as e:  # noqa: BLE001
+        status = f"rw3 only ({type(e).__name__}: {e})"
+        for r in rows:
+            r["scorer"] = "rw3"
+    p = refi_hybrid.OUT / "backtest_365d.json"
+    try:
+        bt = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        bt = None
+    live = any(r.get("scorer") == "lightgbm" for r in rows)
+    return {"status": status, "live": live, "backtest": bt, "sample_note": refi_hybrid.RANDOM_SAMPLE_NOTE}
 
 
 WC_ROWS = 2500   # the full list is `python -m radar.public_suppliers leads`
@@ -137,9 +156,11 @@ def working_capital(companies, today: date, sup: dict | None = None) -> dict | N
     return info
 
 
-def _refi(companies, today: date, rows=None, model=None, cov_d: date | None = None, sup: dict | None = None) -> dict:
+def _refi(companies, today: date, rows=None, model=None, cov_d: date | None = None, sup: dict | None = None,
+          hybrid: dict | None = None) -> dict:
     if rows is None:
         rows, model = refi_watch.watchlist(companies, today, top=100000)
+        hybrid = _hybrid(companies, today, rows, model)
     sup = public_suppliers.load() if sup is None else sup
     for r in rows:   # a description only: the tag never changes the score
         r["public_supplier"] = r["company_number"] in sup
@@ -151,7 +172,8 @@ def _refi(companies, today: date, rows=None, model=None, cov_d: date | None = No
     rows = by.get("property", [])[:250] + by.get("ordinary_np", [])[:250] + by.get("serial", [])[:100]
     rank = {"top10": 3, "top25": 2, "rest": 1, None: 0}
     rows.sort(key=lambda r: (-rank[r["band"]], -r["score"], r["company_number"]))
-    return {"caveat": refi_watch.CAVEAT, "model_version": refi_watch.MODEL_VERSION, "window_days": refi_watch.WINDOW,
+    return {"caveat": refi_watch.CAVEAT, "hybrid": hybrid, "window_days": refi_watch.WINDOW,
+            "model_version": refi_hybrid.MODEL_VERSION if hybrid and hybrid["live"] else refi_watch.MODEL_VERSION,
             "base_rate": round(model.base, 4), "backtest": refi_watch.backtest(companies), "rows": rows,
             "tag": {"label": public_suppliers.TAG, "help": public_suppliers.TAG_HELP},
             # 90 days, by group, with counts and 95% ranges (radar.refi_accuracy; docs/refi_accuracy_90d.md)

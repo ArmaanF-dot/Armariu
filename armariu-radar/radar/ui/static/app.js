@@ -631,10 +631,10 @@ async function renderWatch() {
   const draw = () => {
     const rows = W.rows.filter((r) => !watchHideProp || r.sector !== "Property and real estate").slice(0, 150);
     document.getElementById("rw-body").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener"><b>${esc(r.company_name)}</b></a><div class="muted">${esc(r.company_number)} · ${esc(r.sector)}</div></td>
-      <td class="num"><b>${pct1(r.odds_12m)}</b><div class="muted">${r.lift}× average</div></td><td>${esc(r.reasons)}</td><td>${esc(r.newest_lender)}<div class="muted">${esc(r.newest_created || "")}</div></td></tr>`).join("");
+      <td class="num"><b>${pct1(r.odds_12m)}</b><div class="muted">${r.lift}× average${r.scorer === "lightgbm" ? " · boosted model" : ""}</div></td><td>${esc(r.reasons)}</td><td>${esc(r.newest_lender)}<div class="muted">${esc(r.newest_created || "")}</div></td></tr>`).join("");
   };
   main.innerHTML = `<div class="grid anim-root">${snapshotBar(a, "Refinance watch")}
-    <div class="card span-12"><div class="notice">${icon("alert")}<div><b>Read as odds.</b> ${esc(W.caveat)} Loans due within a year (from accounts) and ownership changes are being added as further clues.</div></div></div>
+    <div class="card span-12"><div class="notice">${icon("alert")}<div><b>Read as odds.</b> ${esc(W.caveat)} ${W.hybrid?.live ? "Serial borrowers (11+ loans) and property companies are ranked by a LightGBM model; everyone else by the points model. " : ""}${esc((W.hybrid && W.hybrid.sample_note) || "")}</div></div></div>
     ${bt.tiers.map((t) => `<section class="card span-3"><span class="pill" data-cat="review">Backtest, top ${esc(t.top)}</span><div class="lift-v count-up">${pct1(t.hit_rate)}</div><div class="muted">refinanced within ${months} months, ${t.lift}× the ${pct1(bt.base_rate)} average (${Number(t.companies).toLocaleString("en-GB")} company-dates)</div></section>`).join("")}
     <section class="card span-12"><div class="card-head"><div><h2>Most likely to refinance</h2><p>Tested from ${esc(bt.test_cutoffs[0])} on dates the score never saw (learned from the year to ${esc(bt.train_end)}).</p></div>
       <label class="row-gap"><input type="checkbox" id="rw-prop" ${watchHideProp ? "checked" : ""}> Hide property companies</label></div>
