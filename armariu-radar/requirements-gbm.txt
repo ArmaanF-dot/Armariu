@@ -1,0 +1,4 @@
+requests>=2.31
+lightgbm>=4.3
+numpy>=1.26
+pandas>=2.1

@@ -429,3 +429,29 @@ class RefiAccuracy90Tests(unittest.TestCase):
         self.assertEqual(ds[0], date(2025, 1, 1))
         self.assertTrue(all(d + timedelta(days=90) < date(2026, 10, 20) for d in ds))
         self.assertEqual(ds[-1], date(2026, 7, 1))
+
+
+class RefiHybridTests(unittest.TestCase):
+    def test_segment_is_serial_or_property_only(self):
+        from radar.refi_hybrid import in_segment
+        base = {"_serial": False, "property": "no"}
+        self.assertFalse(in_segment(base))
+        self.assertTrue(in_segment({**base, "_serial": True}))
+        self.assertTrue(in_segment({**base, "property": "yes"}))
+
+    def test_falls_back_to_rw3_when_there_is_too_little_history(self):
+        from radar import refi_hybrid, refi_watch
+        cos = {str(i): company([ch(f"a{i}", "2023-01-01", [B], "fully-satisfied", "2024-06-01"), ch(f"b{i}", "2024-06-03", [A])], number=f"{i:08d}")
+               for i in range(40)}
+        rows, model = refi_watch.watchlist(cos, date(2025, 1, 1), top=100)
+        before = [(r["company_number"], r["score"], r["odds_12m"]) for r in rows]
+        vol = refi_watch.lender_volumes(cos)
+        out, status = refi_hybrid.rerank(rows, cos, date(2025, 1, 1), model, vol)
+        self.assertTrue(status.startswith("rw3 only"))
+        self.assertEqual(before, [(r["company_number"], r["score"], r["odds_12m"]) for r in out])
+        self.assertTrue(all(r["scorer"] == "rw3" for r in out))
+
+    def test_learning_dates_close_before_the_run_date(self):
+        from radar.refi_hybrid import WINDOW, learn_dates
+        as_of = date(2026, 11, 6)
+        self.assertTrue(all(d + timedelta(days=WINDOW) < as_of for d in learn_dates(as_of)))

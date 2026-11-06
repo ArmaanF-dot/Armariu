@@ -254,6 +254,7 @@ function watch() {
   app.innerHTML = `<div class="wrap page-top"><div class="sec-head"><div><span class="kicker">Refinance watch</span><h2>Who is most likely to refinance next</h2><p>Every company with a loan still registered against it, scored on what its filings show: the age of its newest loan and the lender's type, its recent borrowing, how many loans it has outstanding, and whether its lender is cutting back. ${esc(W.caveat)}</p></div><span class="badge warn">Backtest · ${esc(W.model_version)}</span></div>
     <div class="kpis" style="margin-bottom:28px">${bt.tiers.map((t) => `<div class="kpi"><div class="v num">${pct(t.hit_rate)}</div><div class="l">of the top ${esc(t.top)} refinanced within ${months} months</div><div class="d" style="color:#b9bcc6">${t.lift}× the ${pct(bt.base_rate)} average</div></div>`).join("")}</div>
     ${watchCharts()}
+    ${hybridNote(W.hybrid)}
     <p class="caveat" style="margin:-14px 0 22px">Tested on ${fmt(bt.rows)} company-dates from ${esc(bt.test_cutoffs[0])} onwards, which the score never saw while it was built (it learned from the year to ${esc(bt.train_end)}).</p>
     ${W.accuracy_90d?.table?.length ? `<div class="card" style="padding:18px 20px;margin-bottom:26px" id="acc90"></div>` : ""}
     <div class="controls"><label class="switch"><input type="checkbox" id="hp" ${S.hideProp ? "checked" : ""}>Hide property borrowers</label>
@@ -266,9 +267,21 @@ function watch() {
   $("#wq").oninput = (e) => { q = e.target.value.toLowerCase(); draw(); };
   function draw() {
     const rows = W.rows.filter((r) => (!S.hideProp || r.sector !== PROPERTY_SECTOR) && (!q || (r.company_name + r.company_number + r.newest_lender).toLowerCase().includes(q))).slice(0, 100);
-    $("#wt").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div style="font:11px var(--mono);color:var(--faint)">${esc(r.company_number)}</div></td><td>${esc(r.sector)}</td><td class="r num">${pct(r.odds_12m)}<div style="font:11px var(--mono);color:var(--faint)">${r.lift}× average</div></td><td style="font-size:13px;color:var(--muted)">${esc(r.reasons)}</td><td style="font-size:13px">${esc(r.newest_lender)}${r.newest_filing_url ? `<div><a href="${esc(r.newest_filing_url)}" target="_blank" rel="noopener" style="font:11px var(--mono)">Filing ↗</a></div>` : ""}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">No companies match.</td></tr>`;
+    $("#wt").innerHTML = rows.map((r) => `<tr><td><a href="${esc(r.filing_url)}" target="_blank" rel="noopener">${esc(r.company_name)}</a><div style="font:11px var(--mono);color:var(--faint)">${esc(r.company_number)}</div></td><td>${esc(r.sector)}</td><td class="r num">${pct(r.odds_12m)}<div style="font:11px var(--mono);color:var(--faint)">${r.lift}× average${r.scorer === "lightgbm" ? " · boosted model" : ""}</div></td><td style="font-size:13px;color:var(--muted)">${esc(r.reasons)}</td><td style="font-size:13px">${esc(r.newest_lender)}${r.newest_filing_url ? `<div><a href="${esc(r.newest_filing_url)}" target="_blank" rel="noopener" style="font:11px var(--mono)">Filing ↗</a></div>` : ""}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">No companies match.</td></tr>`;
   }
   draw();
+}
+
+// Which companies are ranked by the boosted model (serial borrowers and property), and what the time-split test showed.
+function hybridNote(H) {
+  if (!H) return "";
+  const rows = (H.backtest?.table || []).filter((r) => r.tier === "Top 10%" && r.model === "LightGBM");
+  const t = rows.length ? `<table class="tbl" style="margin-top:10px"><thead><tr><th>Group, top 10%</th><th class="r">Live score</th><th class="r">Boosted model</th><th class="r">Gap, 95% range</th></tr></thead><tbody>${rows.map((r) => {
+    const base = H.backtest.table.find((x) => x.group === r.group && x.tier === r.tier && x.model !== "LightGBM");
+    return `<tr><td>${esc(r.group)}</td><td class="r num">${pct(base?.rate, 1)}</td><td class="r num">${pct(r.rate, 1)}</td><td class="r num">${(r.diff * 100).toFixed(1)} pts (${(r.diff_ci[0] * 100).toFixed(1)} to ${(r.diff_ci[1] * 100).toFixed(1)})</td></tr>`;
+  }).join("")}</tbody></table>` : "";
+  return `<div class="card" style="padding:16px 20px;margin-bottom:22px"><h3 style="font:400 20px var(--serif);margin:0">${H.live ? "Serial borrowers and property companies use a boosted model" : "Scored by the points model"}</h3>
+    <p class="sub" style="margin:6px 0 0">${H.live ? "Companies with 11 or more loans, and property companies, are ranked by a LightGBM model that learned from 2019 on. It ranked them better than the points model on months it never saw. Everyone else keeps the points model, which did as well or better for them. " : ""}${esc(H.sample_note)}</p>${t}</div>`;
 }
 
 // 90-day accuracy by group, held-out months (radar/refi_accuracy.py). Ordinary companies lead: serial

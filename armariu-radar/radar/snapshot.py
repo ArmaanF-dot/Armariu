@@ -21,7 +21,7 @@ from .charge_history import load_companies
 from .charge_signals import RULE_VERSION, all_signals, in_window
 from .lender_view import CAVEAT, SAMPLE_CAVEAT, build, display_name, row_key, week_of
 from .scorecard import BIAS_NOTE, backtest
-from . import refi_accuracy, refi_watch
+from . import refi_accuracy, refi_hybrid, refi_watch
 from .insights import build_insights
 from .weekly_pack import NOT_ADVICE
 
@@ -95,6 +95,7 @@ def build_snapshot(conn, today: date | None = None, weeks: int = 13) -> dict:
     bt = backtest(companies, cov_d, 24, 90, sigs)
     cv = coverage(conn, resolver, (today - timedelta(days=365)).isoformat())
     refi_rows, refi_model = refi_watch.watchlist(companies, today, top=100000)
+    hybrid = _hybrid(companies, today, refi_rows, refi_model)
     return {
         "built": today.isoformat(), "rule_version": RULE_VERSION, "coverage_start": cov_d.isoformat(),
         "caveat": CAVEAT, "sample_caveat": SAMPLE_CAVEAT, "bias_note": BIAS_NOTE, "not_advice": NOT_ADVICE,
@@ -106,19 +107,40 @@ def build_snapshot(conn, today: date | None = None, weeks: int = 13) -> dict:
                                         "sector", "lender_names", "other_lender", "explanation", "filing_url")}
                     for s in recent_sigs[:1500]],
         "scorecard": bt,
-        "refi_watch": _refi(companies, today, refi_rows, refi_model, cov_d),
+        "refi_watch": _refi(companies, today, refi_rows, refi_model, cov_d, hybrid),
         "insights": build_insights(companies, sigs, refi_rows, today, cov_d, weeks),
         "aliases": {"coverage": cv, "review": review_rows(conn, resolver, (today - timedelta(days=365)).isoformat(), 20)},
     }
 
 
-def _refi(companies, today: date, rows=None, model=None, cov_d: date | None = None) -> dict:
+def _hybrid(companies, today: date, rows, model) -> dict:
+    """LightGBM for serial and property rows, rw3 for the rest (radar.refi_hybrid). Falls back to rw3 on any
+    failure, so the list never breaks because the optional model could not run."""
+    try:
+        _, status = refi_hybrid.rerank(rows, companies, today, model, refi_watch.lender_volumes(companies))
+    except Exception as e:  # noqa: BLE001
+        status = f"rw3 only ({type(e).__name__}: {e})"
+        for r in rows:
+            r["scorer"] = "rw3"
+    p = refi_hybrid.OUT / "backtest_365d.json"
+    try:
+        bt = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        bt = None
+    live = any(r.get("scorer") == "lightgbm" for r in rows)
+    return {"status": status, "live": live, "backtest": bt, "sample_note": refi_hybrid.RANDOM_SAMPLE_NOTE}
+
+
+def _refi(companies, today: date, rows=None, model=None, cov_d: date | None = None, hybrid: dict | None = None) -> dict:
     if rows is None:
         rows, model = refi_watch.watchlist(companies, today, top=100000)
+        hybrid = _hybrid(companies, today, rows, model)
+        rows.sort(key=lambda r: (-r["score"], r["company_number"]))
     prop = "Property and real estate"   # keep a full list for each view, since property dominates the top
     rows = [r for r in rows if r["sector"] == prop][:300] + [r for r in rows if r["sector"] != prop][:300]
     rows.sort(key=lambda r: (-r["score"], r["company_number"]))
-    return {"caveat": refi_watch.CAVEAT, "model_version": refi_watch.MODEL_VERSION, "window_days": refi_watch.WINDOW,
+    return {"caveat": refi_watch.CAVEAT, "model_version": refi_hybrid.MODEL_VERSION if hybrid and hybrid["live"] else refi_watch.MODEL_VERSION,
+            "hybrid": hybrid, "window_days": refi_watch.WINDOW,
             "base_rate": round(model.base, 4), "backtest": refi_watch.backtest(companies), "rows": rows,
             # 90 days, by group, with counts and 95% ranges (radar.refi_accuracy; docs/refi_accuracy_90d.md)
             "accuracy_90d": refi_accuracy.evaluate(companies, reps=500, stop=cov_d)}
