@@ -21,7 +21,7 @@ from .charge_history import load_companies
 from .charge_signals import RULE_VERSION, all_signals, in_window
 from .lender_view import CAVEAT, SAMPLE_CAVEAT, build, display_name, row_key, week_of
 from .scorecard import BIAS_NOTE, backtest
-from . import refi_accuracy, refi_watch
+from . import public_suppliers, refi_accuracy, refi_watch
 from .insights import build_insights
 from .weekly_pack import NOT_ADVICE
 
@@ -95,6 +95,12 @@ def build_snapshot(conn, today: date | None = None, weeks: int = 13) -> dict:
     bt = backtest(companies, cov_d, 24, 90, sigs)
     cv = coverage(conn, resolver, (today - timedelta(days=365)).isoformat())
     refi_rows, refi_model = refi_watch.watchlist(companies, today, top=100000)
+    sup = public_suppliers.load()
+    out_sigs = [{k: s[k] for k in ("signal_id", "signal_date", "signal_type", "company_number", "company_name",
+                                   "sector", "lender_names", "other_lender", "explanation", "filing_url")}
+                for s in recent_sigs[:1500]]
+    for s in out_sigs:
+        s["public_supplier"] = s["company_number"] in sup
     return {
         "built": today.isoformat(), "rule_version": RULE_VERSION, "coverage_start": cov_d.isoformat(),
         "caveat": CAVEAT, "sample_caveat": SAMPLE_CAVEAT, "bias_note": BIAS_NOTE, "not_advice": NOT_ADVICE,
@@ -102,24 +108,47 @@ def build_snapshot(conn, today: date | None = None, weeks: int = 13) -> dict:
         "totals": {"companies": len(companies), "charges": sum(len(c.charges) for c in companies.values()),
                    "signals_recent": len(recent_sigs)},
         "weeks": views, "series": series, "lenders": lenders,
-        "signals": [{k: s[k] for k in ("signal_id", "signal_date", "signal_type", "company_number", "company_name",
-                                        "sector", "lender_names", "other_lender", "explanation", "filing_url")}
-                    for s in recent_sigs[:1500]],
+        "signals": out_sigs,
         "scorecard": bt,
-        "refi_watch": _refi(companies, today, refi_rows, refi_model, cov_d),
+        "refi_watch": _refi(companies, today, refi_rows, refi_model, cov_d, sup),
+        "working_capital": working_capital(companies, today, sup),
         "insights": build_insights(companies, sigs, refi_rows, today, cov_d, weeks),
         "aliases": {"coverage": cv, "review": review_rows(conn, resolver, (today - timedelta(days=365)).isoformat(), 20)},
     }
 
 
-def _refi(companies, today: date, rows=None, model=None, cov_d: date | None = None) -> dict:
+WC_ROWS = 2500   # the full list is `python -m radar.public_suppliers leads`
+WC_FIELDS = ("company_number", "company_name", "sector", "size", "size_band", "age_years", "postcode_district",
+             "notices_100k", "value_gbp", "largest_gbp", "last_notice", "buyers", "last_buyer", "notice_url", "match",
+             "match_note", "why", "filing_url")
+
+
+def working_capital(companies, today: date, sup: dict | None = None) -> dict | None:
+    """Public-sector suppliers with no charge on record: a separate "may need new lending" list.
+    Not part of the Refinance watch, and not event-driven (radar/public_suppliers.py)."""
+    sup = public_suppliers.load() if sup is None else sup
+    if not sup:
+        return None
+    rows = public_suppliers.leads(sup, companies, today)
+    info = public_suppliers.summary(rows, sup)
+    info["rows"] = [{k: r[k] for k in WC_FIELDS} for r in rows[:WC_ROWS]]
+    info["shown"] = len(info["rows"])
+    info["notices_to"] = max((s["last_notice"] for s in sup.values()), default="")
+    return info
+
+
+def _refi(companies, today: date, rows=None, model=None, cov_d: date | None = None, sup: dict | None = None) -> dict:
     if rows is None:
         rows, model = refi_watch.watchlist(companies, today, top=100000)
+    sup = public_suppliers.load() if sup is None else sup
+    for r in rows:   # a description only: the tag never changes the score
+        r["public_supplier"] = r["company_number"] in sup
     prop = "Property and real estate"   # keep a full list for each view, since property dominates the top
     rows = [r for r in rows if r["sector"] == prop][:300] + [r for r in rows if r["sector"] != prop][:300]
     rows.sort(key=lambda r: (-r["score"], r["company_number"]))
     return {"caveat": refi_watch.CAVEAT, "model_version": refi_watch.MODEL_VERSION, "window_days": refi_watch.WINDOW,
             "base_rate": round(model.base, 4), "backtest": refi_watch.backtest(companies), "rows": rows,
+            "tag": {"label": public_suppliers.TAG, "help": public_suppliers.TAG_HELP},
             # 90 days, by group, with counts and 95% ranges (radar.refi_accuracy; docs/refi_accuracy_90d.md)
             "accuracy_90d": refi_accuracy.evaluate(companies, reps=500, stop=cov_d)}
 

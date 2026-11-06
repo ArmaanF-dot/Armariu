@@ -39,6 +39,7 @@ through files in this folder.
 | `data/lender_aliases.csv`, `data/large_primes.csv` | people only (Module A aliases; Module F exclusions) |
 | `classify/queue.jsonl`, `output/weekly/`, `output/monthly/` | pipeline only |
 | `output/signals/`, `output/lender_view/`, `output/scorecard/`, `output/weekly_pack/`, `output/snapshot/`, `output/review/`, `output/contracts/`, `output/accounts/`, `output/ownership/`, `output/profile/` | the additions' commands only (not committed) |
+| `data/public_suppliers.csv.gz` | people only (rebuilt with `radar.public_suppliers build` from the contracts-pull files on branch claude/project-thread-8r1ade) |
 | `radar/portal/` | people only (via pull request); the client portal is read-only and never hosted before the validation gate |
 | `classify/results/` | classifier agent |
 | `classify/second_queue.jsonl`, `classify/referee_queue.jsonl` | pipeline only |
@@ -94,6 +95,7 @@ python -m radar.lender_view           # Module C: lender league, sectors, flows,
 python -m radar.scorecard backtest    # Module D: BACKTEST hit rates vs baseline, Wilson intervals
 python -m radar.weekly_pack           # Module E: weekly_pack.md + commentary prompt (paste by hand)
 python -m radar.contracts leads FILE  # Module F: manual contract-win leads from a hand-exported CSV
+python -m radar.public_suppliers leads  # working-capital list (public-sector suppliers, no charge); `build` refreshes data/public_suppliers.csv.gz from the contracts pull
 python -m radar.snapshot              # data for the review app's Additions pages and the portal
 python -m radar.portal                # client portal, read-only, http://127.0.0.1:8790
 python -m unittest discover -s tests  # tests
