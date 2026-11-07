@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/em_probe/br_refi.py", line 5, in <module>
+    from sklearn.ensemble import HistGradientBoostingClassifier
+ModuleNotFoundError: No module named 'sklearn'
