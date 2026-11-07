@@ -17,10 +17,10 @@ def get(u, t=600):
         except Exception as e: log("retry", u[:110], repr(e)[:80]); time.sleep(5 * (i + 1))
     raise RuntimeError(u)
 def soda(ds, q): return json.loads(get(f"https://www.datos.gov.co/resource/{ds}.json?" + urllib.parse.urlencode(q)))
-def soda_all(ds, q, page=50000, maxrows=3_000_000):
+def soda_all(ds, q, page=50000, maxrows=3_000_000, order=":id"):
     rows = []; off = 0
     while off < maxrows:
-        r = soda(ds, dict(q, **{"$limit": page, "$offset": off, "$order": ":id"})); rows += r; off += page
+        r = soda(ds, dict(q, **{"$limit": page, "$offset": off, "$order": order})); rows += r; off += page
         if len(r) < page: break
     return pd.DataFrame(rows)
 rep = {}
@@ -212,7 +212,7 @@ sc[["nit", "year", "y", "p_lr", "p_gb", "p_ens", "usd_assets_m"]].to_csv(f"{OUT}
 try:
     t0 = time.time()
     sec = soda_all("jbjy-vk9h", {"$select": "documento_proveedor as nit, date_extract_y(fecha_de_firma) as y, sum(valor_del_contrato) as v, count(*) as n",
-                                 "$where": "tipodocproveedor='NIT' AND fecha_de_firma>='2016-01-01T00:00:00'", "$group": "documento_proveedor, y"}, page=50000, maxrows=1_500_000)
+                                 "$where": "tipodocproveedor='NIT' AND fecha_de_firma>='2016-01-01T00:00:00'", "$group": "documento_proveedor, y"}, page=50000, maxrows=1_500_000, order="nit, y")
     sec["nit"] = sec["nit"].map(clean_nit); sec["y"] = pd.to_numeric(sec["y"], errors="coerce"); sec["v"] = pd.to_numeric(sec["v"], errors="coerce"); sec["n"] = pd.to_numeric(sec["n"], errors="coerce")
     sec = sec.groupby(["nit", "y"])[["v", "n"]].sum().reset_index(); sec.to_csv(f"{OUT}/co_secop_by_nit_year.csv.gz", index=False)
     log("secop", len(sec), round(time.time() - t0))
@@ -268,9 +268,11 @@ def fmt(d, extra=()):
     d["risk_pct_rank"] = (d["risk"] * 100).round(0)
     keep = [c for c in ["nit", "name", "ciiu", "city", "parent", "parent_country", "usd_assets_m", "revenue_usd_m", "lev", "cur", "cash_cl", "roa", "rev_growth", "cl_share", "risk_pct_rank", "secop_2025_cop", *extra] if c in d]
     return d[keep].round(3)
+watch_f, borrow_f = fmt(watch), fmt(borrow, ["need_score"])
+watch_f.to_csv(f"{OUT}/co_watchlist.csv", index=False); borrow_f.to_csv(f"{OUT}/co_borrower_candidates.csv", index=False)
 with pd.ExcelWriter(f"{OUT}/colombia-lead-list.xlsx") as xw:
-    fmt(watch).to_excel(xw, "Distress watchlist", index=False)
-    fmt(borrow, ["need_score"]).to_excel(xw, "Borrower candidates", index=False)
+    watch_f.to_excel(xw, sheet_name="Distress watchlist", index=False)
+    borrow_f.to_excel(xw, sheet_name="Borrower candidates", index=False)
 res["lead_counts"] = {"watchlist": len(watch), "borrower_candidates": len(borrow)}
 res["watchlist_top_decile_rate_backtest"] = res.get("top_buckets_over20m", {}).get("top10%")
 json.dump(res, open(f"{OUT}/backtest_co.json", "w"), indent=1, default=str, ensure_ascii=False)
