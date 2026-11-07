@@ -43,22 +43,26 @@ fl = fre[(fre["mat"] > pd.Timestamp("2026-11-07")) & fre["Valor_Mobiliario"].str
 m = fl.assign(bal=pd.to_numeric(fl["Saldo_Devedor"], errors="coerce")).groupby("cnpj")["bal"].sum().rename("fre_bal").to_frame().join(livereg.groupby("cnpj")["amt_now"].sum().rename("reg_bal"), how="inner")
 rep["vs_fre"]["matched_companies_amount_compare"] = {"n": len(m), "median_ratio_fre_over_registry": round(float((m["fre_bal"] / m["reg_bal"]).replace([np.inf, -np.inf], np.nan).median()), 2),
                                                      "share_within_25pct": round(float(((m["fre_bal"] / m["reg_bal"]).between(0.75, 1.25)).mean()), 2)}
+ex_rows = m.assign(ratio=m["fre_bal"] / m["reg_bal"]).sort_values("ratio", ascending=False)
+rep["vs_fre"]["examples_fre_much_larger"] = ex_rows.head(5).round(0).reset_index().to_dict("records"); rep["vs_fre"]["examples_fre_much_smaller"] = ex_rows.tail(5).round(0).reset_index().to_dict("records")
+rep["vs_fre"]["ratio_quantiles"] = (m["fre_bal"] / m["reg_bal"]).replace([np.inf, -np.inf], np.nan).quantile([.1, .25, .5, .75, .9]).round(2).to_dict()
 # --- reconstruct outstanding and test wall -> new issuance
 df = df.dropna(subset=["issue", "mat"]); df = df[df["issue"].between("1990-01-01", "2026-12-31") & df["mat"].between("1990-01-01", "2080-01-01")]
-df["end"] = df["mat"]; ex = (df["status"] == "Excluído") & df["exit"].notna() & df["motivo"].str.contains("Resgate|Vencimento|Cancel|Convers|Amortiz", case=False)
-df.loc[ex & (df["exit"] < df["end"]), "end"] = df.loc[ex & (df["exit"] < df["end"]), "exit"]
+ex = (df["status"] == "Excluído") & df["exit"].notna() & df["motivo"].str.contains("Resgate|Vencimento|Cancel|Convers|Amortiz", case=False)
+df["exited"] = df["exit"].where(ex)  # actual exit date; only counts once it is in the past at the cutoff (no look-ahead)
+df["end"] = df["mat"]
 df["amt"] = df["amt0"].fillna(0)
 issues = {k: np.sort(v.values) for k, v in df.groupby("cnpj")["issue"]}
 rows = []
 for yr in range(2013, 2026):
     t = pd.Timestamp(yr, 1, 1); t1 = t + pd.DateOffset(years=1); t2 = t + pd.DateOffset(years=2); t6 = t + pd.DateOffset(months=6)
     past = df[df["issue"] < t]; act = past[past["issue"] >= t - pd.DateOffset(years=5)]
-    out = past[past["end"] >= t]
+    out = past[(past["mat"] >= t) & ~(past["exited"] < t)]
     g = act.groupby("cnpj"); B = pd.DataFrame({"n5": g.size()})
     B["last_issue"] = g["issue"].max(); B["amt5"] = g["amt"].sum(); B["tenor"] = (act["mat"] - act["issue"]).dt.days.groupby(act["cnpj"]).mean() / 30.4
     B["is476"] = act["exempt476"].groupby(act["cnpj"]).mean()
-    og = out.groupby("cnpj"); B["outstanding"] = og["amt"].sum(); B["n_out"] = og.size(); B["first_mat"] = (og["end"].min() - t).dt.days / 30.4
-    B["w12"] = out[out["end"] < t1].groupby("cnpj")["amt"].sum(); B["w6"] = out[out["end"] < t6].groupby("cnpj")["amt"].sum(); B["w24"] = out[out["end"] < t2].groupby("cnpj")["amt"].sum()
+    og = out.groupby("cnpj"); B["outstanding"] = og["amt"].sum(); B["n_out"] = og.size(); B["first_mat"] = (og["mat"].min() - t).dt.days / 30.4
+    B["w12"] = out[out["mat"] < t1].groupby("cnpj")["amt"].sum(); B["w6"] = out[out["mat"] < t6].groupby("cnpj")["amt"].sum(); B["w24"] = out[out["mat"] < t2].groupby("cnpj")["amt"].sum()
     B = B.fillna({"outstanding": 0, "n_out": 0, "w12": 0, "w6": 0, "w24": 0})
     B["m_last"] = (t - B["last_issue"]).dt.days / 30.4; B["share12"] = B["w12"] / B["outstanding"].replace(0, np.nan)
     B["lo"] = np.log1p(B["outstanding"]); B["lw12"] = np.log1p(B["w12"]); B["l5"] = np.log1p(B["amt5"]); B["year"] = yr
