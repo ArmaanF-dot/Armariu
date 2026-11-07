@@ -8,7 +8,7 @@ def get(u):
     for i in range(3):
         try: return urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=900).read()
         except Exception as e: print("retry", u, repr(e)[:80], flush=True); time.sleep(5)
-num = lambda s: pd.to_numeric(s.astype(str).str.replace(".", "", regex=False).str.replace(",", ".", regex=False), errors="coerce")
+num = lambda s: pd.to_numeric(s, errors="coerce")
 rep = {"years": {}}
 fre_rows = []; dfp = []
 for y in range(2016, 2026):
