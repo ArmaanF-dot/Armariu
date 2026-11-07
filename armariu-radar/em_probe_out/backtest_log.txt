@@ -43,26 +43,47 @@ ok Base-Soporte-Insolvencia-2026-CORTE-MAYO.xlsx 2026-05-31 5583
 ok Base-Soporte-Insolvencia-2026-CORTE-NOVIEMBRE.xlsx 2026-11-30 5767
 ok Base-Soporte-Insolvencia-2026-CORTE-OCTUBRE.xlsx 2026-10-31 5699
 ok Base-Soporte-Insolvencia-2026-CORTE-SEPTIEMBRE.xlsx 2026-09-30 5669
+{'firms': 8506, 'files': 45, 'by_year': {1999: 1, 2001: 1, 2002: 2, 2004: 2, 2005: 1, 2006: 1, 2008: 8, 2009: 33, 2010: 40, 2011: 70, 2012: 84, 2013: 120, 2014: 147, 2015: 171, 2016: 232, 2017: 434, 2018: 770, 2019: 802, 2020: 885, 2021: 769, 2022: 697, 2023: 729, 2024: 922, 2025: 928, 2026: 657}, 'closed_before_latest': 2741, 'with_true_adm_date': 5857}
+pulled 2016 415212 293684 0 53
+pulled 2017 43548 252320 0 22
+pulled 2018 244415 246110 0 47
+pulled 2019 320067 320490 0 52
+pulled 2020 363336 372695 0 38
+pulled 2021 366283 363935 0 72
+pulled 2022 758282 752846 0 125
+pulled 2023 396756 393814 0 62
+pulled 2024 367600 364393 0 59
+pulled 2025 349436 342415 29161 64
+{'net': 'Ganancia (p�rdida)', 'op': 'Ganancia (p�rdida) por actividades de operaci�n', 'ganancia_like': {'Ganancia (p�rdida), antes de impuestos': 42808, 'Ganancia (p�rdida) procedente de operaciones continuadas': 42808, 'Ganancia (p�rdida)': 42808, 'Ganancia (p�rdida) por actividades de operaci�n': 42807, 'Ganancia (p�rdida) procedente de operaciones discontinuadas': 10778, 'Ganancia (p�rdida) acumulada anteriormente reconocida en otro resultado integral que surge de la reclasificaci�n de activos financieros de la categor�a de medici�n de valor razonable con cambios en otro resultado integral a la de valor razonable con camb': 1371, 'Ganancia (p�rdida), atribuible a participaciones no controladoras': 862, 'Ganancia (p�rdida), atribuible a los propietarios de la controladora': 847}}
 Traceback (most recent call last):
-  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/em_probe/backtest_co.py", line 73, in <module>
-    est[init] = pd.to_datetime(ev1.loc[init, "open_year"].astype(int).astype(str) + "-07-01")
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/tools/datetimes.py", line 1234, in to_datetime
-    cache_array = _maybe_cache(arg, format, cache, convert_listlike, unit)
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/tools/datetimes.py", line 298, in _maybe_cache
-    cache_dates = convert_listlike(unique_dates, format)
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/tools/datetimes.py", line 484, in _convert_listlike_datetimes
-    return _array_strptime_with_fallback(arg, name, utc, format, exact, errors)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/tools/datetimes.py", line 518, in _array_strptime_with_fallback
-    result, tz_out = array_strptime(arg, fmt, exact=exact, errors=errors, utc=utc)
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "pandas/_libs/tslibs/strptime.pyx", line 644, in pandas._libs.tslibs.strptime.array_strptime
-  File "pandas/_libs/tslibs/strptime.pyx", line 561, in pandas._libs.tslibs.strptime.array_strptime
-  File "pandas/_libs/tslibs/strptime.pyx", line 701, in pandas._libs.tslibs.strptime._parse_with_format
-ValueError: time data "5-07-01" doesn't match format "%Y-%m-%d". You might want to try:
-    - passing `format` if your strings have a consistent format;
-    - passing `format='ISO8601'` if your strings are all ISO8601 but not necessarily in exactly the same format;
-    - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this.
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/em_probe/backtest_co.py", line 127, in <module>
+    w["lev"] = sf(w["L"], w["A"]); w["cur"] = sf(w["CA"], w["CL"]); w["cash_a"] = sf(w["C"], w["A"]); w["cash_cl"] = sf(w["C"], w["CL"])
+                                              ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/em_probe/backtest_co.py", line 126, in <lambda>
+    sf = lambda a, b: (a / b).replace([np.inf, -np.inf], np.nan)
+                       ~~^~~
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/ops/common.py", line 140, in new_method
+    return method(self, other)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/arraylike.py", line 235, in __truediv__
+    return self._arith_method(other, operator.truediv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/series.py", line 7388, in _arith_method
+    return base.IndexOpsMixin._arith_method(self, other, op)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/base.py", line 1717, in _arith_method
+    result = ops.arithmetic_op(lvalues, rvalues, op)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/ops/array_ops.py", line 292, in arithmetic_op
+    res_values = _na_arithmetic_op(left, right, op)  # type: ignore[arg-type]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/ops/array_ops.py", line 223, in _na_arithmetic_op
+    result = func(left, right)
+             ^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/computation/expressions.py", line 286, in evaluate
+    return _evaluate(op, op_str, left_op, right_op)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/computation/expressions.py", line 85, in _evaluate_standard
+    return op(left_op, right_op)
+           ^^^^^^^^^^^^^^^^^^^^^
+ZeroDivisionError: float division by zero
