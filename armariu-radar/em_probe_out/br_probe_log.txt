@@ -1,0 +1,3 @@
+oferta_distribuicao.csv 48944
+oferta_resolucao_160.csv 15101
+done
