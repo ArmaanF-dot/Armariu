@@ -1,0 +1,141 @@
+{"rows": 10069, "columns": ["Codigo do Ativo", "Empresa", "Serie", "Emissao", "IPO", "Situacao", "ISIN", "Registro CVM da Emissao", "Data de Registro CVM da Emissao", "Registro CVM do Programa", "Data de Registro CVM do Programa", "Data de Emissao"], "issuers": 2647, "status": {"Excluído": 5213, "Registrado": 4856}, "issue_year_counts": {"1981": 11, "1982": 9, "1983": 3, "1984": 3, "1985": 2, "1986": 1, "1987": 2, "1988": 23, "1989": 41, "1990": 83, "1991": 82, "1992": 56, "1993": 139, "1994": 85, "1995": 170, "1996": 224, "1997": 116, "1998": 113, "1999": 45, "2000": 52, "2001": 84, "2002": 43, "2003": 21, "2004": 47, "2005": 59, "2006": 69, "2007": 79, "2008": 40, "2009": 113, "2010": 197, "2011": 213, "2012": 359, "2013": 364, "2014": 361, "2015": 273, "2016": 249, "2017": 362, "2018": 472, "2019": 532, "2020": 370, "2021": 673, "2022": 588, "2023": 469, "2024": 983, "2025": 1216, "2026": 573}, "with_maturity": 0.9911609891746946, "with_amount": 1.0, "ict_476_or_dispensa_share": 0.477, "motivo_saida_top": {"": 6687, "12/02/1996 - CANCELAMENTO": 43, "05/06/2014 - VENCIMENTO": 25, "15/10/2003 - VENCIMENTO ANTECIPADO": 22, "03/07/2018 - VENCIMENTO": 20, "09/04/2018 - RESGATE TOTAL ANTECIPADO": 18, "19/05/1999 - PRORROGAÇÃO INDEFERIDA PELA CVM": 18, "02/07/2018 - RESGATE TOTAL ANTECIPADO": 18, "15/12/2014 - VENCIMENTO": 17, "13/08/2004 - VENCIMENTO ANTECIPADO": 17, "25/09/2014 - VENCIMENTO": 16, "17/07/2014 - VENCIMENTO": 16, "01/08/2018 - RESGATE TOTAL ANTECIPADO": 15, "15/09/2014 - RESGATE TOTAL ANTECIPADO": 13, "09/07/2018 - VENCIMENTO": 12}, "total_issued_brl_bn": 69857.2, "live_instruments": 4856, "live_issuers": 1482, "live_outstanding_brl_bn": 1557.3, "live_with_maturity_after_today": 4271}
+2018 {'n': 636, 'events': 146, 'p_naive': 0.664, 'p_cad': 0.789, 'p_full': 0.796}
+2019 {'n': 637, 'events': 160, 'p_naive': 0.675, 'p_cad': 0.775, 'p_full': 0.794}
+2020 {'n': 705, 'events': 102, 'p_naive': 0.605, 'p_cad': 0.726, 'p_full': 0.739}
+2021 {'n': 720, 'events': 173, 'p_naive': 0.657, 'p_cad': 0.747, 'p_full': 0.751}
+2022 {'n': 922, 'events': 210, 'p_naive': 0.638, 'p_cad': 0.769, 'p_full': 0.764}
+2023 {'n': 1040, 'events': 180, 'p_naive': 0.684, 'p_cad': 0.818, 'p_full': 0.817}
+2024 {'n': 1013, 'events': 285, 'p_naive': 0.715, 'p_cad': 0.813, 'p_full': 0.809}
+2025 {'n': 1046, 'events': 280, 'p_naive': 0.69, 'p_cad': 0.786, 'p_full': 0.79}
+{
+ "vs_fre": {
+  "fre_companies": 657,
+  "fre_companies_in_registry": 541,
+  "registry_issuers": 2647,
+  "registry_issuers_not_in_fre": 2106,
+  "live_registry_issuers": 1365,
+  "live_registry_issuers_in_fre": 407,
+  "share_of_live_registry_amount_from_fre_companies": 0.752,
+  "matched_companies_amount_compare": {
+   "n": 389,
+   "median_ratio_fre_over_registry": 3.08,
+   "share_within_25pct": 0.07
+  }
+ },
+ "panel": {
+  "issuer_years": 10888,
+  "with_outstanding": 9599,
+  "events": 2081,
+  "base_rate": 0.2168,
+  "issuers": 2034
+ },
+ "rate_by_first_maturity": {
+  "0-3m": {
+   "count": 540,
+   "mean": 0.37
+  },
+  "3-6m": {
+   "count": 627,
+   "mean": 0.368
+  },
+  "6-12m": {
+   "count": 1081,
+   "mean": 0.309
+  },
+  "12-24m": {
+   "count": 1659,
+   "mean": 0.273
+  },
+  ">24m": {
+   "count": 5692,
+   "mean": 0.152
+  }
+ },
+ "rate_wall12_vs_not": {
+  "wall12": 0.3403,
+  "no_wall": 0.179,
+  "n_wall": 2248,
+  "n_no": 7351
+ },
+ "non_serial": {
+  "n": 7917,
+  "rate": 0.1676,
+  "wall12": 0.2316,
+  "no_wall": 0.1531,
+  "n_wall": 1464
+ },
+ "pooled_auc": {
+  "p_naive": 0.667,
+  "p_cad": 0.777,
+  "p_full": 0.78
+ },
+ "top": {
+  "top5%": {
+   "rate": 0.711,
+   "lift": 3.11,
+   "capture": 0.156,
+   "n": 336
+  },
+  "top10%": {
+   "rate": 0.637,
+   "lift": 2.79,
+   "capture": 0.279,
+   "n": 672
+  },
+  "top25%": {
+   "rate": 0.49,
+   "lift": 2.15,
+   "capture": 0.536,
+   "n": 1680
+  }
+ },
+ "acceleration_events": {
+  "instruments": 147,
+  "issuers": 79,
+  "by_year": {
+   "2004.0": 2,
+   "2005.0": 1,
+   "2006.0": 2,
+   "2007.0": 2,
+   "2008.0": 4,
+   "2009.0": 2,
+   "2011.0": 2,
+   "2012.0": 1,
+   "2014.0": 1,
+   "2016.0": 3,
+   "2017.0": 4,
+   "2018.0": 6,
+   "2019.0": 5,
+   "2020.0": 7,
+   "2021.0": 6,
+   "2022.0": 2,
+   "2023.0": 2,
+   "2024.0": 4,
+   "2025.0": 5,
+   "2029.0": 1
+  },
+  "motivos": {
+   "15/10/2003 - VENCIMENTO ANTECIPADO": 22,
+   "13/08/2004 - VENCIMENTO ANTECIPADO": 17,
+   "11/03/2005 - VENCIMENTO ANTECIPADO": 7,
+   "17/10/2003 - VENCIMENTO ANTECIPADO": 6,
+   "30/07/2004 - VENCIMENTO ANTECIPADO": 6
+  }
+ },
+ "distress_auc_single": {
+  "w12": 0.885,
+  "lw12": 0.885,
+  "share12": 0.894,
+  "first_mat": 0.911,
+  "m_last": 0.212,
+  "n5": 0.523,
+  "lo": 0.585
+ },
+ "recovery_auc_single": {
+  "w12": 0.553,
+  "lw12": 0.553,
+  "share12": 0.541,
+  "lo": 0.725,
+  "n5": 0.649
+ }
+}
