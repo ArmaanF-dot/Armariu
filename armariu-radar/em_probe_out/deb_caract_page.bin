@@ -1,0 +1,574 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Características das Debêntures Privadas</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="stylesheet" href="../../../css/debetures.css" type="text/css">
+	<link rel="stylesheet" href="../../../css/menu-estilo.css" type="text/css">
+	<script language="javascript" src="../../../scripts/debentures.js"></script>
+	<script language="JavaScript">
+		function resetar() {
+			window.location="caracteristicas_f.asp?tip_deb=";
+			return false;
+		}
+	</script>
+	<script>
+		!function (_a, n, b, i, m, a) {if (_a.anbisdk) return;_a.anbisdk = { init: id => anbisdk.config = { id } }, m = n.createElement(i), m.async = 1, m.src = b, a = n.getElementsByTagName(i)[0], a.parentNode.insertBefore(m, a);}(window, document, 'https://tech.anbima.com.br/sdk.js', 'script');anbisdk.init('debentures');</script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-105585466-1', 'auto');
+		ga('require', 'ipMeta', {
+      apiKey: '2948ffd8395214fecc8ebc2cc9b9378f23f25f3fbc8dc72fe3401b369194e805',
+      serviceProvider: 'dimension1',
+      networkDomain: 'dimension2',
+      networkType: 'dimension3',
+  });
+  ga('ipMeta:loadNetworkFields');
+  ga('send', 'pageview');
+</script>
+
+<!-- IpMeta must be included after Google Analytics -->
+    <script async src="https://ipmeta.io/plugin.js">
+
+	</script></head>
+
+	<body bgcolor="#F8F8F8" background="../../../img/_fundoCinza.gif" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+		<!--// INÃCIO: Topo.Assinatura -->
+
+
+<script type="text/javascript" language="javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript" language="javascript">
+    try {
+        var pageTracker = _gat._getTracker("UA-15494686-1");
+        pageTracker._trackPageview();
+    } catch (err) { }
+  </script>
+    
+
+<table width="779" border="0" cellspacing="0" cellpadding="0" align="center">
+	<tr>
+		<td width="374" rowspan="2" valign="top"><a href="http://www.debentures.com.br/">
+      <img src="../../../img/topo_logoSND.gif" alt="ANDIMA - DebÃªntures" hspace="20" vspace="17" border="0" /></a></td>
+		<td width="390" height="57" align="right" valign="bottom"></td><td width="15"></td>
+	</tr>
+	<tr>
+		<td width="405" height="28" valign="top" colspan="2">
+		<!--// INÃCIO: Topo.Assinatura.BarraServiÃ§os -->
+	    <table width="405" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <script type="text/javascript" language="javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript" language="javascript">
+    try {
+        var pageTracker = _gat._getTracker("UA-15494686-1");
+        pageTracker._trackPageview();
+    } catch (err) { }
+  </script>
+
+<table id="busca" >
+<tr>
+<td width="234" class="Ver10666666" height="28">
+    <a href="javascript:janelaLinks('http://www.debentures.com.br//linksutilitarios/faleconosco','utilitarios');" class="Ver10585858_Bol">Fale Conosco</a>  
+</td>
+</tr></table> 
+          </tr>
+        </table>
+      <!--// FIM: Topo.Assinatura.BarraServiÃ§os --></td>
+	</tr>
+</table>
+<!--// FIM: Topo.Assinatura -->
+<!--// INÃCIO: Topo.Menu -->
+<nav class="menu-navegacao">
+        <ul class="abas">
+        
+        <li class=""><a href="../../../espacodoinvestidor/introducaoadebentures.asp">
+          Deb&#234;ntures
+        </a></li>
+        
+        <li><a href="../../../informacoesaomercado/registronacvm.asp">
+          Informa&#231;&#245;es ao Mercado
+        </a></li>
+        
+        <li class="active"><a href="../../../exploreosnd/exploreosnd.asp">
+          Banco de Dados
+      </a></li>
+      </ul>
+</nav><!--// FIM: Topo.Menu -->
+		<!--// INÍCIO: TabelaCorpo -->
+		<table width="779" border="0" cellspacing="0" cellpadding="0" align="center">
+			<tr>
+				<td width="11"></td>
+				<td colspan="2">
+					<table width="765" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td width="10"><img src="../../../img/_box101.gif" width="10" height="27"></td>
+							<td width="745" background="../../../img/_box103.gif"><img src="../../../img/emSND_boxCaracDeb.gif" width="600" height="27"></td>
+							<td width="10"><img src="../../../img/_box102.gif" width="10" height="27"></td>
+						</tr>
+					</table>
+
+				</td>
+			</tr>		
+
+			<tr><form name="form1" method="post" action="caracteristicas_r.asp?tip_deb=&op_exc=">
+				<td width="11">	
+				</td>
+				<td width="765"><!--// INÍCIO: Cabeçalho.característicasDebênturesPúblicas -->
+					<!--// FIM: Cabeçalho.característicasDebênturesPúblicas -->
+					<!--// INÍCIO: Corpo.característicasDebênturesPúblicas -->
+					<table width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
+						<tr>
+							<td width="2" height="16" bgcolor="#EACCD0" background="../../../img/_box108.gif"></td>
+							<td colspan="3"></td>
+							<td width="2" bgcolor="#EACCD0" background="../../../img/_box109.gif"></td>
+						</tr>
+						<tr>
+							<td width="2" bgcolor="#EACCD0" background="../../../img/_box108.gif"></td>
+							<td width="7"></td>
+							<td width="745"><!--// INÍCIO: Texto.característicasDebênturesPúblicas -->
+								<table width="745" border="0" cellspacing="0" cellpadding="0" class="Ver11666666">
+									<tr>
+										<td width="16"></td>
+										<td width="713" valign="top">
+											<p>
+												Selecione as debêntures públicas de acordo com suas principais características, tais como remuneração, datas, ratings, quantidades e outras. Para isso, basta definir os parâmetros desejados e realizar sua consulta.
+											<br>
+										&nbsp;</p>
+									</td>
+									<td width="16"></td>
+								</tr>
+							</table><!--// FIM: Texto.característicasDebênturesPúblicas -->
+							<!--// INÍCIO: CorpoForm.característicasDebênturesPúblicas -->
+							<table width="745" border="0" cellspacing="0" cellpadding="0" class="Ver11666666">
+								<tr bgcolor="#F9F9F9">
+									<td width="16" height="35"></td>
+									<td width="200" align="right">Ativos Registrados <input name="op_exc" type="radio" 
+										onClick=refresh("caracteristicas_f.asp?tip_deb=&op_exc=False") value="False" 
+										checked></td>
+										<td width="150" align="right">Ativos Excluídos 
+											<input type="radio" name="op_exc" value="True" onClick=refresh("caracteristicas_f.asp?z=AjhgER99&tip_deb=&op_exc=True") ></td>
+											<td width="235" align="right">Ativos Registrados e Excluídos <input name="op_exc" type="radio" value="Nada" onClick=refresh("caracteristicas_f.asp?tip_deb=&op_exc=Nada") ></td>
+											<td width="144"></td>
+										</tr>
+									</table>
+									<table width="745" border="0" cellspacing="0" cellpadding="0" class="Ver11666666">
+										
+										<tr>
+											<td width="16" height="35"></td>
+											<td width="208">Emissor:</td>
+											<td width="521"><div id="awmobject2">
+												<select  name="mnome" id=select1   style="width:342px" class=compForm1 
+												onChange="window.location='caracteristicas_f.asp?CNPJ=' + this.value + '&tip_deb=&op_exc='"		
+												>
+												<option value="" selected> Nenhuma Seleção </option>
+												<option value="39999619000197"> 180 SEGUROS SA</option><option value="58071694000138"> AB 014 SECURITIZADORA S.A.</option><option value="31446280000190"> ACQIO HOLDING PARTICIPACOES S.A.</option><option value="46155662000131"> ALISEO EMPREENDIMENTOS E PARTICIPACOES S.A.</option><option value="57590639000191"> ALTIS CAPITAL SECURITIZADORA S.A.</option><option value="33412792000160"> ALYA CONSTRUTORA S.A</option><option value="07909776000178"> AMATA  S/A</option><option value="37500450000153"> AMBIENTE MAXX LOCADORA DE VEICULOS S.A</option><option value="00776574000660"> AMERICANAS S.A. - EM RECUPERACAO JUDICIAL</option><option value="11399666000180"> AQUAPOLO AMBIENTAL  S.A.</option><option value="43674701000119"> ARAPUA PARTICIPACOES S.A</option><option value="05437257000129"> ATIVOS S/A SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="35827309000134"> ATLAS HOLDING E PARTICIPACOES S.A.</option><option value="66442571000194"> ATLAS SECURITIZADORA E PLATAFORMA DE INVESTIMENTO PARTICIPATIVO S.A</option><option value="04032433000180"> ATMA PARTICIPACOES S/A</option><option value="27102563000147"> AXIS SOLAR SPE I S.A.</option><option value="35917935000111"> AXIS SOLAR V EMPREENDIMENTOS E PARTICIPACOES S/A</option><option value="48929019000143"> AXIS SOLAR X E E PARTICIPACOES S.A.</option><option value="48343871000134"> BAMBOO SECURITIZADORA S.A</option><option value="40114534000163"> BANKONE SERVICOS DIGITAIS S/A</option><option value="35082277000195"> BASE SECURITIZADORA DE CREDITOS IMOBILIARIOS S.A.</option><option value="44268482000130"> BETTER DRINKS PARTICIPACOES S.A.</option><option value="09474192000142"> BIOACTIVE BIOMATERIAIS S.A.</option><option value="23741508000146"> BITTENPAR PARTICIPACOES S.A.</option><option value="02364069000120"> BLENDPAPER SECURITY PAPEIS ESPECIAIS S.A.</option><option value="20451953000183"> BLUM SECURITIES S.A.</option><option value="28231010000157"> BOLD SECURITIZADORA S.A.</option><option value="04931019000102"> BRASBUNKER PARTICIPACOES S/A</option><option value="17919840000155"> BRASILTERM PARTICIPACOES S.A</option><option value="19246473000100"> BRK AMBIENTAL - MANSO S.A.</option><option value="10923227000162"> BTG PACTUAL HOLDING S.A.</option><option value="27011504000163"> BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="41037250000183"> CAXANGA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="26651646000122"> CDA ALIMENTOS S/A</option><option value="50747046000147"> CENTRO SUL CONCESSOES S.A.</option><option value="23399607000191"> CERC CENTRAL DE RECEBIVEIS S.A</option><option value="61346097000183"> CERES INVESTIMENTOS HOLDING S/A</option><option value="07584023000130"> CERTHA INVESTIMENTOS SA</option><option value="41544698000193"> CIA SEC DE CRED FINANCEIROS VERT- DINIE</option><option value="27609855000170"> CLIQUE RETIRE TECNOLOGIA E LOGISTICA S.A.</option><option value="22261473000185"> COMPANHIA DE GAS DE MINAS GERAIS GASMIG</option><option value="72300122000104"> COMPANHIA DE GAS DO ESTADO DO RIO GRANDE DO SUL</option><option value="76484013000145"> COMPANHIA DE SANEAMENTO  DO PARANA - SANEPAR</option><option value="17281106000103"> COMPANHIA DE SANEAMENTO DE MINAS GERAIS COPASA MG</option><option value="33352394000104"> COMPANHIA EST. DE AGUAS E ESGOTOS- CEDAE</option><option value="37368315000104"> COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT 5</option><option value="32770457000171"> COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT-GYRA</option><option value="36699688000197"> COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT-LEVE CAPITAL</option><option value="35522391000199"> COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT-PARCELEX</option><option value="51362852000160"> COMPANHIA SECURITIZADORA X S.A.</option><option value="47863166000103"> CONCESSIONARIA PREVER ADMINISTRACAO CEMITERIAL E SERVICOS FUNERARIOS S.A</option><option value="19541872000195"> CONECTA CAPITAL PARTICIPACOES LTDA</option><option value="02736470000143"> CONFIANZA SECURITIZADORA S.A.</option><option value="40008239000122"> CONSAG ENGENHARIA S.A..</option><option value="43738268000138"> CONSTRUCREDIT SECURITIZADORA S.A.</option><option value="17162983000165"> CONSTRUTORA ATERPA S/A</option><option value="86445822000100"> COPOBRAS S/A IND. E COM. DE EMBALAGENS</option><option value="49947676000186"> CREDITCORP SECURITIZADORA S.A</option><option value="23393856000170"> DESTILLA BIOENERGIA AGROINDUSTRIAL S.A</option><option value="08873873000110"> ECORODOVIAS CONCESSOES E SERVICOS S/A</option><option value="11253257000171"> ENAUTA ENERGIA S.A.</option><option value="04065033000170"> ENERGISA ACRE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="34025997000156"> ENERGISA AMAZONAS TRANSMISSORA DE ENERGIA S.A.</option><option value="03467321000199"> ENERGISA MATO GROSSO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="15413826000150"> ENERGISA MATO GROSSO DO SUL - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="19527639000158"> ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="08826596000195"> ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="09095183000140"> ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="05914650000166"> ENERGISA RONDONIA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="13017462000163"> ENERGISA SERGIPE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="07282377000120"> ENERGISA SUL-SUDESTE - DISTRIBUIDORA DE ENERGIA SA</option><option value="25086034000171"> ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="28201130000101"> ENERGISA TRANSMISSAO DE ENERGIA S.A.</option><option value="12135061000145"> ENTRE PAYMENTS SERVICOS DE PAGAMENTOS S.A.</option><option value="29400630000135"> ESTRELA SSC HOLDINGS S.A.</option><option value="48904104000157"> FARO ENERGY PROJ. SOL. HOL. IV S.A</option><option value="12986473000199"> FAZENDA SAO BENEDITO S.A. - EM RECUPERACAO JUDICIAL</option><option value="07066019000180"> FERTIMAR MINERACAO E NAVEGACAO S.A</option><option value="54555794000189"> FLEETPAY SECURITIZADORA S.A.</option><option value="24912535000105"> FORTITUDINE PARTICIPACOES S.A.</option><option value="43530613000143"> GAIA IMPACTO VIVENDA SECURITIZADORA DE CREDITOS FINANCEIROS S/A</option><option value="48141505000100"> GCB SECURITIZADORA II S.A.</option><option value="08764621000153"> GENERAL SHOPPING E OUTLETS DO BRASIL SA</option><option value="38424056000146"> GREEN STONE PARTICIPACOES S.A.</option><option value="31648478000156"> GRIFFIN CAPITAL S.A. SECURITIZADORA</option><option value="31553627000101"> GRUPO TOKY S.A.</option><option value="08419673000192"> GUANABARA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="12287925000144"> H. TELL TELECOM SOLUCOES EM TI S.A</option><option value="43855480000185"> HOLDING MASTER PET S.A.</option><option value="09000493000215"> HORTUS COMERCIO DE ALIMENTOS S.A. EM RECUPERACAO JUDICIAL</option><option value="33633141000109"> HOSPITAL DE ONCOLOGIA DO MEIER S.A.</option><option value="40760921000177"> HUMAITA SECURITIZADORA S.A</option><option value="59405199000180"> IBIRA PARTICIPACOES E INVESTIMENTOS S/A</option><option value="76627504000106"> INEPAR S/A - INDUSTRIA E CONSTRUCOES – EM RECUPERACAO JUDICIAL</option><option value="38456921000136"> INFRACOMMERCE CXAAS S.A.</option><option value="45242416000154"> JL HEALTH PARTICIPACOES S.A.</option><option value="48238484000138"> KANASTRA SECURITIZADORA S.A.</option><option value="39330901000187"> KDB MEIOS DE PAGAMENTOS S.A.</option><option value="21414457000112"> LEADS CIA. SECURITIZADORA</option><option value="43312029000111"> LEVER SECURITIZADORA S.A.</option><option value="38419838000197"> LIFTCRED SECURITIZADORA DE CREDITOS FINANCEIROS S.A.</option><option value="01917818000136"> LIGHT ENERGIA S.A</option><option value="03378521000175"> LIGHT S/A</option><option value="60444437000146"> LIGHT SERVICOS DE ELETRICIDADE S/A</option><option value="54414102000182"> LIQI SECURITIZADORA SA</option><option value="25027928000190"> LOFT SOLUCOES FINANCEIRAS S/A</option><option value="47155191000124"> LYRIO V PARTICIPACOES S.A</option><option value="87346821000162"> MAIOJAMA EMPREENDIMENTOS IMOBILIARIOS S.A.</option><option value="61189288000189"> MARISA LOJAS S/A</option><option value="48440032000134"> MEDSIMPLES SECURITIZADORA DE RECEBIVEIS S.A.</option><option value="34359912000176"> MEGA LOGISTICA TRANSPORTE POR NAVEGACAO S/A</option><option value="10407005000197"> METROPOLITANA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="02762115000149"> MMX MINERACAO E METALICOS S/A - EM RECUPERACAO JUDICIAL</option><option value="19979490000148"> MOTRICE SOLUCOES EM ENERGIA S.A</option><option value="14955141000172"> MULTIPLIKE SECURITIZADORA SA</option><option value="29052206000147"> MX ASSESSORIA EMPRESARIAL S.A.</option><option value="29334799000134"> N.G.V.S.P.E.   EMPREENDIMENTOS E   PARTICIPACOES   S.A.</option><option value="49001338000157"> NE SECURITIZADORA S.A.</option><option value="42806062000135"> NORTE SANEAMENTO S.A.</option><option value="12802844000135"> NOVA ASA BRANCA II ENERGIAS RENOVAVEIS S.A.</option><option value="12802835000144"> NOVA ASA BRANCA III ENERGIAS RENOVAVEIS S/A</option><option value="38440273000120"> NOVA ERA SECURITIZADORA S A</option><option value="12802866000103"> NOVA EURUS IV ENERGIAS RENOVAVEIS S.A.</option><option value="68133112000154"> NOVO CENTRO SP S.A.</option><option value="57011013000183"> OEC PAR S.A.</option><option value="15435155000128"> ONE TO ONE ENGINE DESENVOLVIMENTO E LICENCIAMENTO DE SISTEMAS DE INFORMATICA S.A.</option><option value="32324875000135"> ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="02773542000122"> OPEA SECURITIZADORA S/A</option><option value="51571299000175"> OPEA SPE 01 COMPANHIA SECURITIZADORA  DE CREDITOS FINANCEIROS</option><option value="59693110000129"> ORANJEBTC S.A. - EDUCACAO E INVESTIMENTO</option><option value="04556194000167"> OSTEOCAMP IMPLANTES E MATERIAIS CIRURGICOS S.A.</option><option value="11198242000158"> OSX CONSTRUCAO NAVAL SA-EM REC.JUDICIAL</option><option value="31334235000143"> PALALUA PARTICIPACOES S.A.</option><option value="04480269000173"> PANTANAL AGRICOLA S.A</option><option value="60398369000126"> PARANAPANEMA S.A - EM RECUPERACAO JUDICIAL</option><option value="79704755000127"> PATTAC EMPREENDIMENTOS E PARTICIPACOES S.A.</option><option value="55346267000127"> PHOENIX AGUA E ENERGIA S.A.</option><option value="05280180000126"> PIEMONTE HOLDING DE PARTICIPACOES S.A..</option><option value="42476570000100"> PJUS ADDEBITARE PARTICIPACOES S/A</option><option value="40212260000145"> PJUS PARTICIPACOES S.A.</option><option value="27490629000113"> PKL ONE PARTICIPACOES  S.A.</option><option value="14841199000195"> PORTALEGRE RJ PARTICIPACOES S.A.</option><option value="52922570000132"> PRANA SECURITIZADORA S/A</option><option value="51941720000192"> PRINCIPIA EDUCACAO SECURITIZADORA II S.A.</option><option value="23187233000140"> PROSPECT SECURITIZADORA SA</option><option value="09044235000150"> Q1 COMERCIAL DE ROUPAS S/A</option><option value="47805900000170"> QI COMPANHIA SECURITIZADORA II</option><option value="09272156000104"> RB CAPITAL COMMERCIAL PROPERTIES S.A.</option><option value="68737857000122"> RBS PARTICIPACOES S.A.</option><option value="12647827000170"> RDA IMPORTACAO EXPORTACAO E SERVICOS S.A.</option><option value="10209063000106"> RECH AGRICOLA S/A</option><option value="53147511000105"> REGERA&CO PARTICIPACOES S.A.</option><option value="07199167000172"> RENOVAGRO AGRICULTURA RENOVAVEL</option><option value="37863381000142"> REVELO COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="36519605000130"> RHINO SECURITIZADORA S/A</option><option value="16628281000161"> SAMARCO MINERACAO S.A.</option><option value="15116321000123"> SAO ROQUE ENERGETICA S.A.</option><option value="33824597000148"> SECURITIZADORA DE CREDITOS IMOBILIARIOS VERT S/A</option><option value="01599101000193"> SEQUOIA LOGISTICA E TRANSPORTES S.A</option><option value="30769960000181"> SHIFT FITNESS ACADEMIAS DE GINASTICA E PARTICIPACOES S.A.</option><option value="62271128000147"> SOU SECURITIZADORA S.A.</option><option value="29206822000105"> SPE STX 32 DESENVOLVIMENTO IIMOBILIARIO S.A.</option><option value="29858564000141"> SPE STX 34 DESENVOLVIMENTO IMOBILIARIO S.A.</option><option value="19696542000179"> SPE WELT ENERGIA S.A</option><option value="02211906000180"> SRM SEC SECURITIZADORA SA</option><option value="22688889000184"> STYLUX BRASIL SISTEMAS DE ILUMINACAO E ENERGIA S.A.</option><option value="08801621000186"> SYN PROP E TECH S.A.</option><option value="64805187000183"> TERMINI S.A.</option><option value="33468819000137"> TERRA SANTTA ENERGIA SOLAR 1 S.A.</option><option value="01115535000170"> TESC - TERMINAL SANTA CATARINA S/A</option><option value="52240079000121"> THOPEN SOLAR 39 SPE S.A.</option><option value="57152905000102"> TRAVESSIA & MB SECURITIZADORA MERCANTIS S.A.</option><option value="41719223000190"> TRAVESSIA E DELTA SECURITIZADORA DE CREDITOS MERCANTIS S.A.</option><option value="39809063000129"> TRAVESSIA HOLDING S.A.</option><option value="38042694000100"> TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS S.A</option><option value="32023336000166"> TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS V S.A.</option><option value="35975383000106"> TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS VI S/A</option><option value="40004405000112"> TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS XXI S.A.</option><option value="41008985000189"> TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS XXIV S.A.</option><option value="47856473000159"> TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS XXX S.A.</option><option value="44326950000186"> TRAVESSIA SECURITIZADORA DE CREDITOS MERCANTIS VIII S.A.</option><option value="50021099000186"> TRAVESSIA SECURITIZADORA DE CREDITOS MERCANTIS XI S.A.</option><option value="26609050000164"> TRAVESSIA SECURITIZADORA S.A.</option><option value="26982634000180"> TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="19973828000154"> TYPUS 43 EMPREENDIMENTOS IMOBILIARIOS S.A.</option><option value="07718633000189"> UNIDASUL DISTRIBUIDORA ALIMENTICIA S/A</option><option value="33592510000154"> VALE S/A</option><option value="14583703000102"> VENTOS DE SANTO URIEL S/A</option><option value="47132346000107"> VERDE BRASIL SUSTENTABILIDADE E NEGOCIOS IMOBILIARIOSRIOS S.A</option><option value="25005683000109"> VERT COMPANHIA  SECURITIZADORA</option><option value="43737117000165"> VERT COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="42945876000150"> VERT CREDIARE COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="45498989000143"> VERT PRIVATE OFFERS COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="37368334000122"> VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="42938083000104"> VERT-9 COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="43370018000198"> VERT-CONDOCONTA COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="00904728000148"> VYTTRA DIAGNOSTICOS S.A.</option><option value="36486643000134"> WARREN BRASIL HOLDING S.A.</option><option value="45643161000131"> WS SECURITIZADORA S.A</option><option value="32683702000103"> ZIPPI-VERT COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS E COMERCIAIS</option>
+</select></div></td>
+</tr>
+<tr bgcolor="#F9F9F9">
+	<td width="16" height="35"></td>
+	<td width="208">Código de Ativo:</td>
+	<td width="521"><div id="awmobject1"><select name="ativo" style="width:248px" class="compForm1"> 
+		<option value="" selected> Nenhuma Seleção </option>
+		<option value="ABSA11    "> ABSA11     - AB 014 SECURITIZADORA S.A.</option><option value="ACQO12    "> ACQO12     - ACQIO HOLDING PARTICIPACOES S.A.</option><option value="ADDW12    "> ADDW12     - PJUS ADDEBITARE PARTICIPACOES S/A</option><option value="ADDW13    "> ADDW13     - PJUS ADDEBITARE PARTICIPACOES S/A</option><option value="ADDW22    "> ADDW22     - PJUS ADDEBITARE PARTICIPACOES S/A</option><option value="AGRR12    "> AGRR12     - PANTANAL AGRICOLA S.A</option><option value="AMAR17    "> AMAR17     - MARISA LOJAS S/A</option><option value="AMAR18    "> AMAR18     - MARISA LOJAS S/A</option><option value="AMAR19    "> AMAR19     - MARISA LOJAS S/A</option><option value="AMBE11    "> AMBE11     - AMBIENTE MAXX LOCADORA DE VEICULOS S.A</option><option value="AMERA2    "> AMERA2     - AMERICANAS S.A. - EM RECUPERACAO JUDICIAL</option><option value="AMERB2    "> AMERB2     - AMERICANAS S.A. - EM RECUPERACAO JUDICIAL</option><option value="AMERC2    "> AMERC2     - AMERICANAS S.A. - EM RECUPERACAO JUDICIAL</option><option value="AMERD2    "> AMERD2     - AMERICANAS S.A. - EM RECUPERACAO JUDICIAL</option><option value="AMTA12    "> AMTA12     - AMATA  S/A</option><option value="AQPL11    "> AQPL11     - AQUAPOLO AMBIENTAL  S.A.</option><option value="ARPU11    "> ARPU11     - ARAPUA PARTICIPACOES S.A</option><option value="ASAE12    "> ASAE12     - NOVA ASA BRANCA II ENERGIAS RENOVAVEIS S.A.</option><option value="ASAE22    "> ASAE22     - NOVA ASA BRANCA II ENERGIAS RENOVAVEIS S.A.</option><option value="ASEO13    "> ASEO13     - ALISEO EMPREENDIMENTOS E PARTICIPACOES S.A.</option><option value="ATHG11    "> ATHG11     - ATLAS HOLDING E PARTICIPACOES S.A.</option><option value="ATIS21    "> ATIS21     - ALTIS CAPITAL SECURITIZADORA S.A.</option><option value="ATMM16    "> ATMM16     - CONSTRUTORA ATERPA S/A</option><option value="ATVO12    "> ATVO12     - ATIVOS S/A SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="ATVV17    "> ATVV17     - ATLAS SECURITIZADORA E PLATAFORMA DE INVESTIMENTO PARTICIPATIVO S.A</option><option value="ATVV27    "> ATVV27     - ATLAS SECURITIZADORA E PLATAFORMA DE INVESTIMENTO PARTICIPATIVO S.A</option><option value="ATVV37    "> ATVV37     - ATLAS SECURITIZADORA E PLATAFORMA DE INVESTIMENTO PARTICIPATIVO S.A</option><option value="AXEP21    "> AXEP21     - AXIS SOLAR X E E PARTICIPACOES S.A.</option><option value="AXSP11    "> AXSP11     - AXIS SOLAR SPE I S.A.</option><option value="AXSP21    "> AXSP21     - AXIS SOLAR SPE I S.A.</option><option value="AXVS11    "> AXVS11     - AXIS SOLAR V EMPREENDIMENTOS E PARTICIPACOES S/A</option><option value="BACT13    "> BACT13     - BIOACTIVE BIOMATERIAIS S.A.</option><option value="BACT23    "> BACT23     - BIOACTIVE BIOMATERIAIS S.A.</option><option value="BANK11    "> BANK11     - BANKONE SERVICOS DIGITAIS S/A</option><option value="BANK13    "> BANK13     - BANKONE SERVICOS DIGITAIS S/A</option><option value="BASE11    "> BASE11     - BASE SECURITIZADORA DE CREDITOS IMOBILIARIOS S.A.</option><option value="BERS11    "> BERS11     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS12    "> BERS12     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS13    "> BERS13     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS14    "> BERS14     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS15    "> BERS15     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS16    "> BERS16     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS17    "> BERS17     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS18    "> BERS18     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS19    "> BERS19     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS21    "> BERS21     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS22    "> BERS22     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS23    "> BERS23     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS24    "> BERS24     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS25    "> BERS25     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS26    "> BERS26     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS27    "> BERS27     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS28    "> BERS28     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERS29    "> BERS29     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSA0    "> BERSA0     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSA1    "> BERSA1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSA2    "> BERSA2     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSB0    "> BERSB0     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSB1    "> BERSB1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSB2    "> BERSB2     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSC1    "> BERSC1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSC2    "> BERSC2     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSD1    "> BERSD1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSE1    "> BERSE1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSF1    "> BERSF1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSG1    "> BERSG1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSH1    "> BERSH1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSI1    "> BERSI1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BERSJ1    "> BERSJ1     - BULBE ENERGIAS RENOVAVEIS S.A.</option><option value="BITN11    "> BITN11     - BITTENPAR PARTICIPACOES S.A.</option><option value="BLSP11    "> BLSP11     - BLENDPAPER SECURITY PAPEIS ESPECIAIS S.A.</option><option value="BLSP12    "> BLSP12     - BLENDPAPER SECURITY PAPEIS ESPECIAIS S.A.</option><option value="BLUM11    "> BLUM11     - BLUM SECURITIES S.A.</option><option value="BMBO23    "> BMBO23     - BAMBOO SECURITIZADORA S.A</option><option value="BOLD14    "> BOLD14     - BOLD SECURITIZADORA S.A.</option><option value="BRKEA3    "> BRKEA3     - BRASBUNKER PARTICIPACOES S/A</option><option value="BRTRC4    "> BRTRC4     - SRM SEC SECURITIZADORA SA</option><option value="BSIT11    "> BSIT11     - BRASILTERM PARTICIPACOES S.A</option><option value="BTGH16    "> BTGH16     - BTG PACTUAL HOLDING S.A.</option><option value="BTGH17    "> BTGH17     - BTG PACTUAL HOLDING S.A.</option><option value="BTGH19    "> BTGH19     - BTG PACTUAL HOLDING S.A.</option><option value="BTGH26    "> BTGH26     - BTG PACTUAL HOLDING S.A.</option><option value="BTGH29    "> BTGH29     - BTG PACTUAL HOLDING S.A.</option><option value="BTGH73    "> BTGH73     - BTG PACTUAL HOLDING S.A.</option><option value="BTGHA0    "> BTGHA0     - BTG PACTUAL HOLDING S.A.</option><option value="BTGHA1    "> BTGHA1     - BTG PACTUAL HOLDING S.A.</option><option value="BTGHA3    "> BTGHA3     - BTG PACTUAL HOLDING S.A.</option><option value="BTGHA4    "> BTGHA4     - BTG PACTUAL HOLDING S.A.</option><option value="BTGHA5    "> BTGHA5     - BTG PACTUAL HOLDING S.A.</option><option value="BTGHA7    "> BTGHA7     - BTG PACTUAL HOLDING S.A.</option><option value="BTTR11    "> BTTR11     - BETTER DRINKS PARTICIPACOES S.A.</option><option value="BTTR12    "> BTTR12     - BETTER DRINKS PARTICIPACOES S.A.</option><option value="CCPRA0    "> CCPRA0     - SYN PROP E TECH S.A.</option><option value="CCRE11    "> CCRE11     - CONSTRUCREDIT SECURITIZADORA S.A.</option><option value="CCRE21    "> CCRE21     - CONSTRUCREDIT SECURITIZADORA S.A.</option><option value="CDAA11    "> CDAA11     - CDA ALIMENTOS S/A</option><option value="CDAA13    "> CDAA13     - CDA ALIMENTOS S/A</option><option value="CDAA14    "> CDAA14     - CDA ALIMENTOS S/A</option><option value="CEAC12    "> CEAC12     - ENERGISA ACRE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CEAC14    "> CEAC14     - ENERGISA ACRE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CEAC22    "> CEAC22     - ENERGISA ACRE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CEAC24    "> CEAC24     - ENERGISA ACRE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CEAE15    "> CEAE15     - COMPANHIA EST. DE AGUAS E ESGOTOS- CEDAE</option><option value="CEAE25    "> CEAE25     - COMPANHIA EST. DE AGUAS E ESGOTOS- CEDAE</option><option value="CEIH11    "> CEIH11     - CERES INVESTIMENTOS HOLDING S/A</option><option value="CEIH21    "> CEIH21     - CERES INVESTIMENTOS HOLDING S/A</option><option value="CEIH31    "> CEIH31     - CERES INVESTIMENTOS HOLDING S/A</option><option value="CEIH41    "> CEIH41     - CERES INVESTIMENTOS HOLDING S/A</option><option value="CELB15    "> CELB15     - ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CELB25    "> CELB25     - ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CEMT37    "> CEMT37     - ENERGISA MATO GROSSO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="CENF12    "> CENF12     - ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="CENF22    "> CENF22     - ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="CERC11    "> CERC11     - CERC CENTRAL DE RECEBIVEIS S.A</option><option value="CERC21    "> CERC21     - CERC CENTRAL DE RECEBIVEIS S.A</option><option value="CERC31    "> CERC31     - CERC CENTRAL DE RECEBIVEIS S.A</option><option value="CERO13    "> CERO13     - ENERGISA RONDONIA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CERO16    "> CERO16     - ENERGISA RONDONIA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CERO18    "> CERO18     - ENERGISA RONDONIA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CERO23    "> CERO23     - ENERGISA RONDONIA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CERO28    "> CERO28     - ENERGISA RONDONIA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CEROA0    "> CEROA0     - ENERGISA RONDONIA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CEROB0    "> CEROB0     - ENERGISA RONDONIA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="CESU11    "> CESU11     - CENTRO SUL CONCESSOES S.A.</option><option value="CGER11    "> CGER11     - COMPANHIA DE GAS DO ESTADO DO RIO GRANDE DO SUL</option><option value="CGMG74    "> CGMG74     - COMPANHIA DE GAS DE MINAS GERAIS GASMIG</option><option value="CJEN12    "> CJEN12     - TESC - TERMINAL SANTA CATARINA S/A</option><option value="CLRE11    "> CLRE11     - CLIQUE RETIRE TECNOLOGIA E LOGISTICA S.A.</option><option value="CLRE12    "> CLRE12     - CLIQUE RETIRE TECNOLOGIA E LOGISTICA S.A.</option><option value="CNSG12    "> CNSG12     - CONSAG ENGENHARIA S.A..</option><option value="CNSG14    "> CNSG14     - CONSAG ENGENHARIA S.A..</option><option value="COCY11    "> COCY11     - CONECTA CAPITAL PARTICIPACOES LTDA</option><option value="COPO15    "> COPO15     - COPOBRAS S/A IND. E COM. DE EMBALAGENS</option><option value="CORXH6    "> CORXH6     - COMPANHIA SECURITIZADORA X S.A.</option><option value="CORXI6    "> CORXI6     - COMPANHIA SECURITIZADORA X S.A.</option><option value="CRCPA7    "> CRCPA7     - CREDITCORP SECURITIZADORA S.A</option><option value="CRCPB7    "> CRCPB7     - CREDITCORP SECURITIZADORA S.A</option><option value="CSMG15    "> CSMG15     - COMPANHIA DE SANEAMENTO DE MINAS GERAIS COPASA MG</option><option value="CSMG18    "> CSMG18     - COMPANHIA DE SANEAMENTO DE MINAS GERAIS COPASA MG</option><option value="CSMG28    "> CSMG28     - COMPANHIA DE SANEAMENTO DE MINAS GERAIS COPASA MG</option><option value="CSMGB1    "> CSMGB1     - COMPANHIA DE SANEAMENTO DE MINAS GERAIS COPASA MG</option><option value="CSMGC1    "> CSMGC1     - COMPANHIA DE SANEAMENTO DE MINAS GERAIS COPASA MG</option><option value="CTHA12    "> CTHA12     - CERTHA INVESTIMENTOS SA</option><option value="CTHA22    "> CTHA22     - CERTHA INVESTIMENTOS SA</option><option value="CTNS16    "> CTNS16     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CTNS17    "> CTNS17     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CTNS18    "> CTNS18     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CTNS26    "> CTNS26     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CTNS28    "> CTNS28     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CTNS33    "> CTNS33     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CTNSA0    "> CTNSA0     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CTNSA1    "> CTNSA1     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CTNSB0    "> CTNSB0     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CTNSB1    "> CTNSB1     - ENERGISA TOCANTINS DISTRIBUIDORA DE ENERGIA S/A</option><option value="CXEC11    "> CXEC11     - CAXANGA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="CXEC21    "> CXEC21     - CAXANGA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="CXEC31    "> CXEC31     - CAXANGA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="DETR31    "> DETR31     - TRAVESSIA E DELTA SECURITIZADORA DE CREDITOS MERCANTIS S.A.</option><option value="DSTL11    "> DSTL11     - DESTILLA BIOENERGIA AGROINDUSTRIAL S.A</option><option value="DSTL21    "> DSTL21     - DESTILLA BIOENERGIA AGROINDUSTRIAL S.A</option><option value="EAZT11    "> EAZT11     - ENERGISA AMAZONAS TRANSMISSORA DE ENERGIA S.A.</option><option value="ECCR14    "> ECCR14     - ECORODOVIAS CONCESSOES E SERVICOS S/A</option><option value="EDVP16    "> EDVP16     - ENERGISA SUL-SUDESTE - DISTRIBUIDORA DE ENERGIA SA</option><option value="EDVP26    "> EDVP26     - ENERGISA SUL-SUDESTE - DISTRIBUIDORA DE ENERGIA SA</option><option value="EDVP33    "> EDVP33     - ENERGISA SUL-SUDESTE - DISTRIBUIDORA DE ENERGIA SA</option><option value="ENERB1    "> ENERB1     - ENERGISA MATO GROSSO DO SUL - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ENERB2    "> ENERB2     - ENERGISA MATO GROSSO DO SUL - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ENMTA6    "> ENMTA6     - ENERGISA MATO GROSSO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ENMTA9    "> ENMTA9     - ENERGISA MATO GROSSO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ENMTB6    "> ENMTB6     - ENERGISA MATO GROSSO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ENMTB9    "> ENMTB9     - ENERGISA MATO GROSSO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ENSE19    "> ENSE19     - ENERGISA SERGIPE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="ENSE29    "> ENSE29     - ENERGISA SERGIPE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="ENSE35    "> ENSE35     - ENERGISA SERGIPE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="ENSEA0    "> ENSEA0     - ENERGISA SERGIPE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="ENSEA2    "> ENSEA2     - ENERGISA SERGIPE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="ENSEA3    "> ENSEA3     - ENERGISA SERGIPE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="ENSEB2    "> ENSEB2     - ENERGISA SERGIPE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="ENSEB3    "> ENSEB3     - ENERGISA SERGIPE - DISTRIBUIDORA DE ENERGIA S/A</option><option value="EPSP11    "> EPSP11     - ENTRE PAYMENTS SERVICOS DE PAGAMENTOS S.A.</option><option value="EPSP12    "> EPSP12     - ENTRE PAYMENTS SERVICOS DE PAGAMENTOS S.A.</option><option value="ERDVA5    "> ERDVA5     - ECORODOVIAS CONCESSOES E SERVICOS S/A</option><option value="ESSC12    "> ESSC12     - ESTRELA SSC HOLDINGS S.A.</option><option value="ESSDA0    "> ESSDA0     - ENERGISA SUL-SUDESTE - DISTRIBUIDORA DE ENERGIA SA</option><option value="ESSDA1    "> ESSDA1     - ENERGISA SUL-SUDESTE - DISTRIBUIDORA DE ENERGIA SA</option><option value="ESSDB0    "> ESSDB0     - ENERGISA SUL-SUDESTE - DISTRIBUIDORA DE ENERGIA SA</option><option value="ESSDB1    "> ESSDB1     - ENERGISA SUL-SUDESTE - DISTRIBUIDORA DE ENERGIA SA</option><option value="ESUL39    "> ESUL39     - ENERGISA MATO GROSSO DO SUL - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ESULA5    "> ESULA5     - ENERGISA MATO GROSSO DO SUL - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ESULB0    "> ESULB0     - ENERGISA MATO GROSSO DO SUL - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ESULB5    "> ESULB5     - ENERGISA MATO GROSSO DO SUL - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ESULC0    "> ESULC0     - ENERGISA MATO GROSSO DO SUL - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="ETEN16    "> ETEN16     - ENERGISA TRANSMISSAO DE ENERGIA S.A.</option><option value="ETEN26    "> ETEN26     - ENERGISA TRANSMISSAO DE ENERGIA S.A.</option><option value="FEPS11    "> FEPS11     - FARO ENERGY PROJ. SOL. HOL. IV S.A</option><option value="FLCL39    "> FLCL39     - ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="FLCLA3    "> FLCLA3     - ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="FLCLA5    "> FLCLA5     - ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="FLCLA6    "> FLCLA6     - ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="FLCLB3    "> FLCLB3     - ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="FLCLB5    "> FLCLB5     - ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="FLCLB6    "> FLCLB6     - ENERGISA MINAS RIO - DISTRIBUIDORA DE ENERGIA S.A.</option><option value="FLTP11    "> FLTP11     - FLEETPAY SECURITIZADORA S.A.</option><option value="FLTP21    "> FLTP21     - FLEETPAY SECURITIZADORA S.A.</option><option value="FRMI14    "> FRMI14     - FERTIMAR MINERACAO E NAVEGACAO S.A</option><option value="FTDP11    "> FTDP11     - FORTITUDINE PARTICIPACOES S.A.</option><option value="FZSB21    "> FZSB21     - FAZENDA SAO BENEDITO S.A. - EM RECUPERACAO JUDICIAL</option><option value="FZSB31    "> FZSB31     - FAZENDA SAO BENEDITO S.A. - EM RECUPERACAO JUDICIAL</option><option value="FZSB41    "> FZSB41     - FAZENDA SAO BENEDITO S.A. - EM RECUPERACAO JUDICIAL</option><option value="FZSB51    "> FZSB51     - FAZENDA SAO BENEDITO S.A. - EM RECUPERACAO JUDICIAL</option><option value="FZSB61    "> FZSB61     - FAZENDA SAO BENEDITO S.A. - EM RECUPERACAO JUDICIAL</option><option value="FZSB71    "> FZSB71     - FAZENDA SAO BENEDITO S.A. - EM RECUPERACAO JUDICIAL</option><option value="GALV12    "> GALV12     - ALYA CONSTRUTORA S.A</option><option value="GCBSA6    "> GCBSA6     - GCB SECURITIZADORA II S.A.</option><option value="GCBSB6    "> GCBSB6     - GCB SECURITIZADORA II S.A.</option><option value="GCBSC9    "> GCBSC9     - GCB SECURITIZADORA II S.A.</option><option value="GERY11    "> GERY11     - REGERA&CO PARTICIPACOES S.A.</option><option value="GERY21    "> GERY21     - REGERA&CO PARTICIPACOES S.A.</option><option value="GIVS21    "> GIVS21     - GAIA IMPACTO VIVENDA SECURITIZADORA DE CREDITOS FINANCEIROS S/A</option><option value="GNBA11    "> GNBA11     - GUANABARA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="GRES11    "> GRES11     - GREEN STONE PARTICIPACOES S.A.</option><option value="GRIFA5    "> GRIFA5     - GRIFFIN CAPITAL S.A. SECURITIZADORA</option><option value="GSHP11    "> GSHP11     - GENERAL SHOPPING E OUTLETS DO BRASIL SA</option><option value="GYRA14    "> GYRA14     - COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT-GYRA</option><option value="GYRA24    "> GYRA24     - COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT-GYRA</option><option value="GYRA34    "> GYRA34     - COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT-GYRA</option><option value="HMPS11    "> HMPS11     - HOLDING MASTER PET S.A.</option><option value="HMTA11    "> HMTA11     - HUMAITA SECURITIZADORA S.A</option><option value="HMTA12    "> HMTA12     - HUMAITA SECURITIZADORA S.A</option><option value="HMTA13    "> HMTA13     - HUMAITA SECURITIZADORA S.A</option><option value="HRTU11    "> HRTU11     - HORTUS COMERCIO DE ALIMENTOS S.A. EM RECUPERACAO JUDICIAL</option><option value="HRTU12    "> HRTU12     - HORTUS COMERCIO DE ALIMENTOS S.A. EM RECUPERACAO JUDICIAL</option><option value="HRTU21    "> HRTU21     - HORTUS COMERCIO DE ALIMENTOS S.A. EM RECUPERACAO JUDICIAL</option><option value="HRTU22    "> HRTU22     - HORTUS COMERCIO DE ALIMENTOS S.A. EM RECUPERACAO JUDICIAL</option><option value="HTTS11    "> HTTS11     - H. TELL TELECOM SOLUCOES EM TI S.A</option><option value="HTTS21    "> HTTS21     - H. TELL TELECOM SOLUCOES EM TI S.A</option><option value="IBIR11    "> IBIR11     - IBIRA PARTICIPACOES E INVESTIMENTOS S/A</option><option value="IBIR21    "> IBIR21     - IBIRA PARTICIPACOES E INVESTIMENTOS S/A</option><option value="IBIR31    "> IBIR31     - IBIRA PARTICIPACOES E INVESTIMENTOS S/A</option><option value="IBIR41    "> IBIR41     - IBIRA PARTICIPACOES E INVESTIMENTOS S/A</option><option value="ICSC21    "> ICSC21     - OPEA SPE 01 COMPANHIA SECURITIZADORA  DE CREDITOS FINANCEIROS</option><option value="ICSC22    "> ICSC22     - OPEA SPE 01 COMPANHIA SECURITIZADORA  DE CREDITOS FINANCEIROS</option><option value="IFCM13    "> IFCM13     - INFRACOMMERCE CXAAS S.A.</option><option value="IFCM23    "> IFCM23     - INFRACOMMERCE CXAAS S.A.</option><option value="INEPA2    "> INEPA2     - INEPAR S/A - INDUSTRIA E CONSTRUCOES – EM RECUPERACAO JUDICIAL</option><option value="INEPA3    "> INEPA3     - INEPAR S/A - INDUSTRIA E CONSTRUCOES – EM RECUPERACAO JUDICIAL</option><option value="INPR10    "> INPR10     - INEPAR S/A - INDUSTRIA E CONSTRUCOES – EM RECUPERACAO JUDICIAL</option><option value="INPR17    "> INPR17     - INEPAR S/A - INDUSTRIA E CONSTRUCOES – EM RECUPERACAO JUDICIAL</option><option value="INPR18    "> INPR18     - INEPAR S/A - INDUSTRIA E CONSTRUCOES – EM RECUPERACAO JUDICIAL</option><option value="INPR19    "> INPR19     - INEPAR S/A - INDUSTRIA E CONSTRUCOES – EM RECUPERACAO JUDICIAL</option><option value="INPRA1    "> INPRA1     - INEPAR S/A - INDUSTRIA E CONSTRUCOES – EM RECUPERACAO JUDICIAL</option><option value="JLHP11    "> JLHP11     - JL HEALTH PARTICIPACOES S.A.</option><option value="KDBP11    "> KDBP11     - KDB MEIOS DE PAGAMENTOS S.A.</option><option value="KDBP21    "> KDBP21     - KDB MEIOS DE PAGAMENTOS S.A.</option><option value="KDBP31    "> KDBP31     - KDB MEIOS DE PAGAMENTOS S.A.</option><option value="KDBP41    "> KDBP41     - KDB MEIOS DE PAGAMENTOS S.A.</option><option value="KNST11    "> KNST11     - KANASTRA SECURITIZADORA S.A.</option><option value="KNST13    "> KNST13     - KANASTRA SECURITIZADORA S.A.</option><option value="KNST21    "> KNST21     - KANASTRA SECURITIZADORA S.A.</option><option value="KNST24    "> KNST24     - KANASTRA SECURITIZADORA S.A.</option><option value="KNST31    "> KNST31     - KANASTRA SECURITIZADORA S.A.</option><option value="KNST34    "> KNST34     - KANASTRA SECURITIZADORA S.A.</option><option value="KNSTA0    "> KNSTA0     - KANASTRA SECURITIZADORA S.A.</option><option value="LDSS11    "> LDSS11     - LEADS CIA. SECURITIZADORA</option><option value="LGTE13    "> LGTE13     - LIGHT ENERGIA S.A</option><option value="LIFT11    "> LIFT11     - LIFTCRED SECURITIZADORA DE CREDITOS FINANCEIROS S.A.</option><option value="LIGH6A    "> LIGH6A     - LIGHT SERVICOS DE ELETRICIDADE S/A</option><option value="LIGH6B    "> LIGH6B     - LIGHT SERVICOS DE ELETRICIDADE S/A</option><option value="LIGH7A    "> LIGH7A     - LIGHT SERVICOS DE ELETRICIDADE S/A</option><option value="LIGT12    "> LIGT12     - LIGHT S/A</option><option value="LIQP12    "> LIQP12     - ATMA PARTICIPACOES S/A</option><option value="LOSL11    "> LOSL11     - LOFT SOLUCOES FINANCEIRAS S/A</option><option value="LSVE18    "> LSVE18     - LIGHT SERVICOS DE ELETRICIDADE S/A</option><option value="LVER11    "> LVER11     - LEVER SECURITIZADORA S.A.</option><option value="LYRI11    "> LYRI11     - LYRIO V PARTICIPACOES S.A</option><option value="MBLY11    "> MBLY11     - GRUPO TOKY S.A.</option><option value="MBLY21    "> MBLY21     - GRUPO TOKY S.A.</option><option value="MEIE11    "> MEIE11     - HOSPITAL DE ONCOLOGIA DO MEIER S.A.</option><option value="MESC12    "> MESC12     - MEDSIMPLES SECURITIZADORA DE RECEBIVEIS S.A.</option><option value="MGTN11    "> MGTN11     - MEGA LOGISTICA TRANSPORTE POR NAVEGACAO S/A</option><option value="MJMA31    "> MJMA31     - MAIOJAMA EMPREENDIMENTOS IMOBILIARIOS S.A.</option><option value="MJMA41    "> MJMA41     - MAIOJAMA EMPREENDIMENTOS IMOBILIARIOS S.A.</option><option value="MMXM11    "> MMXM11     - MMX MINERACAO E METALICOS S/A - EM RECUPERACAO JUDICIAL</option><option value="MOLT11    "> MOLT11     - MOTRICE SOLUCOES EM ENERGIA S.A</option><option value="MTPKA1    "> MTPKA1     - MULTIPLIKE SECURITIZADORA SA</option><option value="MTPKC5    "> MTPKC5     - MULTIPLIKE SECURITIZADORA SA</option><option value="MTTC11    "> MTTC11     - METROPOLITANA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="MTTC12    "> MTTC12     - METROPOLITANA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="MTTC21    "> MTTC21     - METROPOLITANA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="MTTC31    "> MTTC31     - METROPOLITANA EMPRESA DE TRANSPORTE COLETIVO S.A.</option><option value="MXAE11    "> MXAE11     - MX ASSESSORIA EMPRESARIAL S.A.</option><option value="NCSP11    "> NCSP11     - NOVO CENTRO SP S.A.</option><option value="NCSP21    "> NCSP21     - NOVO CENTRO SP S.A.</option><option value="NEER12    "> NEER12     - NOVA EURUS IV ENERGIAS RENOVAVEIS S.A.</option><option value="NEER22    "> NEER22     - NOVA EURUS IV ENERGIAS RENOVAVEIS S.A.</option><option value="NESC16    "> NESC16     - NOVA ERA SECURITIZADORA S A</option><option value="NESC17    "> NESC17     - NOVA ERA SECURITIZADORA S A</option><option value="NESC19    "> NESC19     - NOVA ERA SECURITIZADORA S A</option><option value="NESZ11    "> NESZ11     - NE SECURITIZADORA S.A.</option><option value="NGVS11    "> NGVS11     - N.G.V.S.P.E.   EMPREENDIMENTOS E   PARTICIPACOES   S.A.</option><option value="NGVS12    "> NGVS12     - N.G.V.S.P.E.   EMPREENDIMENTOS E   PARTICIPACOES   S.A.</option><option value="NOOS11    "> NOOS11     - CONFIANZA SECURITIZADORA S.A.</option><option value="NOOS12    "> NOOS12     - CONFIANZA SECURITIZADORA S.A.</option><option value="NSAN11    "> NSAN11     - NORTE SANEAMENTO S.A.</option><option value="NSAN21    "> NSAN21     - NORTE SANEAMENTO S.A.</option><option value="NVAR12    "> NVAR12     - NOVA ASA BRANCA III ENERGIAS RENOVAVEIS S/A</option><option value="NVAR22    "> NVAR22     - NOVA ASA BRANCA III ENERGIAS RENOVAVEIS S/A</option><option value="ODEM13    "> ODEM13     - BRK AMBIENTAL - MANSO S.A.</option><option value="OECP11    "> OECP11     - OEC PAR S.A.</option><option value="OFFE11    "> OFFE11     - VERT PRIVATE OFFERS COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="OFFE21    "> OFFE21     - VERT PRIVATE OFFERS COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="OFFE22    "> OFFE22     - VERT PRIVATE OFFERS COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="ONESA1    "> ONESA1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ONESB1    "> ONESB1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ONESC1    "> ONESC1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ONESD1    "> ONESD1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ONESE1    "> ONESE1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ONESF1    "> ONESF1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ONESG1    "> ONESG1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ONESH1    "> ONESH1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ONESI1    "> ONESI1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ONESJ1    "> ONESJ1     - ONE7 SECURITIZADORA DE CREDITOS COMERCIAIS S.A.</option><option value="ORJE11    "> ORJE11     - ORANJEBTC S.A. - EDUCACAO E INVESTIMENTO</option><option value="ORJE13    "> ORJE13     - ORANJEBTC S.A. - EDUCACAO E INVESTIMENTO</option><option value="ORJE23    "> ORJE23     - ORANJEBTC S.A. - EDUCACAO E INVESTIMENTO</option><option value="OSTI11    "> OSTI11     - OSTEOCAMP IMPLANTES E MATERIAIS CIRURGICOS S.A.</option><option value="OSXC31    "> OSXC31     - OSX CONSTRUCAO NAVAL SA-EM REC.JUDICIAL</option><option value="OSXC41    "> OSXC41     - OSX CONSTRUCAO NAVAL SA-EM REC.JUDICIAL</option><option value="OSXC71    "> OSXC71     - OSX CONSTRUCAO NAVAL SA-EM REC.JUDICIAL</option><option value="OSXC81    "> OSXC81     - OSX CONSTRUCAO NAVAL SA-EM REC.JUDICIAL</option><option value="OTOE11    "> OTOE11     - ONE TO ONE ENGINE DESENVOLVIMENTO E LICENCIAMENTO DE SISTEMAS DE INFORMATICA S.A.</option><option value="OTOE21    "> OTOE21     - ONE TO ONE ENGINE DESENVOLVIMENTO E LICENCIAMENTO DE SISTEMAS DE INFORMATICA S.A.</option><option value="OTOE31    "> OTOE31     - ONE TO ONE ENGINE DESENVOLVIMENTO E LICENCIAMENTO DE SISTEMAS DE INFORMATICA S.A.</option><option value="PARJ11    "> PARJ11     - PORTALEGRE RJ PARTICIPACOES S.A.</option><option value="PARJ12    "> PARJ12     - PORTALEGRE RJ PARTICIPACOES S.A.</option><option value="PATT11    "> PATT11     - PATTAC EMPREENDIMENTOS E PARTICIPACOES S.A.</option><option value="PATT21    "> PATT21     - PATTAC EMPREENDIMENTOS E PARTICIPACOES S.A.</option><option value="PCHS18    "> PCHS18     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS S.A</option><option value="PCHS55    "> PCHS55     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS S.A</option><option value="PCHS57    "> PCHS57     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS S.A</option><option value="PCHSB2    "> PCHSB2     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS S.A</option><option value="PCHSB9    "> PCHSB9     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS S.A</option><option value="PCHSC2    "> PCHSC2     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS S.A</option><option value="PCHSC9    "> PCHSC9     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS S.A</option><option value="PEDD11    "> PEDD11     - PRINCIPIA EDUCACAO SECURITIZADORA II S.A.</option><option value="PEDD21    "> PEDD21     - PRINCIPIA EDUCACAO SECURITIZADORA II S.A.</option><option value="PEDD31    "> PEDD31     - PRINCIPIA EDUCACAO SECURITIZADORA II S.A.</option><option value="PEDD51    "> PEDD51     - PRINCIPIA EDUCACAO SECURITIZADORA II S.A.</option><option value="PHAG11    "> PHAG11     - PHOENIX AGUA E ENERGIA S.A.</option><option value="PIEM11    "> PIEM11     - PIEMONTE HOLDING DE PARTICIPACOES S.A..</option><option value="PJUS11    "> PJUS11     - PJUS PARTICIPACOES S.A.</option><option value="PKLO11    "> PKLO11     - PKL ONE PARTICIPACOES  S.A.</option><option value="PKLO12    "> PKLO12     - PKL ONE PARTICIPACOES  S.A.</option><option value="PLAP11    "> PLAP11     - PALALUA PARTICIPACOES S.A.</option><option value="PMAMA1    "> PMAMA1     - PARANAPANEMA S.A - EM RECUPERACAO JUDICIAL</option><option value="PRAN21    "> PRAN21     - PRANA SECURITIZADORA S/A</option><option value="PRAN31    "> PRAN31     - PRANA SECURITIZADORA S/A</option><option value="PRAN33    "> PRAN33     - PRANA SECURITIZADORA S/A</option><option value="PRRE11    "> PRRE11     - CONCESSIONARIA PREVER ADMINISTRACAO CEMITERIAL E SERVICOS FUNERARIOS S.A</option><option value="PRSC13    "> PRSC13     - PROSPECT SECURITIZADORA SA</option><option value="PRSC23    "> PRSC23     - PROSPECT SECURITIZADORA SA</option><option value="PRSC33    "> PRSC33     - PROSPECT SECURITIZADORA SA</option><option value="PRSC43    "> PRSC43     - PROSPECT SECURITIZADORA SA</option><option value="PTGU14    "> PTGU14     - ENAUTA ENERGIA S.A.</option><option value="QISE11    "> QISE11     - QI COMPANHIA SECURITIZADORA II</option><option value="QISE21    "> QISE21     - QI COMPANHIA SECURITIZADORA II</option><option value="QUCR15    "> QUCR15     - Q1 COMERCIAL DE ROUPAS S/A</option><option value="RAGH12    "> RAGH12     - RECH AGRICOLA S/A</option><option value="RB2739    "> RB2739     - OPEA SECURITIZADORA S/A</option><option value="RBCC12    "> RBCC12     - RB CAPITAL COMMERCIAL PROPERTIES S.A.</option><option value="RBRAC1    "> RBRAC1     - OPEA SECURITIZADORA S/A</option><option value="RBRAC3    "> RBRAC3     - OPEA SECURITIZADORA S/A</option><option value="RBRAD3    "> RBRAD3     - OPEA SECURITIZADORA S/A</option><option value="RBRAD4    "> RBRAD4     - OPEA SECURITIZADORA S/A</option><option value="RBRAE0    "> RBRAE0     - OPEA SECURITIZADORA S/A</option><option value="RBRAF0    "> RBRAF0     - OPEA SECURITIZADORA S/A</option><option value="RBRAF3    "> RBRAF3     - OPEA SECURITIZADORA S/A</option><option value="RBRAJ0    "> RBRAJ0     - OPEA SECURITIZADORA S/A</option><option value="RBRAK0    "> RBRAK0     - OPEA SECURITIZADORA S/A</option><option value="RBSA17    "> RBSA17     - RBS PARTICIPACOES S.A.</option><option value="RDAS13    "> RDAS13     - RDA IMPORTACAO EXPORTACAO E SERVICOS S.A.</option><option value="RDAS23    "> RDAS23     - RDA IMPORTACAO EXPORTACAO E SERVICOS S.A.</option><option value="RHIN19    "> RHIN19     - RHINO SECURITIZADORA S/A</option><option value="RHIN29    "> RHIN29     - RHINO SECURITIZADORA S/A</option><option value="RHIN39    "> RHIN39     - RHINO SECURITIZADORA S/A</option><option value="RHIN49    "> RHIN49     - RHINO SECURITIZADORA S/A</option><option value="RHIN59    "> RHIN59     - RHINO SECURITIZADORA S/A</option><option value="RHIN69    "> RHIN69     - RHINO SECURITIZADORA S/A</option><option value="RHIN79    "> RHIN79     - RHINO SECURITIZADORA S/A</option><option value="RNAG12    "> RNAG12     - RENOVAGRO AGRICULTURA RENOVAVEL</option><option value="RRBRC8    "> RRBRC8     - OPEA SECURITIZADORA S/A</option><option value="RRBRD8    "> RRBRD8     - OPEA SECURITIZADORA S/A</option><option value="RVLO31    "> RVLO31     - REVELO COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="SAEL19    "> SAEL19     - ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="SAEL29    "> SAEL29     - ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="SAEL33    "> SAEL33     - ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="SAELA0    "> SAELA0     - ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="SAELA2    "> SAELA2     - ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="SAELB2    "> SAELB2     - ENERGISA PARAIBA - DISTRIBUIDORA DE ENERGIA S/A</option><option value="SAPR14    "> SAPR14     - COMPANHIA DE SANEAMENTO  DO PARANA - SANEPAR</option><option value="SAPR17    "> SAPR17     - COMPANHIA DE SANEAMENTO  DO PARANA - SANEPAR</option><option value="SAPR24    "> SAPR24     - COMPANHIA DE SANEAMENTO  DO PARANA - SANEPAR</option><option value="SAPR27    "> SAPR27     - COMPANHIA DE SANEAMENTO  DO PARANA - SANEPAR</option><option value="SAPR37    "> SAPR37     - COMPANHIA DE SANEAMENTO  DO PARANA - SANEPAR</option><option value="SAPR47    "> SAPR47     - COMPANHIA DE SANEAMENTO  DO PARANA - SANEPAR</option><option value="SCIV14    "> SCIV14     - SECURITIZADORA DE CREDITOS IMOBILIARIOS VERT S/A</option><option value="SEGS11    "> SEGS11     - 180 SEGUROS SA</option><option value="SEQL16    "> SEQL16     - SEQUOIA LOGISTICA E TRANSPORTES S.A</option><option value="SEQL26    "> SEQL26     - SEQUOIA LOGISTICA E TRANSPORTES S.A</option><option value="SFIT41    "> SFIT41     - SHIFT FITNESS ACADEMIAS DE GINASTICA E PARTICIPACOES S.A.</option><option value="SFIT51    "> SFIT51     - SHIFT FITNESS ACADEMIAS DE GINASTICA E PARTICIPACOES S.A.</option><option value="SFIT61    "> SFIT61     - SHIFT FITNESS ACADEMIAS DE GINASTICA E PARTICIPACOES S.A.</option><option value="SFIT71    "> SFIT71     - SHIFT FITNESS ACADEMIAS DE GINASTICA E PARTICIPACOES S.A.</option><option value="SFIT81    "> SFIT81     - SHIFT FITNESS ACADEMIAS DE GINASTICA E PARTICIPACOES S.A.</option><option value="SFIT91    "> SFIT91     - SHIFT FITNESS ACADEMIAS DE GINASTICA E PARTICIPACOES S.A.</option><option value="SFITA1    "> SFITA1     - SHIFT FITNESS ACADEMIAS DE GINASTICA E PARTICIPACOES S.A.</option><option value="SMAMA4    "> SMAMA4     - SAMARCO MINERACAO S.A.</option><option value="SMAMB4    "> SMAMB4     - SAMARCO MINERACAO S.A.</option><option value="SOUS12    "> SOUS12     - SOU SECURITIZADORA S.A.</option><option value="SOUS13    "> SOUS13     - SOU SECURITIZADORA S.A.</option><option value="SOUS16    "> SOUS16     - SOU SECURITIZADORA S.A.</option><option value="SOUS17    "> SOUS17     - SOU SECURITIZADORA S.A.</option><option value="SOUS22    "> SOUS22     - SOU SECURITIZADORA S.A.</option><option value="SOUS27    "> SOUS27     - SOU SECURITIZADORA S.A.</option><option value="SOUS42    "> SOUS42     - SOU SECURITIZADORA S.A.</option><option value="SOUS46    "> SOUS46     - SOU SECURITIZADORA S.A.</option><option value="SOUS56    "> SOUS56     - SOU SECURITIZADORA S.A.</option><option value="SOUS62    "> SOUS62     - SOU SECURITIZADORA S.A.</option><option value="SRQE12    "> SRQE12     - SAO ROQUE ENERGETICA S.A.</option><option value="STXD11    "> STXD11     - SPE STX 32 DESENVOLVIMENTO IIMOBILIARIO S.A.</option><option value="STXI11    "> STXI11     - SPE STX 34 DESENVOLVIMENTO IMOBILIARIO S.A.</option><option value="STYX12    "> STYX12     - STYLUX BRASIL SISTEMAS DE ILUMINACAO E ENERGIA S.A.</option><option value="TERM11    "> TERM11     - TERMINI S.A.</option><option value="TESH11    "> TESH11     - TRAVESSIA HOLDING S.A.</option><option value="THON11    "> THON11     - THOPEN SOLAR 39 SPE S.A.</option><option value="TRSE19    "> TRSE19     - LIQI SECURITIZADORA SA</option><option value="TRSE29    "> TRSE29     - LIQI SECURITIZADORA SA</option><option value="TRUH32    "> TRUH32     - SRM SEC SECURITIZADORA SA</option><option value="TRUH42    "> TRUH42     - SRM SEC SECURITIZADORA SA</option><option value="TRXX11    "> TRXX11     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS XXIV S.A.</option><option value="TSSA18    "> TSSA18     - TRAVESSIA SECURITIZADORA S.A.</option><option value="TSSAA3    "> TSSAA3     - TRAVESSIA SECURITIZADORA S.A.</option><option value="TSSAA5    "> TSSAA5     - TRAVESSIA SECURITIZADORA S.A.</option><option value="TSSAB7    "> TSSAB7     - TRAVESSIA SECURITIZADORA S.A.</option><option value="TSSAC0    "> TSSAC0     - TRAVESSIA SECURITIZADORA S.A.</option><option value="TSSAD9    "> TSSAD9     - TRAVESSIA SECURITIZADORA S.A.</option><option value="TSSAF5    "> TSSAF5     - TRAVESSIA SECURITIZADORA S.A.</option><option value="TSTT11    "> TSTT11     - TERRA SANTTA ENERGIA SOLAR 1 S.A.</option><option value="TSVI11    "> TSVI11     - TRAVESSIA SECURITIZADORA DE CREDITOS MERCANTIS VIII S.A.</option><option value="TTXI11    "> TTXI11     - TRAVESSIA SECURITIZADORA DE CREDITOS MERCANTIS XI S.A.</option><option value="TUBI19    "> TUBI19     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBI29    "> TUBI29     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBI39    "> TUBI39     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBI49    "> TUBI49     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBIA0    "> TUBIA0     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBIA1    "> TUBIA1     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBIA3    "> TUBIA3     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBIA4    "> TUBIA4     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBIB4    "> TUBIB4     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBIC4    "> TUBIC4     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TUBID4    "> TUBID4     - TURBI COMPARTILHAMENTO DE VEICULOS S.A.</option><option value="TVCF31    "> TVCF31     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS VI S/A</option><option value="TVMB62    "> TVMB62     - TRAVESSIA & MB SECURITIZADORA MERCANTIS S.A.</option><option value="TVMB72    "> TVMB72     - TRAVESSIA & MB SECURITIZADORA MERCANTIS S.A.</option><option value="TVSV22    "> TVSV22     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS V S.A.</option><option value="TXXI31    "> TXXI31     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS XXI S.A.</option><option value="TXXX11    "> TXXX11     - TRAVESSIA SECURITIZADORA DE CREDITOS FINANCEIROS XXX S.A.</option><option value="TYPS11    "> TYPS11     - TYPUS 43 EMPREENDIMENTOS IMOBILIARIOS S.A.</option><option value="UNSU11    "> UNSU11     - UNIDASUL DISTRIBUIDORA ALIMENTICIA S/A</option><option value="VALE13    "> VALE13     - VALE S/A</option><option value="VBSN11    "> VBSN11     - VERDE BRASIL SUSTENTABILIDADE E NEGOCIOS IMOBILIARIOSRIOS S.A</option><option value="VCCS21    "> VCCS21     - VERT CREDIARE COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="VCCS31    "> VCCS31     - VERT CREDIARE COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="VDIN11    "> VDIN11     - CIA SEC DE CRED FINANCEIROS VERT- DINIE</option><option value="VDIN21    "> VDIN21     - CIA SEC DE CRED FINANCEIROS VERT- DINIE</option><option value="VEEX13    "> VEEX13     - COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT-PARCELEX</option><option value="VERL22    "> VERL22     - COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT-LEVE CAPITAL</option><option value="VERL33    "> VERL33     - COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT-LEVE CAPITAL</option><option value="VERT26    "> VERT26     - VERT COMPANHIA  SECURITIZADORA</option><option value="VERT36    "> VERT36     - VERT COMPANHIA  SECURITIZADORA</option><option value="VERTC3    "> VERTC3     - VERT COMPANHIA  SECURITIZADORA</option><option value="VERTD4    "> VERTD4     - VERT COMPANHIA  SECURITIZADORA</option><option value="VERTE7    "> VERTE7     - VERT COMPANHIA  SECURITIZADORA</option><option value="VPPC13    "> VPPC13     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VPPC21    "> VPPC21     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VPPC23    "> VPPC23     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VPPC33    "> VPPC33     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VPPCA0    "> VPPCA0     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VPPCA1    "> VPPCA1     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VPPCA2    "> VPPCA2     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VPPCA3    "> VPPCA3     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VPPCA4    "> VPPCA4     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VPPCA5    "> VPPCA5     - VERT PRIVATE PLACEMENTS COMPANHIA SECURITIZADORA</option><option value="VRT922    "> VRT922     - VERT-9 COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="VRT923    "> VRT923     - VERT-9 COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="VSCFJ03   "> VSCFJ03    - VERT COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="VSUR12    "> VSUR12     - VENTOS DE SANTO URIEL S/A</option><option value="VSUR22    "> VSUR22     - VENTOS DE SANTO URIEL S/A</option><option value="VTCD32    "> VTCD32     - VERT-CONDOCONTA COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS</option><option value="VVRT21    "> VVRT21     - COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS VERT 5</option><option value="VYTT12    "> VYTT12     - VYTTRA DIAGNOSTICOS S.A.</option><option value="WARR11    "> WARR11     - WARREN BRASIL HOLDING S.A.</option><option value="WELT11    "> WELT11     - SPE WELT ENERGIA S.A</option><option value="WSSE14    "> WSSE14     - WS SECURITIZADORA S.A</option><option value="WSSE15    "> WSSE15     - WS SECURITIZADORA S.A</option><option value="ZIPP23    "> ZIPP23     - ZIPPI-VERT COMPANHIA SECURITIZADORA DE CREDITOS FINANCEIROS E COMERCIAIS</option>
+    </select></div></td>
+</tr>	
+<tr>
+	<td width="16" height="35"></td>
+	<td width="208">IPO:</td>
+	<td width="521"><div id="awmobject3">
+		<select name="IPO" id="IPOselect" 
+		style="width:152px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="s" >Sim</option>
+		<option value="n" >Não</option>
+	</select>
+</div></td>
+</tr>	
+
+<tr  bgcolor="#F9F9F9">
+	<td width="16" height="35"></td>
+	<td width="208">Tipo de Emissão:</td>
+	<td width="521"><div id="Div1">
+		<select name="icvm" id="Select4" 
+		style="width:152px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="T" >Todas</option>
+		<option value="s" >Sem ICVM 476</option>
+		<option value="c" >Somente ICVM 476</option>
+		<option value="l" >Lei 12.431</option>
+	</select>
+</div></td>
+</tr>	
+<tr>
+	<td width="16" height="35"></td>
+	<td width="208">Escritura Padronizada:</td>
+	<td width="521"><div id="Div2">
+		<select name="EscrituraPadronizada" id="SelectEscritura" 
+		style="width:152px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		
+		<option value="s" >Sim</option>
+		<option value="n" >Não</option>
+		<option value="T" >Aguardando Informação</option>
+	</select>
+</div></td>
+</tr>                            																			
+</table>
+<table width="745" border="0" cellspacing="0" cellpadding="0" class="Ver11666666">
+	<tr  bgcolor="#F9F9F9">
+		<td width="16" height="35"></td>
+		<td width="208">Data de Registro CVM:								<td width="104">de <input type="text" name="cvm_ini" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)"></td>
+		<td width="417">até <input type="text" name="cvm_fim" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dd/mm/aaaa)</td>
+	</tr>
+	<tr>
+		<td width="16" height="35"></td>
+		<td width="208">Data da Emissão:</td>
+		<td width="104">de <input type="text" name="emis_ini" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)"></td>
+		<td width="417">at&eacute;
+			<input type="text" name="emis_fim" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dd/mm/aaaa)</td>
+		</tr>
+		<tr  bgcolor="#F9F9F9">
+			<td width="16" height="35"></td>
+			<td width="208">Data do Vencimento:</td>
+			<td width="104">de <input type="text" name="venc_ini" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)"></td>
+			<td width="417">até <input type="text" name="venc_fim" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dd/mm/aaaa)</td>
+		</tr>
+		
+		<tr>
+			<td width="16" height="35"></td>
+			<td width="208">Tipo de Vencimento:</td>
+			<td width="521" colspan="2"><div id="awmobject3">
+				<select name="TPV" id="tpVencimentoselect" 
+				style="width:152px" class="compForm1">
+				<option value="" selected>Nenhuma Seleção</option>
+				<option value="s" >Determinado</option>
+				<option value="n" >Indeterminado</option>
+			</select>
+		</div></td>
+		
+	</tr>							
+	
+	<tr  bgcolor="#F9F9F9">
+		<td width="16" height="35"></td>
+		<td width="208">Data de Vencimento Alterada:</td>
+		<td width="521" colspan="2"><div id="awmobject3">
+			<select name="TNV" id="tpNovoVencimentoselect" 
+			style="width:150px" class="compForm1">
+			<option value="" selected>Nenhuma Seleção</option>
+			<option value="s" >Sim</option>
+			<option value="n" >Não</option>
+		</select>
+	</div></td>
+</tr>							
+<tr>
+	<td width="16" height="35"></td>
+	<td width="208">Data do Início da Rentabilidade:</td>
+	<td width="104">de <input type="text" name="rent_ini" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)"></td>
+	<td width="417">até <input type="text" name="rent_fim" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dd/mm/aaaa)</td>
+</tr>
+<tr  bgcolor="#F9F9F9">
+	<td width="16" height="35"></td>
+	<td width="208">Data do Início da Distribuição:</td>
+	<td width="104">de <input type="text" name="distrib_ini" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)"></td>
+	<td width="417">até <input type="text" name="distrib_fim" size="11" maxlength="10" value="" class="compForm1" onblur="check_dateDMA(this)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dd/mm/aaaa)</td>
+</tr>
+</table>
+<table width="745" border="0" cellspacing="0" cellpadding="0" class="Ver11666666">
+	
+	
+	<tr>
+		<td width="16" height="35"></td>
+		<td width="208">Tipo de Remunera&ccedil;&atilde;o:</td>
+		<td width="521"><div id="awmobject3">
+			<select name="indice" id="select" style="width:150px" class="compForm1">
+				<option value="" selected>Nenhuma Seleção</option>
+				<option value="03"> DI</option><option value="05"> DOLAR</option><option value="09"> IGP-M</option><option value="18"> IPCA</option><option value="45"> PRÉ</option><option value="100"> PREFIXADO</option><option value="01"> SELIC</option><option value="00"> SEM ÍNDICE</option><option value="23"> TJLP</option><option value="20"> TR</option>
+			</select>
+		</div></td>
+	</tr>
+	<tr  bgcolor="#F9F9F9">
+		<td width="16" height="35"></td>
+		<td width="208">Tipo de Corre&ccedil;&atilde;o:</td>
+		<td width="521"><div id="awmobject4"><select name="tipo" id="select2" style="width:150px" class="compForm1">
+			<option value="" selected>Nenhuma Seleção</option>
+			<option value=""> Correção Monetária</option><option value="N"> Integrante de Juros</option><option value="S"> Correção Monetária</option>
+</select></div></td>
+</tr>
+<tr>
+	<td width="16" height="35"></td>
+	<td width="208">Critério de Cálculo:</td>
+	<td width="521"><div id="awmobject5"><select name="crit_calc" id="select1" style="width:150px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="N"> Não Padrão - SND</option><option value="S"> Padrão - SND</option>
+
+</select></div></td>
+</tr>
+</table>
+<table width="745" border="0" cellspacing="0" cellpadding="0" class="Ver11666666">
+	<tr bgcolor="#F9F9F9">
+		<td width="16" height="35"></td>
+		<td width="268">Dia de Referência para Índice de Preços (*):</td>
+		<td width="226"><div id="awmobject6"><select name="dia_ref" id="select1" style="width:150px" class="compForm1">
+			<option value="" selected>Nenhuma Seleção</option>
+			<option value=""> </option><option value="11"> 11</option><option value="13"> 13</option><option value="15"> 15</option><option value="20"> 20</option><option value="22"> 22</option><option value="28"> 28</option>
+
+</select></div></td>
+<td width="215" align="right"></td>
+<td width="21"></td>
+</tr>
+<tr>
+	<td width="16" height="35"></td>
+	<td width="268">* Percentual Multiplicador/Rentabilidade %:</td>
+	<td width="226"><div id="awmobject7"><select name="mult_rend" id="select1" style="width:150px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="05000"> 50,00</option><option value="10000"> 100,00</option><option value="10400"> 104,00</option><option value="10500"> 105,00</option><option value="10550"> 105,50</option><option value="11000"> 110,00</option><option value="11195"> 111,95</option><option value="11200"> 112,00</option><option value="11500"> 115,00</option><option value="12000"> 120,00</option><option value="12500"> 125,00</option><option value="12800"> 128,00</option><option value="13000"> 130,00</option><option value="14200"> 142,00</option><option value="18000"> 180,00</option>
+	</select></div></td>
+	<td width="215" align="right"></td>
+	<td width="21"></td>
+</tr>
+<tr bgcolor="#F9F9F9">
+	<td width="16" height="35"></td>
+	<td width="268">Limite da TJLP:</td>
+	<td width="226"><div id="awmobject8"><select name="limite" id="select1" style="width:150px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		
+
+</select></div></td>
+<td width="215" align="right"></td>
+<td width="21"></td>
+</tr>
+<tr>
+	<td width="16" height="35"></td>
+	<td width="268">Tipo de Tratamento do Limite da TJLP:</td>
+	<td width="226"><div id="awmobject9"><select name="trat_limite" id="select1" style="width:150px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		
+</select></div></td>
+<td width="21"></td>
+</tr>
+<tr bgcolor="#F9F9F9">
+	<td width="16" height="35"></td>
+	<td width="268">Juros: Taxa/Spread:</td>
+	<td width="226"><div id="awmobject10"><select name="tx_spread" id="select1" style="width:150px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="0000001"> 0,0001</option><option value="0000100"> 0,0100</option><option value="0000600"> 0,0600</option><option value="0003100"> 0,3100</option><option value="0005000"> 0,5000</option><option value="0005300"> 0,5300</option><option value="0005500"> 0,5500</option><option value="0006000"> 0,6000</option><option value="0008000"> 0,8000</option><option value="0009000"> 0,9000</option><option value="0009200"> 0,9200</option><option value="0010000"> 1,0000</option><option value="0011800"> 1,1800</option><option value="0012300"> 1,2300</option><option value="0012500"> 1,2500</option><option value="0015000"> 1,5000</option><option value="0016700"> 1,6700</option><option value="0018000"> 1,8000</option><option value="0018700"> 1,8700</option><option value="0019000"> 1,9000</option><option value="0019900"> 1,9900</option><option value="0020000"> 2,0000</option><option value="0020200"> 2,0200</option><option value="0024800"> 2,4800</option><option value="0025000"> 2,5000</option><option value="0026200"> 2,6200</option><option value="0027500"> 2,7500</option><option value="0030000"> 3,0000</option><option value="0031000"> 3,1000</option><option value="0032500"> 3,2500</option><option value="0035000"> 3,5000</option><option value="0036500"> 3,6500</option><option value="0037500"> 3,7500</option><option value="0040000"> 4,0000</option><option value="0042297"> 4,2297</option><option value="0044744"> 4,4744</option><option value="0045000"> 4,5000</option><option value="0047400"> 4,7400</option><option value="0047500"> 4,7500</option><option value="0050000"> 5,0000</option><option value="0051074"> 5,1074</option><option value="0051400"> 5,1400</option><option value="0054500"> 5,4500</option><option value="0055000"> 5,5000</option><option value="0059000"> 5,9000</option><option value="0060000"> 6,0000</option><option value="0060872"> 6,0872</option><option value="0061200"> 6,1200</option><option value="0061566"> 6,1566</option><option value="0061581"> 6,1581</option><option value="0061666"> 6,1666</option><option value="0062770"> 6,2770</option><option value="0064045"> 6,4045</option><option value="0064526"> 6,4526</option><option value="0065000"> 6,5000</option><option value="0065106"> 6,5106</option><option value="0065700"> 6,5700</option><option value="0067500"> 6,7500</option><option value="0069700"> 6,9700</option><option value="0070000"> 7,0000</option><option value="0072500"> 7,2500</option><option value="0074400"> 7,4400</option><option value="0074500"> 7,4500</option><option value="0075000"> 7,5000</option><option value="0075284"> 7,5284</option><option value="0079700"> 7,9700</option><option value="0080000"> 8,0000</option><option value="0080657"> 8,0657</option><option value="0081800"> 8,1800</option><option value="0082000"> 8,2000</option><option value="0083500"> 8,3500</option><option value="0086895"> 8,6895</option><option value="0087500"> 8,7500</option><option value="0088500"> 8,8500</option><option value="0089500"> 8,9500</option><option value="0090000"> 9,0000</option><option value="0095000"> 9,5000</option><option value="0096000"> 9,6000</option><option value="0097500"> 9,7500</option><option value="0098700"> 9,8700</option><option value="0100000"> 10,0000</option><option value="0101077"> 10,1077</option><option value="0105000"> 10,5000</option><option value="0110000"> 11,0000</option><option value="0110200"> 11,0200</option><option value="0111075"> 11,1075</option><option value="0112700"> 11,2700</option><option value="0115000"> 11,5000</option><option value="0118800"> 11,8800</option><option value="0120000"> 12,0000</option><option value="0125000"> 12,5000</option><option value="0126825"> 12,6825</option><option value="0130000"> 13,0000</option><option value="0133537"> 13,3537</option><option value="0138900"> 13,8900</option><option value="0140000"> 14,0000</option><option value="0144000"> 14,4000</option><option value="0150000"> 15,0000</option><option value="0152500"> 15,2500</option><option value="0153895"> 15,3895</option><option value="0155200"> 15,5200</option><option value="0160000"> 16,0000</option><option value="0165000"> 16,5000</option><option value="0167652"> 16,7652</option><option value="0171000"> 17,1000</option><option value="0180000"> 18,0000</option><option value="0180598"> 18,0598</option><option value="0181000"> 18,1000</option><option value="0181559"> 18,1559</option><option value="0181600"> 18,1600</option><option value="0194000"> 19,4000</option><option value="0194600"> 19,4600</option><option value="0195600"> 19,5600</option><option value="0200000"> 20,0000</option><option value="0210000"> 21,0000</option><option value="0211500"> 21,1500</option><option value="0217000"> 21,7000</option><option value="0220000"> 22,0000</option><option value="0238700"> 23,8700</option><option value="0240000"> 24,0000</option><option value="0241600"> 24,1600</option><option value="0250000"> 25,0000</option><option value="0268200"> 26,8200</option><option value="0268300"> 26,8300</option>
+</select></div></td>
+<td width="215" align="right"><div id="awmobject11">Prazo: <select  name="prazo" id="select1" class="compForm1">
+	<option value="" selected> Nenhuma Seleção </option>
+	<option value="252"> &nbsp;a.a 252 dias</option>> 252</option><option value="360"> &nbsp;a.a 360 dias</option>> 360</option><option value="365"> &nbsp;a.a 365 dias</option>> 365</option><option value="COM"> &nbsp;com</option>> COM</option><option value="COR"> &nbsp;cor</option>> COR</option><option value="UTI"> &nbsp;uti</option>> UTI</option>
+</select></div></td>
+<td width="21"></td>
+</tr>
+<tr>
+	<td width="16" height="35"></td>
+	<td width="268">Prêmio/Critério de Cálculo do Novo SND:</td>
+	<td width="226"><div id="awmobject12"><select name="premio_novo" id="select1" style="width:150px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		
+</select></div></td>
+<td width="215" align="right"><div id="awmobject13">Prazo: <select  name="premio_prazo" id="select1" class="compForm1">
+	<option value="" selected>Nenhuma Seleção</option>
+	
+</select></div></td>
+<td width="21"></td>
+</tr>
+<tr bgcolor="#F9F9F9">
+	<td width="16" height="35"></td>
+	<td width="268">Prêmio /Critério de Cálculo Antigo SND:</td>
+	<td width="226"><div id="awmobject14"><select name="premio_antigo" id="select1" style="width:150px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		
+</select></div></td>
+<td width="215" align="right"></td>
+<td width="21"></td>
+</tr>
+</table>
+<table width="745" border="0" cellspacing="0" cellpadding="0" class="Ver11666666">
+	<tr bgcolor="#F9F9F9">
+		<td width="16" height="35"></td>
+		<td width="268">Participação:</td>
+		<td width="521" colspan="2"><div id="awmobject3">
+			<select name="Par" id="tpParticipacaoselect" 
+			style="width:150px" class="compForm1">
+			<option value="" selected>Nenhuma Seleção</option>
+			<option value="s" >Sim</option>
+			<option value="n" >Não</option>
+		</select>
+	</div></td>
+</tr>
+<tr>
+	<td width="16" height="35"></td>
+	<td width="268">Tipo de Amortização:</td>
+	<td width="521" colspan="2"><div id="awmobject15"><select name="amortizacao" id="select3" style="width:465px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="3"> Percentual fixo sobre o valor nominal atualizado em períodos não uniformes</option><option value="1"> Percentual fixo sobre o valor nominal atualizado em períodos uniformes</option><option value="6"> Percentual fixo sobre o valor nominal de emissão em períodos não uniformes</option><option value="5"> Percentual fixo sobre o valor nominal de emissão em períodos uniformes</option><option value="4"> Percentual variável sobre o valor nominal atualizado em períodos não uniformes</option><option value="2"> Percentual variável sobre o valor nominal atualizado em períodos uniformes</option><option value="7"> Percentual variável sobre o valor nominal de emissão em períodos uniformes</option>
+</select></div></td>
+</tr>
+</table>
+
+<table width="745" border="0" cellspacing="0" cellpadding="0" class="Ver11666666">
+	<tr>
+		<td colspan="4" height="30" bgcolor="#E1E1E1"></td>
+	</tr>
+	<tr>
+		<td width="16" height="35"></td>
+		<td width="208">Forma:</td>
+		<td width="192"><input type="checkbox" name="mforma" value="'0'"> Nominativa</td>
+		<td width="329"><input type="checkbox" name="mforma" value="'1'"> Escritural</td>
+	</tr>
+	<tr bgcolor="#F9F9F9">
+		<td width="16" height="35"></td>
+		<td width="208">Classe:</td>
+		<td width="192"><input type="checkbox" name="mtipo" value="'0'"> Simples</td>
+		<td width="329"><input type="checkbox" name="mtipo" value="'1'"> Conversível</td>
+	</tr>
+	<tr bgcolor="#F9F9F9">
+		<td width="16" height="35"></td>
+		<td width="208"></td>
+		<td width="192"><input type="checkbox" name="mtipo" value="'2'"> Conversível Permutável</td>
+		<td width="329"><input type="checkbox" name="mtipo" value="'3'"> Permutável</td>
+	</tr>
+	<tr>
+		<td width="16" height="35"></td>
+		<td width="208">Garantia/Espécie:</td>
+		<td width="192"><input type="checkbox" name="mespecie" value="'0'"> Subordinada</td>
+		<td width="329"><input type="checkbox" name="mespecie" value="'1'"> Real</td>
+	</tr>
+	<tr>
+		<td width="16" height="35"></td>
+		<td width="208"></td>
+		<td width="192"><input type="checkbox" name="mespecie" value="'2'"> Flutuante</td>
+		<td width="329"><input type="checkbox" name="mespecie" value="'3'"> Quirografária</td>
+	</tr>
+</table>
+<table width="745" border="0" cellspacing="0" cellpadding="0" class="Ver11666666">
+	<tr bgcolor="#F9F9F9">
+		<td width="16" height="35"></td>
+		<td width="208">Banco Mandatário:</td>
+		<td width="521"><div id="awmobject16"><select name="mbanco" id="select5" style="width:266px" class="compForm1">
+			<option value="" selected>Nenhuma Seleção</option>
+			<option value="72130001"> BANCO ARBI S/A                          </option><option value="72370005"> BANCO BRADESCO S/A</option><option value="00010007"> BANCO DO BRASIL S/A</option><option value="06110004"> BANCO PAULISTA S/A</option><option value="73410005"> ITAU UNIBANCO S.A.</option>
+</select></div></td>
+</tr>
+<tr>
+	<td width="16" height="35"></td>
+	<td width="208">Agente Fiduciário:</td>
+	<td width="521"><div id="awmobject17"><select name="magente" id="select6" style="width:227px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="0247"> GDC PART.SERV.FIDUCIARIOS DTVM LTDA</option><option value="0243"> GRADUAL CCTVM SA</option><option value="0089"> OLIVEIRA TRUST DTVM S/A</option><option value="0095"> PENTAGONO S/A DTVM</option><option value="0097"> PLANNER CV S/A</option><option value="0262"> REAG TRUST DTVM S/A - EM LIQUIDAÇÃO EXTRAJUDICIAL</option><option value="0252"> TERRA INVESTIMENTOS DTVM LTDA</option><option value="0256"> TRUSTEE DTVM LTDA</option><option value="0248"> VORTX DTVM LTDA.</option><option value="0257"> VX PAVARINI DISTRIBUIDORA DE TÍTULOS E VALORES MOBILIÁRIOS LTDA</option>
+
+</select></div></td>
+</tr>
+<tr  bgcolor="#F9F9F9">
+	<td width="16" height="35"></td>
+	<td width="208">Instituição Depositária:</td>
+	<td width="521"><div id="awmobject18"><select name="instdep" id="select12" size="1" style="width:267px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="12902000"> </option><option value="12922004"> </option><option value="13552002"> </option><option value="19782003"> </option><option value="24475408"> </option><option value="11394004"> </option><option value="22485005"> </option><option value="28673402"> </option><option value="28681401"> </option><option value="28682400"> </option><option value="28685407"> </option><option value="28687405"> </option><option value="28690409"> </option><option value="28736404"> </option><option value="29386406"> </option><option value="29389403"> </option><option value="29390409"> </option><option value="35038401"> ATLAS HOLDING E PARTICIPACOES S.A.</option><option value="55631008"> BANCO BRADESCO S/A</option><option value="72370005"> BANCO BRADESCO S/A</option><option value="00010007"> BANCO DO BRASIL S/A</option><option value="22614405"> BRASBUNKER PARTICIPACOES S/A</option><option value="51691004"> BTG PACTUAL SERV.FINANCEIROS S/A DTVM</option><option value="51277002"> CM CAPITAL MARKETS DTVM LTDA - CUSTODIA DE TERCEIROS</option><option value="18020003"> FRAM CAPITAL DTVM S/A</option><option value="43933000"> HEMERA DTVM LTDA - CUSTODIA DE TERCEIROS</option><option value="16945001"> ID CTVM S/A</option><option value="29641402"> INEPAR S/A - I. C - EM RECUPERACAO JUDICIAL</option><option value="03412004"> ITAU CV S/A</option><option value="73410005"> ITAU UNIBANCO S/A</option><option value="57637000"> LAQUS DEPOSITARIA DE VAL. MOB. S.A.</option><option value="33738002"> LIMINE TRUST DTVM LTDA</option><option value="51584001"> MÉRITO DTVM LTDA</option><option value="28691408"> NOVA ASA BRANCA II ENERGIAS RENOVAVEIS S.A.</option><option value="12396001"> OLIVEIRA TRUST DTVM  S/A</option><option value="21872406"> OSTEOCAMP IMPLANTES E MAT.CIRURGICOS S.A</option><option value="03551006"> PLANNER TRUSTEE DTVM LTDA</option><option value="17275402"> Q1 COMERCIAL DE ROUPAS S/A</option><option value="51642008"> QI DTVM</option><option value="35944007"> REAG DTVM S/A</option><option value="37631002"> REAG DTVM S/A - CUSTODIA DE TERCEIROS</option><option value="21921003"> TERRA INVESTIMENTOS DTVM LTDA</option><option value="55639000"> VERT DTVM LTDA.</option>
+
+</select></div></td>
+</tr>
+<tr>
+	<td width="16" height="35"></td>
+	<td width="208">Coordenador Líder:</td>
+	<td width="521"><div id="awmobject19"><select name="coordenador" id="select13" style="width:320px" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="7654"> CM CAPITAL MARKETS CCTVM LTDA</option><option value="0030"> ITAU UNIBANCO HOLDING S.A</option><option value="7668"> KDB MEIOS DE PAGAMENTOS S.A</option><option value="7760"> OPEA SECURITIZADORA S/A</option><option value="7603"> OSLO CAPITAL DTVM S.A.</option><option value="7641"> PALALUA PARTICIPACOES S.A.</option><option value="7683"> QI COMPANHIA SECURITIZADORA II</option><option value="7642"> RB CAPITAL COMMERCIAL PROPERTIES S.A.</option><option value="0141"> SAFRA ASSET CTVM</option><option value="7780"> SOU SECURITIZADORA S.A.</option><option value="7677"> TRUSTHUB SECURITIZADORA S.A.</option>
+
+</select></div></td>
+</tr>
+<!-- <tr bgcolor="#F9F9F9">
+	<td width="16" height="35"></td>
+	<td width="208">Agência Classificadora:</td>
+	<td width="521"><div id="awmobject20"><select name="agclass" id="select2" style="width:228" class="compForm1">
+		<option value="" selected>Nenhuma Seleção</option>
+		<option value="10">                                         </option>
+</select></div></td>
+</tr> -->
+<tr>
+	<td width="16" height="35"></td>
+	<td width="208"></td>
+	<td width="521"><a onclick="resetar();" href="#"><img name="redefinir" alt="Redefinir" src="../../../img/_btnRedefinir.gif" border="0" width="61" height="23"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="image" width="51" height="23" src="../../../img/_btnEnviar.gif" name="Submit" alt="Enviar"></td>
+	</tr>
+</table><!--// FIM: CorpoForm.característicasDebênturesPúblicas -->
+<!--// INÍCIO: Texto.Obs -->
+<table width="745" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td width="16"></td>
+		<td width="713" valign="top" class="Ob210666666">
+			<p class="Ver11666666">Clique no link para fazer o download das informações de todos os ativos <a href="caracteristicas_e.asp?tip_deb=&op_exc=False" class="Ver11FF6600" target=_blank>registrados</a>, <a href="caracteristicas_e.asp?tip_deb=&op_exc=True" class="Ver11FF6600" target=_blank>excluídos</a>, e <a href="caracteristicas_e.asp?tip_deb=&op_exc=Nada" class="Ver11FF6600" target=_blank>registrados e excluídos</a></p>
+			<p><b>Observaç&otilde;es: </b><br />
+				(1) * A opção 00 refere-se a papéis com critério de cálculo n&atilde;o padr&atilde;o, quando ainda não estava disponível a possibilidade de definição de uma data de referência para índices de preços, sendo utilizada, nestes casos, o dia da data de vencimento do papel.
+									
+		</td>
+		<td width="16"></td>
+	</tr>
+</table><!--// FIM: Texto.Obs --></td>
+<td width="9"></td>
+<td width="2" bgcolor="#EACCD0" background="../../../img/_box109.gif"></td>
+</tr>
+</table><!--// FIM: Corpo.característicasDebênturesPúblicas -->
+<!--// INÍCIO: Rodapé.característicasDebênturesPúblicas -->
+<table width="765" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td width="11" rowspan="2"><img src="../../../img/_box104.gif" width="11" height="9"></td>
+		<td width="743" height="7" bgcolor="#F0F0F0"></td>
+		<td width="11" rowspan="2"><img src="../../../img/_box105.gif" width="11" height="9"></td>
+	</tr>
+	<tr>
+		<td width="743" height="2" bgcolor="#E29CA6" background="../../../img/_box110.gif"></td>
+	</tr>
+</table><!--// FIM: Rodapé.característicasDebênturesPúblicas --></td>
+<td width="8"></td></form>
+</tr>
+<tr>
+	<td colspan="3" height="8"></td>
+</tr>
+</table>
+<!--// FIM: TabelaCorpo -->
+<!--// INÍCIO: Rodapé -->
+<table width="779" border="0" cellspacing="0" cellpadding="0" align="center">
+	<tr>
+		<td width="7"></td>
+		<td colspan="2"><img src="../../../img/rodape_box101.gif" width="10" height="10"></td>
+		<td colspan="2" bgcolor="#F5F5F5"></td>
+		<td colspan="2"><img src="../../../img/rodape_box102.gif" width="10" height="10"></td>
+		<td width="7"></td>
+	</tr>
+	<tr>
+		<td width="7"></td>
+		<td width="2" bgcolor="#FFFFFF"></td>
+		<td width="8" bgcolor="#F5F5F5"></td>
+		<td width="703" align="right" bgcolor="#F5F5F5" class="Obs10333333"></td>
+		<td width="23" align="right" bgcolor="#F5F5F5"><!-- <a href="http://www.homewebbing.com.br/" target="_blank"><img src="../../../img/rodape_logoHW.gif" width="13" height="13" alt="Produzido por: HomeWebbing" border="0"></a> --></td>
+		<td width="8" bgcolor="#F5F5F5"></td>
+		<td width="2" bgcolor="#FFFFFF"></td>
+		<td width="7"></td>
+	</tr>
+	<tr>
+		<td width="7"></td>
+		<td colspan="2"><img src="../../../img/rodape_box103.gif" width="10" height="10"></td>
+		<td colspan="2" bgcolor="#F5F5F5"></td>
+		<td colspan="2"><img src="../../../img/rodape_box104.gif" width="10" height="10"></td>
+		<td width="7"></td>
+	</tr>
+	<tr>
+		<td colspan="8" height="5"></td>
+	</tr>
+</table><!--// FIM: Rodapé -->
+</body>
+
+
+
+</html>

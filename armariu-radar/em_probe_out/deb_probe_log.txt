@@ -1,0 +1,7 @@
+caract_page {'url': 'https://www.debentures.com.br/exploreosnd/consultaadados/emissoesdedebentures/caracteristicas_f.asp', 'status': 200, 'ctype': 'text/html', 'disp': None, 'bytes': 95607}
+all_registered {'url': 'https://www.debentures.com.br/exploreosnd/consultaadados/emissoesdedebentures/caracteristicas_e.asp?tip_deb=&op_exc=False', 'status': 200, 'ctype': 'application/vnd.ms-excel', 'disp': 'attachment; filename=Debentures.com.br_Caracteristica_em_07-11-2026_as_13-40-46.xls', 'bytes': 2877824}
+all_excluded {'url': 'https://www.debentures.com.br/exploreosnd/consultaadados/emissoesdedebentures/caracteristicas_e.asp?tip_deb=&op_exc=True', 'status': 200, 'ctype': 'application/vnd.ms-excel', 'disp': 'attachment; filename=Debentures.com.br_Caracteristica_em_07-11-2026_as_13-40-49.xls', 'bytes': 3253530}
+all_both {'url': 'https://www.debentures.com.br/exploreosnd/consultaadados/emissoesdedebentures/caracteristicas_e.asp?tip_deb=&op_exc=Nada', 'status': 200, 'ctype': 'application/vnd.ms-excel', 'disp': 'attachment; filename=Debentures.com.br_Caracteristica_em_07-11-2026_as_13-40-51.xls', 'bytes': 6129284}
+vencimentos {'url': 'https://www.debentures.com.br/exploreosnd/consultaadados/emissoesdedebentures/vencimentos_proximos.asp?tip_deb=publicas&op_exc=', 'status': 200, 'ctype': 'text/html', 'disp': None, 'bytes': 205030}
+agenda {'url': 'https://www.debentures.com.br/exploreosnd/consultaadados/emissoesdedebentures/../eventosfinanceiros/agenda_r.asp', 'status': 200, 'ctype': 'text/html', 'disp': None, 'bytes': 50962945}
+done
