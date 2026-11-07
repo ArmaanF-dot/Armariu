@@ -1,0 +1,131 @@
+ok BASE-SOPORTE-INSOLVENCIA-2023-CORTE-DICIEMBRE.xlsx 2023-12-31 4471
+ok BASE-SOPORTE-INSOLVENCIA-2023-CORTE-JUNIO.xlsx 2023-06-30 4310
+ok BASE-SOPORTE-INSOLVENCIA-2023-CORTE-MARZO.xlsx 2023-03-31 4266
+ok BASE-SOPORTE-INSOLVENCIA-2023-CORTE-SEPTIEMBRE.xlsx 2023-09-30 4374
+ok BASE-SOPORTE-INSOLVENCIA-2022-CORTE-DICIEMBRE.xlsx 2022-12-31 4166
+ok BASE-SOPORTE-INSOLVENCIA-2022-CORTE-JUNIO.xlsx 2022-06-30 3942
+ok BASE-SOPORTE-INSOLVENCIA-2022-CORTE-SEPTIEMBRE.xlsx 2022-09-30 3999
+ok Base-datos-insolvencia-2022-trimestre-1.xlsx 2022-03-31 3856
+skip Base-datos-insolvencia-2022-trimestre-1.xlsx
+ok Base-datos-insolvencia-diciembre-2021.xlsx 2021-12-31 3818
+ok Base-datos-insolvencia-junio-2021.xlsx 2021-06-30 3679
+ok Base-datos-insolvencia-septiembre-2021.xlsx 2021-09-30 3780
+ok BASE_SOPORTE_INSOLVENCIA_JUN_2020.xlsx 2020-06-30 3055
+ok BASE_SOPORTE_INSOLVENCIA_MAR_2020.xlsx 2020-03-31 2788
+ok BASE_SOPORTE_INSOLVENCIA_SEP_2020.xlsx 2020-09-30 3322
+ok BASE_SOPORTE_INSOLVENCIA_DIC_2019.xlsx 2019-12-31 2700
+ok Base-Insolvencia.xlsx 2019-12-31 31
+ok Base-Soporte-Insolvencia-2024-CORTE-AGOSTO.xlsx 2024-08-31 4716
+ok Base-Soporte-Insolvencia-2024-CORTE-DICIEMBRE.xlsx 2024-12-31 4960
+ok Base-Soporte-Insolvencia-2024-CORTE-JULIO.xlsx 2024-07-31 4690
+ok Base-Soporte-Insolvencia-2024-CORTE-NOVIEMBRE.xlsx 2024-11-30 4852
+ok Base-Soporte-Insolvencia-2024-CORTE-OCTUBRE.xlsx 2024-10-31 4838
+ok Base-Soporte-Insolvencia-2024-CORTE-SEPTIEMBRE.xlsx 2024-09-30 4793
+ok Base-Soporte-Insolvencia-2025-CORTE-ABRIL.xlsx 2025-04-30 5200
+ok Base-Soporte-Insolvencia-2025-CORTE-AGOSTO.xlsx 2025-08-31 5405
+ok Base-Soporte-Insolvencia-2025-CORTE-DICIEMBRE.xlsx 2025-12-31 5506
+ok Base-Soporte-Insolvencia-2025-CORTE-ENERO.xlsx 2025-01-31 4992
+ok Base-Soporte-Insolvencia-2025-CORTE-FEBRERO.xlsx 2025-02-28 5001
+ok Base-Soporte-Insolvencia-2025-CORTE-JULIO.xlsx 2025-07-31 5333
+ok Base-Soporte-Insolvencia-2025-CORTE-JUNIO.xlsx 2025-06-30 5274
+ok Base-Soporte-Insolvencia-2025-CORTE-MARZO.xlsx 2025-03-31 5103
+ok Base-Soporte-Insolvencia-2025-CORTE-MAYO.xlsx 2025-05-31 5268
+ok Base-Soporte-Insolvencia-2025-CORTE-NOVIEMBRE.xlsx 2025-11-30 5463
+ok Base-Soporte-Insolvencia-2025-CORTE-OCTUBRE.xlsx 2025-10-31 5432
+ok Base-Soporte-Insolvencia-2025-CORTE-SEPTIEMBRE.xlsx 2025-09-30 5413
+ok Base-Soporte-Insolvencia-2026-CORTE-ABRIL.xlsx 2026-04-30 5570
+ok Base-Soporte-Insolvencia-2026-CORTE-AGOSTO.xlsx 2026-08-31 5633
+ok Base-Soporte-Insolvencia-2026-CORTE-ENERO.xlsx 2026-01-31 5538
+ok Base-Soporte-Insolvencia-2026-CORTE-FEBRERO.xlsx 2026-02-28 5544
+ok Base-Soporte-Insolvencia-2026-CORTE-JULIO.xlsx 2026-07-31 5603
+ok Base-Soporte-Insolvencia-2026-CORTE-MARZO.xlsx 2026-03-31 5555
+ok Base-Soporte-Insolvencia-2026-CORTE-MAYO.xlsx 2026-05-31 5583
+ok Base-Soporte-Insolvencia-2026-CORTE-NOVIEMBRE.xlsx 2026-11-30 5767
+ok Base-Soporte-Insolvencia-2026-CORTE-OCTUBRE.xlsx 2026-10-31 5699
+ok Base-Soporte-Insolvencia-2026-CORTE-SEPTIEMBRE.xlsx 2026-09-30 5669
+{'firms': 8506, 'files': 45, 'by_year': {1999: 1, 2001: 1, 2002: 2, 2004: 2, 2005: 1, 2006: 1, 2008: 8, 2009: 33, 2010: 40, 2011: 70, 2012: 84, 2013: 120, 2014: 147, 2015: 171, 2016: 232, 2017: 434, 2018: 770, 2019: 802, 2020: 885, 2021: 769, 2022: 697, 2023: 729, 2024: 922, 2025: 928, 2026: 657}, 'closed_before_latest': 2741, 'with_true_adm_date': 5857}
+pulled 2016 415212 293684 0 47
+pulled 2017 43548 252320 0 27
+pulled 2018 244415 246110 0 25
+pulled 2019 320067 320490 0 30
+pulled 2020 363336 372695 0 71
+pulled 2021 366283 363935 0 100
+pulled 2022 758282 752846 0 183
+pulled 2023 396756 393814 0 155
+pulled 2024 367600 364393 0 86
+pulled 2025 349436 342415 29161 93
+{'net': 'Ganancia (p�rdida)', 'op': 'Ganancia (p�rdida) por actividades de operaci�n', 'ganancia_like': {'Ganancia (p�rdida), antes de impuestos': 268237, 'Ganancia (p�rdida) procedente de operaciones continuadas': 268237, 'Ganancia (p�rdida)': 268237, 'Ganancia (p�rdida) por actividades de operaci�n': 268214, 'Ganancia (p�rdida) procedente de operaciones discontinuadas': 44917, 'Ganancia (p�rdida), atribuible a los propietarios de la controladora': 8767, 'Ganancia (p�rdida) acumulada anteriormente reconocida en otro resultado integral que surge de la reclasificaci�n de activos financieros de la categor�a de medici�n de valor razonable con cambios en otro resultado integral a la de valor razonable con camb': 5549, 'Ganancia (p�rdida), atribuible a participaciones no controladoras': 5199}}
+features (247752, 38)
+panel {'on_time': 244746, 'stale': 66269}
+2019 {'firms': 25086, 'events': 223, 'auc_base': 0.737, 'auc_old': 0.842, 'auc_lr': 0.8, 'auc_gb': 0.848, 'auc_ens': 0.842}
+2020 {'firms': 29170, 'events': 188, 'auc_base': 0.753, 'auc_old': 0.849, 'auc_lr': 0.822, 'auc_gb': 0.86, 'auc_ens': 0.851}
+2021 {'firms': 29018, 'events': 117, 'auc_base': 0.755, 'auc_old': 0.831, 'auc_lr': 0.816, 'auc_gb': 0.829, 'auc_ens': 0.832}
+2022 {'firms': 30970, 'events': 149, 'auc_base': 0.738, 'auc_old': 0.836, 'auc_lr': 0.798, 'auc_gb': 0.854, 'auc_ens': 0.836}
+2023 {'firms': 30841, 'events': 215, 'auc_base': 0.742, 'auc_old': 0.855, 'auc_lr': 0.821, 'auc_gb': 0.868, 'auc_ens': 0.856}
+2024 {'firms': 29475, 'events': 139, 'auc_base': 0.75, 'auc_old': 0.851, 'auc_lr': 0.822, 'auc_gb': 0.863, 'auc_ens': 0.853}
+secop failed skipped: no gain in run 1
+done
+{
+ "pooled": {
+  "base": 0.746,
+  "old": 0.844,
+  "lr": 0.816,
+  "gb": 0.856,
+  "ens": 0.845
+ },
+ "by_band": {
+  "<$5m": {
+   "firms": 119193,
+   "events": 608,
+   "base_rate": 0.0051,
+   "auc_base": 0.759,
+   "auc_lr": 0.816,
+   "auc_gb": 0.852,
+   "auc_ens": 0.842
+  },
+  "$5-20m": {
+   "firms": 38631,
+   "events": 295,
+   "base_rate": 0.0076,
+   "auc_base": 0.728,
+   "auc_lr": 0.816,
+   "auc_gb": 0.863,
+   "auc_ens": 0.849
+  },
+  ">$20m": {
+   "firms": 16736,
+   "events": 128,
+   "base_rate": 0.0076,
+   "auc_base": 0.706,
+   "auc_lr": 0.797,
+   "auc_gb": 0.847,
+   "auc_ens": 0.842
+  }
+ },
+ "top_buckets_pooled": {
+  "top1%": {
+   "rate": 0.0573,
+   "lift": 9.7,
+   "capture": 0.097,
+   "n": 1746
+  },
+  "top5%": {
+   "rate": 0.0409,
+   "lift": 6.93,
+   "capture": 0.346,
+   "n": 8728
+  },
+  "top10%": {
+   "rate": 0.0312,
+   "lift": 5.29,
+   "capture": 0.529,
+   "n": 17456
+  },
+  "top25%": {
+   "rate": 0.0183,
+   "lift": 3.1,
+   "capture": 0.774,
+   "n": 43641
+  }
+ }
+}
