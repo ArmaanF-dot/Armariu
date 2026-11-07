@@ -1,0 +1,80 @@
+sampled nits 7031 event nits 1031
+chunk 0 1045
+chunk 150 3030
+chunk 300 3414
+chunk 450 2210
+chunk 600 4753
+chunk 750 1876
+chunk 900 1825
+chunk 1050 1630
+chunk 1200 6416
+chunk 1350 1694
+chunk 1500 2260
+chunk 1650 3861
+chunk 1800 3161
+chunk 1950 1785
+chunk 2100 7244
+chunk 2250 2013
+chunk 2400 2429
+chunk 2550 3779
+chunk 2700 646
+chunk 2850 2268
+chunk 3000 1662
+chunk 3150 686
+chunk 3300 2534
+chunk 3450 319
+chunk 3600 1281
+chunk 3750 728
+chunk 3900 657
+chunk 4050 351
+chunk 4200 4563
+chunk 4350 1356
+chunk 4500 1511
+chunk 4650 793
+chunk 4800 848
+chunk 4950 224
+chunk 5100 119
+chunk 5250 452
+chunk 5400 308
+chunk 5550 799
+chunk 5700 351
+chunk 5850 1585
+chunk 6000 413
+chunk 6150 20016
+chunk 6300 236
+chunk 6450 49
+chunk 6600 1317
+chunk 6750 229
+chunk 6900 2370
+raw invoices (103096, 7)
+payment panel (3036, 10)
+coverage: firm-years with any payment-plan record 0.0708 events covered 0.0999 n 2328
+Traceback (most recent call last):
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/em_probe/co3_sample.py", line 73, in <module>
+    S["age"] = ((pd.to_datetime(S.year.astype(str) + "-12-31") - S.fm).dt.days / 365).clip(0, 80); S["age"] = S.age.fillna(S.age.median()); S["young"] = (S.age < 5).astype(int)
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/ops/common.py", line 140, in new_method
+    return method(self, other)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/arraylike.py", line 219, in __sub__
+    return self._arith_method(other, operator.sub)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/series.py", line 7388, in _arith_method
+    return base.IndexOpsMixin._arith_method(self, other, op)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/base.py", line 1717, in _arith_method
+    result = ops.arithmetic_op(lvalues, rvalues, op)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/ops/array_ops.py", line 282, in arithmetic_op
+    res_values = op(left, right)
+                 ^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/arrays/datetimelike.py", line 2017, in __array_ufunc__
+    return super().__array_ufunc__(ufunc, method, *inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/arrays/base.py", line 2984, in __array_ufunc__
+    return arraylike.default_array_ufunc(self, ufunc, method, *inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/arraylike.py", line 530, in default_array_ufunc
+    return getattr(ufunc, method)(*new_inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+numpy._core._exceptions._UFuncBinaryResolutionError: ufunc 'subtract' cannot use operands with types dtype('<M8[us]') and dtype('float64')
