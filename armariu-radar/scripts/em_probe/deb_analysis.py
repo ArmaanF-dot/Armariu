@@ -22,7 +22,7 @@ df["amt0"] = df["qty"] * df["vn0"]; df["amt_now"] = df["mkt"] * df["vna"]
 df["status"] = df["Situacao"]; df["reg"] = df["Registro CVM da Emissao"].fillna("")
 df["exempt476"] = df["reg"].str.contains("476|DISPENSA", case=False)
 df["motivo"] = df["Motivo de Saida"].fillna("")
-rep = {"rows": len(df), "columns": list(df.columns)[:12], "issuers": int(df["cnpj"].nunique()), "status": df["status"].value_counts().to_dict(),
+rep = {"rows": len(df), "note": "mat_reliable excludes early exits", "columns": list(df.columns)[:12], "issuers": int(df["cnpj"].nunique()), "status": df["status"].value_counts().to_dict(),
        "issue_year_counts": df["issue"].dt.year.value_counts().sort_index().to_dict(), "with_maturity": float(df["mat"].notna().mean()), "with_amount": float(df["amt0"].notna().mean()),
        "ict_476_or_dispensa_share": round(float(df["exempt476"].mean()), 3), "motivo_saida_top": df["motivo"].value_counts().head(15).to_dict(),
        "total_issued_brl_bn": round(float(df["amt0"].sum()) / 1e9, 1), "live_instruments": int((df["status"] == "Registrado").sum()),
@@ -51,13 +51,15 @@ df = df.dropna(subset=["issue", "mat"]); df = df[df["issue"].between("1990-01-01
 ex = (df["status"] == "Excluído") & df["exit"].notna() & df["motivo"].str.contains("Resgate|Vencimento|Cancel|Convers|Amortiz", case=False)
 df["exited"] = df["exit"].where(ex)  # actual exit date; only counts once it is in the past at the cutoff (no look-ahead)
 df["end"] = df["mat"]
+df["kind"] = df["motivo"].str.replace(r"^\d\d/\d\d/\d{4} - ", "", regex=True).str.upper().str.strip()
+df["mat_reliable"] = (df["status"] == "Registrado") | (df["kind"] == "VENCIMENTO")  # early exits overwrite the maturity field with the exit date
 df["amt"] = df["amt0"].fillna(0)
 issues = {k: np.sort(v.values) for k, v in df.groupby("cnpj")["issue"]}
 rows = []
 for yr in range(2013, 2026):
     t = pd.Timestamp(yr, 1, 1); t1 = t + pd.DateOffset(years=1); t2 = t + pd.DateOffset(years=2); t6 = t + pd.DateOffset(months=6)
     past = df[df["issue"] < t]; act = past[past["issue"] >= t - pd.DateOffset(years=5)]
-    out = past[(past["mat"] >= t) & ~(past["exited"] < t)]
+    out = past[(past["mat"] >= t) & ~(past["exited"] < t) & past["mat_reliable"]]
     g = act.groupby("cnpj"); B = pd.DataFrame({"n5": g.size()})
     B["last_issue"] = g["issue"].max(); B["amt5"] = g["amt"].sum(); B["tenor"] = (act["mat"] - act["issue"]).dt.days.groupby(act["cnpj"]).mean() / 30.4
     B["is476"] = act["exempt476"].groupby(act["cnpj"]).mean()
