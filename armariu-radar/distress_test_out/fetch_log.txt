@@ -1,0 +1,7 @@
+02:25:51 live: 16,695 companies, 0 done
+02:25:52 radar job running: pausing
+02:32:01 live: 500 fetched, 503 calls
+02:37:08 live: 1,000 fetched, 1,006 calls
+02:42:15 live: 1,500 fetched, 1,507 calls
+02:47:22 live: 2,000 fetched, 2,008 calls
+02:52:29 live: 2,500 fetched, 2,509 calls
