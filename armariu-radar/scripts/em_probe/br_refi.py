@@ -29,7 +29,7 @@ R = R[~R["Status_Requerimento"].fillna("").str.contains("Revogada|Caducado|Expir
 R["issue_date"] = D(R["Data_Registro"])
 events = pd.concat([L[["cnpj", "issue_date"]], R[["cnpj", "issue_date"]]]).dropna().drop_duplicates()
 # one record per series: keep tranches with maturity
-T = L.dropna(subset=["mat"])[["cnpj", "issue_date", "mat", "amt", "Especie_Ativo", "Tipo_Societario_Emissor"]].copy()
+T = L[["cnpj", "issue_date", "mat", "amt", "Especie_Ativo", "Tipo_Societario_Emissor"]].copy()
 rep = {"debt_offering_rows": len(L), "issuers_legacy": int(L["cnpj"].nunique()), "rows_with_maturity": len(T), "r160_debt_rows": len(R),
        "issuers_r160": int(R["cnpj"].nunique()), "events_total": len(events), "legacy_date_range": [str(L["issue_date"].min().date()), str(L["issue_date"].max().date())],
        "tenor_years_median": round(float(((T["mat"] - T["issue_date"]).dt.days / 365.25).median()), 2)}
@@ -69,8 +69,8 @@ P = pd.concat(rows, ignore_index=True)
 P.to_csv(f"{OUT}/br_refi_panel.csv.gz", index=False)
 rep["panel"] = {"issuer_years": len(P), "events": int(P["y"].sum()), "base_rate": round(P["y"].mean(), 4), "by_year": P.groupby("year")["y"].agg(["count", "sum", "mean"]).round(3).to_dict("index")}
 # headline: effect of a maturity inside 12m
-O = P[P["outstanding"] > 0]
-rep["with_outstanding"] = {"n": len(O), "rate": round(O["y"].mean(), 4)}
+O = P.copy()
+rep["with_outstanding"] = {"n": len(O), "rate": round(O["y"].mean(), 4), "share_with_any_maturity_known": round(float((O["outstanding"] > 0).mean()), 3)}
 O["bucket"] = pd.cut(O["first_mat_months"], [-1, 3, 6, 12, 24, 1e9], labels=["0-3m", "3-6m", "6-12m", "12-24m", ">24m"])
 rep["rate_by_first_maturity"] = O.groupby("bucket")["y"].agg(["count", "mean"]).round(3).to_dict("index")
 rep["rate_maturing_vs_not"] = {"maturing_12m": round(O[O["mat12"] > 0]["y"].mean(), 4), "not": round(O[O["mat12"] == 0]["y"].mean(), 4),
@@ -86,7 +86,7 @@ def fit(tr, te, cols):
     gb = HistGradientBoostingClassifier(max_depth=3, learning_rate=0.05, max_iter=150, l2_regularization=1.0, random_state=0).fit(Xtr, tr["y"])
     return gb.predict_proba(Xte)[:, 1]
 res = {}; sc = []
-for ty in range(2018, 2023):
+for ty in range(2017, 2023):
     tr = O[O["year"] < ty]; te = O[O["year"] == ty].copy()
     if te["y"].sum() < 15 or tr["y"].sum() < 50: continue
     te["p_full"] = fit(tr, te, FE); te["p_nomat"] = fit(tr, te, FE_BASE); te["p_naive"] = -te["months_since_last"].fillna(999)
