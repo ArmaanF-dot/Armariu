@@ -75,3 +75,5 @@
 07:18:19 day 2025-11-30: 3 dissolved, 1 kept, 1 with charges; total checked 8,512
 07:18:25 day 2022-10-20: 249 dissolved, 49 kept, 15 with charges; total checked 8,561
 07:18:25 day 2025-08-11: 1 dissolved, 0 kept, 0 with charges; total checked 8,561
+07:43:07 day 2024-05-28: 13800 dissolved, 1951 kept, 61 with charges; total checked 10,512
+07:43:15 day 2023-11-01: 121 dissolved, 29 kept, 7 with charges; total checked 10,541
