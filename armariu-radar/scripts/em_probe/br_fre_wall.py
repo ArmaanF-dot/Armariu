@@ -18,7 +18,7 @@ for y in range(2016, 2026):
         for n in ["outro_valor_mobiliario", "titulo_exterior"]:
             nm = f"fre_cia_aberta_{n}_{y}.csv"
             if nm in z.namelist():
-                d = pd.read_csv(z.open(nm), sep=";", encoding="latin-1", dtype=str); d["src"] = n
+                d = pd.read_csv(z.open(nm), sep=";", encoding="latin-1", dtype=str, engine="python", on_bad_lines="skip"); d["src"] = n
                 d = d.rename(columns={"Valor_Nominal": "Valor"}) if "Valor_Nominal" in d.columns and "Valor" not in d.columns else d
                 parts.append(d[["CNPJ_Companhia", "Data_Referencia", "Versao", "Valor_Mobiliario", "Data_Emissao", "Data_Vencimento", "Saldo_Devedor", "src"]])
         F = pd.concat(parts); F["year"] = y; fre_rows.append(F)
@@ -89,5 +89,15 @@ X1 = X0.copy(); X1["wall_assets"] = Q["wall_assets"].fillna(0).clip(0, 1); X1["w
 for nm, X in [("dfp_only", X0), ("dfp_plus_fre_wall", X1)]:
     pr = cross_val_predict(LogisticRegression(max_iter=2000, class_weight="balanced", C=0.3), (X - X.mean()) / X.std(), Q["y"], cv=GroupKFold(5), groups=Q["cnpj"], method="predict_proba")[:, 1]
     rep.setdefault("cv_auc", {})[nm] = round(roc_auc_score(Q["y"], pr), 3)
+# current maturity table (latest FRE year available per company)
+lat = Fd[(Fd["mat"] > pd.Timestamp("2026-11-01"))].copy()
+lat = lat.sort_values("year").groupby(["cnpj", "Valor_Mobiliario", "Data_Emissao", "Data_Vencimento"], dropna=False).tail(1)
+cash_latest = P.sort_values("year").groupby("cnpj").tail(1).set_index("cnpj")[["year", "cash", "assets", "cur_debt", "lt_debt"]].rename(columns={"year": "dfp_year"})
+nm = F.sort_values("year").groupby("cnpj")["CNPJ_Companhia"].last()
+lat = lat.merge(cash_latest, left_on="cnpj", right_index=True, how="left")
+lat["maturity_months"] = ((lat["mat"] - pd.Timestamp("2026-11-07")).dt.days / 30.4).round(1)
+cols = ["CNPJ_Companhia", "Valor_Mobiliario", "Data_Emissao", "Data_Vencimento", "maturity_months", "bal", "year", "cash", "assets", "dfp_year"]
+lat[cols].rename(columns={"bal": "outstanding_brl", "year": "fre_year", "cash": "latest_cash_brl", "assets": "latest_assets_brl"}).sort_values("maturity_months").to_csv(f"{OUT}/br_debt_maturities_current.csv", index=False)
+rep["current_table"] = {"instruments": len(lat), "companies": int(lat["cnpj"].nunique()), "maturing_within_12m_companies": int(lat[lat["maturity_months"] <= 12]["cnpj"].nunique()), "fre_years_loaded": sorted(int(y) for y in F["year"].unique())}
 json.dump(rep, open(f"{OUT}/br_fre_wall.json", "w"), indent=1, default=str, ensure_ascii=False)
 print(json.dumps({k: rep[k] for k in ["fre", "panel", "auc_single", "rate_wall_gt_cash", "rate_curdebt_gt_cash", "cv_auc"]}, indent=1, default=str)[:3000])
