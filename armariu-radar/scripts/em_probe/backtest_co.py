@@ -90,7 +90,9 @@ for year in range(2016, 2026):
     log("pulled", year, len(b), len(i), len(u), round(time.time() - t))
     d = pd.concat([b, i]); d["year"] = year
     d["valor"] = pd.to_numeric(d["valor"], errors="coerce")
-    d = d[d["periodo"].astype(str).str.contains(str(year))]
+    rep.setdefault("periodo_values", {})[year] = d["periodo"].astype(str).value_counts().head(6).to_dict()
+    pl = d["periodo"].astype(str).str.lower()
+    d = d[(pl.str.contains(str(year)) | (pl.str.contains("actual") & ~pl.str.contains("anterior")))]
     d["indiv"] = d["punto_entrada"].astype(str).str.contains("Individual", case=False)
     concept_log[year] = d["concepto"].value_counts().head(12).to_dict()
     # unit multiplier
