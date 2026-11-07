@@ -1,0 +1,1785 @@
+{
+  "results" :
+    [
+      {
+        "resource" :
+          {
+            "name" : "Personas Naturales, Personas Jurídicas y Entidades Sin Animo de Lucro",
+            "id" : "c82u-588k",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "Extracción que contiene los datos básicos del Registro Mercantil que administran las Cámaras de Comercio a nivel Nacional para Personas Naturales, Personas Jurídicas y Entidades Sin Animo de Lucro (ESADLs), que se encuentran sincronizados en el Registro Único Empresarial y Social (RUES).",
+            "attribution" : "Confecámaras, Bogotá D.C.",
+            "attribution_link" : "https://www.rues.org.co/",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-11-06T20:49:30.000Z",
+            "createdAt" : "2021-10-26T14:47:57.000Z",
+            "metadata_updated_at" : "2026-09-08T00:21:11.000Z",
+            "data_updated_at" : "2026-11-06T20:49:30.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 1035,
+                "page_views_last_month" : 6190,
+                "page_views_total" : 90628,
+                "page_views_last_week_log" : 10.016808287686555,
+                "page_views_last_month_log" : 12.595956743943162,
+                "page_views_total_log" : 16.467685145733345
+              },
+            "columns_name" :
+              [
+                "codigo_organizacion_juridica",
+                "codigo_tipo_sociedad",
+                "organizacion_juridica",
+                "primer_apellido",
+                "Num Identificacion Representante Legal",
+                "segundo_nombre",
+                "fecha_renovacion",
+                "estado_matricula",
+                "clase_identificacion_RL",
+                "ciiu4",
+                "cod_ciiu_act_econ_sec",
+                "categoria_matricula",
+                "cod_ciiu_act_econ_pri",
+                "ultimo_ano_renovado",
+                "sigla",
+                "codigo_categoria_matricula",
+                "razon_social",
+                "primer_nombre",
+                "inscripcion_proponente",
+                "segundo_apellido",
+                "nit",
+                "Representante Legal",
+                "numero_identificacion",
+                "fecha_matricula",
+                "codigo_clase_identificacion",
+                "clase_identificacion",
+                "fecha_vigencia",
+                "codigo_estado_matricula",
+                "fecha_actualizacion",
+                "tipo_sociedad",
+                "digito_verificacion",
+                "matricula",
+                "codigo_camara",
+                "camara_comercio",
+                "fecha_cancelacion",
+                "ciiu3"
+              ],
+            "columns_field_name" :
+              [
+                "codigo_organizacion_juridica",
+                "codigo_tipo_sociedad",
+                "organizacion_juridica",
+                "primer_apellido",
+                "num_identificacion_representante_legal",
+                "segundo_nombre",
+                "fecha_renovacion",
+                "estado_matricula",
+                "clase_identificacion_rl",
+                "ciiu4",
+                "cod_ciiu_act_econ_sec",
+                "categoria_matricula",
+                "cod_ciiu_act_econ_pri",
+                "ultimo_ano_renovado",
+                "sigla",
+                "codigo_categoria_matricula",
+                "razon_social",
+                "primer_nombre",
+                "inscripcion_proponente",
+                "segundo_apellido",
+                "nit",
+                "representante_legal",
+                "numero_identificacion",
+                "fecha_matricula",
+                "codigo_clase_identificacion",
+                "clase_identificacion",
+                "fecha_vigencia",
+                "codigo_estado_matricula",
+                "fecha_actualizacion",
+                "tipo_sociedad",
+                "digito_verificacion",
+                "matricula",
+                "codigo_camara",
+                "camara_comercio",
+                "fecha_cancelacion",
+                "ciiu3"
+              ],
+            "columns_datatype" :
+              [
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text"
+              ],
+            "columns_description" :
+              [
+                "Código Organización Jurídica",
+                "Código Tipo sociedad",
+                "Organización Jurídica",
+                "Primer Apellido ",
+                "Numero de identificación del representante legal de la empresa",
+                "Segundo Nombre u otros nombres",
+                "Fecha de ultima renovación",
+                "Estado Matricula",
+                "Clase de identificación del representante legal de la empresa",
+                "Código actividad económica otras 2",
+                "Código CIIU actividad económica secundaria",
+                "Categoría Matricula",
+                "Código CIIU actividad económica principal",
+                "Ultimo Año Renovado",
+                "Sigla",
+                "Código Categoría Matricula",
+                "Razón Social",
+                "Primer Nombre",
+                "Número de Inscripción en el registro de Proponentes",
+                "Segundo Apellido, otros apellidos  ",
+                "Número de Identificación Tributario",
+                "Nombre del representante legal de la empresa",
+                "Número de Identificación",
+                "Fecha Matricula",
+                "Código Clase Identificación",
+                "Clase Identificación",
+                "Fecha Vigencia",
+                "Código Estado Matricula",
+                "Fecha Ultima Actualización de datos al RUES",
+                "Tipo sociedad",
+                "Digito de Verificación",
+                "Número de Matricula Mercantil",
+                "Código de la Cámara de comercio que realiza la actualización de datos.",
+                "Cámara de comercio que realiza la actualización de datos.",
+                "Fecha Cancelación",
+                "Código actividad económica otras 1"
+              ],
+            "columns_format" :
+              [
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
+              ],
+            "download_count" : 25260,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2022-02-06T14:56:11.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" :
+              [
+                "personas naturales",
+                "entidades sin animo de lucro",
+                "personas juridicas",
+                "cámaras de comercio",
+                "confecamaras",
+                "registro mercantil",
+                "rues"
+              ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Departamental"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Mensual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Área-o-dependencia",
+                  "value" : "Servicio RUE"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Confecámaras, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/c82u-588k",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/Personas-Naturales-Personas-Jurídicas-y-Entidades-/c82u-588k",
+        "owner" :
+          {
+            "id" : "cfzp-wc2d",
+            "user_type" : "interactive",
+            "display_name" : "serviciorues"
+          },
+        "creator" :
+          {
+            "id" : "cfzp-wc2d",
+            "user_type" : "interactive",
+            "display_name" : "serviciorues"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Establecimientos - Agencias - Sucursales",
+            "id" : "nb3d-v3n7",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "Extracción que contiene los datos básicos del Registro Mercantil que administran las Cámaras de Comercio a nivel Nacional para Establecimientos, Agencias y Sucursales, que se encuentran sincronizados en el Registro Único Empresarial y Social (RUES).",
+            "attribution" : "Confecámaras, Bogotá D.C.",
+            "attribution_link" : "https://www.rues.org.co/",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-11-06T21:04:51.000Z",
+            "createdAt" : "2021-11-17T19:55:46.000Z",
+            "metadata_updated_at" : "2026-05-18T17:29:58.000Z",
+            "data_updated_at" : "2026-11-06T21:04:51.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 167,
+                "page_views_last_month" : 866,
+                "page_views_total" : 17303,
+                "page_views_last_week_log" : 7.392317422778761,
+                "page_views_last_month_log" : 9.759888183221834,
+                "page_views_total_log" : 14.078817949961978
+              },
+            "columns_name" :
+              [
+                "cod_ciiu_act_econ_pri",
+                "codigo_clase_identificacion_propietario",
+                "codigo_camara",
+                "ciiu3",
+                "codigo_estado_matricula",
+                "fecha_matricula",
+                "razon_social",
+                "fecha_renovacion",
+                "matrícula_propietario",
+                "Codigo_tipo_propietario",
+                "camara_comercio",
+                "ultimo_ano_renovado",
+                "matricula",
+                "camara_comercio_propitario",
+                "numero_identificacion_propietario",
+                "categoria_matricula",
+                "cod_ciiu_act_econ_sec",
+                "digito_verificacion_propietario",
+                "ciiu4",
+                "clase_identificacion_propietario",
+                "fecha_cancelacion",
+                "codigo_camara_propietario",
+                "tipo_propietario",
+                "nit_propietario",
+                "estado_matricula"
+              ],
+            "columns_field_name" :
+              [
+                "cod_ciiu_act_econ_pri",
+                "codigo_clase_identificacion",
+                "codigo_camara",
+                "ciiu3",
+                "codigo_estado_matricula",
+                "fecha_matricula",
+                "razon_social",
+                "fecha_renovacion",
+                "matr_cula_propietario",
+                "codigo_tipo_propietario",
+                "camara_comercio",
+                "ultimo_ano_renovado",
+                "matricula",
+                "camara_comercio_propitario",
+                "numero_identificacion",
+                "categoria_matricula",
+                "cod_ciiu_act_econ_sec",
+                "digito_verificacion",
+                "ciiu4",
+                "clase_identificacion",
+                "fecha_cancelacion",
+                "codigo_camara_propietario",
+                "tipo_propietario",
+                "nit_propietario",
+                "estado_matricula"
+              ],
+            "columns_datatype" :
+              [
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text"
+              ],
+            "columns_description" :
+              [
+                "Código CIIU actividad económica principal",
+                "Código Clase Identificación propietario",
+                "Código de la Camara de comercio que realiza la actualización de datos.",
+                "Codigo Actividad Economica Otras 1",
+                "Codigo Estado Matricula",
+                "Fecha de inscripción de la matricula",
+                "Razón Social",
+                "Fecha de ultima renovación",
+                "Matricula del propietario ",
+                "Código tipo de propietario",
+                "Camara de comercio que realiza la actualización de datos.",
+                "Ultimo Año Renovado",
+                "Número de Matricula Mercantil",
+                "Cámara de comercio del propietario ",
+                "Numero de identificación del propietario ",
+                "Categoría Matricula ",
+                "Código CIIU Actividad Económica Secundaria",
+                "Digito de Verificación del propietario",
+                "Código Actividad Económica Otras 2",
+                "Clase Identificación propietario",
+                "Fecha Cancelación",
+                "Código Cámara de comercio del propietario ",
+                " Tipo de propietario",
+                "NIT del propietario ",
+                "Estado Matricula"
+              ],
+            "columns_format" :
+              [
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
+              ],
+            "download_count" : 16437,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2025-08-11T20:54:53.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" :
+              [
+                "confecamaras",
+                "camara de comercio",
+                "sucursal",
+                "propietario",
+                "matricula mercantil",
+                "rues",
+                "registro mercantil",
+                "establecimiento",
+                "agencia"
+              ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Mensual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Confecámaras, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/nb3d-v3n7",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/Establecimientos-Agencias-Sucursales/nb3d-v3n7",
+        "owner" :
+          {
+            "id" : "cfzp-wc2d",
+            "user_type" : "interactive",
+            "display_name" : "serviciorues"
+          },
+        "creator" :
+          {
+            "id" : "cfzp-wc2d",
+            "user_type" : "interactive",
+            "display_name" : "serviciorues"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Base de Datos Bancos y Entidades Financieras",
+            "id" : "35qi-guj5",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "Información del nombre, teléfono y correo electrónico de la información de bancos y entidades financieras extraída del registro público mercantil que administra la Cámara de Comercio de Barranquilla, durante los años 2021 y 2020.",
+            "attribution" : "Cámara de Comercio de Barranquilla, Atlántico",
+            "attribution_link" : "https://www.datos.gov.co/d/35qi-guj5",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-05-18T19:08:14.000Z",
+            "createdAt" : "2021-07-23T14:23:43.000Z",
+            "metadata_updated_at" : "2026-05-18T19:08:14.000Z",
+            "data_updated_at" : "2021-07-23T14:35:49.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 170,
+                "page_views_last_month" : 841,
+                "page_views_total" : 30015,
+                "page_views_last_week_log" : 7.417852514885899,
+                "page_views_last_month_log" : 9.717676423066397,
+                "page_views_total_log" : 14.873444112515376
+              },
+            "columns_name" :
+              [
+                "TELEFONO_DJ",
+                "TELEFONO3_DC",
+                "NOMBRE",
+                "CORREO_ELECTRONICO_DJ",
+                "IDENTIFICACION SEGMENTO",
+                "TELEFONO_DC",
+                "CORREO_ELECTRONICO_DC",
+                "TELEFONO2_DC"
+              ],
+            "columns_field_name" :
+              [
+                "telefono_dj",
+                "telefono3_dc",
+                "nombre",
+                "correo_electronico_dj",
+                "identificacion_segmento",
+                "telefono_dc",
+                "correo_electronico_dc",
+                "telefono2_dc"
+              ],
+            "columns_datatype" :
+              [
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text"
+              ],
+            "columns_description" : [ "", "", "", "", "", "", "", "" ],
+            "columns_format" :
+              [
+                {},
+                {},
+                {},
+                { "displayStyle" : "email" },
+                {},
+                {},
+                { "displayStyle" : "email" },
+                {}
+              ],
+            "download_count" : 2299,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2021-07-23T14:35:54.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" :
+              [
+                "número de teléfono",
+                "nombre de la entidad",
+                "registro público"
+              ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Departamental"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Cámara de Comercio de Barranquilla, Atlántico"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Territorial"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Barranquilla"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "8001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Atlántico"
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/35qi-guj5",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/Base-de-Datos-Bancos-y-Entidades-Financieras/35qi-guj5",
+        "owner" :
+          {
+            "id" : "s4dd-zrsp",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Barranquilla"
+          },
+        "creator" :
+          {
+            "id" : "s4dd-zrsp",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Barranquilla"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Depuración Registro Mercantil",
+            "id" : "xbft-sj66",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "BASE DE DATOS DE LAS MATRICULAS QUE NO RENOVARON EN LOS ÚLTIMOS 5 AÑOS ( 2017, 2018, 2019, 2020, 2021) QUE SE DEPURARON EN CUMPLIMIENTO DE LA 1727 DE 2015",
+            "attribution" : "Cámara de Comercio de Valledupar, Cesar",
+            "attribution_link" : "https://www.datos.gov.co/d/xbft-sj66",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-05-18T16:31:44.000Z",
+            "createdAt" : "2021-04-27T13:46:00.000Z",
+            "metadata_updated_at" : "2026-05-18T16:31:44.000Z",
+            "data_updated_at" : "2021-04-27T14:51:09.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 31,
+                "page_views_last_month" : 166,
+                "page_views_total" : 4106,
+                "page_views_last_week_log" : 5.0,
+                "page_views_last_month_log" : 7.383704292474053,
+                "page_views_total_log" : 12.003869231979056
+              },
+            "columns_name" :
+              [
+                "Libro",
+                "Registro",
+                "Matrícula",
+                "Organización Juridica",
+                "Tipo",
+                "Ultimo año renovado",
+                "Nombre",
+                "Acto"
+              ],
+            "columns_field_name" :
+              [
+                "libro",
+                "registro",
+                "matr_cula",
+                "organizaci_n_juridica",
+                "tipo",
+                "ultanoren",
+                "nombre",
+                "acto"
+              ],
+            "columns_datatype" :
+              [
+                "Text",
+                "Number",
+                "Text",
+                "Text",
+                "Text",
+                "Number",
+                "Text",
+                "Number"
+              ],
+            "columns_description" :
+              [
+                "Libro donde se realizo el registro",
+                "Numero de registro",
+                "Matricula Mercantil ",
+                "persona natura, establecimiento de comercio o persona jurídica",
+                "Tipo de acción realizada",
+                "Ultimo año renovado",
+                "Nombre de la persona natura, establecimiento de comercio o persona juridica",
+                "Acto administrativo"
+              ],
+            "columns_format" : [ {}, {}, {}, {}, {}, {}, {}, {} ],
+            "download_count" : 4684,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2021-04-27T14:51:10.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" :
+              [ "ley 1727", "depurados", "depuracion registro mercantil" ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Departamental"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Cámara de Comercio de Valledupar, Cesar"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Territorial"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Valledupar"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "20001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Cesar"
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/xbft-sj66",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/Depuración-Registro-Mercantil/xbft-sj66",
+        "owner" :
+          {
+            "id" : "qkzi-dimu",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Valledupar para el Valle del Río Cesar"
+          },
+        "creator" :
+          {
+            "id" : "qkzi-dimu",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Valledupar para el Valle del Río Cesar"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "BASE DE DATOS EMPRESAS DEL CHOCÓ",
+            "id" : "drwf-rmb8",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "Esta Base de Dato contiene la información de los empresarios registrado en la Cámara de Comercio del Chocó, la cual es captura al momento de la inscripción o renovación del registro mercantil por parte de los empresarios.",
+            "attribution" : "Cámara de Comercio del Chocó, Chocó",
+            "attribution_link" : "https://camarachoco.org.co/ley-de-transparencia/informacion-de-interes",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-05-18T17:15:30.000Z",
+            "createdAt" : "2020-09-25T19:20:59.000Z",
+            "metadata_updated_at" : "2026-05-18T17:15:30.000Z",
+            "data_updated_at" : "2020-12-09T20:25:04.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 82,
+                "page_views_last_month" : 320,
+                "page_views_total" : 19035,
+                "page_views_last_week_log" : 6.375039431346925,
+                "page_views_last_month_log" : 8.326429487122303,
+                "page_views_total_log" : 14.216442739160492
+              },
+            "columns_name" :
+              [
+                "TIPO DE MATRICULA",
+                "DESCRIPCION CIIU 1",
+                "CIIU DIAN",
+                "CLASE COMER",
+                "NIT DEL COMERCIANTE",
+                "DESCRIPCION CIIU 4",
+                "SIGLA",
+                "FEC VIGENCIA",
+                "FEC INICIO",
+                "CIIU 3",
+                "CANTIDAD DE ESTABLECIMIENTO",
+                "TOTAL ACTIVOS",
+                "DESCRIPCION CIIU 2",
+                "CANTIDAD DE EMPLEADOS",
+                "CIIU 2",
+                "CIIU 1",
+                "NOMBRE",
+                "DIRECCION",
+                "MATRICULA",
+                "MUNICIPIO",
+                "CIIU 4",
+                "DESCRIPCION CIIU 3",
+                "ULTIMA. RENOVACÓN."
+              ],
+            "columns_field_name" :
+              [
+                "ti",
+                "descripcion_ciiu_1",
+                "ciiu_dian",
+                "clase_comer",
+                "id_comer",
+                "descripcion_ciiu_4",
+                "sigla",
+                "fec_vigencia",
+                "fec_inicio",
+                "ciiu_3",
+                "cant_est",
+                "total_activos",
+                "descripcion_ciiu_2",
+                "cant_emple",
+                "ciiu_2",
+                "ciiu_1",
+                "nombre",
+                "direccion",
+                "mat",
+                "municipio",
+                "ciiu_4",
+                "descripcion_ciiu_3",
+                "ult_renov"
+              ],
+            "columns_datatype" :
+              [
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Calendar date",
+                "Calendar date",
+                "Text",
+                "Number",
+                "Number",
+                "Text",
+                "Number",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Calendar date"
+              ],
+            "columns_description" :
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+            "columns_format" :
+              [
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
+              ],
+            "download_count" : 8624,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2020-09-25T19:48:00.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" :
+              [
+                "base de datos de comerciantes",
+                "camara de comercio",
+                "comercio",
+                "informacion empresarial",
+                "empresas",
+                "registros publico"
+              ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Departamental"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Cámara de Comercio del Chocó, Chocó"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Territorial"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Quibdó"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "27001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Chocó"
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/drwf-rmb8",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/BASE-DE-DATOS-EMPRESAS-DEL-CHOCÓ/drwf-rmb8",
+        "owner" :
+          {
+            "id" : "3p8t-5mqt",
+            "user_type" : "interactive",
+            "display_name" : "YILBER PALACIOS"
+          },
+        "creator" :
+          {
+            "id" : "3p8t-5mqt",
+            "user_type" : "interactive",
+            "display_name" : "YILBER PALACIOS"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Base de Datos de Concesionarios",
+            "id" : "9kb7-vdd3",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "Datos de nombre y teléfono(s) de la información de concesionarios (establecimientos de ventas de vehículos) extraída del registro público mercantil que administra la Cámara de Comercio de Barranquilla, durante los años 2021 y 2020.",
+            "attribution" : "Cámara de Comercio de Barranquilla, Atlántico",
+            "attribution_link" : "https://www.datos.gov.co/d/9kb7-vdd3",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-05-18T19:01:38.000Z",
+            "createdAt" : "2021-07-23T14:38:19.000Z",
+            "metadata_updated_at" : "2026-05-18T19:01:38.000Z",
+            "data_updated_at" : "2021-07-23T14:45:20.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 33,
+                "page_views_last_month" : 222,
+                "page_views_total" : 11592,
+                "page_views_last_week_log" : 5.08746284125034,
+                "page_views_last_month_log" : 7.800899899920305,
+                "page_views_total_log" : 13.500966330282983
+              },
+            "columns_name" :
+              [
+                "IDENTIFICACION SEGMENTO",
+                "TELEFONO_DJ",
+                "TELEFONO3_DC",
+                "NOMBRE",
+                "TELEFONO_DC",
+                "TELEFONO2_DC"
+              ],
+            "columns_field_name" :
+              [
+                "identificacion_segmento",
+                "telefono_dj",
+                "telefono3_dc",
+                "nombre",
+                "telefono_dc",
+                "telefono2_dc"
+              ],
+            "columns_datatype" :
+              [ "Text", "Text", "Text", "Text", "Text", "Text" ],
+            "columns_description" : [ "", "", "", "", "", "" ],
+            "columns_format" : [ {}, {}, {}, {}, {}, {} ],
+            "download_count" : 1267,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2021-07-23T14:45:26.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" : [ "telefono", "nombre entidad" ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Departamental"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Cámara de Comercio de Barranquilla, Atlántico"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Territorial"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Barranquilla"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "8001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Atlántico"
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/9kb7-vdd3",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/Base-de-Datos-de-Concesionarios/9kb7-vdd3",
+        "owner" :
+          {
+            "id" : "s4dd-zrsp",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Barranquilla"
+          },
+        "creator" :
+          {
+            "id" : "s4dd-zrsp",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Barranquilla"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "SAS y EU - Cámara de Comercio Barranquilla",
+            "id" : "xrhy-spbe",
+            "resource_name" : null,
+            "parent_fxf" : [ "c82u-588k" ],
+            "description" : "Extracción que contiene los datos básicos del Registro Mercantil que administran las Cámaras de Comercio a nivel Nacional para Personas Naturales, Personas Jurídicas y Entidades Sin Animo de Lucro (ESADLs), que se encuentran sincronizados en el Registro Único Empresarial y Social (RUES).",
+            "attribution" : "Confecámaras, Bogotá D.C.",
+            "attribution_link" : "https://www.rues.org.co/",
+            "contact_email" : null,
+            "type" : "chart",
+            "updatedAt" : "2026-11-06T20:49:30.000Z",
+            "createdAt" : "2023-10-06T14:36:49.000Z",
+            "metadata_updated_at" : "2025-12-19T22:53:54.000Z",
+            "data_updated_at" : "2026-11-06T20:49:30.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 51,
+                "page_views_last_month" : 263,
+                "page_views_total" : 5221,
+                "page_views_last_week_log" : 5.700439718141093,
+                "page_views_last_month_log" : 8.044394119358454,
+                "page_views_total_log" : 12.350386742312843
+              },
+            "columns_name" : [],
+            "columns_field_name" : [],
+            "columns_datatype" : [],
+            "columns_description" : [],
+            "columns_format" : [],
+            "download_count" : 145,
+            "provenance" : "community",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "visualization_canvas_chart",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2024-02-14T04:44:30.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" : [],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Mensual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Área-o-dependencia",
+                  "value" : "Vicepresidencia de Tecnología"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "CONFECAMARAS"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/xrhy-spbe",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/SAS-y-EU-Cámara-de-Comercio-Barranquilla/xrhy-spbe",
+        "owner" :
+          {
+            "id" : "rvge-ygzy",
+            "user_type" : "interactive",
+            "display_name" : "Sandymichell_11"
+          },
+        "creator" :
+          {
+            "id" : "rvge-ygzy",
+            "user_type" : "interactive",
+            "display_name" : "Sandymichell_11"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "ESTADISTICO POR ACTIVIDAD ECONOMICA",
+            "id" : "ycbk-r5pd",
+            "resource_name" : null,
+            "parent_fxf" : [ "drwf-rmb8" ],
+            "description" : "Esta Base de Dato contiene la información de los empresarios registrado en la Cámara de Comercio del Chocó, la cual es captura al momento de la inscripción o renovación del registro mercantil por parte de los empresarios.",
+            "attribution" : "Cámara de Comercio del Chocó, Chocó",
+            "attribution_link" : "https://camarachoco.org.co/ley-de-transparencia/informacion-de-interes",
+            "contact_email" : null,
+            "type" : "chart",
+            "updatedAt" : "2026-05-18T17:50:41.000Z",
+            "createdAt" : "2020-09-25T19:52:47.000Z",
+            "metadata_updated_at" : "2026-05-18T17:50:41.000Z",
+            "data_updated_at" : "2020-12-09T20:25:04.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 48,
+                "page_views_last_month" : 192,
+                "page_views_total" : 4219,
+                "page_views_last_week_log" : 5.614709844115208,
+                "page_views_last_month_log" : 7.592457037268081,
+                "page_views_total_log" : 12.043027283594549
+              },
+            "columns_name" : [],
+            "columns_field_name" : [],
+            "columns_datatype" : [],
+            "columns_description" : [],
+            "columns_format" : [],
+            "download_count" : 2,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "visualization_canvas_chart",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2020-09-25T19:53:07.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" : [],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Departamental"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Trimestral"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Cámara de Comercio del Chocó, Chocó"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Territorial"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Quibdó"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "27001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Chocó"
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/ycbk-r5pd",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/ESTADISTICO-POR-ACTIVIDAD-ECONOMICA/ycbk-r5pd",
+        "owner" :
+          {
+            "id" : "3p8t-5mqt",
+            "user_type" : "interactive",
+            "display_name" : "YILBER PALACIOS"
+          },
+        "creator" :
+          {
+            "id" : "3p8t-5mqt",
+            "user_type" : "interactive",
+            "display_name" : "YILBER PALACIOS"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "BASE DE DATOS COMERCIANTES CODIGO CIIU G4773",
+            "id" : "sji7-3uxf",
+            "resource_name" : "G-4773",
+            "parent_fxf" : [],
+            "description" : "Información de los comerciantes que tienen como actividad principal el comercio al por menor de productos farmacéuticos y medicinales  cosméticos y artículos de tocador en establecimientos especializados.",
+            "attribution" : "Cámara de Comercio de Pereira, Risaralda",
+            "attribution_link" : null,
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-05-18T18:45:19.000Z",
+            "createdAt" : "2023-10-09T15:47:15.000Z",
+            "metadata_updated_at" : "2026-05-18T18:45:19.000Z",
+            "data_updated_at" : "2026-03-10T01:10:18.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 212,
+                "page_views_last_month" : 991,
+                "page_views_total" : 21539,
+                "page_views_last_week_log" : 7.734709620225839,
+                "page_views_last_month_log" : 9.954196310386875,
+                "page_views_total_log" : 14.39473062943157
+              },
+            "columns_name" :
+              [
+                "NOMBRE O RAZON SOCIAL",
+                "ORGANIZACION",
+                "MATRICULA",
+                "EMAIL-COMERCIAL",
+                "DIR-COMERCIAL",
+                "CIIU",
+                "NIT",
+                "TEL-COMERCIAL",
+                "AÑO-MATRICULA",
+                "MUN COMERCIAL"
+              ],
+            "columns_field_name" :
+              [
+                "razon_social",
+                "organizacion",
+                "matricula",
+                "email_comercial",
+                "dir_comercial",
+                "ciiu_1",
+                "nit",
+                "tel_com_1",
+                "fec_matricula",
+                "mun_comercial"
+              ],
+            "columns_datatype" :
+              [
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text"
+              ],
+            "columns_description" :
+              [
+                "Nombre que identifica a la persona natural o jurídica",
+                "Tipo de persona: Natural o Jurídica",
+                "Número que identifica al comerciante o al establecimiento de comercio",
+                "Correo de contacto comercial",
+                "Ubicación comercial",
+                "Actividad económica ",
+                "Número de Registro Tributario",
+                "Número de contacto comercial",
+                "Año en que se generó la matrícula mercantil",
+                "Municipio dónde se encuentra ubicado el comerciante"
+              ],
+            "columns_format" :
+              [
+                {},
+                {},
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "displayStyle" : "email" },
+                {},
+                {},
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "view" : "date" },
+                {}
+              ],
+            "download_count" : 2739,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2024-02-09T16:19:38.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" :
+              [ "productos farmaceuticos", "productos cosmeticos" ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Departamental"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Cámara de Comercio de Pereira, Risaralda"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Territorial"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Pereira"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "66001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Risaralda"
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/sji7-3uxf",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/BASE-DE-DATOS-COMERCIANTES-CODIGO-CIIU-G4773/sji7-3uxf",
+        "owner" :
+          {
+            "id" : "9fmm-55cx",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Pereira"
+          },
+        "creator" :
+          {
+            "id" : "9fmm-55cx",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Pereira"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "PYMES ACTIVAS 2012-2022 CÁMARA DE COMERCIO CARTAGENA",
+            "id" : "qce2-g62i",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "Empresas PYMES que se encuentran activas en nuestro registro mercantil, es decir son las empresas que se han inscrito y renovado durante el periodo 2012-2022 y que a la fecha siguen activas.",
+            "attribution" : "Cámara de Comercio de Cartagena, Bolivar",
+            "attribution_link" : "https://www.cccartagena.org.co/es",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-09-20T17:24:58.000Z",
+            "createdAt" : "2022-07-29T13:43:07.000Z",
+            "metadata_updated_at" : "2026-09-20T17:24:58.000Z",
+            "data_updated_at" : "2022-07-29T13:56:41.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 36,
+                "page_views_last_month" : 172,
+                "page_views_total" : 8171,
+                "page_views_last_week_log" : 5.20945336562895,
+                "page_views_last_month_log" : 7.4346282276367255,
+                "page_views_total_log" : 12.996473488733228
+              },
+            "columns_name" :
+              [
+                "MUNICIPIO",
+                "FEC INICIO",
+                "TIPO DE EMPRESA",
+                "SIGLA",
+                "TIPO DE ORGANIZACIÓN",
+                "ULT. RENOV.",
+                "CIIU 1",
+                "Departamento",
+                "DESCRIPCION CIIU 1",
+                "NOMBRE",
+                "DESCRIPCION CIIU 2",
+                "DIVISION",
+                "CIIU 2",
+                "TOTAL ACTIVOS",
+                "SECCION",
+                "Tamaño"
+              ],
+            "columns_field_name" :
+              [
+                "municipio",
+                "fec_inicio",
+                "tipo_de_empresa",
+                "sigla",
+                "tipo_de_organizaci_n",
+                "ult_renov",
+                "ciiu_1",
+                "departamento",
+                "descripcion_ciiu_1",
+                "nombre",
+                "descripcion_ciiu_2",
+                "division",
+                "ciiu_2",
+                "total_activos",
+                "seccion",
+                "tama_o"
+              ],
+            "columns_datatype" :
+              [
+                "Text",
+                "Calendar date",
+                "Text",
+                "Text",
+                "Text",
+                "Calendar date",
+                "Number",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Number",
+                "Number",
+                "Text",
+                "Text"
+              ],
+            "columns_description" :
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+            "columns_format" :
+              [
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
+              ],
+            "download_count" : 3715,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2022-07-29T13:56:46.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Comercio, Industria y Turismo",
+            "domain_tags" :
+              [
+                "pymes en colombia",
+                "pymes",
+                "pymes activas",
+                "pymes canceladas",
+                "pymes registradas o renovadas"
+              ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Departamental"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Área-o-dependencia",
+                  "value" : "Oficina TIC"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Cámara de Comercio de Cartagena de Indias, Bolívar"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Territorial"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Cartagena De Indias"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "13001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bolívar"
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/qce2-g62i",
+        "link" : "https://www.datos.gov.co/Comercio-Industria-y-Turismo/PYMES-ACTIVAS-2012-2022-CÁMARA-DE-COMERCIO-CARTAGE/qce2-g62i",
+        "owner" :
+          {
+            "id" : "w4j3-uqh9",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Cartagena"
+          },
+        "creator" :
+          {
+            "id" : "w4j3-uqh9",
+            "user_type" : "interactive",
+            "display_name" : "Cámara de Comercio de Cartagena"
+          }
+      }
+    ],
+  "resultSetSize" : 566,
+  "timings" : { "serviceMillis" : 39, "searchMillis" : [ 4, 11 ] },
+  "warnings" : []
+}

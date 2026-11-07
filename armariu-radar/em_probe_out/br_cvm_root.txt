@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <link rel="stylesheet" href="/.theme/style.css">
+        <link rel="stylesheet" href="/.theme/icon.css">
+    </head>
+    <body>
+	<div class="wrapper">
+		<h1 class="titulo"><a href="/">Portal Dados Abertos CVM</a></h1>
+	<!-- we open the `wrapper` element here, but close it in the `footer.html` file -->
+	<br/>
+<html>
+<head><title>Index of /dados/</title></head>
+<body>
+<h1>Index of /dados/</h1><hr><pre><a href="../">../</a>
+<a href="ADM_CART/">ADM_CART/</a>                                          27-Feb-2020 16:28       -
+<a href="ADM_FII/">ADM_FII/</a>                                           27-Feb-2020 20:42       -
+<a href="AGENTE_AUTON/">AGENTE_AUTON/</a>                                      27-Feb-2020 20:44       -
+<a href="AGENTE_FIDUC/">AGENTE_FIDUC/</a>                                      08-Mar-2021 22:07       -
+<a href="ATO_DECLR/">ATO_DECLR/</a>                                         22-Aug-2024 08:56       -
+<a href="AUDITOR/">AUDITOR/</a>                                           27-Feb-2020 20:45       -
+<a href="CIA_ABERTA/">CIA_ABERTA/</a>                                        07-Nov-2025 20:25       -
+<a href="CIA_ESTRANG/">CIA_ESTRANG/</a>                                       27-Feb-2020 20:46       -
+<a href="CIA_INCENT/">CIA_INCENT/</a>                                        27-Feb-2020 20:47       -
+<a href="CONSULTOR_VLMOB/">CONSULTOR_VLMOB/</a>                                   27-Feb-2020 20:48       -
+<a href="COORD_OFERTA/">COORD_OFERTA/</a>                                      07-Nov-2025 22:06       -
+<a href="CROWDFUNDING/">CROWDFUNDING/</a>                                      01-Jun-2021 17:27       -
+<a href="EMISSOR_CEPAC/">EMISSOR_CEPAC/</a>                                     22-Mar-2021 15:49       -
+<a href="FI/">FI/</a>                                                05-Apr-2018 19:28       -
+<a href="FIAGRO/">FIAGRO/</a>                                            14-Oct-2025 21:01       -
+<a href="FIDC/">FIDC/</a>                                              22-Sep-2017 15:38       -
+<a href="FIE/">FIE/</a>                                               22-Sep-2017 15:23       -
+<a href="FII/">FII/</a>                                               19-Sep-2021 22:22       -
+<a href="FIP/">FIP/</a>                                               30-Sep-2019 22:47       -
+<a href="INTERMED/">INTERMED/</a>                                          11-Feb-2020 16:53       -
+<a href="INVNR/">INVNR/</a>                                             27-Feb-2020 20:49       -
+<a href="OFERTA/">OFERTA/</a>                                            15-Nov-2020 21:42       -
+<a href="PROCESSO/">PROCESSO/</a>                                          06-May-2025 15:41       -
+<a href="SECURIT/">SECURIT/</a>                                           27-Oct-2022 22:28       -
+</pre><hr></body>
+</html>
+	<div class="block">
+		Os arquivos de dados serão atualizados conforme a política publicada na página do respectivo <a href="/dataset">conjunto de dados</a>.
+	</div><!--/.postlisting-->
+
+</div><!--/.wrapper-->
+
+<div class="footer">
+	Apaxy by <a href="https://twitter.com/adamwhitcroft">@adamwhitcroft</a><br/>
+    <a href="https://github.com/manala/nginx-autoindex-theme">Manala Nginx Autoindex Theme</a>
+</div><!--/.footer-->
+
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  // ga('create', 'UA-33619506-8', 'auto', {});
+     
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+</script>
+

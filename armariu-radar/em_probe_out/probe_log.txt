@@ -1,0 +1,39 @@
+br_cvm_root 200 4038
+br_cvm_ipe 200 4423
+br_cvm_dfp 200 3611
+br_cvm_cad 200 400000
+br_cvm_oferta 200 1747
+br_cvm_ofertas_rcvm160 200 1704
+br_rfb_cnpj 404 HTTP Error 404: Not Found
+br_rfb_cnpj_old None URLError(TimeoutError('timed out'))
+br_pncp 200 400000
+co_secop2 200 8222
+co_cat_insolv 200 40412
+co_cat_superso 200 30798
+co_cat_garantias 200 129
+co_cat_rues 200 64316
+co_garantias_site 200 63809
+mx_rug 200 1036
+mx_compranet_dg 200 7000
+mx_datos 200 31762
+cl_boletin_concursal 200 234
+cl_registro_empresas 200 58619
+cl_mercadopublico 429 HTTP Error 429: Too Many Requests
+cl_cmf 200 112899
+pe_indecopi_concursal None URLError(gaierror(-2, 'Name or service not known'))
+pe_sunat_padron 200 400000
+in_mca 200 302886
+in_ibbi_cirp 200 117624
+in_datagov 503 HTTP Error 503: Service Unavailable
+in_nse_ann 200 171487
+tr_kap 200 158477
+tr_kap_api_members 200 2
+tr_ticaret_sicil None URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1011)'))
+tr_ilan None URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1011)'))
+tr_ekap None URLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1011)'))
+gleif_tr 200 3114
+gleif_br 200 2972
+gleif_in 200 3237
+gleif_co 200 2902
+gleif_mx 200 2988
+opencorporates 401 HTTP Error 401: Unauthorized

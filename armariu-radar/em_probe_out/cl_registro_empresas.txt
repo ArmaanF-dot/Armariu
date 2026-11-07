@@ -1,0 +1,1342 @@
+
+
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="light">
+<head><meta name="globalsign-domain-verification" content="-xFUAxuCnHFh5NWnv8D9d7JKUAI68V8iShuHydhHu8" /><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Tu Empresa en un Día | Registro de Empresas y Sociedades</title>
+    <meta name="description" content="Crea, modifica o disuelve tu empresa de forma rápida, 100% online y sin costo adicional. Plataforma oficial del Ministerio de Economía.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="icon" href="img/favicon.ico" />
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="Content/css/bootstrap.min.css" /><link rel="stylesheet" href="Content/Styles.css?v=24" /><link rel="stylesheet" href="Assets/fontawesome/css/all.css" />
+    <!-- End Bootstrap 5 -->
+
+    <!-- DataTablesAdvanced -->
+    <link rel="stylesheet" href="Content/css/dataTables.dataTables.css" />
+    <!-- End DataTablesAdvanced -->
+
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
+    <!--[if (IE 7) | (IE 8)]>  <link href="css/styleie.css" rel="stylesheet" type="text/css" /> <![endif]-->
+    <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+    <script type="text/javascript">
+        var urlActual = 'http://www.registrodeempresasysociedades.cl/';
+    </script>
+
+    <script type="text/javascript" src='/js/jquery-1.7.2.min.js'></script>
+    <script type="text/javascript" src='/js/jquery-ui-1.8.10.custom.min.js'></script>
+    <script type="text/javascript" src='/js/jquery.ui.datepicker-es.js'></script>
+    <script type="text/javascript" src='/js/jquery.ajax_upload.0.6.js'></script>
+    <script type="text/javascript" src='/js/jquery.tooltip.min.js'></script>
+    <script type="text/javascript" src='/js/jquery.validate.min.js'></script>
+    <script type="text/javascript" src='/js/jquery.jPrintArea.js'></script>
+    <script type="text/javascript" src='/js/jquery.hashchange.min.js'></script>
+    <script type="text/javascript" src='/js/jquery.easytabs.min.js'></script>
+    <script type="text/javascript" src='/js/jquery.ddslick.min.js'></script>
+    <script type="text/javascript" src='/js/messages_es.js'></script>
+    <script type="text/javascript" src='/js/validaciones.js'></script>
+    <script type="text/javascript" src='/js/jquery.Rut.min.js'></script>
+    <script type="text/javascript" src='/js/json2.js'></script>
+    <script type="text/javascript" src='/js/menu.js'></script>
+    <script type="text/javascript" src='/js/Alertas.js'></script>
+    <script type="text/javascript" src='/js/Varios.js'></script>
+    <script type="text/javascript" src='/js/Common.js'></script>
+
+    <!--BC-->
+    <!--SCRIPTS-->
+    
+    <script src="/lib/matchheight/jquery.matchHeight-min.js"></script>
+    <script src="/lib/stickykit/jquery.sticky-kit.min.js"></script>
+    <script src="/js/main.js"></script>
+    <!--Fin SCRIPTS-->
+    <!-- Fin BC-->
+
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        //ga('create', 'UA-40572371-1', 'tuempresaenundia.cl');
+        ga('create', 'UA-40572371-1', 'auto', { 'allowLinker': true });
+        ga('require', 'linker');
+        ga('linker:autoLink', ['empresasenundia.cl']);
+        ga('send', 'pageview');
+    </script>
+
+    <!-- Hotjar Tracking Code for https://www.registrodeempresasysociedades.cl/ -->
+    <!--
+        <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:1771888,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    -->
+
+    <script type="text/javascript">
+        /* Determinamos el tiempo total en segundos */
+        var resetCuentaReg = "300";
+        var CuentaReg = resetCuentaReg;
+        /* Determinamos la url donde redireccionar */
+        var url = "https://www.registrodeempresasysociedades.cl/";
+        var tiempoAbrePopUp = ("45" * 60 - "300") * 1000;
+        var timerSesion;
+        var timerCount;
+
+        function ShowPopupSesion() {
+            //console.log(tiempoAbrePopUp);
+            TimerSesion = setTimeout('SessionWarning()', tiempoAbrePopUp);
+        }
+
+        function updateReloj() {
+            var minutes = Math.floor(CuentaReg / 60);
+            var seconds = CuentaReg % 60;
+
+            //Anteponiendo un 0 a los minutos si son menos de 10 
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+
+            //Anteponiendo un 0 a los segundos si son menos de 10 
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            var result = minutes + ":" + seconds;  // 161:30
+
+            document.getElementById('CuentaAtras').innerHTML = "Estimado Usuario, <br/>Le informamos que su sesión expirará en " + result + " segundos.";
+            if (CuentaReg == 0) {
+                cerrarSesion();
+                clearTimeout(timerCount);
+                clearTimeout(TimerSesion);
+            }
+            else {
+                /* Restamos un segundo al tiempo restante */
+                CuentaReg -= 1;
+                /* Ejecutamos nuevamente la función al pasar 1000 milisegundos (1 segundo) */
+                timerCount = setTimeout("updateReloj()", 1000);
+            }
+        }
+        function cerrarSesion() {
+            location.href = "/Close.aspx";
+        }
+
+        function SessionWarning() {
+            $("#dialog-confirm-message").html($("<h2 id='CuentaAtras'></h2>"));
+            $("#dialog-confirm").dialog({
+                modal: true,
+                width: modalWidth,
+                open: function (event, ui) { $(this).parent().find(".ui-dialog-titlebar-close").remove(); },
+                dialogClass: 'fixed',
+                closeOnEscape: false,
+                buttons: [
+                    {
+                        text: 'Mantener Sesión',
+                        class: 'btn-red-modal',
+                        click: function () {
+                            $.ajax({
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                url: "/Default.aspx/getSesion",
+                                dataType: "json",
+                                async: true,
+                                success: function (data, textStatus) {
+                                    if (textStatus == "success") {
+                                        var obj = $.parseJSON(data.d);
+                                        if (obj.ErrorMessage == null) {
+                                            if (obj.Estado == "OK") {
+                                            }
+                                        }
+                                        else {
+                                            //alerta(obj.ErrorMessage);
+                                            location.href = "/Default.aspx";
+                                        }
+                                    }
+                                },
+                                error: function (request, status, error) {
+                                    alerta($.parseJSON(request.responseText).Message);
+                                }
+                            });
+                            $(this).dialog("close");
+                            clearTimeout(timerCount);
+                            CuentaReg = resetCuentaReg;
+                            ShowPopupSesion();
+
+                        }
+                    },
+                    {
+                        text: 'Cerrar Sesión',
+                        class: 'btn-red-modal',
+                        click: function () {
+                            cerrarSesion();
+                            clearTimeout(timerCount);
+                            clearTimeout(TimerSesion);
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+            });
+            updateReloj();
+        }
+
+        function btnComprar_(ec) {
+            $("#dialog-firma-movil-compra-firma").dialog("close");
+            ec = ec.replace("entidad_compra", "entidad");
+            window.open(ec, '_blank');
+        }
+
+        function ShowPopup() {
+            $(function () {
+                $("#popup").dialog({
+                    width: 500,
+                    height: 300,
+                    modal: true,
+                    buttons: {
+                        Aceptar: function () {
+                            $(this).dialog('close');
+                        }
+                    },
+                })
+            });
+        }
+        //function test() {
+        //    $(function () {
+        //        $("#onboarding").modal("show");
+        //    });
+        //}
+        function muestraMsje() {
+            $(function () {
+                $("#msje-extranjero").dialog({
+                    modal: true,
+                    buttons: {
+                        Ok: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            });
+        }
+
+        $(document).on("click", function (e) {
+
+            var container = $("#popup");
+
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                $("#popup").dialog('close');
+            }
+        });
+    </script>
+
+    <!-- Menú Mi cuenta (nuevo) -->
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-submenu a.test').on("click", function (e) {
+                $(this).next('ol').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
+
+    <!-- bloquear scroll ui-dialog -->
+    <style>
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        .headerInterior {
+            background-image: none !important;
+        }
+
+            .headerInterior::before {
+                background: linear-gradient(90deg,rgba(36, 92, 140, 1) 0%, rgba(25, 78, 123, 1) 100%);
+                opacity: 1;
+            }
+
+    </style>
+    <script>
+        $(document).on("dialogopen", ".ui-dialog", function (event, ui) {
+            $('body').addClass('no-scroll');
+        }).on("dialogclose", ".ui-dialog", function (event, ui) {
+            // Solo quitar 'no-scroll' si no hay más diálogos abiertos
+            if ($(".ui-dialog:visible").length === 0) {
+                $('body').removeClass('no-scroll');
+            }
+        });
+
+        var jsLoginCU = 'https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout';
+    </script>
+    
+
+    <script>
+        var modalPromo = false;
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            if (modalPromo) {
+                const modalElement = document.getElementById('promoModal');
+                const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+                modalInstance.show();
+            }
+
+            var revisaActualizarPerfil = false;
+            if (revisaActualizarPerfil) {
+                var modalElement = document.getElementById('modalActualizarPerfil');
+                if (modalElement) {
+                    var myModal = new bootstrap.Modal(modalElement, {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    myModal.show();
+            }
+        }
+
+
+        $("#btnMasTarde").on("click", function (e) {
+
+            e.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                url: "/Default.aspx/RemoverSesionPregunta",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function () {
+
+                    const modalElement = document.getElementById('modalActualizarPerfil');
+
+                    if (modalElement) {
+                        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                        modal.hide();
+                    }
+                },
+
+                error: function (e) {
+                    console.error("Error al actualizar sesión", e);
+                }
+            });
+
+        });
+    });
+    </script>
+
+    <style>
+        /* BASE */
+
+        form {
+            margin-block-end: 0;
+        }
+
+        .tab--new {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            background: #e22c2c;
+            padding: 4px 8px;
+            text-decoration: none;
+            margin-left: 6px;
+            position: absolute;
+            display: inline-block;
+        }
+
+        /* SECCIÓN UNO */
+
+        .section--uno {
+            position: relative;
+            z-index: 2;
+            padding: 50px 0 28px;
+            border-bottom: 6px solid #bbbbbb;
+            background-color: #194e7b;
+            background-image: url('/img/bk.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+            .section--uno::before,
+            .section--uno::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                height: 40px;
+                z-index: -1;
+            }
+
+            .section--uno::before {
+                top: 0;
+                background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
+            }
+
+            /* Títulos */
+
+            .section--uno h1 {
+                color: #fff;
+                font-size: 1.8rem;
+                text-align: center;
+                margin-bottom: 34px;
+            }
+
+                .section--uno h1::after {
+                    content: "";
+                    display: block;
+                    width: 80px;
+                    height: 6px;
+                    margin: 20px auto 0;
+                    background: #fff;
+                }
+
+            .section--uno h2::after {
+                content: "";
+                display: block;
+                width: 39px;
+                height: 4px;
+                margin: 12px auto 0;
+                background: #bb1212;
+            }
+
+            /* Cards */
+
+            .section--uno .card {
+                border-radius: 0;
+                border: 4px solid #bbbbbb;
+                padding-bottom: 10px !important;
+                min-height: 320px;
+            }
+
+                .section--uno .card h2 {
+                    text-align: center;
+                    font-size: 1.4rem;
+                    margin-bottom: 16px;
+                }
+
+            .section--uno .card__icon {
+                height: 60px;
+                margin-bottom: 22px;
+                text-align: center;
+            }
+
+                .section--uno .card__icon img {
+                    height: inherit;
+                }
+
+            .section--uno p {
+                font-size: 0.98rem;
+                text-align: center;
+            }
+
+            .section--uno .icon-container img {
+                filter: invert(35%) sepia(63%) saturate(1366%) hue-rotate(172deg) brightness(94%) contrast(88%);
+            }
+
+        /* SECCIÓN TRES */
+
+        .section--tres {
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            background: #efefef;
+        }
+
+        /* COMPONENTES */
+
+        .logo-py_ag {
+            padding-top: 9px;
+            border-top: 1px solid #ccc;
+            margin-top: 10px !important;
+            margin-bottom: -2px;
+        }
+
+            .logo-py_ag img {
+                height: 23px;
+                vertical-align: -2px;
+                margin-left: 4px;
+            }
+
+        .card small {
+            min-height: 1.3rem;
+            text-align: center;
+            margin-top: 23px;
+            font-size: 0.86em;
+        }
+
+        img[alt="PymeAgil"] {
+            max-width: 180px;
+            height: auto;
+            display: block;
+        }
+
+        .article_1 p {
+            margin-bottom: 0;
+        }
+
+        .mb-32 {
+            margin-bottom: 32px;
+        }
+
+        /* TIPOGRAFÍA */
+        @font-face {
+            font-family: 'Titulo_Fuente';
+            src: url('/fonts/Titulo_Fuente.woff') format('woff'), url('/fonts/Titulo_Fuente.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        .secciones_tit {
+            display: block;
+            font-size: 1.6rem;
+            font-family: 'Titulo_Fuente', sans-serif;
+            font-weight: normal;
+        }
+
+        h4 {
+            display: block;
+            font-size: 1.1rem;
+        }
+
+
+        .article_1 a {
+            text-underline-offset: 2px;
+        }
+
+        /* GRIDS */
+
+        .actuaciones-grid,
+        .servicios-grid,
+        .pyme-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px 42px;
+            align-items: stretch;
+        }
+
+        div#tramites_digitales {
+            position: absolute;
+            margin-top: -70px;
+        }
+
+        /* RESPONSIVE */
+        @media only screen and (max-width: 767px) {
+
+            figure {
+                display: none;
+            }
+
+            .section--uno {
+                padding: 20px 0 0;
+            }
+
+                .section--uno h1 {
+                    margin-bottom: 20px;
+                }
+
+                    .section--uno h1::after {
+                        margin: 10px auto 0;
+                    }
+
+                .section--uno h2::after {
+                    margin: 10px auto 0;
+                }
+
+                .section--uno .card {
+                    min-height: auto;
+                }
+
+                    .section--uno .card h2 {
+                        margin-bottom: 12px;
+                    }
+
+                .section--uno p {
+                    min-height: unset;
+                }
+
+            .actuaciones-grid,
+            .servicios-grid,
+            .pyme-grid {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .h-100 {
+                height: auto !important;
+            }
+
+            .mb-32 {
+                margin-bottom: 22px;
+            }
+
+            .card small {
+                min-height: auto;
+                margin-top: 6px;
+            }
+
+            .pyme-footer {
+                display: block;
+            }
+
+            .pyme-line {
+                margin-top: 18px;
+                margin-bottom: 12px;
+            }
+
+            .pyme-brand img {
+                width: 130px;
+            }
+        }
+
+        /*Top Info*/
+
+        div#boxer_content_topContent {
+            background: #363B40;
+            padding: 12px;
+            color: #fff;
+            border-bottom: 2px solid #bdd0e4;
+            /*margin-top: 5px;*/
+        }
+
+            div#boxer_content_topContent a {
+                color: #fff;
+                text-decoration: underline;
+            }
+</style>
+
+
+    <style>
+        #promoModal .logo-semana-pyme {
+            width: 180px;
+            max-width: 40vw;
+            height: auto;
+            display: block;
+        }
+
+        #promoModal .card {
+            border: 1px solid #dce4ed;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 .25rem 1rem rgba(22, 50, 80, .06);
+        }
+
+        #promoModal .logo-contenedor {
+            height: 60px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            #promoModal .logo-contenedor .logo {
+                width: 150px;
+                height: auto;
+                max-width: none;
+                max-height: none;
+                flex-shrink: 0;
+                display: block;
+            }
+
+        #promoModal .card-text {
+            color: #405064;
+        }
+
+        #promoModal .btn {
+            padding: .7rem 1rem;
+        }
+
+        #promoModal .card-footer {
+            background: #edf4fb;
+            border-top: 1px solid #dce4ed;
+            color: #33485d;
+            font-size: .83rem;
+            line-height: 1.6;
+        }
+
+        @media (min-width: 992px) {
+            #promoModal .card-footer {
+                min-height: 6.7rem;
+            }
+        }
+    
+    </style>
+
+    <script>
+        (function () {
+            const observer = new MutationObserver((mutations, obs) => {
+                const target = document.getElementById('pnlTop');
+                const element = document.getElementById('boxer_content_topContent');
+
+                if (target && element) {
+                    target.prepend(element);
+                    element.style.setProperty('display', 'block', 'important');
+
+                    const adjustBodyPadding = () => {
+                        const bannerHeight = element.offsetHeight;
+                        document.body.style.paddingTop = bannerHeight + 'px';
+                    };
+
+                    const resizeObserver = new ResizeObserver(() => {
+                        adjustBodyPadding();
+                    });
+                    resizeObserver.observe(element);
+
+                    adjustBodyPadding();
+
+                    obs.disconnect();
+                }
+            });
+
+            observer.observe(document.documentElement, {
+                childList: true,
+                subtree: true
+            });
+        })();
+    </script>
+
+<title>
+	.:: REGISTRO DE EMPRESAS Y SOCIEDADES ::.
+</title></head>
+<body id="bodyElement" class="Default">
+
+    <div id="loading">
+        <span id="loadingBackground"></span>
+        <span id="loadingImg">Cargando</span>
+    </div>
+
+    <div id="dialog-message" title="Información" style="display: none;">
+        <p>
+            <span class="ui-icon ui-icon-circle-check" style="float: left; margin: 0 7px 50px 0;"></span>
+            <span id="message" style="text-align: justify;"></span>
+        </p>
+    </div>
+
+    <div id="dialog-confirm" title="¿Está seguro?" style="display: none;">
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 50px 0;"></span>
+            <span id="dialog-confirm-message"></span>
+        </p>
+    </div>
+
+    <div id="msje-extranjero" title="Información" style="display: none;">
+        <p>
+            Para poder realizar el inicio de actividades ante el SII, se debe tener en consideración que para representar legalmente a una sociedad como administrador, gerente, director o a cualquier título, es requisito ser chileno o extranjero con visa definitiva o con visa temporaria (aquella que permite realizar cualquier actividad lícita). No puede representar legalmente a una sociedad si es extranjero con visa sujeta a contrato, con visa de estudiante, o con la condición de dependiente de un extranjero con visa temporaria, sujeta a contrato o de estudiante.
+        </p>
+    </div>
+
+    <div id="pnlTop" class="fixed-top">
+	
+        <!-- navegacion login ok -->
+        
+
+        <!-- navegacion login no -->
+        <div id="nologin">
+		
+            <div class="container">
+                <div class="content">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <a href="/Default.aspx">
+                                <img src="/img/logo-emp2.png" alt="Tu Empresa en un Día" class="header__logoTE1D__img img-fluid wlogo-r">
+                            </a>
+                            <a href="/Login.aspx" class="hide-on-large btn-cu" title="ClaveÚnica"><span class="ico-cu"></span>Iniciar sesión</a>
+
+                            <!-- Botón para dispositivos móviles -->
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <!-- Elementos del navbar -->
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto d-flex align-items-center">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Primer paso</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="/Curso.aspx">Curso de formalización</a></li>
+                                            <li><a class="dropdown-item top-line" href="/Constituir/Default.aspx">Constituir</a></li>
+                                            <li><a class="dropdown-item" href="/Modificar.aspx">Modificar</a></li>
+                                            <li><a class="dropdown-item" href="/Disolver">Disolver</a></li>
+                                            <li><a class="dropdown-item" href="/Migrar.aspx">Migrar</a></li>
+                                            <li><a class="dropdown-item" href="/Anotaciones">Anotación</a></li>
+                                            <li><a class="dropdown-item top-line" href="/ObtenerCertificadosHome2.aspx">Obtener certificados</a></li>
+                                            <li><a class="dropdown-item" href="/ContinuarTramiteHome.aspx">Continuar actuación</a></li>
+                                            <li><a class="dropdown-item" href="/BuscarActuaciones2.aspx">Buscar actuaciones</a></li>
+                                            <li><a class="dropdown-item" href="/VerificarCertificados.aspx">Verificar certificados</a></li>
+                                            <li><a class="dropdown-item top-line" href="/RegistroPoderes/">Registro de poderes</a></li>
+                                            <li><a class="dropdown-item" href="/RegistroAccionistas/">Registro de accionistas</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/TramitesDigitales.aspx">PymeÁgil</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ayuda</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="/FAQ.aspx">Preguntas frecuentes</a></li>
+                                            <li><a class="dropdown-item" href="/AyudaFormatosTipo.aspx">Formatos tipo</a></li>
+                                            <li><a class="dropdown-item" href="/AyudaNotarias.aspx">Notarías</a></li>
+                                            <li><a class="dropdown-item" href="/Indicadores/Default.aspx">Indicadores</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Contacto.aspx">Contáctanos</a>
+                                    </li>
+                                    <li class="hide-on-mobile">
+                                        <a href="/Login.aspx" class="btn-cu" title="ClaveÚnica"><span class="ico-cu"></span>Iniciar sesión</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        
+	</div>
+
+        <div id="openNavs"></div>
+        <!-- Fin Top -->
+    
+</div>
+    <main>
+        
+    
+    <!--MAIN-->
+    <form method="post" action="./" id="ctl00">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTExNzAxMzYwNDYPZBYCZg9kFgICAw8WAh4FY2xhc3MFB0RlZmF1bHQWBGYPZBYCAgEPDxYCHgdWaXNpYmxlaGRkAgEPZBYCAgEPZBYCAgEPDxYCHwFoZGRkWNcoSrOycPHbkAVzEhWamfUs59DIF2a8lg/fmtehPpU=" />
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334" />
+</div>
+        <main id="TopInfo" class="main">
+
+            <!-- Primer Nivel -->
+            <section class="section--uno">
+                <div class="container center">
+                    <h1>¿Qué necesitas?</h1>
+                </div>
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <article class="card h-100 d-flex flex-column">
+                                <figure class="card__icon icon-container">
+                                    <img src="/img/Const.svg" />
+                                </figure>
+                                <div>
+                                    <h2>Constituye tu empresa</h2>
+                                    <p>Comienza ahora los primeros pasos para la constitución de tu empresa o sociedad.</p>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="/Constituir/Default.aspx" class="btn btn-primary w-100">Constituir</a>
+                                </div>
+                                <small class="d-block">Si tienes un trámite en proceso, <a href="/Usuario/BandejaEntrada.aspx">búscalo aquí</a>.
+                                </small>
+                            </article>
+                        </div>
+
+                        <div class="col-md-4">
+                            <article class="card h-100 d-flex flex-column">
+                                <figure class="card__icon icon-container">
+                                    <img src="/img/Cert.svg" />
+                                </figure>
+                                <div>
+                                    <h2>Obtener certificados</h2>
+                                    <p>
+                                        Obten los certificados del Registro<br />
+                                        que tu necesitas.
+                                    </p>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="/ObtenerCertificadosHome2.aspx" class="btn btn-primary mb-0 w-100">Obtener Certificados</a>
+                                </div>
+                                <small class="d-block"></small>
+                            </article>
+                        </div>
+
+                        <div class="col-md-4">
+                            <article class="card h-100 d-flex flex-column">
+                                <figure class="card__icon icon-container">
+                                    <img src="/img/PCM.svg" />
+                                </figure>
+                                <div>
+                                    <h2>Patente Municipal</h2>
+                                    <p>Solicita la patente municipal de tu empresa o sociedad</p>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="/Patentes/Default.aspx" class="btn btn-primary mb-0 w-100">Patente Municipal</a>
+                                </div>
+                                <small class="d-block logo-py_ag">Una iniciativa de
+                                    <a href="/TramitesDigitales.aspx">
+                                        <img src="/img/pymeagil-logo-2.svg" /></a></small>
+                            </article>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- FIN Primer Nivel -->
+
+            <!-- Segundo Nivel -->
+            <section class="section--dos px-3 px-md-0 py-5">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-12 mb-4">
+                            <div class="mb-2 secciones_tit">ACTUACIONES</div>
+                            <p style="margin-bottom: 0;">Realiza los actos legales y societarios fundamentales para el ciclo de vida de tu empresa.</p>
+                        </div>
+                        <div class="actuaciones-grid col-md-12">
+                            <div class="article_1">
+                                <a href="/Constituir/Default.aspx">
+                                    <h4>Constituir</h4>
+                                </a>
+                                <p>Inicia la constitución de tu empresa o sociedad.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/Modificar.aspx">
+                                    <h4>Modificar</h4>
+                                </a>
+                                <p>Modifica estatutos, transforma, rectifica, sanea, fusiona o divide.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/Migrar.aspx">
+                                    <h4>Migrar</h4>
+                                </a>
+                                <p>Migra tu empresa o sociedad entre el régimen simplificado y el régimen general.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/Anotaciones/">
+                                    <h4>Anotación</h4>
+                                </a>
+                                <p>Incorpora un “documento registrable” a tu empresa o sociedad.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/Disolver/">
+                                    <h4>Disolver</h4>
+                                </a>
+                                <p>Pon término legal a tu empresa o sociedad.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/RegistroPoderes">
+                                    <h4>Registro de Poderes</h4>
+                                </a>
+                                <p>Registro electrónico que permite inscribir los poderes de la empresa o sociedad.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href='/RegistroAccionistas'>
+                                    <h4>Registro de Accionistas</h4>
+                                </a>
+                                <p>Registro electrónico que permite mantener el libro de accionistas de la sociedad.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- FIN Segundo Nivel -->
+
+            <!-- Tercer Nivel -->
+            <section class="section--tres px-3 px-md-0 py-5">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-12 mb-4">
+                            <div class="mb-2 secciones_tit">SERVICIOS</div>
+                            <p style="margin-bottom: 0;">Accede a certificados oficiales, firmas electrónicas y herramientas de apoyo para tu negocio.</p>
+                        </div>
+                        <div class="servicios-grid col-md-12">
+                            <div class="article_1">
+                                <a href="/ObtenerCertificadosHome2.aspx">
+                                    <h4>Obtener Certificados</h4>
+                                </a>
+                                <p>Obtén los certificados del Registro que necesitas.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/ContinuarTramiteHome.aspx">
+                                    <h4>Continuar Actuación</h4>
+                                </a>
+                                <p>Continúa una actuación pendiente.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/BuscarActuaciones2.aspx">
+                                    <h4>Buscar Actuaciones</h4>
+                                </a>
+                                <p>Busca actuaciones del Registro.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/VerificarCertificados.aspx">
+                                    <h4>Verificar Certificados</h4>
+                                </a>
+                                <p>Verifica certificados, actuaciones o anotaciones.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/MarcaDominio.aspx">
+                                    <h4>Consulta de Marca, Registro y Dominio</h4>
+                                </a>
+                                <p>Realiza consultas de marca, registro y dominio.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/FirmaElectronicaAvanzada.aspx">
+                                    <h4>Firma Electrónica Avanzada</h4>
+                                </a>
+                                <p>Infórmate sobre la firma electrónica avanzada.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/Colilla/Default.aspx">
+                                    <h4>Cédula RUT Electrónica</h4>
+                                </a>
+                                <p>Descarga la cédula RUT electrónica de la empresa o sociedad.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/RegistroPymes.aspx">
+                                    <h4>Registro Nacional de MiPymes</h4>
+                                </a>
+                                <p>Inscribe tu MiPyme en el Registro Nacional de MiPymes.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/ChileEmprende.aspx">
+                                    <h4>Chile Emprende<span class="tab--new">Nuevo</span></h4>
+                                </a>
+                                <p>Busca programas, subsidios y apoyos del Estado para tu MiPyme o cooperativa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- FIN Tercer Nivel -->
+            <div class="position-relative">
+                <div id="tramites_digitales"></div>
+            </div>
+            <!-- Cuarto Nivel -->
+            <section class="section--cuatro px-3 px-md-0 py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <img class="mb-3" src="/img/pymeagil-logo-2.svg" alt="PymeAgil">
+                            <p style="margin-bottom: 0;">Accede a éstas opciones directamente en Tu Empresa en un Día para facilitar la operación de tu negocio.</p>
+                        </div>
+                        <div class="pyme-grid col-md-12">
+                            <div class="article_1">
+                                <a href="https://www.registrodeempresasysociedades.cl/InicioActividades">
+                                    <h4>Inicio de Actividades SII</h4>
+                                </a>
+                                <p>Realiza el inicio de actividades ante el SII.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/Patentes/Default.aspx">
+                                    <h4>Patente Municipal</h4>
+                                </a>
+                                <p>Solicita la patente municipal de tu empresa o sociedad.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/CuentaBanco/">
+                                    <h4>Cuenta Bancaria Empresa</h4>
+                                    <!--<span class="tab--new">Nuevo</span>-->
+                                </a>
+                                <p>Solicita en línea una cuenta bancaria para tu empresa o sociedad.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/DT/Default.aspx">
+                                    <h4>Dirección del Trabajo</h4>
+                                </a>
+                                <p>Registrate como representante laboral electrónico.</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/ISL/Default.aspx">
+                                    <h4>Instituto de Seguridad Laboral</h4>
+                                </a>
+                                <p>Preinscribe tu empresa o sociedad en el Instituto de Seguridad Laboral (ISL).</p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/ChileProveedores/Default.aspx">
+                                    <h4>Proveedor del Estado</h4>
+                                </a>
+                                <p>Inscríbete en Mercado Público para ofertar tus productos y servicios al Estado. </p>
+                            </div>
+                            <div class="article_1">
+                                <a href="/Compartir/Default.aspx">
+                                    <h4>Compartir Carpeta Empresa</h4>
+                                </a>
+                                <p>Envía por email la información y certificados de tu empresa o sociedad.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- FIN Cuarto Nivel -->
+        </main>
+        <!--FIN MAIN-->
+
+        <!-- INICIO MODAL PERFIL -->
+        <div class="modal fade" id="modalActualizarPerfil" tabindex="-1" aria-labelledby="modalActualizarPerfilLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="min-height: 80%;">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalActualizarPerfilLabel" style="margin-top: 0;">Actualiza tu perfil</h5>
+                    </div>
+
+                    <div class="modal-body">
+                        Te invitamos a mantener tus datos al día para lograr una experiencia más personalizada, eficiente y segura.<br />
+                        ¿Deseas actualizarlos ahora?          
+               
+                    </div>
+
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" id="btnMasTarde" class="btn btn-outline-primary wpx-170">Más tarde</button>
+                        <a href="/Usuario/PerfilUsuario.aspx" class="btn btn-primary wpx-170">Sí, actualizar</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- FIN MODAL PERFIL -->
+
+<!-- Modal -->
+        <div class="modal fade" id="promoModal" tabindex="-1" aria-labelledby="promoModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header mb-0 position-relative">
+                        <h1 class="modal-title fs-5 w-100 d-flex flex-column align-items-center gap-0 text-center mt-0" id="promoModalLabel">
+                            <img src="./img/LogoSPyme.png" class="logo-semana-pyme" alt="Semana de la Pyme" />
+                            <span style="color: #015afb;">EXTENDIMOS HASTA EL 31 DE OCTUBRE</span>
+                        </h1>
+
+                        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body beneficios-fea p-3">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h4 class="text-center mb-0">PRESTADORES DE FIRMA ELECTRÓNICA AVANZADA</h4>
+                            </div>
+                        </div>
+
+                        <div class="row g-4">
+
+                            <!-- FirmaYa -->
+                            <div class="col-12 col-lg-4">
+                                <article class="card h-100" aria-label="Beneficio de FirmaYa">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="logo-contenedor mb-3">
+                                            <img src="./img/BPO2.jpg" class="logo" alt="FirmaYa" />
+                                        </div>
+
+                                        <div class="card-text mb-4">
+                                            <p class="mb-0 text-center">
+                                                <strong>3.000 firmas electrónicas avanzadas (FEA) gratuitas:</strong><br />
+                                                <small>1.000 paquetes de 3 firmas.<br />Vigencia: hasta agotar stock.</small>
+                                            </p>
+                                        </div>
+
+                                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfnACxhuEp03jtjycYwm-0SvVnchCWIKq9PWNSyhamQ0jh1-A/viewform"
+                                            class="btn btn-primary w-100 mt-auto" target="_blank" rel="noopener noreferrer" aria-label="Solicitar beneficio de FirmaYa (abre en una nueva pestaña)">Solicitar beneficio
+                                        </a>
+                                    </div>
+
+                                    <div class="card-footer p-3">
+                                        <p class="mb-0 text-center">
+                                            Una vez completado el formulario, el usuario recibirá un correo con un enlace personalizado.
+                                    <strong>Este correo no se envía automáticamente.</strong>
+                                        </p>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!-- Firmaki -->
+                            <div class="col-12 col-lg-4">
+                                <article class="card h-100" aria-label="Beneficio de Firmaki">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="logo-contenedor mb-3">
+                                            <img src="./img/e_digital_new.png" class="logo" alt="Firmaki" />
+                                        </div>
+
+                                        <div class="card-text mb-4">
+                                            <p class="mb-0 text-center">
+                                                <strong>Firmas ILIMITADAS para constituir tu empresa hasta el 31-10 (Firma Electrónica Avanzada).</strong>
+                                            </p>
+                                        </div>
+
+                                        <a href="https://semanadelapyme.firmaki.com/" class="btn btn-primary w-100 mt-auto" target="_blank" rel="noopener noreferrer" aria-label="Solicitar beneficio de Firmaki (abre en una nueva pestaña)">Solicitar beneficio
+                                        </a>
+                                    </div>
+
+                                    <div class="card-footer p-3">
+                                        <p class="mb-0 text-center">
+                                            Una vez completado el formulario, recibirás un
+                                    <strong>correo automático</strong> con un enlace
+                                    y el código de descuento
+                                    <strong>"FORMALIZATON"</strong>.
+                                        </p>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!-- eCert -->
+                            <div class="col-12 col-lg-4">
+                                <article class="card h-100" aria-label="Beneficio de eCert">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="logo-contenedor mb-3">
+                                            <img src="./img/ecertchile.png?v=2"
+                                                class="logo"
+                                                alt="eCert" />
+                                        </div>
+
+                                        <div class="card-text mb-4">
+                                            <p class="mb-0 text-center">
+                                                <strong>1.000 packs Emprendedor gratuitos:</strong><br />
+                                                <small>1 Firma Avanzada Online para Tu Empresa en un Día + certificado digital SII por 3 meses + GRUP Starter anual. Máximo 1 pack por RUN. Vigencia del 13 al 31/10.</small>
+                                            </p>
+                                        </div>
+
+                                        <a href="https://landing.ecertla.com/emprende-con-ecert/"
+                                            class="btn btn-primary w-100 mt-auto"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="Solicitar beneficio de eCert (abre en una nueva pestaña)">Solicitar beneficio
+                                        </a>
+                                    </div>
+
+                                    <div class="card-footer p-3">
+                                        <p class="mb-0 text-center">
+                                            Una vez completado el formulario, recibirás un correo
+                                    con un enlace personalizado.
+                                    <strong>Este correo no se envía automáticamente.</strong>
+                                        </p>
+                                    </div>
+                                </article>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                            Cerrar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    </main>
+    <!-- Fin Boxer -->
+    <!-- Footer -->
+    <div id="pnlFooter">
+	
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-auto">
+                                <a href="https://www.economia.gob.cl/" target="_blank">
+                                    <img style="width: 140px;" src="/img/minecon_footer.png" alt="Ministerio de Economía, Fomento y Turismo" class="img-fluid logoME" /></a>
+                            </div>
+                            <div class="col texto-footer">
+                                <h5>Ministerio de Economía, Fomento y Turismo. Gobierno de Chile.</h5>
+                                <p>
+                                    Av. Libertador Bernardo O'Higgins Nº 1449, Santiago Downtown, Torre II, piso 1.<br>
+                                    Teléfono: +56 2 2473 3686
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- <div class="col-md-12"> -->
+                        <ul class="nav-footer">
+                            <li><a href="/FAQ.aspx" class="">Preguntas frecuentes</a></li>
+                            <li><a href="/AyudaFormatosTipo.aspx" class="">Formatos tipo</a></li>
+                            <li><a href="/AyudaNotarias.aspx" class="">Notarías</a></li>
+                            <li><a href="/Indicadores/Default.aspx" class="">Indicadores</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="nav-footer">
+                            <li><a href="/NormativaHome.aspx" class="">Normativa</a></li>
+                            <li><a href="/PoliticasHome.aspx" class="">Términos y condiciones de uso</a></li>
+                            <li><a href="https://www.economia.gob.cl/category/estudios-encuestas/registro-de-empresas-y-sociedades" target="_blank" class="">Informes de constitución</a></li>
+                        </ul>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div style="background: #011c41; padding-top: 60px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12" style="line-height: 0px;">
+                        <img style="width: 140px;" src="/img/gob-bar.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</div>
+    <!-- Fin Footer -->
+    <!-- CHAT BOT-->
+    <!--
+        <script src="https://chat.athenacampaign.com/embedAthenaChat.js" chatclientid="70efdf2ec9b086079795c442636b55fb"></script>
+    -->
+    <!-- FIN CHAT BOT-->
+
+    <!-- Bootstrap 5 -->
+    <script src='/Content/js/bootstrap.bundle.min.js'></script>
+    <!-- End Bootstrap 5 -->
+
+    <!-- Menu new -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbarToggler = document.querySelector('.navbar-toggler');
+            if (navbarToggler) {
+                var menuIcon = navbarToggler.querySelector('i');
+
+                navbarToggler.addEventListener('click', function () {
+                    // Toggle between 'fa-bars' and 'fa-times'
+                    if (menuIcon.classList.contains('fa-bars')) {
+                        menuIcon.classList.remove('fa-bars');
+                        menuIcon.classList.add('fa-times');
+                    } else {
+                        menuIcon.classList.remove('fa-times');
+                        menuIcon.classList.add('fa-bars');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- convertir ruta en un nombre de clase en body -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let path = window.location.pathname;
+            path = path.replace(/^\/|\/$/g, '');
+            path = path.replace(/\.[^/.]+$/, '');
+            let className = path.replace(/\//g, '-');
+            if (!className) {
+                className = 'Default';
+            }
+            document.body.classList.add(className);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const miCuentaLink = document.querySelector('a.miCuenta');
+            const navbar = document.querySelector('nav.navbar');
+
+            if (miCuentaLink) {
+                navbar.classList.add('navbar-con-mi-cuenta');
+            } else {
+                navbar.classList.remove('navbar-con-mi-cuenta');
+            }
+        });
+    </script>
+</body>
+</html>

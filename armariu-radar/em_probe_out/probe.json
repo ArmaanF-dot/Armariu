@@ -1,0 +1,257 @@
+{
+ "br_cvm_root": {
+  "url": "https://dados.cvm.gov.br/dados/",
+  "status": 200,
+  "bytes_read": 4038,
+  "ctype": "text/html",
+  "secs": 0.6
+ },
+ "br_cvm_ipe": {
+  "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/IPE/DADOS/",
+  "status": 200,
+  "bytes_read": 4423,
+  "ctype": "text/html",
+  "secs": 0.2
+ },
+ "br_cvm_dfp": {
+  "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/",
+  "status": 200,
+  "bytes_read": 3611,
+  "ctype": "text/html",
+  "secs": 0.4
+ },
+ "br_cvm_cad": {
+  "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/CAD/DADOS/cad_cia_aberta.csv",
+  "status": 200,
+  "bytes_read": 400000,
+  "ctype": "application/octet-stream",
+  "secs": 0.0
+ },
+ "br_cvm_oferta": {
+  "url": "https://dados.cvm.gov.br/dados/OFERTA/DISTRIB/DADOS/",
+  "status": 200,
+  "bytes_read": 1747,
+  "ctype": "text/html",
+  "secs": 0.4
+ },
+ "br_cvm_ofertas_rcvm160": {
+  "url": "https://dados.cvm.gov.br/dados/OFERTA/",
+  "status": 200,
+  "bytes_read": 1704,
+  "ctype": "text/html",
+  "secs": 0.4
+ },
+ "br_rfb_cnpj": {
+  "url": "https://arquivos.receitafederal.gov.br/dados/cnpj/dados_abertos_cnpj/",
+  "status": 404,
+  "err": "HTTP Error 404: Not Found"
+ },
+ "br_rfb_cnpj_old": {
+  "url": "https://dadosabertos.rfb.gov.br/CNPJ/",
+  "status": null,
+  "err": "URLError(TimeoutError('timed out'))"
+ },
+ "br_pncp": {
+  "url": "https://pncp.gov.br/api/consulta/v1/contratos?dataInicial=20250101&dataFinal=20250102&pagina=1",
+  "status": 200,
+  "bytes_read": 400000,
+  "ctype": "application/json",
+  "secs": 2.4
+ },
+ "co_secop2": {
+  "url": "https://www.datos.gov.co/resource/jbjy-vk9h.json?$limit=2",
+  "status": 200,
+  "bytes_read": 8222,
+  "ctype": "application/json;charset=utf-8",
+  "secs": 0.4
+ },
+ "co_cat_insolv": {
+  "url": "https://www.datos.gov.co/api/catalog/v1?q=insolvencia&limit=20",
+  "status": 200,
+  "bytes_read": 40412,
+  "ctype": "application/json;charset=utf-8",
+  "secs": 0.1
+ },
+ "co_cat_superso": {
+  "url": "https://www.datos.gov.co/api/catalog/v1?q=supersociedades%20estados%20financieros&limit=20",
+  "status": 200,
+  "bytes_read": 30798,
+  "ctype": "application/json;charset=utf-8",
+  "secs": 0.2
+ },
+ "co_cat_garantias": {
+  "url": "https://www.datos.gov.co/api/catalog/v1?q=garantias%20mobiliarias&limit=10",
+  "status": 200,
+  "bytes_read": 129,
+  "ctype": "application/json;charset=utf-8",
+  "secs": 0.1
+ },
+ "co_cat_rues": {
+  "url": "https://www.datos.gov.co/api/catalog/v1?q=registro%20mercantil%20camara%20de%20comercio&limit=10",
+  "status": 200,
+  "bytes_read": 64316,
+  "ctype": "application/json;charset=utf-8",
+  "secs": 0.1
+ },
+ "co_garantias_site": {
+  "url": "https://www.garantiasmobiliarias.com.co/",
+  "status": 200,
+  "bytes_read": 63809,
+  "ctype": "text/html; charset=utf-8",
+  "secs": 0.5
+ },
+ "mx_rug": {
+  "url": "https://www.rug.gob.mx/",
+  "status": 200,
+  "bytes_read": 1036,
+  "ctype": "text/html; charset=utf-8",
+  "secs": 0.6
+ },
+ "mx_compranet_dg": {
+  "url": "https://upcp-compranet.buengobierno.gob.mx/",
+  "status": 200,
+  "bytes_read": 7000,
+  "ctype": "text/html",
+  "secs": 0.1
+ },
+ "mx_datos": {
+  "url": "https://datos.gob.mx/",
+  "status": 200,
+  "bytes_read": 31762,
+  "ctype": "text/html; charset=utf-8",
+  "secs": 1.1
+ },
+ "cl_boletin_concursal": {
+  "url": "https://www.boletinconcursal.cl/",
+  "status": 200,
+  "bytes_read": 234,
+  "ctype": "text/html; charset=UTF-8",
+  "secs": 0.7
+ },
+ "cl_registro_empresas": {
+  "url": "https://www.registrodeempresasysociedades.cl/",
+  "status": 200,
+  "bytes_read": 58619,
+  "ctype": "text/html; charset=utf-8",
+  "secs": 0.9
+ },
+ "cl_mercadopublico": {
+  "url": "https://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?estado=activas&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844",
+  "status": 429,
+  "err": "HTTP Error 429: Too Many Requests"
+ },
+ "cl_cmf": {
+  "url": "https://www.cmfchile.cl/",
+  "status": 200,
+  "bytes_read": 112899,
+  "ctype": "text/html; charset=UTF-8",
+  "secs": 1.7
+ },
+ "pe_indecopi_concursal": {
+  "url": "https://www.indecopi.gob.pe/",
+  "status": null,
+  "err": "URLError(gaierror(-2, 'Name or service not known'))"
+ },
+ "pe_sunat_padron": {
+  "url": "https://www.sunat.gob.pe/descargaPRR/padron_reducido_ruc.zip",
+  "status": 200,
+  "bytes_read": 400000,
+  "ctype": "application/zip",
+  "secs": 1.6
+ },
+ "in_mca": {
+  "url": "https://www.mca.gov.in/",
+  "status": 200,
+  "bytes_read": 302886,
+  "ctype": "text/html;charset=utf-8",
+  "secs": 1.4
+ },
+ "in_ibbi_cirp": {
+  "url": "https://ibbi.gov.in/en/public-announcement",
+  "status": 200,
+  "bytes_read": 117624,
+  "ctype": "text/html; charset=UTF-8",
+  "secs": 3.0
+ },
+ "in_datagov": {
+  "url": "https://www.data.gov.in/",
+  "status": 503,
+  "err": "HTTP Error 503: Service Unavailable"
+ },
+ "in_nse_ann": {
+  "url": "https://www.nseindia.com/",
+  "status": 200,
+  "bytes_read": 171487,
+  "ctype": "text/html; charset=utf-8",
+  "secs": 0.5
+ },
+ "tr_kap": {
+  "url": "https://www.kap.org.tr/tr/",
+  "status": 200,
+  "bytes_read": 158477,
+  "ctype": "text/html; charset=utf-8",
+  "secs": 2.3
+ },
+ "tr_kap_api_members": {
+  "url": "https://www.kap.org.tr/tr/api/member/filter/IGS",
+  "status": 200,
+  "bytes_read": 2,
+  "ctype": "application/json",
+  "secs": 0.8
+ },
+ "tr_ticaret_sicil": {
+  "url": "https://www.ticaretsicil.gov.tr/",
+  "status": null,
+  "err": "URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1011)'))"
+ },
+ "tr_ilan": {
+  "url": "https://www.ilan.gov.tr/",
+  "status": null,
+  "err": "URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1011)'))"
+ },
+ "tr_ekap": {
+  "url": "https://ekap.kik.gov.tr/",
+  "status": null,
+  "err": "URLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1011)'))"
+ },
+ "gleif_tr": {
+  "url": "https://api.gleif.org/api/v1/lei-records?filter[entity.legalAddress.country]=TR&page[size]=1",
+  "status": 200,
+  "bytes_read": 3114,
+  "ctype": "application/vnd.api+json",
+  "secs": 0.6
+ },
+ "gleif_br": {
+  "url": "https://api.gleif.org/api/v1/lei-records?filter[entity.legalAddress.country]=BR&page[size]=1",
+  "status": 200,
+  "bytes_read": 2972,
+  "ctype": "application/vnd.api+json",
+  "secs": 0.4
+ },
+ "gleif_in": {
+  "url": "https://api.gleif.org/api/v1/lei-records?filter[entity.legalAddress.country]=IN&page[size]=1",
+  "status": 200,
+  "bytes_read": 3237,
+  "ctype": "application/vnd.api+json",
+  "secs": 0.4
+ },
+ "gleif_co": {
+  "url": "https://api.gleif.org/api/v1/lei-records?filter[entity.legalAddress.country]=CO&page[size]=1",
+  "status": 200,
+  "bytes_read": 2902,
+  "ctype": "application/vnd.api+json",
+  "secs": 0.4
+ },
+ "gleif_mx": {
+  "url": "https://api.gleif.org/api/v1/lei-records?filter[entity.legalAddress.country]=MX&page[size]=1",
+  "status": 200,
+  "bytes_read": 2988,
+  "ctype": "application/vnd.api+json",
+  "secs": 0.4
+ },
+ "opencorporates": {
+  "url": "https://api.opencorporates.com/v0.4/companies/search?q=altinyildiz",
+  "status": 401,
+  "err": "HTTP Error 401: Unauthorized"
+ }
+}

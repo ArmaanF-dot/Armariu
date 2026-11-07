@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Las Garant&#xED;as Mobiliarias son una herramienta que facilita a las personas y empresas colombianas el acceso al financiamiento, brind&#xE1;ndoles la posibilidad de entregar muebles f&#xED;sicos e intangibles como respaldo a su cr&#xE9;dito.">
+    <meta name="keywords" content="garant&#xED;as mobiliarias">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Garant&#xED;as Mobiliarias - Colombia</title>
+    <link rel="icon" href="/img/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/mainStyle.css?v=20260928">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,500;0,600;1,300;1,500;1,600&display=swap"
+        rel="stylesheet">
+    <script src="https://kit.fontawesome.com/90e866a8a7.js" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126622666-1"></script>
+    <script src="https://cdn-widgets.chattigo.com/webchat-widget-new.js" id="widget-chattigo"
+        title="confecam3856-7087-webchat@wc"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lf7Y_gpAAAAAGI4zcX8FFS22srd42xneCMQOGEb"></script>
+    <meta name="google-site-verification" content="jI97z1W4ScmIvMcC3c0VCidCuC2cAfKqHfRD1fOPpiQ" />
+
+</head>
+<style>
+    .enlace {
+        color: white;
+        text-decoration: underline;
+    }
+    enlace:hover {
+        color: green;
+    }
+
+    /* Mover Recaptcha a la izquierda (ajustado a 95px para no superponerse con el botón flotante de accesibilidad en bottom: 24px) */
+    .grecaptcha-badge {
+        width: 70px !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease !important;
+        left: -2px !important;
+        bottom: 95px !important;
+    }
+    .grecaptcha-badge:hover {
+        width: 256px !important;
+    }
+</style>
+<script type="text/javascript">
+    grecaptcha.ready(function () {
+        //alert('secretK1');
+        SetCaptchaToken();
+    });
+    
+    // $(document).ready(function () {        
+    //     setInterval(function () {
+    //         SetCaptchaToken();
+    //     }, 2000);
+    // });
+
+    function SetCaptchaToken() {
+        //alert('secretK2');
+        grecaptcha.execute('6Lf7Y_gpAAAAAGI4zcX8FFS22srd42xneCMQOGEb', { action: 'homepage' })
+            .then(function (token) {
+                //alert('TOKEN: ' + token);
+                ValidateReCaptchaToken(token);
+            })
+            .catch(function (error) {
+                ShowInvalidCaptchaMessage();
+            });
+    }
+
+    function ValidateReCaptchaToken(token) {
+        //TogglePageInteraction(false);
+        const serviceUrl = "https://www.garantiasmobiliarias.com.co/Captcha/ValidarRecaptcha.asmx/IsReCaptchaValid";
+        const bodyData = JSON.stringify({ pToken: token });
+        //alert(token);
+
+        fetch(serviceUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: bodyData
+        })
+        .then(response => response.json())
+        .then(jsonResponse => {
+            //alert(`Respuesta del servidor: ${JSON.stringify(jsonResponse)}`);
+            
+            const valido = jsonResponse?.d?.Valido === true;
+            const statuscode = jsonResponse?.d?.StatusCode || "Unknown";
+            const success = jsonResponse?.d?.Success || "Unknown";
+
+            // alert(`Validación de reCAPTCHA: - Success: ${valido} - Status Code: ${statuscode}`);
+            
+            if (success == "True") {
+                TogglePageInteraction(true);
+                //alert('validacion correcta reCAPTCHA:');
+            } else {
+                TogglePageInteraction(false);
+                ShowInvalidCaptchaMessage();
+                //TogglePageInteraction(true);
+            }
+        })
+        .catch(error => {
+            alert('Error al validar reCAPTCHA:' + error);
+            ShowInvalidCaptchaMessage1();
+        });
+    }
+
+    function ShowInvalidCaptchaMessage() {
+        //if ($("#recaptcha-error").length === 0) {
+            alert('El reCAPTCHA no es válido. Por favor, recarga la página.');
+        //}
+    }
+
+    function ShowInvalidCaptchaMessage1() {
+        TogglePageInteraction(true);
+        //alert('ERROR');
+    }
+
+    function TogglePageInteraction(enable) {
+        if (!enable) {
+            if ($("#overlay").length === 0) {
+                $("body").append('<div id="overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;"></div>');
+            }
+        } else {
+            $("#overlay").remove();
+        }
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('video.video-no-autoplay').forEach(function (v) {
+            // 1) Quitar atributo autoplay si existe (por si acaso)
+            v.removeAttribute('autoplay');
+            // 2) Asegurar preload y controls
+            v.preload = 'metadata';
+            v.controls = true;
+
+            // 3) Pausar inmediatamente para neutralizar reproducciones automáticas
+            try { v.pause(); } catch (e) { }
+
+            // 4) Si hay intentos programáticos de play, bloquearlos salvo que sea interacción del usuario
+            const originalPlay = v.play;
+            let userInteracted = false;
+            v.addEventListener('click', function () { userInteracted = true; });
+            v.addEventListener('touchstart', function () { userInteracted = true; });
+
+            v.play = function () {
+                // permitir play sólo si el usuario interactuó
+                if (userInteracted) {
+                    return originalPlay.apply(v, arguments);
+                }
+                // si es intento programático, ignorar silenciosamente y devolver Promise resuelta
+                return Promise.resolve();
+            };
+
+            // 5) Previene que 'loadeddata' o 'canplay' disparen play automático
+            v.addEventListener('loadeddata', function () { try { v.pause(); } catch (e) { } });
+            v.addEventListener('canplay', function () { try { v.pause(); } catch (e) { } });
+        });
+    });
+</script>
+
+<body class="formularios">
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div>
+                    <ul class="top-items">
+                        <!--<li class="activa-modal" id="tutorial-web"><a href=""><i class="far fa-question-circle"></i> Tutorial de la web</a></li>-->
+                        <li><a href="https://www.garantiasmobiliarias.com.co/normatividad/"><i class="fa-solid fa-book-open"></i> Normatividad</a></li>
+                        <li><a href="https://www.garantiasmobiliarias.com.co/preguntas-frecuentes/"><i class="fa-solid fa-circle-info"></i> Preguntas Frecuentes</a></li>
+                        <li><a href="https://www.garantiasmobiliarias.com.co/rgm/Entidades/Registro.aspx"><i class="fas fa-user-plus"></i> Regístrese aquí</a></li>
+                        <li><a href="https://www.garantiasmobiliarias.com.co/rgm/Login.aspx"><i class="fa-solid fa-key"></i> Ingreso Portal Transaccional</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="/"><img
+                            src="https://www.garantiasmobiliarias.com.co/media/wcvc5zel/logo-de-registro-de-garant%C3%ADas-mobiliairas_color.png"
+                            alt="Registro de Garantías Mobiliarias" title="Registro de Garantías Mobiliarias"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNavDropdown">
+                        <ul class="navbar-nav align-items-lg-center">
+                            <li class="nav-item rgm-menu-clip-item">
+                                <a class="nav-link" aria-current="page" href="/">Inicio</a>
+                                <button type="button" class="rgm-menu-clip-btn" aria-label="Lengua de señas: Inicio" title="Lengua de señas: Inicio" aria-expanded="false">
+                                    <svg class="rgm-menu-clip-icon" viewBox="0 0 640 512" width="16" height="16" fill="currentColor" aria-hidden="true">
+                                        <path d="M156.6 46.3c7.9-15.8 1.5-35-14.3-42.9s-35-1.5-42.9 14.3L13.5 189.4C4.6 207.2 0 226.8 0 246.7L0 256c0 70.7 57.3 128 128 128l72 0 8 0 0-.3c35.2-2.7 65.4-22.8 82.1-51.7c8.8-15.3 3.6-34.9-11.7-43.7s-34.9-3.6-43.7 11.7c-7 12-19.9 20-34.7 20c-22.1 0-40-17.9-40-40s17.9-40 40-40c14.8 0 27.7 8 34.7 20c8.8 15.3 28.4 20.5 43.7 11.7s20.5-28.4 11.7-43.7c-12.8-22.1-33.6-39.1-58.4-47.1l80.8-22c17-4.6 27.1-22.2 22.5-39.3s-22.2-27.1-39.3-22.5L194.9 124.6l81.6-68c13.6-11.3 15.4-31.5 4.1-45.1S249.1-3.9 235.5 7.4L133.6 92.3l23-46zM483.4 465.7c-7.9 15.8-1.5 35 14.3 42.9s35 1.5 42.9-14.3l85.9-171.7c8.9-17.8 13.5-37.4 13.5-57.2l0-9.3c0-70.7-57.3-128-128-128l-72 0-8 0 0 .3c-35.2 2.7-65.4 22.8-82.1 51.7c-8.9 15.3-3.6 34.9 11.7 43.7s34.9 3.6 43.7-11.7c7-12 19.9-20 34.7-20c22.1 0 40 17.9 40 40s-17.9 40-40 40c-14.8 0-27.7-8-34.7-20c-8.9-15.3-28.4-20.5-43.7-11.7s-20.5 28.4-11.7 43.7c12.8 22.1 33.6 39.1 58.4 47.1l-80.8 22c-17.1 4.7-27.1 22.2-22.5 39.3s22.2 27.1 39.3 22.5l100.7-27.5-81.6 68c-13.6 11.3-15.4 31.5-4.1 45.1s31.5 15.4 45.1 4.1l101.9-84.9-23 46z"/>
+                                    </svg>
+                                </button>
+                                <div class="rgm-menu-clip-tooltip" aria-hidden="true">
+                                    <div class="rgm-menu-clip-beak"></div>
+                                    <div class="rgm-menu-clip-card">
+                                        <video class="rgm-menu-clip-video" muted playsinline webkit-playsinline preload="metadata" loop>
+                                            <source src="https://www.garantiasmobiliarias.com.co/media/al2nltu2/inicio-rgm-2-compressed.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item rgm-menu-clip-item">
+                                <a class="nav-link" href="/acerca-de-garantias-mobiliarias/">Conoce más</a>
+                                <button type="button" class="rgm-menu-clip-btn" aria-label="Lengua de señas: Conoce más" title="Lengua de señas: Conoce más" aria-expanded="false">
+                                    <svg class="rgm-menu-clip-icon" viewBox="0 0 640 512" width="16" height="16" fill="currentColor" aria-hidden="true">
+                                        <path d="M156.6 46.3c7.9-15.8 1.5-35-14.3-42.9s-35-1.5-42.9 14.3L13.5 189.4C4.6 207.2 0 226.8 0 246.7L0 256c0 70.7 57.3 128 128 128l72 0 8 0 0-.3c35.2-2.7 65.4-22.8 82.1-51.7c8.8-15.3 3.6-34.9-11.7-43.7s-34.9-3.6-43.7 11.7c-7 12-19.9 20-34.7 20c-22.1 0-40-17.9-40-40s17.9-40 40-40c14.8 0 27.7 8 34.7 20c8.8 15.3 28.4 20.5 43.7 11.7s20.5-28.4 11.7-43.7c-12.8-22.1-33.6-39.1-58.4-47.1l80.8-22c17-4.6 27.1-22.2 22.5-39.3s-22.2-27.1-39.3-22.5L194.9 124.6l81.6-68c13.6-11.3 15.4-31.5 4.1-45.1S249.1-3.9 235.5 7.4L133.6 92.3l23-46zM483.4 465.7c-7.9 15.8-1.5 35 14.3 42.9s35 1.5 42.9-14.3l85.9-171.7c8.9-17.8 13.5-37.4 13.5-57.2l0-9.3c0-70.7-57.3-128-128-128l-72 0-8 0 0 .3c-35.2 2.7-65.4 22.8-82.1 51.7c-8.9 15.3-3.6 34.9 11.7 43.7s34.9 3.6 43.7-11.7c7-12 19.9-20 34.7-20c22.1 0 40 17.9 40 40s-17.9 40-40 40c-14.8 0-27.7-8-34.7-20c-8.9-15.3-28.4-20.5-43.7-11.7s-20.5 28.4-11.7 43.7c12.8 22.1 33.6 39.1 58.4 47.1l-80.8 22c-17.1 4.7-27.1 22.2-22.5 39.3s22.2 27.1 39.3 22.5l100.7-27.5-81.6 68c-13.6 11.3-15.4 31.5-4.1 45.1s31.5 15.4 45.1 4.1l101.9-84.9-23 46z"/>
+                                    </svg>
+                                </button>
+                                <div class="rgm-menu-clip-tooltip" aria-hidden="true">
+                                    <div class="rgm-menu-clip-beak"></div>
+                                    <div class="rgm-menu-clip-card">
+                                        <video class="rgm-menu-clip-video" muted playsinline webkit-playsinline preload="metadata" loop>
+                                            <source src="https://www.garantiasmobiliarias.com.co/media/eecbd1a4/conoce-mas-rgm-compressed.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item rgm-menu-clip-item">
+                                <a class="nav-link" href="/acompanamiento/">Acompañamiento</a>
+                                <button type="button" class="rgm-menu-clip-btn" aria-label="Lengua de señas: Acompañamiento" title="Lengua de señas: Acompañamiento" aria-expanded="false">
+                                    <svg class="rgm-menu-clip-icon" viewBox="0 0 640 512" width="16" height="16" fill="currentColor" aria-hidden="true">
+                                        <path d="M156.6 46.3c7.9-15.8 1.5-35-14.3-42.9s-35-1.5-42.9 14.3L13.5 189.4C4.6 207.2 0 226.8 0 246.7L0 256c0 70.7 57.3 128 128 128l72 0 8 0 0-.3c35.2-2.7 65.4-22.8 82.1-51.7c8.8-15.3 3.6-34.9-11.7-43.7s-34.9-3.6-43.7 11.7c-7 12-19.9 20-34.7 20c-22.1 0-40-17.9-40-40s17.9-40 40-40c14.8 0 27.7 8 34.7 20c8.8 15.3 28.4 20.5 43.7 11.7s20.5-28.4 11.7-43.7c-12.8-22.1-33.6-39.1-58.4-47.1l80.8-22c17-4.6 27.1-22.2 22.5-39.3s-22.2-27.1-39.3-22.5L194.9 124.6l81.6-68c13.6-11.3 15.4-31.5 4.1-45.1S249.1-3.9 235.5 7.4L133.6 92.3l23-46zM483.4 465.7c-7.9 15.8-1.5 35 14.3 42.9s35 1.5 42.9-14.3l85.9-171.7c8.9-17.8 13.5-37.4 13.5-57.2l0-9.3c0-70.7-57.3-128-128-128l-72 0-8 0 0 .3c-35.2 2.7-65.4 22.8-82.1 51.7c-8.9 15.3-3.6 34.9 11.7 43.7s34.9 3.6 43.7-11.7c7-12 19.9-20 34.7-20c22.1 0 40 17.9 40 40s-17.9 40-40 40c-14.8 0-27.7-8-34.7-20c-8.9-15.3-28.4-20.5-43.7-11.7s-20.5 28.4-11.7 43.7c12.8 22.1 33.6 39.1 58.4 47.1l-80.8 22c-17.1 4.7-27.1 22.2-22.5 39.3s22.2 27.1 39.3 22.5l100.7-27.5-81.6 68c-13.6 11.3-15.4 31.5-4.1 45.1s31.5 15.4 45.1 4.1l101.9-84.9-23 46z"/>
+                                    </svg>
+                                </button>
+                                <div class="rgm-menu-clip-tooltip" aria-hidden="true">
+                                    <div class="rgm-menu-clip-beak"></div>
+                                    <div class="rgm-menu-clip-card">
+                                        <video class="rgm-menu-clip-video" muted playsinline webkit-playsinline preload="metadata" loop>
+                                            <source src="https://www.garantiasmobiliarias.com.co/media/dgopq2lb/acompanamiento-rgm-compressed.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item rgm-menu-clip-item">
+                                <a class="nav-link" href="/actualidad/">Actualidad</a>
+                                <button type="button" class="rgm-menu-clip-btn" aria-label="Lengua de señas: Actualidad" title="Lengua de señas: Actualidad" aria-expanded="false">
+                                    <svg class="rgm-menu-clip-icon" viewBox="0 0 640 512" width="16" height="16" fill="currentColor" aria-hidden="true">
+                                        <path d="M156.6 46.3c7.9-15.8 1.5-35-14.3-42.9s-35-1.5-42.9 14.3L13.5 189.4C4.6 207.2 0 226.8 0 246.7L0 256c0 70.7 57.3 128 128 128l72 0 8 0 0-.3c35.2-2.7 65.4-22.8 82.1-51.7c8.8-15.3 3.6-34.9-11.7-43.7s-34.9-3.6-43.7 11.7c-7 12-19.9 20-34.7 20c-22.1 0-40-17.9-40-40s17.9-40 40-40c14.8 0 27.7 8 34.7 20c8.8 15.3 28.4 20.5 43.7 11.7s20.5-28.4 11.7-43.7c-12.8-22.1-33.6-39.1-58.4-47.1l80.8-22c17-4.6 27.1-22.2 22.5-39.3s-22.2-27.1-39.3-22.5L194.9 124.6l81.6-68c13.6-11.3 15.4-31.5 4.1-45.1S249.1-3.9 235.5 7.4L133.6 92.3l23-46zM483.4 465.7c-7.9 15.8-1.5 35 14.3 42.9s35 1.5 42.9-14.3l85.9-171.7c8.9-17.8 13.5-37.4 13.5-57.2l0-9.3c0-70.7-57.3-128-128-128l-72 0-8 0 0 .3c-35.2 2.7-65.4 22.8-82.1 51.7c-8.9 15.3-3.6 34.9 11.7 43.7s34.9 3.6 43.7-11.7c7-12 19.9-20 34.7-20c22.1 0 40 17.9 40 40s-17.9 40-40 40c-14.8 0-27.7-8-34.7-20c-8.9-15.3-28.4-20.5-43.7-11.7s-20.5 28.4-11.7 43.7c12.8 22.1 33.6 39.1 58.4 47.1l-80.8 22c-17.1 4.7-27.1 22.2-22.5 39.3s22.2 27.1 39.3 22.5l100.7-27.5-81.6 68c-13.6 11.3-15.4 31.5-4.1 45.1s31.5 15.4 45.1 4.1l101.9-84.9-23 46z"/>
+                                    </svg>
+                                </button>
+                                <div class="rgm-menu-clip-tooltip" aria-hidden="true">
+                                    <div class="rgm-menu-clip-beak"></div>
+                                    <div class="rgm-menu-clip-card">
+                                        <video class="rgm-menu-clip-video" muted playsinline webkit-playsinline preload="metadata" loop>
+                                            <source src="https://www.garantiasmobiliarias.com.co/media/rdkfoulu/actualidad-rgm-compressed.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item rgm-menu-clip-item">
+                                <a class="nav-link" href="/contacto/">PQRS</a>
+                                <button type="button" class="rgm-menu-clip-btn" aria-label="Lengua de señas: PQRS" title="Lengua de señas: PQRS" aria-expanded="false">
+                                    <svg class="rgm-menu-clip-icon" viewBox="0 0 640 512" width="16" height="16" fill="currentColor" aria-hidden="true">
+                                        <path d="M156.6 46.3c7.9-15.8 1.5-35-14.3-42.9s-35-1.5-42.9 14.3L13.5 189.4C4.6 207.2 0 226.8 0 246.7L0 256c0 70.7 57.3 128 128 128l72 0 8 0 0-.3c35.2-2.7 65.4-22.8 82.1-51.7c8.8-15.3 3.6-34.9-11.7-43.7s-34.9-3.6-43.7 11.7c-7 12-19.9 20-34.7 20c-22.1 0-40-17.9-40-40s17.9-40 40-40c14.8 0 27.7 8 34.7 20c8.8 15.3 28.4 20.5 43.7 11.7s20.5-28.4 11.7-43.7c-12.8-22.1-33.6-39.1-58.4-47.1l80.8-22c17-4.6 27.1-22.2 22.5-39.3s-22.2-27.1-39.3-22.5L194.9 124.6l81.6-68c13.6-11.3-15.4-31.5 4.1-45.1S249.1-3.9 235.5 7.4L133.6 92.3l23-46zM483.4 465.7c-7.9 15.8-1.5 35 14.3 42.9s35 1.5 42.9-14.3l85.9-171.7c8.9-17.8 13.5-37.4 13.5-57.2l0-9.3c0-70.7-57.3-128-128-128l-72 0-8 0 0 .3c-35.2 2.7-65.4 22.8-82.1 51.7c-8.9 15.3-3.6 34.9 11.7 43.7s34.9 3.6 43.7-11.7c7-12 19.9-20 34.7-20c22.1 0 40 17.9 40 40s-17.9 40-40 40c-14.8 0-27.7-8-34.7-20c-8.9-15.3-28.4-20.5-43.7-11.7s-20.5 28.4-11.7 43.7c12.8 22.1 33.6 39.1 58.4 47.1l-80.8 22c-17.1 4.7-27.1 22.2-22.5 39.3s22.2 27.1 39.3 22.5l100.7-27.5-81.6 68c-13.6 11.3-15.4 31.5-4.1 45.1s31.5 15.4 45.1 4.1l101.9-84.9-23 46z"/>
+                                    </svg>
+                                </button>
+                                <div class="rgm-menu-clip-tooltip" aria-hidden="true">
+                                    <div class="rgm-menu-clip-beak"></div>
+                                    <div class="rgm-menu-clip-card">
+                                        <video class="rgm-menu-clip-video" muted playsinline webkit-playsinline preload="metadata" loop>
+                                            <source src="https://www.garantiasmobiliarias.com.co/media/anndsdsj/pqrs-rgm-compressed.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item nav-item-search">
+                                <button type="button" class="btn-nav-search" data-bs-toggle="modal" data-bs-target="#rgmSearchModal" aria-label="Abrir buscador" title="Buscar en el sitio">
+                                    <img src="https://www.garantiasmobiliarias.com.co/media/iu3fu0m5/search-icon.png" alt="Buscar" class="rgm-nav-search-icon">
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    
+    <div class="content">
+        <section id="welcome-banner" class="pt-4 pb-4">
+            <div class="container" id="welcome">
+                <div class="row">
+                    <div class="col-md-5">
+                        <img src="/media/2aykipou/quality-assurance-guarantee-standards-iso-certification-standardization-idea-are-trademarks-this-businessman-1536x1024.jpg" alt="Banner Garant&#xED;as Mobiliarias" title="Banner Garant&#xED;as Mobiliarias" />
+                    </div>
+                    <div class="col-md-7 d-flex flex-wrap align-items-center p-5">
+                        <div class="wrap">
+                            <h1 class="white w-500">&#xA1;Bienvenido!</h1>
+                            <p class="white"><p><span style="color: rgb(236, 240, 241);">Las Garantías Mobiliarias son un mecanismo de cobertura que le permite a las empresas y personas acceder a financiamiento otorgando sus bienes muebles físicos o intangibles como garantía para el cumplimiento de sus obligaciones, mejorando las condiciones de riesgo del financiador a la vez que se impulsa el fortalecimiento de las empresas, respaldando sus proyectos de crecimiento, expansión, innovación y desarrollo.</span></p></p>
+                            <p class="text-md-end">
+                                        <a href="/acerca-de-garantias-mobiliarias/" class="btn l-blue">Conoce m&#xE1;s</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" id="boxes">
+                <div class="row justify-content-between">
+                    <div class="col-md-4">
+                                        <a href="/acerca-de-garantias-mobiliarias/" class="flex-image">
+                                            <img src="/media/qaujhzwb/t_ns-768x303.png" alt="Nuestros Servicios Garant&#xED;as Mobiliarias" title="Nuestros Servicios Garant&#xED;as Mobiliarias">
+                                        </a>
+                    </div>
+                    <div class="col-md-4">
+                                        <a href="/preguntas-frecuentes/" class="flex-image">
+                                            <img src="/media/0zuj0u14/t_pf-768x303.png" alt="preguntas frecuentes" title="preguntas frecuentes">
+                                        </a>
+                    </div>
+                    <div class="col-md-4">
+                                        <a href="https://www.garantiasmobiliarias.com.co/rgm/Informacion/GuiaUsuario.aspx" class="flex-image">
+                                            <img src="/media/jc0hiwp1/t_gu-768x303.png" alt="gu&#xED;a de usuario GM" title="gu&#xED;a de usuario GM">
+                                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="noticias-home" class="pt-5 pb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="wrap">
+                            <h2 class="titular">Noticias</h2>
+                        </div>
+                        <div class="wrap">
+                            <div class="row news-grid pt-3 pb-3">
+                                            <div class="col-md-6"> 
+                                                <article>
+                                                    <div class="new-img">
+                                                        <div class="tags">
+                                                                            <span class="tag">Noticias</span>
+                                                        </div>
+                                                        <a href="/como-facilitar-el-acceso-a-credito-a-las-mipymes-colombianas/"><img src="/media/lv1mll3g/foto-2_noticia-1536x1024.jpg" alt="tr&#xE1;mite Garant&#xED;as Mobiliarias" title="tr&#xE1;mite Garant&#xED;as Mobiliarias"></a>
+                                                    </div>
+                                                    <div class="new-content">
+                                                        <h3><a href="/como-facilitar-el-acceso-a-credito-a-las-mipymes-colombianas/">C&#xF3;mo facilitar el acceso a cr&#xE9;dito a las MiPymes colombianas</a></h3>
+                                                        <p>Las garant&#xED;as mobiliarias son oportunidad, respaldo y confianza. El acceso a financiamiento es uno de los retos que deben enfrentar las empresas en sus diferentes etapas para lograr avanzar en su proceso de crecimiento y fortalecimiento. Desde Confec&#xE1;maras buscamos disminuir la falta de acceso al cr&#xE9;dito para las Mipymes</p>
+                                                        <p><a href="/como-facilitar-el-acceso-a-credito-a-las-mipymes-colombianas/">LEER MÁS</a></p>
+                                                    </div>
+                                                    <div class="new-data"><span>20/12/2024 10:12:00 a.&#xA0;m.</span></div>
+                                                </article>
+                                            </div>
+                                            <div class="col-md-6"> 
+                                                <article>
+                                                    <div class="new-img">
+                                                        <div class="tags">
+                                                                            <span class="tag">Actualidad Normativa</span>
+                                                        </div>
+                                                        <a href="/libranza-una-garantia-mobiliaria/"><img src="/media/fqbicqoi/business-lawyer-is-currently-counseling-the-client-s-trial-at-the-lawyer-office-768x512.jpg" alt="tr&#xE1;mites Garant&#xED;as Mobiliarias" title="tr&#xE1;mites Garant&#xED;as Mobiliarias"></a>
+                                                    </div>
+                                                    <div class="new-content">
+                                                        <h3><a href="/libranza-una-garantia-mobiliaria/">Libranza, una garant&#xED;a mobiliaria</a></h3>
+                                                        <p>Una libranza es la autorizaci&#xF3;n otorgada por un asalariado o pensionado a su empleador o entidad pagadora para descontar los fondos correspondientes al pago de una operaci&#xF3;n de cr&#xE9;dito. Esta pr&#xE1;ctica est&#xE1; regulada por la Ley 1527 de 2012, que establece las pautas generales para estas transacciones. En este contexto, los recursos derivados de la operaci&#xF3;n de libranza se consideran derechos econ&#xF3;micos y, en cualquier caso, bienes muebles susceptibles de ser tratados como garant&#xED;a mobiliaria.</p>
+                                                        <p><a href="/libranza-una-garantia-mobiliaria/">LEER MÁS</a></p>
+                                                    </div>
+                                                    <div class="new-data"><span>20/12/2024 12:00:00 p.&#xA0;m.</span></div>
+                                                </article>
+                                            </div>
+                            </div>
+
+                        </div>
+                        <div class="wrap">
+                            <h2 class="titular mt-4 mb-5">Multimedia</h2>
+                            <div class="media-box m-4">
+                                        <iframe width="100%" height="360" src="https://www.youtube.com/embed/hFYILD85np8?si=KmyXt7_fBdnLyk7w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                               
+                                <p class="pe-3">Garant&#xED;as para financiadores</p>
+                            </div>
+                        </div>
+                        <div class="wrap mt-5 mb-5">
+                            <h2 class="titular">
+                            </h2>
+                        </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="wrap form-access">
+                            <div class="block-form">
+                                <h2 class="titular mb-4">Portal Transaccional</h2>
+                                <div class="box-r bg-white">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="wrap">
+                                                <p>Ingrese a nuestro portal transaccional o registrese a continuación:</p>
+                                                <a href="https://www.garantiasmobiliarias.com.co/rgm/Entidades/Registro.aspx"><i class="fas fa-long-arrow-alt-right"></i> ¿No tiene cuenta? Regístrese aquí</a>
+                                            </div>
+                                            <div>
+                                                <form id="formularioUsuario">
+                                                    <div>
+                                                        <ul class="controls">
+                                                            <li>
+                                                                <input type="text" name="usuario" id="usuario" placeholder="Usuario" required>
+                                                            </li>
+                                                        </ul>
+                                                        
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 d-flex justify-content-end">
+                                                            <input type="submit" value="Ingresar" class="btn-classic" id="enviaUsuario">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="separator">
+                                <hr>
+                            </div>
+                            <div class="block-form">
+                                <h5 class="text-center mb-4 blue ps-4 pe-4">Consulte Aquí Garantías Mobiliarias</h5>
+                                <div class="box-r bg-white mb-2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="wrap">
+                                                <h6 class="blue w-400">Consulta Oficial</h6>
+                                            </div>
+                                            <div>
+                                                <form id="formularioConsultaOficial">
+                                                    <div>
+                                                        <ul class="controls">
+                                                            <li>
+                                                                <input type="text" name="Consulta Oficial" id="noConsultaOficial" placeholder="Número de Identificación" required>
+                                                            </li>
+                                                        </ul>
+                                                        
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 d-flex justify-content-end">
+                                                            <input type="submit" value="Consultar" class="btn-classic" id="enviaConsultaOficial">
+                                                        </div>
+                                                    </div>   
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-r bg-white">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h6 class="blue w-400">Consulta no oficial </h6>
+                                            <div>
+                                                <form id="formularioConsultaNoOficial">
+                                                    <div>
+                                                        <ul class="d-flex controls">
+                                                            <li>
+                                                                <input type="radio" name="ConsultaNoOficial" id="porNombre" required>
+                                                                <label for="porNombre">Por Nombre</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="ConsultaNoOficial" id="numeroDeBien" required>
+                                                                <label for="numeroDeBien">Por Número de Bien</label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                                <input type="text" name="opcion 1" id="opcion-1" placeholder="Nombre o razón social del deudor" style="display:none;">
+                                                                <input type="text" name="opcion 2" id="opcion-2" placeholder="Número de Bien" style="display:none;">
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 d-flex justify-content-end">
+                                                            <input type="submit" value="Consultar" class="btn-classic" id="enviaConsultaNoOficial">
+                                                        </div>
+                                                    </div> 
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="separator">
+                                <hr>
+                            </div>
+                            <div class="block-form">
+                                <h5 class="text-center mb-4 blue ps-5 pe-5">Validación PIN de
+                                    Certificados</h5>
+                                <div class="box-r bg-white mb-2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form id="formularioValidacionPin">
+                                                <div>
+                                                    <ul class="controls">
+                                                        <li class="mb-2">
+                                                            <input type="text" name="Número de Folio Electrónico" id="noFolio" placeholder="Número de Folio Electrónico">
+                                                        </li>
+                                                        <li>
+                                                            <input type="text" name="PIN" id="pin" placeholder="PIN">
+                                                        </li>
+                                                    </ul>
+                                                    
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 d-flex justify-content-end">
+                                                        <input type="submit" value="Validar" class="btn-classic" id="enviaValidacionPin">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="separator">
+                                <hr>
+                            </div>
+                            <div class="block-form">
+                                <h5 class="text-center mb-4 blue ps-5 pe-5">Compra masiva de Certificados</h5>
+                                <div class="box-r bg-white mb-2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form id="formularioFolioElectronico">
+                                                <div>
+                                                    <ul class="controls">
+                                                        <li class="mb-2">
+                                                            <input type="text" name="Número de Folio Electrónico" id="noFolio2" placeholder="Número de Folio Electrónico">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 d-flex justify-content-end">
+                                                        <input type="submit" value="Continuar" class="btn-classic" id="enviaFolioElectronico">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="separator">
+                                <hr>
+                            </div>
+                            <div>
+                                        <h6 class="w-300 text-center blue"><a href="/media/oxeh0ghc/derechosderegistro20262.pdf" target="_blank"><i class="fas fa-coins" aria-hidden="true" style="color:#BCCF1F;"></i> Derechos de registro</a></h6> 
+  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+         <section id="cifras" class="pt-5 pb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h2 class="titular">Informaci&#xF3;n sobre el Registro de Garant&#xED;as Mobiliarias</h2>
+                        <p>En cumplimiento de lo dispuesto en el art&#xED;culo 2&#xB0; de la Resoluci&#xF3;n No. 069 del 15 de enero de 2026, expedida por el Ministerio de Comercio, Industria y Turismo -MINCIT, la Confederaci&#xF3;n Colombiana de C&#xE1;maras de Comercio - Confec&#xE1;maras, dispone para su consulta en el siguiente enlace, el documento referente al a&#xF1;o 2025, que evidencia el comportamiento del uso del Registro de Garant&#xED;as Mobiliarias. </p>
+                        <p>
+                                            <ul class="informe">
+                                                            <li><a  href="https://www.garantiasmobiliarias.com.co/media/sepdtdzb/informe_2025.pdf" class="download" download=""> Descargar Informe 2025</a></li>
+                                            </ul>  
+                        </p>
+                    </div>
+                </div>
+                <div class="row pt-5">
+                    <div class="col-md-4">
+                        <div class="icon-box text-center">
+                            <i class="far fa-edit"></i>
+                            <h3 class="w-400">8.817</h3>
+                            <h6 class="w-400">Acreedores Garantizados</h6> 
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="icon-box text-center">
+                            <i class="fas fa-coins"></i>
+                            <h3 class="w-400">2.8 MM</h3>
+                            <h6 class="w-400">Inscripciones Acumuladas</h6> 
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="icon-box text-center">
+                            <i class="fas fa-chart-line"></i>
+                            <h3 class="w-400"></h3>
+                            <h6 class="w-400"></h6> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="last-t" class="d-flex flex-wrap align-items-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <h3 class="w-400 text-center">&#x201C;El acceso al financiamiento no tiene que ser complicado&#x201D;</h3>
+                    </div>
+                </div>
+            </div>
+        </section> 
+    </div>
+        <!-- Modal Comunicados  RGM -->
+        <div class="modal-web comunicado-rgm">
+            <div class="modal-contenedor">
+                <div class="modal-wrap">
+                    <span class="close-modal"><i class="fa-solid fa-xmark"></i></span>
+                    <div class="modal-content">
+                        <div>
+                            <div class="banner-modal">
+                                        <img src="/media/d0am3u1n/logo-actualizado-rgm.png" alt="" title="" />
+                            </div>
+                            <div class="banner-contenido">
+                                <h2 style="text-align: center;"><span style="color: rgb(53, 152, 219);">Aviso Importante</span></h2>
+<p style="text-align: left; padding-left: 40px;" class="PDq2pG_selectionAnchorContainer" data-start="22" data-end="132">Se informa a nuestros usuarios que se realizará una ventana de mantenimiento y actualización de la plataforma.</p>
+<p style="text-align: left; padding-left: 40px;" data-start="134" data-end="280"><strong data-start="134" data-end="280">La ventana se ejecutará el próximo viernes 30 de octubre de 2026, a partir de las 10:00 p.m., con una duración estimada de cuatro(4) horas.</strong></p>
+<p style="text-align: left; padding-left: 40px;" data-start="282" data-end="370">Durante este periodo podrían presentarse interrupciones o intermitencias en el servicio.</p>
+<p style="text-align: left; padding-left: 40px;" data-start="372" data-end="410" data-is-last-node="" data-is-only-node="">Agradecemos su atención y comprensión.</p>
+<p style="text-align: left; padding-left: 40px;" data-start="372" data-end="410" data-is-last-node="" data-is-only-node="">Para cualquier inquietud, comuníquese con nosotros a través de nuestros canales de atención. Línea de atención: 601 3814100. Correo electrónico:&nbsp;<a href="mailto:garantiasmobiliarias@confecamaras.org.co">garantiasmobiliarias@confecamaras.org.co</a></p>
+                            </div>
+                            <div class="estado">Despublicar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <footer>
+        <section>
+            <div class="container">
+                <div class="row align-items-start">
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <a href="https://confecamaras.org.co/" target="_blank"><img class="logo-footer"
+                                src="/img/logo-confecamara-w2.png" alt="Logo Confecameras" title="Confecamaras"></a>
+                        <p>Av Calle 26 No 57-83 Torre 7 piso 15. Bogotá, Colombia.</p>
+                        <p><a href="https://www.confecamaras.org.co" target="_blank" style="color: white; text-decoration: none;">www.confecamaras.org.co</a></p>
+
+                    </div>
+
+                    <div class="col-md-4 mb-4 mb-md-0 mt-3">
+                        <h6 style="color: white; font-weight: 600; margin-bottom: 15px;">Información de contacto</h6>
+                        <p>Canal telefónico: 57 601 3814100 / 313 6151266 </p>
+                        <p>Correo electrónico: garantiasmobiliarias@confecamaras.org.co </p>
+                        <p>Horario de atención: lunes a viernes de 8:00 a 5:30p.m. </p>
+                        <p>Whatsapp Bot y Chat Bot: disponible en la página web. </p>
+                        <p class="social-icons">
+                            <a href="https://www.instagram.com/confecamaras/" target="_blank"><img
+                                    src="/img/ico-instagram.svg" alt="Instagram"></a>
+                            <a href="https://www.facebook.com/Confecamaras" target="_blank"><img
+                                    src="/img/ico-facebook.svg" alt="Facebook"></a>
+                            <a href="https://co.linkedin.com/company/confecamaras" target="_blank"><img
+                                    src="/img/ico-linkedin.svg" alt="Linkedin"></a>
+                            <a href="https://twitter.com/Confecamaras" target="_blank"><img src="/img/ico-x.svg"
+                                    alt="Twitter"></a>
+                        </p>
+                    </div>
+
+                    <div class="col-md-4 mb-4 mb-md-0 mt-3">
+                        <h6 style="color: white; font-weight: 600; margin-bottom: 15px;">Enlaces de interés</h6>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="/ley-de-transparencia/" style="color: white; text-decoration: none;">
+                                    Ley de Transparencia
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/terminos-y-condiciones/" style="color: white; text-decoration: none;">
+                                    Términos y condiciones
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/proteccion-de-datos-personales/" style="color: white; text-decoration: none;">
+                                    Protección de datos personales
+                                </a>
+                            </li>
+                            <!--<li>
+                                <a href="https://www.pruebasgmconfe.com.co/LNF/Informacion/AvisoLegal.aspx" target="_blank" style="color: white; text-decoration: none;">
+                                    Avisos Legales
+                                </a>
+                            </li>-->
+                            <li>
+                                <a href="/mapa-del-sitio/" style="color: white; text-decoration: none;">
+                                    Mapa del sitio
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="text-center">Confecámaras, RGM Versión: 7.8.6</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <p class="text-center mb-md-0">© Registro de Garantías Mobiliarias | All rights reserved</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <p class="text-center mb-md-0" style="color: white;">
+                            Supervisado por la Superintendencia de Sociedades
+                        </p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <p class="text-center mb-md-0">PixelPro 2024</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+
+    <!-- Modal tutorial web -->
+    <!--<div class="modal-web tutorial-web">
+        <div class="modal-contenedor">
+            <div class="modal-wrap">
+                <span class="close-modal"><i class="fa-solid fa-xmark"></i></span>
+                <div class="modal-content">
+                    <div>
+                        <script src="https://js.storylane.io/js/v1/storylane.js"></script>
+                        <div class="sl-embed" style="position:relative;padding-bottom:calc(49.22% + 27px);width:100%;height:0;transform:scale(1)">
+                        <iframe src="https://app.storylane.io/demo/mbsuy4rjkm9r" name="sl-embed" allow="fullscreen; camera; microphone" style="position:absolute;top:0;left:0;width:100%;height:100%;border:1px solid rgba(63,95,172,0.35);box-shadow: 0px 0px 18px rgba(26, 19, 72, 0.15);border-radius:10px;box-sizing:border-box;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <!-- BOTON WHATSAPP -->
+    <a class="w-button" href="https://api.whatsapp.com/send/?phone=573136151266" target="_blank"><img src="https://www.garantiasmobiliarias.com.co/media/d0intqpq/whatsapp-icon.png"></a>
+
+    <!-- ==========================================================================
+         Widget de Accesibilidad RGM (PixelPro)
+         ========================================================================== -->
+    <!-- Botón Flotante Inferior Izquierdo -->
+    <button class="rgm-a11y-trigger rgm-a11y-widget" id="rgm-a11y-trigger-btn" type="button" aria-label="Abrir panel de opciones de accesibilidad" aria-expanded="false" aria-controls="rgm-a11y-panel">
+        <div class="rgm-a11y-trigger-inner">
+            <div class="rgm-a11y-trigger-icon-bg">
+                <img src="https://www.garantiasmobiliarias.com.co/media/p4ynv2bn/accesibilidad.png" alt="Accesibilidad" class="rgm-a11y-trigger-icon-img">
+            </div>
+        </div>
+    </button>
+
+    <!-- Panel de Opciones de Accesibilidad -->
+    <aside class="rgm-a11y-panel rgm-a11y-widget" id="rgm-a11y-panel" role="dialog" aria-modal="false" aria-label="Panel de accesibilidad" aria-hidden="true">
+        <!-- Encabezado -->
+        <header class="rgm-a11y-header">
+            <h2 class="rgm-a11y-header-title">
+                <span class="rgm-a11y-badge-icon" aria-hidden="true">
+                    <img src="https://www.garantiasmobiliarias.com.co/media/p4ynv2bn/accesibilidad.png" alt="Accesibilidad" class="rgm-a11y-header-icon-img">
+                </span>
+                Accesibilidad
+            </h2>
+            <div class="rgm-a11y-header-actions">
+                <button type="button" class="rgm-a11y-header-btn" id="rgm-a11y-reset-btn" title="Restablecer ajustes de accesibilidad" aria-label="Restablecer ajustes">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                    </svg>
+                </button>
+                <span class="rgm-a11y-header-divider" aria-hidden="true"></span>
+                <button type="button" class="rgm-a11y-header-btn" id="rgm-a11y-close-btn" title="Cerrar panel de accesibilidad" aria-label="Cerrar panel">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Cuadrícula de Opciones -->
+        <div class="rgm-a11y-body">
+            <div class="rgm-a11y-grid" role="group" aria-label="Herramientas de visualización y accesibilidad">
+                <!-- 1. Agrandar texto -->
+                <button type="button" class="rgm-a11y-btn" id="rgm-a11y-btn-font-size" aria-pressed="false">
+                    <div class="rgm-a11y-btn-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M3 6h8v2.2H8.2v9.8H5.8V8.2H3V6z"/>
+                            <path d="M13 9h8v2h-2.8v6.8h-2.4V11H13V9z"/>
+                        </svg>
+                    </div>
+                    <div class="rgm-a11y-btn-content">
+                        <span class="rgm-a11y-btn-label">Agrandar texto</span>
+                        <div class="rgm-a11y-btn-indicators" aria-hidden="true">
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- 2. Altura de línea -->
+                <button type="button" class="rgm-a11y-btn" id="rgm-a11y-btn-line-height" aria-pressed="false">
+                    <div class="rgm-a11y-btn-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M4 12.5h2v-4.5H4L7 4l3 4H8v4.5h2L7 16.5l-3-4z"/>
+                            <path d="M13 6.5h8v2h-8v-2zm0 4.5h8v2h-8v-2zm0 4.5h8v2h-8v-2z"/>
+                        </svg>
+                    </div>
+                    <div class="rgm-a11y-btn-content">
+                        <span class="rgm-a11y-btn-label">Altura de línea</span>
+                        <div class="rgm-a11y-btn-indicators" aria-hidden="true">
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- 3. + Contraste -->
+                <button type="button" class="rgm-a11y-btn" id="rgm-a11y-btn-contrast-high" aria-pressed="false">
+                    <div class="rgm-a11y-btn-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18V4c4.41 0 8 3.59 8 8s-3.59 8-8 8z"/>
+                            <path d="M14 6h2v12h-2zm-3 2v8h1V8h-1zm6 1h2v6h-2z" opacity="0.35"/>
+                        </svg>
+                    </div>
+                    <div class="rgm-a11y-btn-content">
+                        <span class="rgm-a11y-btn-label">+ Contraste</span>
+                        <div class="rgm-a11y-btn-indicators" aria-hidden="true">
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- 4. Contraste inteligente -->
+                <button type="button" class="rgm-a11y-btn" id="rgm-a11y-btn-contrast-smart" aria-pressed="false">
+                    <div class="rgm-a11y-btn-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8c0 1.25-.29 2.43-.8 3.48A5.99 5.99 0 0 0 17 20c-1.8 0-3.37-.8-4.45-2.06A7.95 7.95 0 0 1 12 20zm0-16v13.5c-.34.12-.68.27-1 .44V4.07c.33-.04.66-.07 1-.07z"/>
+                            <path d="M19 16.5v.75l-.65.23a2.5 2.5 0 0 0-.35.85l.4.58-.53.53-.58-.4a2.5 2.5 0 0 0-.85.35l-.23.65h-.75l-.23-.65a2.5 2.5 0 0 0-.85-.35l-.58.4-.53-.53.4-.58a2.5 2.5 0 0 0-.35-.85l-.65-.23v-.75l.65-.23a2.5 2.5 0 0 0 .35-.85l-.4-.58.53-.53.58.4c.26-.15.55-.27.85-.35l.23-.65h.75l.23.65c.3.08.59.2.85.35l.58-.4.53.53-.4.58c.15.26.27.55.35.85l.65.23zm-2 1a1 1 0 1 0-2 0 1 1 0 0 0 2 0z"/>
+                        </svg>
+                    </div>
+                    <div class="rgm-a11y-btn-content">
+                        <span class="rgm-a11y-btn-label">Contraste inteligente</span>
+                    </div>
+                </button>
+
+                <!-- 5. Brillo -->
+                <button type="button" class="rgm-a11y-btn" id="rgm-a11y-btn-brightness" aria-pressed="false">
+                    <div class="rgm-a11y-btn-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 2v2.5m0 15V22M2 12h2.5m15 0H22m-3.3-6.7l-1.8 1.8m-9.8 9.8l-1.8 1.8m0-13.4l1.8 1.8m9.8 9.8l1.8 1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="rgm-a11y-btn-content">
+                        <span class="rgm-a11y-btn-label">Brillo</span>
+                        <div class="rgm-a11y-btn-indicators" aria-hidden="true">
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- 6. Escala de grises -->
+                <button type="button" class="rgm-a11y-btn" id="rgm-a11y-btn-grayscale" aria-pressed="false">
+                    <div class="rgm-a11y-btn-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <circle cx="9" cy="12" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="15" cy="12" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="rgm-a11y-btn-content">
+                        <span class="rgm-a11y-btn-label">Escala de grises</span>
+                        <div class="rgm-a11y-btn-indicators" aria-hidden="true">
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                            <span class="rgm-a11y-pill"></span>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Modal de Búsqueda RGM -->
+    <div class="modal fade" id="rgmSearchModal" tabindex="-1" aria-labelledby="rgmSearchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rgm-search-modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fs-6 text-muted fw-semibold d-flex align-items-center" id="rgmSearchModalLabel">
+                        <img src="https://www.garantiasmobiliarias.com.co/media/iu3fu0m5/search-icon.png" alt="Buscar" class="rgm-modal-search-icon me-2">Buscador de contenidos
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body pt-3 pb-4 px-4">
+                    <form action="/buscador/" method="get" class="rgm-search-modal-form">
+                        <div class="input-group search-modal-input-group">
+                            <span class="input-group-text bg-white border-end-0 text-muted ps-3">
+                                <img src="https://www.garantiasmobiliarias.com.co/media/iu3fu0m5/search-icon.png" alt="Buscar" class="rgm-input-search-icon">
+                            </span>
+                            <input type="search" 
+                                   name="q" 
+                                   class="form-control form-control-lg border-start-0 ps-0 search-modal-input" 
+                                   placeholder="¿Qué estás buscando? (ej. garantías, normatividad...)" 
+                                   required 
+                                   autocomplete="off" 
+                                   aria-label="Buscar contenidos">
+                            <button class="btn btn-rgm-primary px-4" type="submit">
+                                Buscar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/tabs.js"></script>
+    <script src="/scripts/main-script.js"></script>
+    <script src="js/modal.js"></script>
+
+</body>
+</html>

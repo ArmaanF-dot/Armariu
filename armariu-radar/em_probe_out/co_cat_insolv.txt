@@ -1,0 +1,795 @@
+{
+  "results" :
+    [
+      {
+        "resource" :
+          {
+            "name" : "Solicitudes de insolvencia",
+            "id" : "msu7-rjqd",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "Solicitudes de insolvencia correspondientes a los años 2018, 2019, 2020, 2021, 2022, 2023, 2024 y 2025 registradas en el Sistema de Información de la Conciliación, el Arbitraje y la Amigable Composición (SICAAC).",
+            "attribution" : "Ministerio de Justicia y del derecho - MinJusticia, Bogotá D.C.",
+            "attribution_link" : "https://www.datos.gov.co/d/msu7-rjqd",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-05-18T18:08:00.000Z",
+            "createdAt" : "2019-09-05T21:59:38.000Z",
+            "metadata_updated_at" : "2026-05-18T18:08:00.000Z",
+            "data_updated_at" : "2026-02-03T14:09:21.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 105,
+                "page_views_last_month" : 574,
+                "page_views_total" : 10888,
+                "page_views_last_week_log" : 6.727920454563199,
+                "page_views_last_month_log" : 9.167418145831737,
+                "page_views_total_log" : 13.410583848637842
+              },
+            "columns_name" :
+              [
+                "Año",
+                "Departamento",
+                "Municipio",
+                "Privados YEstado",
+                "Mes",
+                "Resultado Insolvencia",
+                "Gratis"
+              ],
+            "columns_field_name" :
+              [
+                "anio",
+                "departamento",
+                "municipio",
+                "privados_estado",
+                "mes",
+                "resultado_insolvencia",
+                "gratis"
+              ],
+            "columns_datatype" :
+              [ "Text", "Text", "Text", "Text", "Number", "Text", "Text" ],
+            "columns_description" :
+              [
+                "año en el que se realiza la insolvencia ",
+                "departamento  en el que se realiza la insolvencia ",
+                "municipio  en el que se realiza la insolvencia ",
+                "especifica si el acuerdo se realiza entre entidades publicas o privadas ",
+                "año en el que se realiza la insolvencia ",
+                "especifica el resultado de la insolvencia ",
+                "especifica si el proceso fue gratuito o no "
+              ],
+            "columns_format" : [ {}, {}, {}, {}, {}, {}, {} ],
+            "download_count" : 844,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2019-09-05T22:17:45.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Justicia y Derecho",
+            "domain_tags" :
+              [
+                "solicitudes insolvencia",
+                "conciliacion",
+                "arbitraje",
+                "sicaac",
+                "amigable composicion"
+              ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Justicia y Derecho"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Ministerio de Justicia y del derecho - MinJusticia, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/msu7-rjqd",
+        "link" : "https://www.datos.gov.co/Justicia-y-Derecho/Solicitudes-de-insolvencia/msu7-rjqd",
+        "owner" :
+          {
+            "id" : "8ek4-hyhr",
+            "user_type" : "interactive",
+            "display_name" : "Ministerio de Justicia y del Derecho"
+          },
+        "creator" :
+          {
+            "id" : "8ek4-hyhr",
+            "user_type" : "interactive",
+            "display_name" : "Ministerio de Justicia y del Derecho"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Directorio de Centros de Conciliación, Arbitraje, Amigable Composición e Insolvencia",
+            "id" : "7p9a-zd9k",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "Directorio activo de los centros de conciliación registrados en el sistema de conciliación, arbitraje y amigable composición SICAAC.",
+            "attribution" : "Ministerio de Justicia y del derecho - MinJusticia, Bogotá D.C.",
+            "attribution_link" : "https://www.sicaac.gov.co",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-11-06T22:17:34.000Z",
+            "createdAt" : "2020-06-24T22:31:26.000Z",
+            "metadata_updated_at" : "2026-11-06T22:17:33.000Z",
+            "data_updated_at" : "2026-11-06T22:17:34.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 272,
+                "page_views_last_month" : 1327,
+                "page_views_total" : 64492,
+                "page_views_last_week_log" : 8.092757140919852,
+                "page_views_last_month_log" : 10.375039431346925,
+                "page_views_total_log" : 15.976854960033773
+              },
+            "columns_name" :
+              [
+                "Nombre",
+                "Correo_Centro",
+                "Teléfono Centro",
+                "Dirección Centro",
+                "Departamento",
+                "Ciudad",
+                "Clase Centro"
+              ],
+            "columns_field_name" :
+              [
+                "nombre",
+                "correo_centro",
+                "tel_fono_centro",
+                "direcci_n_centro",
+                "departamento",
+                "ciudad",
+                "clase_centro"
+              ],
+            "columns_datatype" :
+              [ "Text", "Text", "Text", "Text", "Text", "Text", "Text" ],
+            "columns_description" :
+              [
+                "Nombre de centro de conciliación ",
+                "Correo de contacto del centro de conciliación ",
+                "teléfono de contacto del centro de conciliación",
+                "dirección donde se ubica el centro de conciliación",
+                "departamento donde se ubica el centro de conciliación ",
+                "Ciudad o municipio donde se ubica el centro de conciliación ",
+                "Tipo de entidad de representación legal (Consultorios Jurídicos de Factultades de Derecho, Entidad Pública o Persona Jurídica sin ánimo de Lucro)"
+              ],
+            "columns_format" :
+              [ {}, { "displayStyle" : "email" }, {}, {}, {}, {}, {} ],
+            "download_count" : 6990,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2023-04-04T15:33:25.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Justicia y Derecho",
+            "domain_tags" :
+              [
+                "centros",
+                "centro de conciliación",
+                "amigable composicion",
+                "centro",
+                "conciliación",
+                "insolvencia",
+                "arbitraje"
+              ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Trimestral"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Justicia y Derecho"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Área-o-dependencia",
+                  "value" : "Dirección de Métodos Alternativos de Solución de Conflictos"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Ministerio de Justicia y del derecho - MinJusticia, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/7p9a-zd9k",
+        "link" : "https://www.datos.gov.co/Justicia-y-Derecho/Directorio-de-Centros-de-Conciliación-Arbitraje-Am/7p9a-zd9k",
+        "owner" :
+          {
+            "id" : "8ek4-hyhr",
+            "user_type" : "interactive",
+            "display_name" : "Ministerio de Justicia y del Derecho"
+          },
+        "creator" :
+          {
+            "id" : "8ek4-hyhr",
+            "user_type" : "interactive",
+            "display_name" : "Ministerio de Justicia y del Derecho"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Directorio de entidades avaladas para formación en conciliación y/o insolvencia",
+            "id" : "kccg-dij4",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "Directorio activo de entidades avaladas para formación en conciliación y/o insolvencia del sistema de conciliación, arbitraje y amigable composición.",
+            "attribution" : "Ministerio de Justicia y del derecho - MinJusticia, Bogotá D.C.",
+            "attribution_link" : "https://www.sicaac.gov.co",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-07-09T21:24:54.000Z",
+            "createdAt" : "2020-06-24T23:15:12.000Z",
+            "metadata_updated_at" : "2026-07-09T21:24:53.000Z",
+            "data_updated_at" : "2026-07-09T21:24:54.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 27,
+                "page_views_last_month" : 174,
+                "page_views_total" : 6111,
+                "page_views_last_week_log" : 4.807354922057604,
+                "page_views_last_month_log" : 7.45121111183233,
+                "page_views_total_log" : 12.57742882803575
+              },
+            "columns_name" :
+              [
+                "Entidad Avalada",
+                "Dirección",
+                "Ciudad",
+                "Departamento",
+                "Director",
+                "Aval de Formación",
+                "Teléfono",
+                "Organización",
+                "Correo"
+              ],
+            "columns_field_name" :
+              [
+                "entidad_avalada",
+                "direcci_n",
+                "ciudad",
+                "departamento",
+                "director",
+                "aval_de_formaci_n",
+                "tel_fono",
+                "organizaci_n",
+                "correo"
+              ],
+            "columns_datatype" :
+              [
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text"
+              ],
+            "columns_description" :
+              [
+                "Entidad avalado para formación en conciliación y/o en insolvencia",
+                "dirección de contacto de la entidad que esta avalada para formación en conciliación y/o en insolvencia",
+                "ciudad o municipio en donde se encuentra ubicada la entidad avalada",
+                "Departamento en donde se encuentra ubicada la entidad avalada",
+                "Nombre del director de la entidad que esta avalada para formación en conciliación y/o en insolvencia",
+                "Especifica si el aval es para formación en conciliación o en insolvencia",
+                "teléfono de contacto de la entidad que esta avalada para formación en conciliación y/o en insolvencia",
+                "Nombre de la empresa que esta avalada para formación en conciliación y/o en insolvencia",
+                "Correo de contacto de la entidad que esta avalada para formación en conciliación y/o en insolvencia"
+              ],
+            "columns_format" :
+              [ {}, {}, {}, {}, {}, {}, {}, {}, { "displayStyle" : "email" } ],
+            "download_count" : 3217,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2020-06-25T00:25:38.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Justicia y Derecho",
+            "domain_tags" :
+              [
+                "conciliación",
+                "formación",
+                "directorio",
+                "insolvencia",
+                "fomación en conciliación y en insolvencia"
+              ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Trimestral"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Justicia y Derecho"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Área-o-dependencia",
+                  "value" : "Dirección de Métodos Alternativos de Solución de Conflictos"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Ministerio de Justicia y del derecho - MinJusticia, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/kccg-dij4",
+        "link" : "https://www.datos.gov.co/Justicia-y-Derecho/Directorio-de-entidades-avaladas-para-formación-en/kccg-dij4",
+        "owner" :
+          {
+            "id" : "8ek4-hyhr",
+            "user_type" : "interactive",
+            "display_name" : "Ministerio de Justicia y del Derecho"
+          },
+        "creator" :
+          {
+            "id" : "8ek4-hyhr",
+            "user_type" : "interactive",
+            "display_name" : "Ministerio de Justicia y del Derecho"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Actos Jurídicos Notariales",
+            "id" : "qktb-5f8m",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "La base de datos de actos jurídicos notariales contiene información detallada sobre los documentos que son otorgados y autenticados a través de la intervención de una notaría. Esta base de datos registra 41 tipos de actos notariales, que comprenden diversas actividades legales que requieren la validación de un notario público. Entre los principales actos se incluyen compraventas, hipotecas, cancelaciones de hipotecas, constituciones de sociedades, matrimonios civiles, divorcios, sucesiones, declaraciones extrajudiciales, autenticaciones.\n\nEncuesta: https://forms.office.com/r/xzS08PTXp5",
+            "attribution" : "Oficina Asesora de Planeación",
+            "attribution_link" : null,
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-09-28T15:09:40.000Z",
+            "createdAt" : "2024-10-12T18:41:14.000Z",
+            "metadata_updated_at" : "2026-09-28T15:09:40.000Z",
+            "data_updated_at" : "2026-09-28T15:09:34.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 83,
+                "page_views_last_month" : 370,
+                "page_views_total" : 6932,
+                "page_views_last_week_log" : 6.39231742277876,
+                "page_views_last_month_log" : 8.535275376620802,
+                "page_views_total_log" : 12.759264045188788
+              },
+            "columns_name" :
+              [
+                "Cancelaciones de Hipotecas",
+                "Legitimación de Hijos",
+                "Declaraciones de Supervivencia",
+                "Liquidación de Sociedades",
+                "Correcciones del Registro Civil",
+                "Registros Civiles de Nacimiento",
+                "Matrimonios Civiles",
+                "Vivienda de Interés Social",
+                "Hipotecas",
+                "Código Departamento",
+                "Fecha",
+                "Disoluciones y/o Liquidaciones de sociedades conyugales",
+                "Capitulaciones Matrimoniales",
+                "Reforma de Sociedad Comercial",
+                "Leasing",
+                "Sucesiones",
+                "Vivienda de Interés Prioritario para Ahorradores",
+                "Compraventa",
+                "Departamento",
+                "Cambios de Nombre",
+                "Contratos por Arrendamientos",
+                "Matrimonios Civiles entre Personas del Mismo Sexo",
+                "Otras  - Bien Inmueble",
+                "Disoluciones de Uniones Maritales de Hecho",
+                "Divorcios",
+                "Uniones entre Personas del Mismo Sexo",
+                "Autenticaciones",
+                "Actas de Comparecencia",
+                "Registros Civiles de Matrimonio",
+                "Registros Civiles de Defunción",
+                "Constitución de Sociedades",
+                "Permutas",
+                "Vivienda de Interés Prioritario",
+                "Fiducia Mercantil",
+                "Procedimientos Sobre Insolvencia Económica",
+                "Corrección del componente Sexo de Masculino a Femenino",
+                "Copias del Registro Civil",
+                "Remates de Inmuebles",
+                "Conciliaciones",
+                "Declaraciones Extra Juicio"
+              ],
+            "columns_field_name" :
+              [
+                "cancelaciones_de_hipotecas",
+                "legitimaci_n_de_hijos",
+                "declaraciones_de_supervivencia",
+                "liquidaci_n_de_sociedades",
+                "correcciones_del_registro",
+                "registros_civiles_nacimiento",
+                "matrimonios_civiles",
+                "vivienda_de_inter_s_social",
+                "hipotecas",
+                "c_digo_departamento",
+                "fecha",
+                "disoluciones_y_o_liquidaciones",
+                "capitulaciones_matrimoniales",
+                "reforma_de_sociedad_comercial",
+                "leasing",
+                "sucesiones",
+                "vivienda_de_inter_s_1",
+                "compraventa",
+                "departamento",
+                "cambios_de_nombre",
+                "contratos_por_arrendamientos",
+                "matrimonios_civiles_entre",
+                "otras_bien_inmueble",
+                "disoluciones_de_uniones",
+                "divorcios",
+                "uniones_entre_personas_del",
+                "autenticaciones",
+                "actas_de_comparecencia",
+                "registros_civiles_matrimonio",
+                "registros_civiles_defuncion",
+                "constituci_n_de_sociedades",
+                "permutas",
+                "vivienda_de_inter_s",
+                "fiducia_mercantil",
+                "insolvencia_econmica",
+                "correcci_n_del_componente",
+                "copias_del_registro_civil",
+                "remates_de_inmuebles",
+                "conciliaciones",
+                "declaraciones_extra_juicio"
+              ],
+            "columns_datatype" :
+              [
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Text",
+                "Calendar date",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Text",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number",
+                "Number"
+              ],
+            "columns_description" :
+              [
+                " acto jurídico notarial que extingue una hipoteca, liberando el bien inmueble de su carga, formalizado mediante escritura pública e inscrito en el registro correspondiente.",
+                "proceso legal que reconoce la paternidad o maternidad de un hijo nacido fuera del matrimonio, otorgándole los mismos derechos que a los hijos legítimos. Se solicita por los padres o por el hijo al alcanzar la mayoría de edad e implica la inscripción del nombre del padre o madre en el registro civil.",
+                "documentos notariales que certifican la existencia y estado de una persona, utilizados en contextos legales como herencias, seguros y pensiones. Realizadas ante un notario, demuestran que una persona está viva y puede ejercer derechos o recibir beneficios.",
+                "proceso de disolución de una sociedad, donde se distribuyen activos y pasivos, se valoran bienes y se pagan deudas, pudiendo ser voluntaria o forzosa, siguiendo procedimientos legales específicos.",
+                "proceso legal para modificar o rectificar errores en registros civiles, como actas de nacimiento, matrimonio o defunción. La solicitud puede realizarla el interesado o su representante, siguiendo procedimientos legales para asegurar la veracidad de la información registrada.",
+                "documentos oficiales que certifican el nacimiento de una persona, incluyendo información como el nombre, la fecha y lugar de nacimiento, así como los datos de los padres. Estos registros son fundamentales para la obtención de documentos de identidad y otros derechos legales.",
+                "unión legal entre un hombre y una mujer reconocida por las autoridades civiles, que otorga derechos y deberes, formalizada mediante ceremonia civil e inscripción en el registro civil.",
+                "vivienda destinada a sectores de bajos ingresos, promovida por el gobierno con subsidios y beneficios fiscales para facilitar el acceso a una vivienda digna.",
+                "acto jurídico notarial en el que un bien, generalmente inmueble, se utiliza como garantía de pago para un préstamo. El acuerdo se formaliza mediante escritura pública, asegurando los derechos del acreedor en caso de incumplimiento del deudor.",
+                "identificador numérico único asignado a cada departamento",
+                "Fecha Cuatrimestral de los actos notariales.",
+                "proceso legal que finaliza la comunidad de bienes entre cónyuges tras el divorcio, implicando la identificación, valoración y división de los bienes adquiridos durante el matrimonio. Puede ser acordada de mutuo acuerdo o dictada por un juez, garantizando una distribución equitativa de bienes y deudas.",
+                "acuerdo legal previo al matrimonio que establece las condiciones sobre el régimen económico de la pareja. Incluyen disposiciones sobre la administración de bienes y obligaciones financieras, formalizándose mediante escritura pública ante notario para proteger los intereses patrimoniales de ambos cónyuges.",
+                "proceso de modificación de estatutos o aspectos operativos de una sociedad, como su objeto social o capital, que requiere aprobación de socios y formalización mediante escritura pública e inscripción en el registro mercantil.",
+                "contrato de arrendamiento financiero donde una entidad cede el uso de un bien a cambio de pagos periódicos, con la opción de compra al final del contrato. Permite utilizar activos sin comprarlos de inmediato.",
+                "proceso jurídico que determina la transmisión de bienes y derechos de una persona fallecida a sus herederos, formalizado mediante escritura pública ante notario, ya sea por testamento o por disposición legal.",
+                "vivienda destinada a familias de bajos ingresos que han ahorrado para su compra, ofreciendo subsidios y tasas de interés preferenciales para facilitar el acceso a una vivienda digna.",
+                "acto jurídico notarial donde se transfiere la propiedad de un bien a cambio de dinero, formalizado mediante escritura pública.",
+                "División territorial administrativa donde se realizó el acto jurídico notarial, correspondiente a una entidad geográfica específica dentro del país.",
+                "proceso legal que permite a una persona modificar su nombre por motivos personales, familiares o de género, mediante una solicitud a la autoridad competente. Una vez aprobado, se actualiza el nombre en los registros civiles y documentos oficiales.",
+                "acuerdos jurídicos donde un arrendador cede el uso de un bien, generalmente inmueble, a un arrendatario a cambio de un pago periódico, formalizados por escrito e incluyendo términos sobre duración y obligaciones.",
+                "unión legal entre dos personas del mismo sexo reconocida por las autoridades civiles, que otorga los mismos derechos y deberes que un matrimonio tradicional, formalizada mediante ceremonia civil e inscripción en el registro civil.",
+                "propiedad física no trasladable, como terrenos o edificaciones, que requiere actos jurídicos notariales para su transferencia o modificación.",
+                " proceso legal que pone fin a una relación de pareja no casada que ha convivido de manera estable. Puede ser solicitado por uno o ambos miembros y abarca la división de bienes y custodia de hijos. La disolución se formaliza mediante declaración ante notario o sentencia judicial.",
+                "proceso legal que disuelve un matrimonio, finalizando derechos y obligaciones conyugales. Puede ser voluntario o contencioso, abordando la custodia de hijos, división de bienes y pensión alimentaria, formalizándose mediante sentencia judicial o escritura pública.",
+                " reconocimiento legal de la relación entre parejas del mismo sexo, otorgando derechos y deberes similares a los de las uniones heterosexuales. Incluye matrimonios o uniones civiles, permitiendo beneficios como adopción, herencia y seguro médico, promoviendo la igualdad de derechos.",
+                "proceso en el que un notario verifica la identidad de una persona y la autenticidad de su firma en documentos, asegurando que la firma sea voluntaria. Este procedimiento proporciona validez legal a contratos y actos jurídicos.",
+                "documentos notariales que registran la presencia de personas ante un notario para realizar un acto jurídico, como un contrato o declaración. Incluyen detalles de los comparecientes y el objeto del acto, sirviendo como prueba legal de la autenticidad y formalidad de las declaraciones.",
+                "La inscripción en el registro civil permite dar publicidad y prueba la existencia del matrimonio, ya sea que se haya celebrado a través de un rito religioso o ante una autoridad civil como un juez o un notario.",
+                "El Registro civil de defunción es el documento que acredita legalmente el fallecimiento de una persona.",
+                "proceso jurídico para crear una entidad legal con fines comerciales, que incluye la elaboración de estatutos, inscripción en el registro mercantil y cumplimiento de requisitos legales, limitando la responsabilidad personal de sus integrantes.",
+                "acto jurídico notarial en el que dos partes intercambian bienes, formalizado mediante escritura pública.",
+                "vivienda destinada a los sectores más vulnerables y de bajos ingresos, con menor costo y acceso a subsidios especiales, para garantizar el acceso a una vivienda digna.",
+                "contrato en el que un fiduciante transfiere bienes a un fiduciario para su administración y destino a un fin específico, utilizado en el ámbito comercial y financiero para garantizar seguridad y transparencia.",
+                "Se conoce como régimen de insolvencia, el procedimiento por el cual una persona natural comerciante1 o una empresa, pueden acordar con sus acreedores formas de pago de sus obligaciones atrasadas, protegiendo de esta manera sus negocios y fuentes de ingreso",
+                "La corrección del componente sexo en el Registro Civil de Nacimiento podrá consistir en la inscripción del sexo masculino (M) o femenino (F). El Número Único de Identificación Personal (NUIP) no se modificará con la corrección del componente sexo en el Registro Civil.",
+                "documentos que reproducen información oficial sobre nacimientos, matrimonios, divorcios y defunciones, expedidos por la entidad competente. Tienen validez legal y facilitan trámites ante autoridades o instituciones que requieren evidencia de hechos vitales.",
+                "procesos judiciales o administrativos donde se venden bienes inmuebles en subasta pública para saldar deudas o cumplir resoluciones judiciales. Realizados bajo supervisión de un juez o entidad competente, los interesados presentan ofertas y el inmueble se adjudica al mejor posto",
+                "procedimientos donde las partes en un conflicto buscan llegar a un acuerdo con la ayuda de un conciliador. Pueden ser voluntarias u ordenadas por un juez, y su resultado se formaliza en un documento legal",
+                "testimonios o manifestaciones realizadas fuera de un proceso judicial, con validez legal. Pueden usarse como evidencia en procedimientos futuros y se realizan ante notarios o autoridades competentes, incluyendo información relevante sobre hechos o circunstancias importantes."
+              ],
+            "columns_format" :
+              [
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                {},
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                {},
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," },
+                { "decimalSeparator" : ".", "groupSeparator" : "," }
+              ],
+            "download_count" : 892,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2026-09-28T15:09:40.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Justicia y Derecho",
+            "domain_tags" :
+              [
+                "autenticaciones",
+                "compraventas",
+                "matrimonios civiles",
+                "viviendas de interes social",
+                "sucesiones",
+                "hipotecas",
+                "actos jurídicos notariales",
+                "sector inmobiliario",
+                "propiedad inmobiliaria",
+                "vivienda de interés social",
+                "trámites notariales",
+                "notarias",
+                "notaria",
+                "escrituras públicas",
+                "permutas",
+                "arrendamiento",
+                "divorcios - código civil",
+                "dinámica inmobiliaria",
+                "vip",
+                "snr",
+                "negocio jurídico",
+                "superintendencia de notariado y registro",
+                "movimiento notarial",
+                "actos notariales",
+                "notariado colombiano",
+                "estadísticas notariales"
+              ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Departamental"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Cuatrimestral"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Justicia y Derecho"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Área-o-dependencia",
+                  "value" : "Oficina Asesora de Planeación"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Superintendencia de Notariado y Registro - SUPERNOTARIADO, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | NoDerivatives 4.0 International License"
+          },
+        "permalink" : "https://www.datos.gov.co/d/qktb-5f8m",
+        "link" : "https://www.datos.gov.co/Justicia-y-Derecho/Actos-Jurídicos-Notariales/qktb-5f8m",
+        "owner" :
+          {
+            "id" : "tzdg-stx9",
+            "user_type" : "interactive",
+            "display_name" : "SUPERINTENDENCIA DE NOTARIADO Y REGISTRO"
+          },
+        "creator" :
+          {
+            "id" : "tzdg-stx9",
+            "user_type" : "interactive",
+            "display_name" : "SUPERINTENDENCIA DE NOTARIADO Y REGISTRO"
+          }
+      }
+    ],
+  "resultSetSize" : 4,
+  "timings" : { "serviceMillis" : 32, "searchMillis" : [ 5, 7 ] },
+  "warnings" : []
+}

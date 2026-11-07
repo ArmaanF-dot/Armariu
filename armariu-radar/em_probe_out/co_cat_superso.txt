@@ -1,0 +1,783 @@
+{
+  "results" :
+    [
+      {
+        "resource" :
+          {
+            "name" : "Estados Financieros NIIF- Estado de Resultado Integral",
+            "id" : "prwj-nzxa",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "\"Estado financiero básico, que muestra el resumen de las operaciones del negocio, enfrenta los ingresos contra los costos y gastos para determinar el resultado del periodo. Formularios diligenciados en miles de pesos\". Lo invitamos a participar en la siguiente encuesta https://forms.office.com/r/QNC1FantDU",
+            "attribution" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C.",
+            "attribution_link" : null,
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-07-07T17:18:25.000Z",
+            "createdAt" : "2021-10-20T15:21:36.000Z",
+            "metadata_updated_at" : "2026-05-18T16:57:00.000Z",
+            "data_updated_at" : "2026-07-07T17:18:25.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 233,
+                "page_views_last_month" : 808,
+                "page_views_total" : 8410,
+                "page_views_last_week_log" : 7.870364719583405,
+                "page_views_last_month_log" : 9.659995892429977,
+                "page_views_total_log" : 13.038061620133602
+              },
+            "columns_name" :
+              [
+                "ID_PUNTO_ENTRADA",
+                "TAXONOMIA",
+                "NUMERO_RADICADO",
+                "PUNTO_ENTRADA",
+                "VALOR",
+                "CONCEPTO",
+                "ID_TAXONOMIA",
+                "PERIODO",
+                "FECHA_CORTE",
+                "NIT",
+                "CODIGO_INSTANCIA"
+              ],
+            "columns_field_name" :
+              [
+                "id_punto_entrada",
+                "taxonomia",
+                "numero_radicado",
+                "punto_entrada",
+                "valor",
+                "concepto",
+                "id_taxonomia",
+                "periodo",
+                "fecha_corte",
+                "nit",
+                "codigo_instancia"
+              ],
+            "columns_datatype" :
+              [
+                "Number",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Number",
+                "Text",
+                "Calendar date",
+                "Number",
+                "Number"
+              ],
+            "columns_description" :
+              [
+                "Identificador del punto de entrada al que pertenece la sociedad",
+                "Descripción de la taxonomía del informe financiero diligenciado",
+                "Numero de radicado en Postal",
+                "Descripción del tipo de entrada al que pertenece la sociedad",
+                "Valor diligenciado para el CAMPO y COLUMNA definido (Rubro y Periodo)",
+                "Rubro",
+                "Id de la taxonomía correspondiente al año del informe financiero diligenciado",
+                "Periodo a diligenciar",
+                "Fecha en que finaliza el periodo contable a reportar en SIRFIN ",
+                "Número de Identificación Tributaria (NIT) de la Sociedad.",
+                "Identificador único de la informe financiero presentado por la sociedad."
+              ],
+            "columns_format" : [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
+            "download_count" : 3147,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2021-10-22T15:22:35.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Economía y Finanzas",
+            "domain_tags" : [ "estados financieros" ],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/prwj-nzxa",
+        "link" : "https://www.datos.gov.co/Economía-y-Finanzas/Estados-Financieros-NIIF-Estado-de-Resultado-Integ/prwj-nzxa",
+        "owner" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          },
+        "creator" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Estados Financieros NIIF- Estado de Situación Financiera",
+            "id" : "pfdp-zks5",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "\"Estado de situación financiera, que presenta en forma clasificada, resumida y consistente, la situación financiera de la entidad a una fecha determinada y revela la totalidad de sus bienes, derechos y obligaciones, y la situación del patrimonio\". Lo invitamos a participar en la siguiente encuesta https://forms.office.com/r/QNC1FantDU",
+            "attribution" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C.",
+            "attribution_link" : null,
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-07-06T21:02:27.000Z",
+            "createdAt" : "2021-10-19T20:01:17.000Z",
+            "metadata_updated_at" : "2026-05-18T17:31:21.000Z",
+            "data_updated_at" : "2026-07-06T21:02:27.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 367,
+                "page_views_last_month" : 1396,
+                "page_views_total" : 26334,
+                "page_views_last_week_log" : 8.523561956057014,
+                "page_views_last_month_log" : 10.448116305409464,
+                "page_views_total_log" : 14.684693839041321
+              },
+            "columns_name" :
+              [
+                "ID_PUNTO_ENTRADA",
+                "NUMERO_RADICADO",
+                "NIT",
+                "CONCEPTO",
+                "ID_TAXONOMIA",
+                "PUNTO_ENTRADA",
+                "CODIGO_INSTANCIA",
+                "FECHA_CORTE",
+                "PERIODO",
+                "TAXONOMIA",
+                "VALOR"
+              ],
+            "columns_field_name" :
+              [
+                "id_punto_entrada",
+                "numero_radicado",
+                "nit",
+                "concepto",
+                "id_taxonomia",
+                "punto_entrada",
+                "codigo_instancia",
+                "fecha_corte",
+                "periodo",
+                "taxonomia",
+                "valor"
+              ],
+            "columns_datatype" :
+              [
+                "Number",
+                "Text",
+                "Number",
+                "Text",
+                "Number",
+                "Text",
+                "Number",
+                "Calendar date",
+                "Text",
+                "Text",
+                "Text"
+              ],
+            "columns_description" :
+              [
+                "Identificador del punto de entrada al que pertenece la sociedad",
+                "Numero de radicado en Postal",
+                "Número de Identificación Tributaria (NIT) de la Sociedad.",
+                "Rubro",
+                "Id de la taxonomía correspondiente al año del informe financiero diligenciado",
+                "Descripción del tipo de entrada al que pertenece la sociedad",
+                "Identificador único de la informe financiero presentado por la sociedad.",
+                "Fecha en que finaliza el periodo contable a reportar en SIRFIN ",
+                "Periodo a diligenciar",
+                "Descripción de la taxonomía del informe financiero diligenciado",
+                "Valor diligenciado para el CAMPO y COLUMNA definido (Rubro y Periodo)"
+              ],
+            "columns_format" : [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
+            "download_count" : 4569,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2021-10-25T21:16:54.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Economía y Finanzas",
+            "domain_tags" : [],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/pfdp-zks5",
+        "link" : "https://www.datos.gov.co/Economía-y-Finanzas/Estados-Financieros-NIIF-Estado-de-Situación-Finan/pfdp-zks5",
+        "owner" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          },
+        "creator" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Estados Financieros NIIF- Estado de Flujo Efectivo",
+            "id" : "ctcp-462n",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "\"Estado financiero básico que informa sobre las variaciones y los movimientos de efectivo y sus equivalentes en un periodo dado\". Lo invitamos a participar en la siguiente encuesta https://forms.office.com/r/QNC1FantDU",
+            "attribution" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C.",
+            "attribution_link" : null,
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-07-07T15:53:17.000Z",
+            "createdAt" : "2021-10-22T21:12:58.000Z",
+            "metadata_updated_at" : "2026-05-18T18:27:47.000Z",
+            "data_updated_at" : "2026-07-07T15:53:17.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 46,
+                "page_views_last_month" : 193,
+                "page_views_total" : 3512,
+                "page_views_last_week_log" : 5.554588851677638,
+                "page_views_last_month_log" : 7.599912842187128,
+                "page_views_total_log" : 11.778487861222372
+              },
+            "columns_name" :
+              [
+                "NIT",
+                "VALOR",
+                "FECHA_CORTE",
+                "CONCEPTO",
+                "TAXONOMIA",
+                "ID_TAXONOMIA",
+                "ID_PUNTO_ENTRADA",
+                "PERIODO",
+                "NUMERO_RADICADO",
+                "CODIGO_INSTANCIA",
+                "PUNTO_ENTRADA"
+              ],
+            "columns_field_name" :
+              [
+                "nit",
+                "valor",
+                "fecha_corte",
+                "concepto",
+                "taxonomia",
+                "id_taxonomia",
+                "id_punto_entrada",
+                "periodo",
+                "numero_radicado",
+                "codigo_instancia",
+                "punto_entrada"
+              ],
+            "columns_datatype" :
+              [
+                "Number",
+                "Text",
+                "Calendar date",
+                "Text",
+                "Text",
+                "Number",
+                "Number",
+                "Text",
+                "Text",
+                "Number",
+                "Text"
+              ],
+            "columns_description" :
+              [
+                "Número de Identificación Tributaria (NIT) de la Sociedad.",
+                "Valor diligenciado para el CAMPO y COLUMNA definido (Rubro y Periodo)",
+                "Fecha en que finaliza el periodo contable a reportar en SIRFIN ",
+                "Rubro",
+                "Descripción de la taxonomía del informe financiero diligenciado",
+                "Id de la taxonomía correspondiente al año del informe financiero diligenciado",
+                "Identificador del punto de entrada al que pertenece la sociedad",
+                "Periodo a diligenciar",
+                "Numero de radicado en Postal",
+                "Identificador único de la informe financiero presentado por la sociedad.",
+                "Descripción del tipo de entrada al que pertenece la sociedad"
+              ],
+            "columns_format" : [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
+            "download_count" : 1565,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2021-10-22T22:13:26.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Economía y Finanzas",
+            "domain_tags" : [],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/ctcp-462n",
+        "link" : "https://www.datos.gov.co/Economía-y-Finanzas/Estados-Financieros-NIIF-Estado-de-Flujo-Efectivo/ctcp-462n",
+        "owner" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          },
+        "creator" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Estados Financieros NIIF- Otro Resultado Integral",
+            "id" : "y3gh-x5g7",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "\"Estado financiero básico, que muestra el resumen de las operaciones del negocio, enfrenta los ingresos contra los costos y gastos para determinar el resultado del periodo\". Lo invitamos a participar en la siguiente encuesta https://forms.office.com/r/QNC1FantDU",
+            "attribution" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C.",
+            "attribution_link" : "https://www.datos.gov.co/d/y3gh-x5g7",
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-07-07T15:28:21.000Z",
+            "createdAt" : "2021-10-22T17:59:56.000Z",
+            "metadata_updated_at" : "2026-05-18T16:37:51.000Z",
+            "data_updated_at" : "2026-07-07T15:28:21.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 135,
+                "page_views_last_month" : 509,
+                "page_views_total" : 3837,
+                "page_views_last_week_log" : 7.08746284125034,
+                "page_views_last_month_log" : 8.994353436858859,
+                "page_views_total_log" : 11.906138996195379
+              },
+            "columns_name" :
+              [
+                "NIT",
+                "FECHA_CORTE",
+                "ID_PUNTO_ENTRADA",
+                "CODIGO_INSTANCIA",
+                "PUNTO_ENTRADA",
+                "TAXONOMIA",
+                "PERIODO",
+                "NUMERO_RADICADO",
+                "VALOR",
+                "ID_TAXONOMIA",
+                "CONCEPTO"
+              ],
+            "columns_field_name" :
+              [
+                "nit",
+                "fecha_corte",
+                "id_punto_entrada",
+                "codigo_instancia",
+                "punto_entrada",
+                "taxonomia",
+                "periodo",
+                "numero_radicado",
+                "valor",
+                "id_taxonomia",
+                "concepto"
+              ],
+            "columns_datatype" :
+              [
+                "Number",
+                "Calendar date",
+                "Number",
+                "Number",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Number",
+                "Text"
+              ],
+            "columns_description" :
+              [
+                "Número de Identificación Tributaria (NIT) de la Sociedad.",
+                "Fecha en que finaliza el periodo contable a reportar en SIRFIN ",
+                "Identificador del punto de entrada al que pertenece la sociedad",
+                "Identificador único de la informe financiero presentado por la sociedad.",
+                "Descripción del tipo de entrada al que pertenece la sociedad",
+                "Descripción de la taxonomía del informe financiero diligenciado",
+                "Periodo a diligenciar",
+                "Numero de radicado en Postal",
+                "Valor diligenciado para el CAMPO y COLUMNA definido (Rubro y Periodo)",
+                "Id de la taxonomía correspondiente al año del informe financiero diligenciado",
+                "Rubro"
+              ],
+            "columns_format" : [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
+            "download_count" : 917,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2021-10-22T20:21:56.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Economía y Finanzas",
+            "domain_tags" : [],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/y3gh-x5g7",
+        "link" : "https://www.datos.gov.co/Economía-y-Finanzas/Estados-Financieros-NIIF-Otro-Resultado-Integral/y3gh-x5g7",
+        "owner" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          },
+        "creator" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          }
+      },
+      {
+        "resource" :
+          {
+            "name" : "Estados Financieros NIIF- Carátula",
+            "id" : "6hqw-m3dm",
+            "resource_name" : null,
+            "parent_fxf" : [],
+            "description" : "\"Datos básicos de la sociedad\". Lo invitamos a participar en la siguiente encuesta https://forms.office.com/r/QNC1FantDU",
+            "attribution" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C.",
+            "attribution_link" : null,
+            "contact_email" : null,
+            "type" : "dataset",
+            "updatedAt" : "2026-07-06T19:27:12.000Z",
+            "createdAt" : "2021-10-27T14:43:45.000Z",
+            "metadata_updated_at" : "2026-05-18T19:24:19.000Z",
+            "data_updated_at" : "2026-07-06T19:27:12.000Z",
+            "page_views" :
+              {
+                "page_views_last_week" : 159,
+                "page_views_last_month" : 612,
+                "page_views_total" : 7827,
+                "page_views_last_week_log" : 7.321928094887362,
+                "page_views_last_month_log" : 9.259743263690781,
+                "page_views_total_log" : 12.934428040626804
+              },
+            "columns_name" :
+              [
+                "PUNTO_ENTRADA",
+                "ID_TAXONOMIA",
+                "NIT",
+                "NUMERO_RADICADO",
+                "PERIODO",
+                "TAXONOMIA",
+                "VALOR",
+                "CODIGO_INSTANCIA",
+                "FECHA_CORTE",
+                "ID_PUNTO_ENTRADA",
+                "CONCEPTO"
+              ],
+            "columns_field_name" :
+              [
+                "punto_entrada",
+                "id_taxonomia",
+                "nit",
+                "numero_radicado",
+                "periodo",
+                "taxonomia",
+                "valor",
+                "codigo_instancia",
+                "fecha_corte",
+                "id_punto_entrada",
+                "concepto"
+              ],
+            "columns_datatype" :
+              [
+                "Text",
+                "Number",
+                "Number",
+                "Text",
+                "Text",
+                "Text",
+                "Text",
+                "Number",
+                "Calendar date",
+                "Number",
+                "Text"
+              ],
+            "columns_description" :
+              [
+                "Descripción del tipo de entrada al que pertenece la sociedad",
+                "Id de la taxonomía correspondiente al año del informe financiero diligenciado",
+                "Número de Identificación Tributaria (NIT) de la Sociedad.",
+                "Numero de radicado en Postal",
+                "Instante para el que se diligencia la información.",
+                "Descripción de la taxonomía del informe financiero diligenciado",
+                "Es el dato que corresponde a la descripción del concepto, diligenciados por las sociedades se presentan como los reportan para mantener la integridad, confiabilidad, disponibilidad de la información ",
+                "Identificador único de la informe financiero presentado por la sociedad.",
+                "Fecha en que finaliza el periodo contable a reportar en SIRFIN ",
+                "Identificador del punto de entrada al que pertenece la sociedad",
+                "Identifica a que corresponde el dato ubicado en la columna valor"
+              ],
+            "columns_format" : [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
+            "download_count" : 3558,
+            "provenance" : "official",
+            "lens_view_type" : "tabular",
+            "lens_display_type" : "table",
+            "locked" : false,
+            "backend" : "nbe",
+            "blob_mime_type" : null,
+            "hide_from_data_json" : false,
+            "publication_date" : "2021-10-27T20:41:20.000Z"
+          },
+        "classification" :
+          {
+            "categories" : [],
+            "tags" : [],
+            "domain_category" : "Economía y Finanzas",
+            "domain_tags" : [],
+            "domain_metadata" :
+              [
+                { "key" : "Información-de-Datos_Idioma", "value" : "Español" },
+                {
+                  "key" : "Información-de-Datos_Cobertura-Geográfica",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-Datos_Frecuencia-de-Actualización",
+                  "value" : "Anual"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Sector",
+                  "value" : "Comercio, Industria y Turismo"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Nombre-de-la-Entidad",
+                  "value" : "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Orden",
+                  "value" : "Nacional"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Municipio",
+                  "value" : "Bogotá D.C."
+                },
+                {
+                  "key" : "Información-de-la-Entidad_DIVIPOLA-Municipio",
+                  "value" : "11001"
+                },
+                {
+                  "key" : "Información-de-la-Entidad_Departamento",
+                  "value" : "Bogotá D.C."
+                }
+              ]
+          },
+        "metadata" :
+          {
+            "domain" : "www.datos.gov.co",
+            "license" : "Creative Commons Attribution | Share Alike 4.0 International"
+          },
+        "permalink" : "https://www.datos.gov.co/d/6hqw-m3dm",
+        "link" : "https://www.datos.gov.co/Economía-y-Finanzas/Estados-Financieros-NIIF-Carátula/6hqw-m3dm",
+        "owner" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          },
+        "creator" :
+          {
+            "id" : "kvn9-7ifp",
+            "user_type" : "interactive",
+            "display_name" : "Supersociedades"
+          }
+      }
+    ],
+  "resultSetSize" : 5,
+  "timings" : { "serviceMillis" : 38, "searchMillis" : [ 5, 10 ] },
+  "warnings" : []
+}
