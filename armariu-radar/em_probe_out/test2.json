@@ -1,0 +1,2681 @@
+{
+ "colombia": {
+  "msu7-rjqd": {
+   "name": "Solicitudes de insolvencia",
+   "rows": [
+    {
+     "count": "50425"
+    }
+   ],
+   "cols": [
+    "anio",
+    "mes",
+    "municipio",
+    "departamento",
+    "privados_estado",
+    "gratis",
+    "resultado_insolvencia"
+   ],
+   "sample": [
+    {
+     "anio": "2020",
+     "mes": "1",
+     "municipio": "ARMENIA",
+     "departamento": "QUIND\u00cdO",
+     "privados_estado": "ENTRE PRIVADOS",
+     "gratis": "GRATUITO",
+     "resultado_insolvencia": "ACUERDO"
+    },
+    {
+     "anio": "2020",
+     "mes": "1",
+     "municipio": "PIEDECUESTA",
+     "departamento": "SANTANDER",
+     "privados_estado": "CON EL ESTADO",
+     "gratis": "GRATUITO",
+     "resultado_insolvencia": "OTRO"
+    },
+    {
+     "anio": "2020",
+     "mes": "1",
+     "municipio": "CALI",
+     "departamento": "VALLE DEL CAUCA",
+     "privados_estado": "CON EL ESTADO",
+     "gratis": "GRATUITO",
+     "resultado_insolvencia": "OTRO"
+    }
+   ],
+   "license": "Creative Commons Attribution | Share Alike 4.0 International",
+   "attribution": "Ministerio de Justicia y del derecho - MinJusticia, Bogot\u00e1 D.C.",
+   "rowsUpdatedAt": 1770127761
+  },
+  "pfdp-zks5": {
+   "name": "Estados Financieros NIIF- Estado de Situaci\u00f3n Financiera",
+   "rows": [
+    {
+     "count": "19638408"
+    }
+   ],
+   "cols": [
+    "codigo_instancia",
+    "nit",
+    "numero_radicado",
+    "id_punto_entrada",
+    "punto_entrada",
+    "id_taxonomia",
+    "taxonomia",
+    "fecha_corte",
+    "concepto",
+    "periodo",
+    "valor"
+   ],
+   "sample": [
+    {
+     "codigo_instancia": "18275",
+     "nit": "830010665",
+     "numero_radicado": "2017-01-072472",
+     "id_punto_entrada": "227",
+     "punto_entrada": "40 NIIF Pymes - Individuales",
+     "id_taxonomia": "223",
+     "taxonomia": "01- Estados Financieros de Fin de Ejercicio - Corte 2016",
+     "fecha_corte": "2016-12-31T00:00:00.000",
+     "concepto": "Cuentas comerciales por cobrar y otras cuentas por cobrar corrientes",
+     "periodo": "2015-dic-31",
+     "valor": "42988"
+    },
+    {
+     "codigo_instancia": "18275",
+     "nit": "830010665",
+     "numero_radicado": "2017-01-072472",
+     "id_punto_entrada": "227",
+     "punto_entrada": "40 NIIF Pymes - Individuales",
+     "id_taxonomia": "223",
+     "taxonomia": "01- Estados Financieros de Fin de Ejercicio - Corte 2016",
+     "fecha_corte": "2016-12-31T00:00:00.000",
+     "concepto": "Pasivos corrientes totales",
+     "periodo": "2015-ene-01",
+     "valor": "90431"
+    },
+    {
+     "codigo_instancia": "18275",
+     "nit": "830010665",
+     "numero_radicado": "2017-01-072472",
+     "id_punto_entrada": "227",
+     "punto_entrada": "40 NIIF Pymes - Individuales",
+     "id_taxonomia": "223",
+     "taxonomia": "01- Estados Financieros de Fin de Ejercicio - Corte 2016",
+     "fecha_corte": "2016-12-31T00:00:00.000",
+     "concepto": "Pasivos corrientes totales",
+     "periodo": "2016-dic-31",
+     "valor": "498672"
+    }
+   ],
+   "license": "Creative Commons Attribution | Share Alike 4.0 International",
+   "attribution": "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogot\u00e1 D.C.",
+   "rowsUpdatedAt": 1783371747,
+   "profile": {
+    "fecha_corte": [
+     {
+      "fecha_corte": "2015-03-31T00:00:00.000",
+      "count": "258"
+     },
+     {
+      "fecha_corte": "2015-05-31T00:00:00.000",
+      "count": "53"
+     },
+     {
+      "fecha_corte": "2015-06-30T00:00:00.000",
+      "count": "3360"
+     },
+     {
+      "fecha_corte": "2015-09-30T00:00:00.000",
+      "count": "242"
+     },
+     {
+      "fecha_corte": "2015-10-31T00:00:00.000",
+      "count": "183"
+     },
+     {
+      "fecha_corte": "2015-11-30T00:00:00.000",
+      "count": "213"
+     },
+     {
+      "fecha_corte": "2015-12-31T00:00:00.000",
+      "count": "221332"
+     },
+     {
+      "fecha_corte": "2016-03-31T00:00:00.000",
+      "count": "192"
+     },
+     {
+      "fecha_corte": "2016-06-30T00:00:00.000",
+      "count": "4638"
+     },
+     {
+      "fecha_corte": "2016-07-31T00:00:00.000",
+      "count": "420"
+     },
+     {
+      "fecha_corte": "2016-09-30T00:00:00.000",
+      "count": "618"
+     },
+     {
+      "fecha_corte": "2016-10-31T00:00:00.000",
+      "count": "124"
+     },
+     {
+      "fecha_corte": "2016-11-30T00:00:00.000",
+      "count": "56"
+     },
+     {
+      "fecha_corte": "2016-12-31T00:00:00.000",
+      "count": "2331482"
+     },
+     {
+      "fecha_corte": "2017-03-31T00:00:00.000",
+      "count": "199"
+     },
+     {
+      "fecha_corte": "2017-04-30T00:00:00.000",
+      "count": "98"
+     },
+     {
+      "fecha_corte": "2017-06-30T00:00:00.000",
+      "count": "2510"
+     },
+     {
+      "fecha_corte": "2017-07-31T00:00:00.000",
+      "count": "45"
+     },
+     {
+      "fecha_corte": "2017-09-30T00:00:00.000",
+      "count": "118"
+     },
+     {
+      "fecha_corte": "2017-10-31T00:00:00.000",
+      "count": "101"
+     },
+     {
+      "fecha_corte": "2017-11-30T00:00:00.000",
+      "count": "55"
+     },
+     {
+      "fecha_corte": "2017-12-31T00:00:00.000",
+      "count": "1357793"
+     },
+     {
+      "fecha_corte": "2018-03-31T00:00:00.000",
+      "count": "64"
+     },
+     {
+      "fecha_corte": "2018-04-30T00:00:00.000",
+      "count": "106"
+     },
+     {
+      "fecha_corte": "2018-06-30T00:00:00.000",
+      "count": "1924"
+     },
+     {
+      "fecha_corte": "2018-07-31T00:00:00.000",
+      "count": "42"
+     },
+     {
+      "fecha_corte": "2018-09-30T00:00:00.000",
+      "count": "208"
+     },
+     {
+      "fecha_corte": "2018-10-31T00:00:00.000",
+      "count": "46"
+     },
+     {
+      "fecha_corte": "2018-11-30T00:00:00.000",
+      "count": "171"
+     },
+     {
+      "fecha_corte": "2018-12-21T00:00:00.000",
+      "count": "51"
+     },
+     {
+      "fecha_corte": "2018-12-31T00:00:00.000",
+      "count": "1276952"
+     },
+     {
+      "fecha_corte": "2019-03-31T00:00:00.000",
+      "count": "64"
+     },
+     {
+      "fecha_corte": "2019-04-30T00:00:00.000",
+      "count": "227"
+     },
+     {
+      "fecha_corte": "2019-06-30T00:00:00.000",
+      "count": "1767"
+     },
+     {
+      "fecha_corte": "2019-07-31T00:00:00.000",
+      "count": "194"
+     },
+     {
+      "fecha_corte": "2019-08-31T00:00:00.000",
+      "count": "62"
+     },
+     {
+      "fecha_corte": "2019-09-30T00:00:00.000",
+      "count": "66"
+     },
+     {
+      "fecha_corte": "2019-10-31T00:00:00.000",
+      "count": "98"
+     },
+     {
+      "fecha_corte": "2019-11-30T00:00:00.000",
+      "count": "52"
+     },
+     {
+      "fecha_corte": "2019-12-31T00:00:00.000",
+      "count": "1628744"
+     },
+     {
+      "fecha_corte": "2020-03-31T00:00:00.000",
+      "count": "68"
+     },
+     {
+      "fecha_corte": "2020-04-30T00:00:00.000",
+      "count": "96"
+     },
+     {
+      "fecha_corte": "2020-06-30T00:00:00.000",
+      "count": "1174"
+     },
+     {
+      "fecha_corte": "2020-09-30T00:00:00.000",
+      "count": "66"
+     },
+     {
+      "fecha_corte": "2020-10-31T00:00:00.000",
+      "count": "171"
+     },
+     {
+      "fecha_corte": "2020-11-30T00:00:00.000",
+      "count": "52"
+     },
+     {
+      "fecha_corte": "2020-12-31T00:00:00.000",
+      "count": "1790379"
+     },
+     {
+      "fecha_corte": "2021-03-31T00:00:00.000",
+      "count": "108"
+     },
+     {
+      "fecha_corte": "2021-04-30T00:00:00.000",
+      "count": "144"
+     },
+     {
+      "fecha_corte": "2021-06-30T00:00:00.000",
+      "count": "2111"
+     },
+     {
+      "fecha_corte": "2021-07-31T00:00:00.000",
+      "count": "43"
+     },
+     {
+      "fecha_corte": "2021-08-31T00:00:00.000",
+      "count": "56"
+     },
+     {
+      "fecha_corte": "2021-09-30T00:00:00.000",
+      "count": "368"
+     },
+     {
+      "fecha_corte": "2021-10-31T00:00:00.000",
+      "count": "318"
+     },
+     {
+      "fecha_corte": "2021-11-30T00:00:00.000",
+      "count": "76"
+     },
+     {
+      "fecha_corte": "2021-12-31T00:00:00.000",
+      "count": "1811406"
+     },
+     {
+      "fecha_corte": "2022-03-31T00:00:00.000",
+      "count": "790"
+     },
+     {
+      "fecha_corte": "2022-04-30T00:00:00.000",
+      "count": "96"
+     },
+     {
+      "fecha_corte": "2022-06-30T00:00:00.000",
+      "count": "5490"
+     },
+     {
+      "fecha_corte": "2022-07-31T00:00:00.000",
+      "count": "176"
+     },
+     {
+      "fecha_corte": "2022-08-31T00:00:00.000",
+      "count": "582"
+     },
+     {
+      "fecha_corte": "2022-09-30T00:00:00.000",
+      "count": "7152"
+     },
+     {
+      "fecha_corte": "2022-10-20T00:00:00.000",
+      "count": "36"
+     },
+     {
+      "fecha_corte": "2022-10-30T00:00:00.000",
+      "count": "232"
+     },
+     {
+      "fecha_corte": "2022-10-31T00:00:00.000",
+      "count": "6117"
+     },
+     {
+      "fecha_corte": "2022-11-28T00:00:00.000",
+      "count": "244"
+     },
+     {
+      "fecha_corte": "2022-11-30T00:00:00.000",
+      "count": "8266"
+     },
+     {
+      "fecha_corte": "2022-12-24T00:00:00.000",
+      "count": "35"
+     },
+     {
+      "fecha_corte": "2022-12-31T00:00:00.000",
+      "count": "3705578"
+     },
+     {
+      "fecha_corte": "2023-01-31T00:00:00.000",
+      "count": "89"
+     },
+     {
+      "fecha_corte": "2023-02-28T00:00:00.000",
+      "count": "40"
+     },
+     {
+      "fecha_corte": "2023-03-31T00:00:00.000",
+      "count": "338"
+     },
+     {
+      "fecha_corte": "2023-04-30T00:00:00.000",
+      "count": "88"
+     },
+     {
+      "fecha_corte": "2023-05-02T00:00:00.000",
+      "count": "60"
+     },
+     {
+      "fecha_corte": "2023-05-24T00:00:00.000",
+      "count": "64"
+     },
+     {
+      "fecha_corte": "2023-05-30T00:00:00.000",
+      "count": "72"
+     },
+     {
+      "fecha_corte": "2023-05-31T00:00:00.000",
+      "count": "100"
+     },
+     {
+      "fecha_corte": "2023-06-30T00:00:00.000",
+      "count": "2011"
+     },
+     {
+      "fecha_corte": "2023-07-31T00:00:00.000",
+      "count": "167"
+     },
+     {
+      "fecha_corte": "2023-08-31T00:00:00.000",
+      "count": "231"
+     },
+     {
+      "fecha_corte": "2023-09-30T00:00:00.000",
+      "count": "681"
+     },
+     {
+      "fecha_corte": "2023-10-31T00:00:00.000",
+      "count": "494"
+     },
+     {
+      "fecha_corte": "2023-11-30T00:00:00.000",
+      "count": "684"
+     },
+     {
+      "fecha_corte": "2023-12-01T00:00:00.000",
+      "count": "68"
+     },
+     {
+      "fecha_corte": "2023-12-31T00:00:00.000",
+      "count": "1934887"
+     },
+     {
+      "fecha_corte": "2024-01-31T00:00:00.000",
+      "count": "53"
+     },
+     {
+      "fecha_corte": "2024-03-31T00:00:00.000",
+      "count": "202"
+     },
+     {
+      "fecha_corte": "2024-04-30T00:00:00.000",
+      "count": "113"
+     },
+     {
+      "fecha_corte": "2024-06-30T00:00:00.000",
+      "count": "1628"
+     },
+     {
+      "fecha_corte": "2024-07-31T00:00:00.000",
+      "count": "154"
+     },
+     {
+      "fecha_corte": "2024-08-31T00:00:00.000",
+      "count": "255"
+     },
+     {
+      "fecha_corte": "2024-09-30T00:00:00.000",
+      "count": "850"
+     },
+     {
+      "fecha_corte": "2024-10-31T00:00:00.000",
+      "count": "167"
+     },
+     {
+      "fecha_corte": "2024-11-30T00:00:00.000",
+      "count": "107"
+     },
+     {
+      "fecha_corte": "2024-12-24T00:00:00.000",
+      "count": "86"
+     },
+     {
+      "fecha_corte": "2024-12-31T00:00:00.000",
+      "count": "1808950"
+     },
+     {
+      "fecha_corte": "2025-03-31T00:00:00.000",
+      "count": "204"
+     },
+     {
+      "fecha_corte": "2025-04-30T00:00:00.000",
+      "count": "44"
+     },
+     {
+      "fecha_corte": "2025-06-30T00:00:00.000",
+      "count": "1497"
+     },
+     {
+      "fecha_corte": "2025-07-31T00:00:00.000",
+      "count": "44"
+     }
+    ],
+    "periodo": [
+     {
+      "periodo": "2013-dic-31",
+      "count": "421"
+     },
+     {
+      "periodo": "2013-ene-01",
+      "count": "61"
+     },
+     {
+      "periodo": "2014-dic-01",
+      "count": "176"
+     },
+     {
+      "periodo": "2014-dic-31",
+      "count": "77080"
+     },
+     {
+      "periodo": "2014-ene-01",
+      "count": "69033"
+     },
+     {
+      "periodo": "2014-ene-28",
+      "count": "56"
+     },
+     {
+      "periodo": "2014-ene-31",
+      "count": "67"
+     },
+     {
+      "periodo": "2014-jun-01",
+      "count": "23"
+     },
+     {
+      "periodo": "2014-mar-31",
+      "count": "22"
+     },
+     {
+      "periodo": "2014-sep-30",
+      "count": "22"
+     },
+     {
+      "periodo": "2015-ago-31",
+      "count": "87"
+     },
+     {
+      "periodo": "2015-Dec-31",
+      "count": "2620"
+     },
+     {
+      "periodo": "2015-dic-01",
+      "count": "402"
+     },
+     {
+      "periodo": "2015-dic-31",
+      "count": "897467"
+     },
+     {
+      "periodo": "2015-ene-01",
+      "count": "669799"
+     },
+     {
+      "periodo": "2015-ene-31",
+      "count": "100"
+     },
+     {
+      "periodo": "2015-Jan-01",
+      "count": "2016"
+     },
+     {
+      "periodo": "2015-jun-30",
+      "count": "2264"
+     },
+     {
+      "periodo": "2015-mar-31",
+      "count": "133"
+     },
+     {
+      "periodo": "2015-may-31",
+      "count": "37"
+     },
+     {
+      "periodo": "2015-nov-30",
+      "count": "162"
+     },
+     {
+      "periodo": "2015-oct-31",
+      "count": "128"
+     },
+     {
+      "periodo": "2015-sep-30",
+      "count": "220"
+     },
+     {
+      "periodo": "2016-ago-31",
+      "count": "32"
+     },
+     {
+      "periodo": "2016-Dec-31",
+      "count": "4290"
+     },
+     {
+      "periodo": "2016-dic-16",
+      "count": "19"
+     },
+     {
+      "periodo": "2016-dic-20",
+      "count": "42"
+     },
+     {
+      "periodo": "2016-dic-31",
+      "count": "1501443"
+     },
+     {
+      "periodo": "2016-ene-01",
+      "count": "365"
+     },
+     {
+      "periodo": "2016-jul-31",
+      "count": "236"
+     },
+     {
+      "periodo": "2016-jun-30",
+      "count": "4574"
+     },
+     {
+      "periodo": "2016-mar-31",
+      "count": "174"
+     },
+     {
+      "periodo": "2016-nov-30",
+      "count": "101"
+     },
+     {
+      "periodo": "2016-oct-31",
+      "count": "342"
+     },
+     {
+      "periodo": "2016-sep-30",
+      "count": "623"
+     },
+     {
+      "periodo": "2017-abr-30",
+      "count": "101"
+     },
+     {
+      "periodo": "2017-Dec-31",
+      "count": "1689"
+     },
+     {
+      "periodo": "2017-dic-31",
+      "count": "671853"
+     },
+     {
+      "periodo": "2017-jul-31",
+      "count": "44"
+     },
+     {
+      "periodo": "2017-jun-30",
+      "count": "2463"
+     },
+     {
+      "periodo": "2017-mar-31",
+      "count": "123"
+     },
+     {
+      "periodo": "2017-nov-30",
+      "count": "73"
+     },
+     {
+      "periodo": "2017-oct-31",
+      "count": "102"
+     },
+     {
+      "periodo": "2017-sep-30",
+      "count": "228"
+     },
+     {
+      "periodo": "2018-jun-30",
+      "count": "33"
+     },
+     {
+      "periodo": "Periodo Actual",
+      "count": "7880228"
+     },
+     {
+      "periodo": "Periodo Anterior",
+      "count": "7846834"
+     }
+    ],
+    "distinct_nit": [
+     {
+      "count_distinct_nit": "44485"
+     }
+    ]
+   }
+  },
+  "prwj-nzxa": {
+   "name": "Estados Financieros NIIF- Estado de Resultado Integral",
+   "rows": [
+    {
+     "count": "8091357"
+    }
+   ],
+   "cols": [
+    "codigo_instancia",
+    "nit",
+    "numero_radicado",
+    "id_punto_entrada",
+    "punto_entrada",
+    "id_taxonomia",
+    "taxonomia",
+    "fecha_corte",
+    "concepto",
+    "periodo",
+    "valor"
+   ],
+   "sample": [
+    {
+     "codigo_instancia": "16193",
+     "nit": "860353641",
+     "numero_radicado": "2016-01-401832",
+     "id_punto_entrada": "147",
+     "punto_entrada": "10 NIIF Plenas - Individuales",
+     "id_taxonomia": "146",
+     "taxonomia": "01 - Estados Financieros de Fin de Ejercicio - Corte 201",
+     "fecha_corte": "2015-12-31T00:00:00.000",
+     "concepto": "Gastos de administraci\ufffdn",
+     "periodo": "2015",
+     "valor": "2096879"
+    },
+    {
+     "codigo_instancia": "106819",
+     "nit": "900966969",
+     "numero_radicado": "2018-01-267401",
+     "id_punto_entrada": "241",
+     "punto_entrada": "20 NIIF Plenas - Separados",
+     "id_taxonomia": "238",
+     "taxonomia": "01- Estados Financieros de Fin de Ejercicio - Corte 2017",
+     "fecha_corte": "2017-12-31T00:00:00.000",
+     "concepto": "Ingresos de actividades ordinarias",
+     "periodo": "2017",
+     "valor": "5111290"
+    },
+    {
+     "codigo_instancia": "106819",
+     "nit": "900966969",
+     "numero_radicado": "2018-01-267401",
+     "id_punto_entrada": "241",
+     "punto_entrada": "20 NIIF Plenas - Separados",
+     "id_taxonomia": "238",
+     "taxonomia": "01- Estados Financieros de Fin de Ejercicio - Corte 2017",
+     "fecha_corte": "2017-12-31T00:00:00.000",
+     "concepto": "Costo de ventas",
+     "periodo": "2017",
+     "valor": "4167248"
+    }
+   ],
+   "license": "Creative Commons Attribution | Share Alike 4.0 International",
+   "attribution": "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogot\u00e1 D.C.",
+   "rowsUpdatedAt": 1783444705
+  },
+  "6hqw-m3dm": {
+   "name": "Estados Financieros NIIF- Car\u00e1tula",
+   "rows": [
+    {
+     "count": "9622096"
+    }
+   ],
+   "cols": [
+    "codigo_instancia",
+    "nit",
+    "numero_radicado",
+    "id_punto_entrada",
+    "punto_entrada",
+    "id_taxonomia",
+    "taxonomia",
+    "fecha_corte",
+    "concepto",
+    "periodo",
+    "valor"
+   ],
+   "sample": [
+    {
+     "codigo_instancia": "283724",
+     "nit": "900152104",
+     "numero_radicado": "2022-01-056028",
+     "id_punto_entrada": "304",
+     "punto_entrada": "40 NIIF Pymes - Individuales",
+     "id_taxonomia": "300",
+     "taxonomia": "01 - Estados Financieros de Fin de Ejercicio - Corte 2020",
+     "fecha_corte": "2020-12-31T00:00:00.000",
+     "concepto": "La Entidad posee inversiones en subsidiarias, asociadas y/o negocios conjuntos?",
+     "periodo": "Periodo Actual",
+     "valor": "false"
+    },
+    {
+     "codigo_instancia": "283715",
+     "nit": "900251584",
+     "numero_radicado": "2022-01-056026",
+     "id_punto_entrada": "304",
+     "punto_entrada": "40 NIIF Pymes - Individuales",
+     "id_taxonomia": "300",
+     "taxonomia": "01 - Estados Financieros de Fin de Ejercicio - Corte 2020",
+     "fecha_corte": "2020-12-31T00:00:00.000",
+     "concepto": "La sociedad es",
+     "periodo": "Periodo Actual",
+     "valor": "07. ACTIVIDAD ECON\ufffdMICA DIFERENTE A LAS ANTERIORES"
+    },
+    {
+     "codigo_instancia": "48161",
+     "nit": "900897386",
+     "numero_radicado": "2017-01-223561",
+     "id_punto_entrada": "227",
+     "punto_entrada": "40 NIIF Pymes - Individuales",
+     "id_taxonomia": "223",
+     "taxonomia": "01- Estados Financieros de Fin de Ejercicio - Corte 2016",
+     "fecha_corte": "2016-12-31T00:00:00.000",
+     "concepto": "Objeto social principal",
+     "periodo": "900897386",
+     "valor": "MANUFACTURA,EXPORTACION,IMPORTACI{ON,COMPRA,VENTA,DISTRIBUCION,COMERCIALIZACION,REPARACION Y DESARROLLO DE EQUIPOS Y COMPONENTES PARA LA AUTOMATIZACION DE MAQUINAS Y PROCESOS INDUSTRIALES."
+    }
+   ],
+   "license": "Creative Commons Attribution | Share Alike 4.0 International",
+   "attribution": "Superintendencia de Sociedades - SUPERSOCIEDAdeS, Bogot\u00e1 D.C.",
+   "rowsUpdatedAt": 1783366032,
+   "profile": {
+    "fecha_corte": [
+     {
+      "fecha_corte": "2015-03-31T00:00:00.000",
+      "count": "56"
+     },
+     {
+      "fecha_corte": "2015-05-31T00:00:00.000",
+      "count": "24"
+     },
+     {
+      "fecha_corte": "2015-06-30T00:00:00.000",
+      "count": "1177"
+     },
+     {
+      "fecha_corte": "2015-09-30T00:00:00.000",
+      "count": "108"
+     },
+     {
+      "fecha_corte": "2015-10-31T00:00:00.000",
+      "count": "78"
+     },
+     {
+      "fecha_corte": "2015-11-30T00:00:00.000",
+      "count": "99"
+     },
+     {
+      "fecha_corte": "2015-12-31T00:00:00.000",
+      "count": "68402"
+     },
+     {
+      "fecha_corte": "2016-03-31T00:00:00.000",
+      "count": "53"
+     },
+     {
+      "fecha_corte": "2016-06-30T00:00:00.000",
+      "count": "1368"
+     },
+     {
+      "fecha_corte": "2016-07-31T00:00:00.000",
+      "count": "97"
+     },
+     {
+      "fecha_corte": "2016-09-30T00:00:00.000",
+      "count": "185"
+     },
+     {
+      "fecha_corte": "2016-10-31T00:00:00.000",
+      "count": "52"
+     },
+     {
+      "fecha_corte": "2016-11-30T00:00:00.000",
+      "count": "25"
+     },
+     {
+      "fecha_corte": "2016-12-31T00:00:00.000",
+      "count": "599882"
+     },
+     {
+      "fecha_corte": "2017-03-31T00:00:00.000",
+      "count": "53"
+     },
+     {
+      "fecha_corte": "2017-04-30T00:00:00.000",
+      "count": "52"
+     },
+     {
+      "fecha_corte": "2017-06-30T00:00:00.000",
+      "count": "1188"
+     },
+     {
+      "fecha_corte": "2017-07-31T00:00:00.000",
+      "count": "25"
+     },
+     {
+      "fecha_corte": "2017-09-30T00:00:00.000",
+      "count": "55"
+     },
+     {
+      "fecha_corte": "2017-10-31T00:00:00.000",
+      "count": "52"
+     },
+     {
+      "fecha_corte": "2017-11-30T00:00:00.000",
+      "count": "51"
+     },
+     {
+      "fecha_corte": "2017-12-31T00:00:00.000",
+      "count": "538226"
+     },
+     {
+      "fecha_corte": "2018-03-31T00:00:00.000",
+      "count": "29"
+     },
+     {
+      "fecha_corte": "2018-04-30T00:00:00.000",
+      "count": "54"
+     },
+     {
+      "fecha_corte": "2018-06-30T00:00:00.000",
+      "count": "866"
+     },
+     {
+      "fecha_corte": "2018-07-31T00:00:00.000",
+      "count": "25"
+     },
+     {
+      "fecha_corte": "2018-09-30T00:00:00.000",
+      "count": "83"
+     },
+     {
+      "fecha_corte": "2018-10-31T00:00:00.000",
+      "count": "25"
+     },
+     {
+      "fecha_corte": "2018-11-30T00:00:00.000",
+      "count": "104"
+     },
+     {
+      "fecha_corte": "2018-12-21T00:00:00.000",
+      "count": "27"
+     },
+     {
+      "fecha_corte": "2018-12-31T00:00:00.000",
+      "count": "529810"
+     },
+     {
+      "fecha_corte": "2019-03-31T00:00:00.000",
+      "count": "30"
+     },
+     {
+      "fecha_corte": "2019-04-30T00:00:00.000",
+      "count": "109"
+     },
+     {
+      "fecha_corte": "2019-06-30T00:00:00.000",
+      "count": "863"
+     },
+     {
+      "fecha_corte": "2019-07-31T00:00:00.000",
+      "count": "87"
+     },
+     {
+      "fecha_corte": "2019-08-31T00:00:00.000",
+      "count": "28"
+     },
+     {
+      "fecha_corte": "2019-09-30T00:00:00.000",
+      "count": "30"
+     },
+     {
+      "fecha_corte": "2019-10-31T00:00:00.000",
+      "count": "57"
+     },
+     {
+      "fecha_corte": "2019-11-30T00:00:00.000",
+      "count": "30"
+     },
+     {
+      "fecha_corte": "2019-12-31T00:00:00.000",
+      "count": "732788"
+     },
+     {
+      "fecha_corte": "2020-03-31T00:00:00.000",
+      "count": "30"
+     },
+     {
+      "fecha_corte": "2020-04-30T00:00:00.000",
+      "count": "55"
+     },
+     {
+      "fecha_corte": "2020-06-30T00:00:00.000",
+      "count": "575"
+     },
+     {
+      "fecha_corte": "2020-09-30T00:00:00.000",
+      "count": "30"
+     },
+     {
+      "fecha_corte": "2020-10-31T00:00:00.000",
+      "count": "84"
+     },
+     {
+      "fecha_corte": "2020-11-30T00:00:00.000",
+      "count": "59"
+     },
+     {
+      "fecha_corte": "2020-12-31T00:00:00.000",
+      "count": "858580"
+     },
+     {
+      "fecha_corte": "2021-03-31T00:00:00.000",
+      "count": "62"
+     },
+     {
+      "fecha_corte": "2021-04-30T00:00:00.000",
+      "count": "89"
+     },
+     {
+      "fecha_corte": "2021-06-30T00:00:00.000",
+      "count": "1085"
+     },
+     {
+      "fecha_corte": "2021-07-31T00:00:00.000",
+      "count": "31"
+     },
+     {
+      "fecha_corte": "2021-08-31T00:00:00.000",
+      "count": "26"
+     },
+     {
+      "fecha_corte": "2021-09-30T00:00:00.000",
+      "count": "207"
+     },
+     {
+      "fecha_corte": "2021-10-31T00:00:00.000",
+      "count": "182"
+     },
+     {
+      "fecha_corte": "2021-11-30T00:00:00.000",
+      "count": "29"
+     },
+     {
+      "fecha_corte": "2021-12-31T00:00:00.000",
+      "count": "901189"
+     },
+     {
+      "fecha_corte": "2022-03-31T00:00:00.000",
+      "count": "636"
+     },
+     {
+      "fecha_corte": "2022-04-30T00:00:00.000",
+      "count": "81"
+     },
+     {
+      "fecha_corte": "2022-06-30T00:00:00.000",
+      "count": "4391"
+     },
+     {
+      "fecha_corte": "2022-07-31T00:00:00.000",
+      "count": "174"
+     },
+     {
+      "fecha_corte": "2022-08-31T00:00:00.000",
+      "count": "435"
+     },
+     {
+      "fecha_corte": "2022-09-30T00:00:00.000",
+      "count": "5451"
+     },
+     {
+      "fecha_corte": "2022-10-20T00:00:00.000",
+      "count": "29"
+     },
+     {
+      "fecha_corte": "2022-10-30T00:00:00.000",
+      "count": "90"
+     },
+     {
+      "fecha_corte": "2022-10-31T00:00:00.000",
+      "count": "4668"
+     },
+     {
+      "fecha_corte": "2022-11-28T00:00:00.000",
+      "count": "90"
+     },
+     {
+      "fecha_corte": "2022-11-30T00:00:00.000",
+      "count": "6017"
+     },
+     {
+      "fecha_corte": "2022-12-24T00:00:00.000",
+      "count": "28"
+     },
+     {
+      "fecha_corte": "2022-12-31T00:00:00.000",
+      "count": "2576736"
+     },
+     {
+      "fecha_corte": "2023-01-31T00:00:00.000",
+      "count": "56"
+     },
+     {
+      "fecha_corte": "2023-02-28T00:00:00.000",
+      "count": "29"
+     },
+     {
+      "fecha_corte": "2023-03-31T00:00:00.000",
+      "count": "184"
+     },
+     {
+      "fecha_corte": "2023-04-30T00:00:00.000",
+      "count": "58"
+     },
+     {
+      "fecha_corte": "2023-05-02T00:00:00.000",
+      "count": "27"
+     },
+     {
+      "fecha_corte": "2023-05-24T00:00:00.000",
+      "count": "28"
+     },
+     {
+      "fecha_corte": "2023-05-30T00:00:00.000",
+      "count": "28"
+     },
+     {
+      "fecha_corte": "2023-05-31T00:00:00.000",
+      "count": "59"
+     },
+     {
+      "fecha_corte": "2023-06-30T00:00:00.000",
+      "count": "1063"
+     },
+     {
+      "fecha_corte": "2023-07-31T00:00:00.000",
+      "count": "119"
+     },
+     {
+      "fecha_corte": "2023-08-31T00:00:00.000",
+      "count": "121"
+     },
+     {
+      "fecha_corte": "2023-09-30T00:00:00.000",
+      "count": "397"
+     },
+     {
+      "fecha_corte": "2023-10-31T00:00:00.000",
+      "count": "300"
+     },
+     {
+      "fecha_corte": "2023-11-30T00:00:00.000",
+      "count": "336"
+     },
+     {
+      "fecha_corte": "2023-12-01T00:00:00.000",
+      "count": "28"
+     },
+     {
+      "fecha_corte": "2023-12-31T00:00:00.000",
+      "count": "976822"
+     },
+     {
+      "fecha_corte": "2024-01-31T00:00:00.000",
+      "count": "29"
+     },
+     {
+      "fecha_corte": "2024-03-31T00:00:00.000",
+      "count": "124"
+     },
+     {
+      "fecha_corte": "2024-04-30T00:00:00.000",
+      "count": "56"
+     },
+     {
+      "fecha_corte": "2024-06-30T00:00:00.000",
+      "count": "883"
+     },
+     {
+      "fecha_corte": "2024-07-31T00:00:00.000",
+      "count": "89"
+     },
+     {
+      "fecha_corte": "2024-08-31T00:00:00.000",
+      "count": "152"
+     },
+     {
+      "fecha_corte": "2024-09-30T00:00:00.000",
+      "count": "371"
+     },
+     {
+      "fecha_corte": "2024-10-31T00:00:00.000",
+      "count": "121"
+     },
+     {
+      "fecha_corte": "2024-11-30T00:00:00.000",
+      "count": "62"
+     },
+     {
+      "fecha_corte": "2024-12-24T00:00:00.000",
+      "count": "28"
+     },
+     {
+      "fecha_corte": "2024-12-31T00:00:00.000",
+      "count": "907550"
+     },
+     {
+      "fecha_corte": "2025-03-31T00:00:00.000",
+      "count": "129"
+     },
+     {
+      "fecha_corte": "2025-04-30T00:00:00.000",
+      "count": "30"
+     },
+     {
+      "fecha_corte": "2025-06-30T00:00:00.000",
+      "count": "826"
+     },
+     {
+      "fecha_corte": "2025-07-31T00:00:00.000",
+      "count": "31"
+     }
+    ],
+    "periodo": [
+     {
+      "periodo": "2017",
+      "count": "531348"
+     },
+     {
+      "periodo": "2017-2018",
+      "count": "23"
+     },
+     {
+      "periodo": "2017-ago-01 / 2017-dic-31",
+      "count": "25"
+     },
+     {
+      "periodo": "2017-dic",
+      "count": "50"
+     },
+     {
+      "periodo": "2017-ene-01 / 2017-abr-30",
+      "count": "52"
+     },
+     {
+      "periodo": "2017-ene-01 / 2017-jul-31",
+      "count": "25"
+     },
+     {
+      "periodo": "2017-ene-01 / 2017-nov-30",
+      "count": "51"
+     },
+     {
+      "periodo": "2017-nov-01 / 2017-dic-31",
+      "count": "52"
+     },
+     {
+      "periodo": "2017-Q1",
+      "count": "29"
+     },
+     {
+      "periodo": "2017-Q1Q2Q3",
+      "count": "26"
+     },
+     {
+      "periodo": "2017-Q2",
+      "count": "29"
+     },
+     {
+      "periodo": "2017-Q3",
+      "count": "29"
+     },
+     {
+      "periodo": "2017-Q4",
+      "count": "134"
+     },
+     {
+      "periodo": "2017-S1",
+      "count": "1159"
+     },
+     {
+      "periodo": "2017-S2",
+      "count": "1399"
+     },
+     {
+      "periodo": "800000090",
+      "count": "26"
+     },
+     {
+      "periodo": "800000268",
+      "count": "24"
+     },
+     {
+      "periodo": "800000276",
+      "count": "25"
+     },
+     {
+      "periodo": "800000296",
+      "count": "25"
+     },
+     {
+      "periodo": "800000313",
+      "count": "26"
+     },
+     {
+      "periodo": "800000439",
+      "count": "26"
+     },
+     {
+      "periodo": "800000457",
+      "count": "25"
+     },
+     {
+      "periodo": "800000536",
+      "count": "25"
+     },
+     {
+      "periodo": "800000835",
+      "count": "24"
+     },
+     {
+      "periodo": "800000946",
+      "count": "131"
+     },
+     {
+      "periodo": "800001020",
+      "count": "25"
+     },
+     {
+      "periodo": "800001047",
+      "count": "26"
+     },
+     {
+      "periodo": "800001075",
+      "count": "26"
+     },
+     {
+      "periodo": "800001161",
+      "count": "25"
+     },
+     {
+      "periodo": "800001204",
+      "count": "26"
+     },
+     {
+      "periodo": "800001266",
+      "count": "24"
+     },
+     {
+      "periodo": "800001351",
+      "count": "24"
+     },
+     {
+      "periodo": "800001354",
+      "count": "25"
+     },
+     {
+      "periodo": "800001611",
+      "count": "25"
+     },
+     {
+      "periodo": "800001650",
+      "count": "25"
+     },
+     {
+      "periodo": "800001755",
+      "count": "26"
+     },
+     {
+      "periodo": "800001792",
+      "count": "25"
+     },
+     {
+      "periodo": "800001845",
+      "count": "24"
+     },
+     {
+      "periodo": "800002143",
+      "count": "27"
+     },
+     {
+      "periodo": "800002303",
+      "count": "25"
+     },
+     {
+      "periodo": "800002448",
+      "count": "25"
+     },
+     {
+      "periodo": "800002482",
+      "count": "53"
+     },
+     {
+      "periodo": "800002538",
+      "count": "24"
+     },
+     {
+      "periodo": "800002609",
+      "count": "27"
+     },
+     {
+      "periodo": "800002725",
+      "count": "25"
+     },
+     {
+      "periodo": "800002784",
+      "count": "25"
+     },
+     {
+      "periodo": "800002818",
+      "count": "25"
+     },
+     {
+      "periodo": "800002819",
+      "count": "23"
+     },
+     {
+      "periodo": "800002942",
+      "count": "53"
+     },
+     {
+      "periodo": "800002981",
+      "count": "25"
+     },
+     {
+      "periodo": "800002985",
+      "count": "25"
+     },
+     {
+      "periodo": "800003193",
+      "count": "25"
+     },
+     {
+      "periodo": "800003215",
+      "count": "25"
+     },
+     {
+      "periodo": "800003267",
+      "count": "54"
+     },
+     {
+      "periodo": "800003367",
+      "count": "25"
+     },
+     {
+      "periodo": "800003383",
+      "count": "24"
+     },
+     {
+      "periodo": "800003429",
+      "count": "25"
+     },
+     {
+      "periodo": "800003454",
+      "count": "24"
+     },
+     {
+      "periodo": "800003644",
+      "count": "49"
+     },
+     {
+      "periodo": "800003675",
+      "count": "25"
+     },
+     {
+      "periodo": "800003719",
+      "count": "25"
+     },
+     {
+      "periodo": "800003776",
+      "count": "26"
+     },
+     {
+      "periodo": "800003781",
+      "count": "27"
+     },
+     {
+      "periodo": "800003895",
+      "count": "24"
+     },
+     {
+      "periodo": "800003896",
+      "count": "24"
+     },
+     {
+      "periodo": "800004048",
+      "count": "25"
+     },
+     {
+      "periodo": "800004254",
+      "count": "25"
+     },
+     {
+      "periodo": "800004599",
+      "count": "26"
+     },
+     {
+      "periodo": "800004605",
+      "count": "24"
+     },
+     {
+      "periodo": "800004663",
+      "count": "25"
+     },
+     {
+      "periodo": "800004679",
+      "count": "25"
+     },
+     {
+      "periodo": "800004708",
+      "count": "24"
+     },
+     {
+      "periodo": "800004711",
+      "count": "24"
+     },
+     {
+      "periodo": "800004800",
+      "count": "25"
+     },
+     {
+      "periodo": "800004812",
+      "count": "25"
+     },
+     {
+      "periodo": "800004816",
+      "count": "25"
+     },
+     {
+      "periodo": "800004865",
+      "count": "26"
+     },
+     {
+      "periodo": "800005009",
+      "count": "25"
+     },
+     {
+      "periodo": "800005260",
+      "count": "51"
+     },
+     {
+      "periodo": "800005311",
+      "count": "27"
+     },
+     {
+      "periodo": "800005423",
+      "count": "26"
+     },
+     {
+      "periodo": "800005492",
+      "count": "51"
+     },
+     {
+      "periodo": "800005591",
+      "count": "26"
+     },
+     {
+      "periodo": "800005727",
+      "count": "24"
+     },
+     {
+      "periodo": "800005736",
+      "count": "25"
+     },
+     {
+      "periodo": "800005751",
+      "count": "24"
+     },
+     {
+      "periodo": "800005972",
+      "count": "25"
+     },
+     {
+      "periodo": "800006050",
+      "count": "26"
+     },
+     {
+      "periodo": "800006286",
+      "count": "24"
+     },
+     {
+      "periodo": "800006332",
+      "count": "24"
+     },
+     {
+      "periodo": "800006583",
+      "count": "26"
+     },
+     {
+      "periodo": "800006608",
+      "count": "24"
+     },
+     {
+      "periodo": "800006632",
+      "count": "24"
+     },
+     {
+      "periodo": "800006785",
+      "count": "24"
+     },
+     {
+      "periodo": "800006911",
+      "count": "27"
+     },
+     {
+      "periodo": "800006962",
+      "count": "25"
+     },
+     {
+      "periodo": "800007113",
+      "count": "24"
+     },
+     {
+      "periodo": "800007122",
+      "count": "24"
+     },
+     {
+      "periodo": "800007193",
+      "count": "24"
+     },
+     {
+      "periodo": "800007202",
+      "count": "25"
+     }
+    ],
+    "distinct_nit": [
+     {
+      "count_distinct_nit": "44501"
+     }
+    ]
+   }
+  },
+  "c82u-588k": {
+   "name": "Personas Naturales, Personas Jur\u00eddicas y Entidades Sin Animo de Lucro",
+   "rows": [
+    {
+     "count": "9466228"
+    }
+   ],
+   "cols": [
+    "codigo_camara",
+    "camara_comercio",
+    "matricula",
+    "inscripcion_proponente",
+    "razon_social",
+    "primer_apellido",
+    "segundo_apellido",
+    "primer_nombre",
+    "segundo_nombre",
+    "sigla",
+    "codigo_clase_identificacion",
+    "clase_identificacion",
+    "numero_identificacion",
+    "nit",
+    "digito_verificacion",
+    "cod_ciiu_act_econ_pri",
+    "cod_ciiu_act_econ_sec",
+    "ciiu3",
+    "ciiu4",
+    "fecha_matricula",
+    "fecha_renovacion",
+    "ultimo_ano_renovado",
+    "fecha_vigencia",
+    "fecha_cancelacion",
+    "codigo_tipo_sociedad",
+    "tipo_sociedad",
+    "codigo_organizacion_juridica",
+    "organizacion_juridica",
+    "codigo_categoria_matricula",
+    "categoria_matricula",
+    "codigo_estado_matricula",
+    "estado_matricula",
+    "clase_identificacion_rl",
+    "num_identificacion_representante_legal",
+    "representante_legal",
+    "fecha_actualizacion"
+   ],
+   "sample": [
+    {
+     "codigo_camara": "01",
+     "camara_comercio": "ARMENIA",
+     "matricula": "9249",
+     "inscripcion_proponente": "000000000000",
+     "razon_social": "RAMIREZ DE OSPINA MARIA",
+     "codigo_clase_identificacion": "01",
+     "clase_identificacion": "CEDULA DE CIUDADANIA",
+     "numero_identificacion": "24560913",
+     "cod_ciiu_act_econ_pri": "9999",
+     "fecha_matricula": "19740819",
+     "ultimo_ano_renovado": "0",
+     "fecha_vigencia": "99991231",
+     "fecha_cancelacion": "20111229",
+     "codigo_tipo_sociedad": "02",
+     "tipo_sociedad": "SOCIEDAD COMERCIAL",
+     "codigo_organizacion_juridica": "01",
+     "organizacion_juridica": "PERSONA NATURAL",
+     "codigo_categoria_matricula": "00",
+     "categoria_matricula": "PERSONA NATURAL",
+     "codigo_estado_matricula": "03",
+     "estado_matricula": "CANCELADA",
+     "fecha_actualizacion": "2020/11/14 05:28:48.583000000"
+    },
+    {
+     "codigo_camara": "01",
+     "camara_comercio": "ARMENIA",
+     "matricula": "9251",
+     "inscripcion_proponente": "000000000000",
+     "razon_social": "LONDONO GALLEGO DANILO",
+     "codigo_clase_identificacion": "01",
+     "clase_identificacion": "CEDULA DE CIUDADANIA",
+     "numero_identificacion": "1265820",
+     "cod_ciiu_act_econ_pri": "9999",
+     "fecha_matricula": "19740819",
+     "ultimo_ano_renovado": "0",
+     "fecha_vigencia": "99991231",
+     "fecha_cancelacion": "20111229",
+     "codigo_tipo_sociedad": "02",
+     "tipo_sociedad": "SOCIEDAD COMERCIAL",
+     "codigo_organizacion_juridica": "01",
+     "organizacion_juridica": "PERSONA NATURAL",
+     "codigo_categoria_matricula": "00",
+     "categoria_matricula": "PERSONA NATURAL",
+     "codigo_estado_matricula": "03",
+     "estado_matricula": "CANCELADA",
+     "fecha_actualizacion": "2020/11/14 05:28:49.110000000"
+    },
+    {
+     "codigo_camara": "04",
+     "camara_comercio": "BOGOTA",
+     "matricula": "3100194",
+     "inscripcion_proponente": "000000000000",
+     "razon_social": "YEHISON ANDRES ABELLO RODRIGUEZ",
+     "primer_apellido": "ABELLO",
+     "segundo_apellido": "RODRIGUEZ",
+     "primer_nombre": "YEHISON",
+     "segundo_nombre": "ANDRES",
+     "codigo_clase_identificacion": "01",
+     "clase_identificacion": "CEDULA DE CIUDADANIA",
+     "numero_identificacion": "7174354",
+     "nit": "7174354",
+     "digito_verificacion": "4",
+     "cod_ciiu_act_econ_pri": "2211",
+     "cod_ciiu_act_econ_sec": "4759",
+     "fecha_matricula": "20190415",
+     "fecha_renovacion": "20210624",
+     "ultimo_ano_renovado": "2021",
+     "fecha_vigencia": "20190415",
+     "fecha_cancelacion": "20260427",
+     "codigo_tipo_sociedad": "02",
+     "tipo_sociedad": "SOCIEDAD COMERCIAL",
+     "codigo_organizacion_juridica": "01",
+     "organizacion_juridica": "PERSONA NATURAL",
+     "codigo_categoria_matricula": "00",
+     "categoria_matricula": "PERSONA NATURAL",
+     "codigo_estado_matricula": "03",
+     "estado_matricula": "CANCELADA",
+     "fecha_actualizacion": "2026/04/29 18:20:37.610000000"
+    }
+   ],
+   "license": "Creative Commons Attribution | Share Alike 4.0 International",
+   "attribution": "Confec\u00e1maras, Bogot\u00e1 D.C.",
+   "rowsUpdatedAt": 1793998170
+  },
+  "jbjy-vk9h": {
+   "name": "SECOP II - Contratos Electr\u00f3nicos",
+   "rows": [
+    {
+     "count": "5687362"
+    }
+   ],
+   "cols": [
+    "nombre_entidad",
+    "nit_entidad",
+    "departamento",
+    "ciudad",
+    "localizaci_n",
+    "orden",
+    "sector",
+    "rama",
+    "entidad_centralizada",
+    "proceso_de_compra",
+    "id_contrato",
+    "referencia_del_contrato",
+    "estado_contrato",
+    "codigo_de_categoria_principal",
+    "descripcion_del_proceso",
+    "tipo_de_contrato",
+    "modalidad_de_contratacion",
+    "justificacion_modalidad_de",
+    "fecha_de_firma",
+    "fecha_de_inicio_del_contrato",
+    "fecha_de_fin_del_contrato",
+    "condiciones_de_entrega",
+    "tipodocproveedor",
+    "documento_proveedor",
+    "proveedor_adjudicado",
+    "es_grupo",
+    "es_pyme",
+    "habilita_pago_adelantado",
+    "liquidaci_n",
+    "obligaci_n_ambiental",
+    "obligaciones_postconsumo",
+    "reversion",
+    "origen_de_los_recursos",
+    "destino_gasto",
+    "valor_del_contrato",
+    "valor_de_pago_adelantado",
+    "valor_facturado",
+    "valor_pendiente_de_pago",
+    "valor_pagado",
+    "valor_amortizado",
+    "valor_pendiente_de",
+    "valor_pendiente_de_ejecucion",
+    "saldo_cdp",
+    "saldo_vigencia",
+    "espostconflicto",
+    "dias_adicionados",
+    "puntos_del_acuerdo",
+    "pilares_del_acuerdo",
+    "urlproceso",
+    "nombre_representante_legal",
+    "nacionalidad_representante_legal",
+    "domicilio_representante_legal",
+    "tipo_de_identificaci_n_representante_legal",
+    "identificaci_n_representante_legal",
+    "g_nero_representante_legal",
+    "presupuesto_general_de_la_nacion_pgn",
+    "sistema_general_de_participaciones",
+    "sistema_general_de_regal_as",
+    "recursos_propios_alcald_as_gobernaciones_y_resguardos_ind_genas_",
+    "recursos_de_credito",
+    "recursos_propios",
+    "ultima_actualizacion",
+    "codigo_entidad",
+    "codigo_proveedor",
+    "fecha_inicio_liquidacion",
+    "fecha_fin_liquidacion",
+    "objeto_del_contrato",
+    "duraci_n_del_contrato",
+    "nombre_del_banco",
+    "tipo_de_cuenta",
+    "n_mero_de_cuenta",
+    "el_contrato_puede_ser_prorrogado",
+    "fecha_de_notificaci_n_de_prorrogaci_n",
+    "nombre_ordenador_del_gasto",
+    "tipo_de_documento_ordenador_del_gasto",
+    "n_mero_de_documento_ordenador_del_gasto",
+    "nombre_supervisor",
+    "tipo_de_documento_supervisor",
+    "n_mero_de_documento_supervisor",
+    "nombre_ordenador_de_pago",
+    "tipo_de_documento_ordenador_de_pago",
+    "n_mero_de_documento_ordenador_de_pago",
+    "documentos_tipo",
+    "descripcion_documentos_tipo",
+    "direcci_n_de_ejecuci_n_del_contrato",
+    "criterios_de_sostenibilidad_ambiental",
+    "requisitos_ambientales_en_las_especificaciones_t_cnicas",
+    "criterios_ambientales_en_la_evaluaci_n_de_las_ofertas",
+    "obligaciones_contractuales_o_poscontractuales_a_nivel_ambiental",
+    "uso_de_etiquetado_ecol_gico",
+    "obligaciones_posconsumo",
+    "fecha_inicio_obligaciones_posconsumo",
+    "fecha_fin_obligaciones_posconsumo",
+    "fecha_inicio_reversi_n",
+    "fecha_fin_reversi_n"
+   ],
+   "sample": [
+    {
+     "nombre_entidad": "MUNICIPIO DE ALTAMIRA",
+     "nit_entidad": "891180118",
+     "departamento": "Huila",
+     "ciudad": "Altamira",
+     "localizaci_n": "Colombia, Huila, Altamira",
+     "orden": "Territorial",
+     "sector": "Servicio P\u00fablico",
+     "rama": "Ejecutivo",
+     "entidad_centralizada": "Centralizada",
+     "proceso_de_compra": "CO1.BDOS.8518127",
+     "id_contrato": "CO1.PCCNTR.8154715",
+     "referencia_del_contrato": "105-2025",
+     "estado_contrato": "En ejecuci\u00f3n",
+     "codigo_de_categoria_principal": "V1.80111620",
+     "descripcion_del_proceso": "PRESTAR LOS SERVICIOS DE APOYO A LA GESTI\u00d3N PARA INSTRUIR EL DESARROLLO ART\u00cdSTICO Y CULTURAL A TRAV\u00c9S DE LAS ESCUELAS DE FORMACI\u00d3N ART\u00cdSTICA VOCES DEL BOQUER\u00d3N EN LA MODALIDAD DE M\u00daSICA TRADICIONAL Y LA BANDA DE VIENTO SAN ROQUE PARA NI\u00d1OS; NI\u00d1AS; ADOLESCENTES; J\u00d3VENES Y ADULTOS DEL MUNICIPIO DE A",
+     "tipo_de_contrato": "Prestaci\u00f3n de servicios",
+     "modalidad_de_contratacion": "Contrataci\u00f3n directa",
+     "justificacion_modalidad_de": "Servicios profesionales y apoyo a la gesti\u00f3n",
+     "fecha_de_firma": "2025-08-05T10:45:07.397",
+     "fecha_de_inicio_del_contrato": "2025-08-05T12:00:00.000",
+     "fecha_de_fin_del_contrato": "2025-12-31T23:59:00.000",
+     "condiciones_de_entrega": "NXTWY.DLVY.2",
+     "tipodocproveedor": "C\u00e9dula de Ciudadan\u00eda",
+     "documento_proveedor": "1084896934",
+     "proveedor_adjudicado": "GUSTAVO ADOLFO TORRES BLANCO",
+     "es_grupo": "No",
+     "es_pyme": "No",
+     "habilita_pago_adelantado": "No",
+     "liquidaci_n": "No",
+     "obligaci_n_ambiental": "No",
+     "obligaciones_postconsumo": "No",
+     "reversion": "No",
+     "origen_de_los_recursos": "Distribuido",
+     "destino_gasto": "Inversi\u00f3n",
+     "valor_del_contrato": "18375000",
+     "valor_de_pago_adelantado": "0",
+     "valor_facturado": "18375000",
+     "valor_pendiente_de_pago": "0",
+     "valor_pagado": "18375000",
+     "valor_amortizado": "0",
+     "valor_pendiente_de": "0",
+     "valor_pendiente_de_ejecucion": "0",
+     "saldo_cdp": "0",
+     "saldo_vigencia": "0",
+     "espostconflicto": "No",
+     "dias_adicionados": "0",
+     "puntos_del_acuerdo": "No aplica",
+     "pilares_del_acuerdo": "No aplica",
+     "urlproceso": {
+      "url": "https://community.secop.gov.co/Public/Tendering/OpportunityDetail/Index?noticeUID=CO1.NTC.8540275&isFromPublicArea=True&isModal=true&asPopupView=true"
+     },
+     "nombre_representante_legal": "GUSTAVO ADOLFO TORRES BLANCO",
+     "nacionalidad_representante_legal": "CO",
+     "domicilio_representante_legal": "Calle 4 No. 5 - 51",
+     "tipo_de_identificaci_n_representante_legal": "C\u00e9dula de Ciudadan\u00eda",
+     "identificaci_n_representante_legal": "1084896934",
+     "g_nero_representante_legal": "Hombre",
+     "presupuesto_general_de_la_nacion_pgn": "0",
+     "sistema_general_de_participaciones": "0",
+     "sistema_general_de_regal_as": "0",
+     "recursos_propios_alcald_as_gobernaciones_y_resguardos_ind_genas_": "18375000",
+     "recursos_de_credito": "0",
+     "recursos_propios": "0",
+     "codigo_entidad": "704897024",
+     "codigo_proveedor": "730058732",
+     "objeto_del_contrato": "PRESTAR LOS SERVICIOS DE APOYO A LA GESTI\u00d3N PARA INSTRUIR EL DESARROLLO ART\u00cdSTICO Y CULTURAL A TRAV\u00c9S DE LAS ESCUELAS DE FORMACI\u00d3N ART\u00cdSTICA VOCES DEL BOQUER\u00d3N EN LA MODALIDAD DE M\u00daSICA TRADICIONAL Y LA BANDA DE VIENTO SAN ROQUE PARA NI\u00d1OS; NI\u00d1AS; ADOLESCENTES; J\u00d3VENES Y ADULTOS DEL MUNICIPIO DE ALTAMIRA HUILA.",
+     "duraci_n_del_contrato": "5 Mes(es)",
+     "nombre_del_banco": "No definido",
+     "tipo_de_cuenta": "No Definido",
+     "n_mero_de_cuenta": "No definido",
+     "el_contrato_puede_ser_prorrogado": "No",
+     "nombre_ordenador_del_gasto": "Yecid   Rodriguez Tovar",
+     "tipo_de_documento_ordenador_del_gasto": "C\u00e9dula de Ciudadan\u00eda",
+     "n_mero_de_documento_ordenador_del_gasto": "4888229",
+     "nombre_supervisor": "Aleydis Fernanda Cabrera V\u00e1quiro",
+     "tipo_de_documento_supervisor": "C\u00e9dula de Ciudadan\u00eda",
+     "n_mero_de_documento_supervisor": "1082124507",
+     "nombre_ordenador_de_pago": "Yecid   Rodriguez Tovar",
+     "tipo_de_documento_ordenador_de_pago": "C\u00e9dula de Ciudadan\u00eda",
+     "n_mero_de_documento_ordenador_de_pago": "4888229",
+     "documentos_tipo": "No",
+     "descripcion_documentos_tipo": "No definido",
+     "direcci_n_de_ejecuci_n_del_contrato": "CRA 3 6-06\nAltamira\nHuila\nCOLOMBIA",
+     "criterios_de_sostenibilidad_ambiental": "No definido",
+     "requisitos_ambientales_en_las_especificaciones_t_cnicas": "No definido",
+     "criterios_ambientales_en_la_evaluaci_n_de_las_ofertas": "No definido",
+     "obligaciones_contractuales_o_poscontractuales_a_nivel_ambiental": "No definido",
+     "uso_de_etiquetado_ecol_gico": "No definido",
+     "obligaciones_posconsumo": "No"
+    },
+    {
+     "nombre_entidad": "SECRETAR\u00cdA GENERAL DE LA ALCALD\u00cdA MAYOR DE BOGOT\u00c1",
+     "nit_entidad": "899999061",
+     "departamento": "Distrito Capital de Bogot\u00e1",
+     "ciudad": "Bogot\u00e1",
+     "localizaci_n": "Colombia, Bogot\u00e1,  Bogot\u00e1",
+     "orden": "Territorial",
+     "sector": "Servicio P\u00fablico",
+     "rama": "Ejecutivo",
+     "entidad_centralizada": "Centralizada",
+     "proceso_de_compra": "CO1.BDOS.6514718",
+     "id_contrato": "CO1.PCCNTR.6624330",
+     "referencia_del_contrato": "4233000-972-2024",
+     "estado_contrato": "Modificado",
+     "codigo_de_categoria_principal": "V1.80111500",
+     "descripcion_del_proceso": "Contratar los servicios de apoyo a la gesti\u00f3n adelantando las actividades de mantenimientos; preventivos y/o correctivos y/o reparaciones locativas programados y de emergencias a la planta f\u00edsica de las sedes de la Secretar\u00eda General de la Alcald\u00eda Mayor de Bogot\u00e1 D.C; para apoyar el cumplimiento de",
+     "tipo_de_contrato": "Prestaci\u00f3n de servicios",
+     "modalidad_de_contratacion": "Contrataci\u00f3n directa",
+     "justificacion_modalidad_de": "Servicios profesionales y apoyo a la gesti\u00f3n",
+     "fecha_de_firma": "2024-08-09T19:46:27.866",
+     "fecha_de_inicio_del_contrato": "2024-08-14T12:00:00.000",
+     "fecha_de_fin_del_contrato": "2025-01-13T11:59:00.000",
+     "condiciones_de_entrega": "NXTWY.DLVY.6",
+     "tipodocproveedor": "C\u00e9dula de Ciudadan\u00eda",
+     "documento_proveedor": "80113450",
+     "proveedor_adjudicado": "Pablo Cesar G\u00f3mez T\u00f3rres",
+     "es_grupo": "No",
+     "es_pyme": "No",
+     "habilita_pago_adelantado": "No",
+     "liquidaci_n": "No",
+     "obligaci_n_ambiental": "No",
+     "obligaciones_postconsumo": "No",
+     "reversion": "No",
+     "origen_de_los_recursos": "Distribuido",
+     "destino_gasto": "Inversi\u00f3n",
+     "valor_del_contrato": "20420565",
+     "valor_de_pago_adelantado": "0",
+     "valor_facturado": "20420565",
+     "valor_pendiente_de_pago": "0",
+     "valor_pagado": "20420565",
+     "valor_amortizado": "0",
+     "valor_pendiente_de": "0",
+     "valor_pendiente_de_ejecucion": "0",
+     "saldo_cdp": "20420565",
+     "saldo_vigencia": "0",
+     "espostconflicto": "No",
+     "dias_adicionados": "12",
+     "puntos_del_acuerdo": "No aplica",
+     "pilares_del_acuerdo": "No aplica",
+     "urlproceso": {
+      "url": "https://community.secop.gov.co/Public/Tendering/OpportunityDetail/Index?noticeUID=CO1.NTC.6524464&isFromPublicArea=True&isModal=true&asPopupView=true"
+     },
+     "nombre_representante_legal": "PABLO CESAR GOMEZ TORRES",
+     "nacionalidad_representante_legal": "CO",
+     "domicilio_representante_legal": "CALLE 35 # 3 - 12",
+     "tipo_de_identificaci_n_representante_legal": "C\u00e9dula de Ciudadan\u00eda",
+     "identificaci_n_representante_legal": "80113450",
+     "g_nero_representante_legal": "No Definido",
+     "presupuesto_general_de_la_nacion_pgn": "0",
+     "sistema_general_de_participaciones": "0",
+     "sistema_general_de_regal_as": "0",
+     "recursos_propios_alcald_as_gobernaciones_y_resguardos_ind_genas_": "20420565",
+     "recursos_de_credito": "0",
+     "recursos_propios": "0",
+     "ultima_actualizacion": "2024-12-09T19:59:09.658",
+     "codigo_entidad": "700218068",
+     "codigo_proveedor": "705665255",
+     "objeto_del_contrato": "Contratar los servicios de apoyo a la gesti\u00f3n adelantando las actividades de mantenimientos; preventivos y/o correctivos y/o reparaciones locativas programados y de emergencias a la planta f\u00edsica de las sedes de la Secretar\u00eda General de la Alcald\u00eda Mayor de Bogot\u00e1 D.C; para apoyar el cumplimiento de la meta 1 del proyecto de inversi\u00f3n 8098",
+     "duraci_n_del_contrato": "163 Mes(es)",
+     "nombre_del_banco": "No definido",
+     "tipo_de_cuenta": "No Definido",
+     "n_mero_de_cuenta": "No definido",
+     "el_contrato_puede_ser_prorrogado": "No",
+     "nombre_ordenador_del_gasto": "HENRY HUMBERTO VILLAMARIN SERRANO",
+     "tipo_de_documento_ordenador_del_gasto": "C\u00e9dula de Ciudadan\u00eda",
+     "n_mero_de_documento_ordenador_del_gasto": "79520124",
+     "nombre_supervisor": "MAURO PALTA CERON",
+     "tipo_de_documento_supervisor": "C\u00e9dula de Ciudadan\u00eda",
+     "n_mero_de_documento_supervisor": "76331003",
+     "nombre_ordenador_de_pago": "No definido",
+     "tipo_de_documento_ordenador_de_pago": "No definido",
+     "n_mero_de_documento_ordenador_de_pago": "No definido",
+     "documentos_tipo": "No",
+     "descripcion_documentos_tipo": "No definido",
+     "direcci_n_de_ejecuci_n_del_contrato": "Carrera 8 No. 10 - 65\nBogot\u00e1\nDistrito Capital de Bogot\u00e1\nCOLOMBIA",
+     "criterios_de_sostenibilidad_ambiental": "No definido",
+     "requisitos_ambientales_en_las_especificaciones_t_cnicas": "No definido",
+     "criterios_ambientales_en_la_evaluaci_n_de_las_ofertas": "No definido",
+     "obligaciones_contractuales_o_poscontractuales_a_nivel_ambiental": "No definido",
+     "uso_de_etiquetado_ecol_gico": "No definido",
+     "obligaciones_posconsumo": "No"
+    },
+    {
+     "nombre_entidad": "PERSONERIA DISTRITAL DE CARTAGENA",
+     "nit_entidad": "806000084",
+     "departamento": "Bol\u00edvar",
+     "ciudad": "Cartagena",
+     "localizaci_n": "Colombia,  Bol\u00edvar ,  Cartagena",
+     "orden": "Territorial",
+     "sector": "No aplica/No pertenece",
+     "rama": "Ejecutivo",
+     "entidad_centralizada": "Centralizada",
+     "proceso_de_compra": "CO1.BDOS.5878775",
+     "id_contrato": "CO1.PCCNTR.6141244",
+     "referencia_del_contrato": "CO1.PCCNTR.6141244",
+     "estado_contrato": "En ejecuci\u00f3n",
+     "codigo_de_categoria_principal": "V1.80111600",
+     "descripcion_del_proceso": "Contrato de prestaci\u00f3n de servicios de apoyo a la gesti\u00f3n temporal por parte del contratista como estudiante de derecho y de conformidad a la experiencia e idoneidad requeridas por la Personer\u00eda Distrital de Cartagena para actividades misionales y/o administrativas requeridas por el \u00e1rea de PERSONER",
+     "tipo_de_contrato": "Prestaci\u00f3n de servicios",
+     "modalidad_de_contratacion": "Contrataci\u00f3n directa",
+     "justificacion_modalidad_de": "Servicios profesionales y apoyo a la gesti\u00f3n",
+     "fecha_de_firma": "2024-04-01T08:59:22.717",
+     "fecha_de_inicio_del_contrato": "2024-04-01T13:03:00.000",
+     "fecha_de_fin_del_contrato": "2024-10-30T23:59:00.000",
+     "condiciones_de_entrega": "No Definido",
+     "tipodocproveedor": "C\u00e9dula de Ciudadan\u00eda",
+     "documento_proveedor": "1047477668",
+     "proveedor_adjudicado": "jadnia yulieth chaljub baquedo",
+     "es_grupo": "No",
+     "es_pyme": "No",
+     "habilita_pago_adelantado": "No",
+     "liquidaci_n": "No",
+     "obligaci_n_ambiental": "No",
+     "obligaciones_postconsumo": "No",
+     "reversion": "No",
+     "origen_de_los_recursos": "Recursos Propios",
+     "destino_gasto": "Funcionamiento",
+     "valor_del_contrato": "17500000",
+     "valor_de_pago_adelantado": "0",
+     "valor_facturado": "17500000",
+     "valor_pendiente_de_pago": "0",
+     "valor_pagado": "17500000",
+     "valor_amortizado": "0",
+     "valor_pendiente_de": "0",
+     "valor_pendiente_de_ejecucion": "0",
+     "saldo_cdp": "2670600000",
+     "saldo_vigencia": "0",
+     "espostconflicto": "No",
+     "dias_adicionados": "0",
+     "puntos_del_acuerdo": "No aplica",
+     "pilares_del_acuerdo": "No aplica",
+     "urlproceso": {
+      "url": "https://community.secop.gov.co/Public/Tendering/OpportunityDetail/Index?noticeUID=CO1.NTC.5887822&isFromPublicArea=True&isModal=true&asPopupView=true"
+     },
+     "nombre_representante_legal": "Jadnia yulieth Chaljub baquedo",
+     "nacionalidad_representante_legal": "CO",
+     "domicilio_representante_legal": "Alto bosque edf. Serranova torr. 1 apt. 401",
+     "tipo_de_identificaci_n_representante_legal": "C\u00e9dula de Ciudadan\u00eda",
+     "identificaci_n_representante_legal": "1047477668",
+     "g_nero_representante_legal": "No Definido",
+     "presupuesto_general_de_la_nacion_pgn": "0",
+     "sistema_general_de_participaciones": "0",
+     "sistema_general_de_regal_as": "0",
+     "recursos_propios_alcald_as_gobernaciones_y_resguardos_ind_genas_": "0",
+     "recursos_de_credito": "0",
+     "recursos_propios": "17500000",
+     "codigo_entidad": "706129145",
+     "codigo_proveedor": "706182037",
+     "objeto_del_contrato": "Contrato de prestaci\u00f3n de servicios de apoyo a la gesti\u00f3n temporal por parte del contratista como estudiante de derecho y de conformidad a la experiencia e idoneidad requeridas por la Personer\u00eda Distrital de Cartagena para actividades misionales y/o administrativas requeridas por el \u00e1rea de PERSONER\u00cdA DELEGADA PARA LA PROTECCI\u00d3N DE LAS COMUNIDADES Y SUJETOS DE ESPECIAL PROTECCI\u00d3N CONSTITUCIONAL -VEEDURIAS Y PARTICIPACI\u00d3N CIUDADANA o la delegada; oficina o dependencia a la que sea asignado para a",
+     "duraci_n_del_contrato": "210 Dia(s)",
+     "nombre_del_banco": "No definido",
+     "tipo_de_cuenta": "No Definido",
+     "n_mero_de_cuenta": "No definido",
+     "el_contrato_puede_ser_prorrogado": "No",
+     "nombre_ordenador_del_gasto": "ELIANA DEL CARMEN SIMANCAS TINOCO",
+     "tipo_de_documento_ordenador_del_gasto": "C\u00e9dula de Ciudadan\u00eda",
+     "n_mero_de_documento_ordenador_del_gasto": "1044913815",
+     "nombre_supervisor": "LUIS ALBERTO MORILLO SANCHEZ",
+     "tipo_de_documento_supervisor": "C\u00e9dula de Ciudadan\u00eda",
+     "n_mero_de_documento_supervisor": "73007991",
+     "nombre_ordenador_de_pago": "No definido",
+     "tipo_de_documento_ordenador_de_pago": "No definido",
+     "n_mero_de_documento_ordenador_de_pago": "No definido",
+     "documentos_tipo": "No",
+     "descripcion_documentos_tipo": "No definido",
+     "direcci_n_de_ejecuci_n_del_contrato": "Calle 31 (Av. Pedro de Heredia) # 39-264; Barrio Amberes\nCartagena\nBol\u00edvar\nCOLOMBIA",
+     "criterios_de_sostenibilidad_ambiental": "No definido",
+     "requisitos_ambientales_en_las_especificaciones_t_cnicas": "No definido",
+     "criterios_ambientales_en_la_evaluaci_n_de_las_ofertas": "No definido",
+     "obligaciones_contractuales_o_poscontractuales_a_nivel_ambiental": "No definido",
+     "uso_de_etiquetado_ecol_gico": "No definido",
+     "obligaciones_posconsumo": "No"
+    }
+   ],
+   "license": "Creative Commons Attribution | Share Alike 4.0 International",
+   "attribution": "Agencia Nacional de Contrataci\u00f3n P\u00fablica - Colombia Compra Eficiente, Bogot\u00e1 D.C.",
+   "rowsUpdatedAt": 1793971673
+  },
+  "insolv_profile": {
+   "n": 50425,
+   "cols": [
+    "anio",
+    "mes",
+    "municipio",
+    "departamento",
+    "privados_estado",
+    "gratis",
+    "resultado_insolvencia"
+   ],
+   "value_counts": {
+    "anio": {
+     "2025": 18740,
+     "2024": 11008,
+     "2023": 6478,
+     "2022": 4382,
+     "2021": 3237,
+     "2019": 2405,
+     "2020": 2250,
+     "2018": 1923
+    },
+    "mes": {
+     "9": 5509,
+     "12": 5313,
+     "10": 5240,
+     "11": 4813,
+     "8": 4743,
+     "7": 4700,
+     "6": 4393,
+     "5": 3452,
+     "3": 3403,
+     "2": 3018,
+     "4": 3011,
+     "1": 2828
+    },
+    "departamento": {
+     "BOGOT\u00c1 D.C.": 15026,
+     "ANTIOQUIA": 8943,
+     "VALLE DEL CAUCA": 6921,
+     "NO DEFINIDO": 5044,
+     "NORTE DE SANTANDER": 2419,
+     "SANTANDER": 2408,
+     "ATL\u00c1NTICO": 2367,
+     "CESAR": 1362,
+     "NARI\u00d1O": 782,
+     "HUILA": 636,
+     "C\u00d3RDOBA": 614,
+     "META": 611,
+     "CALDAS": 605,
+     "MAGDALENA": 426,
+     "RISARALDA": 393
+    },
+    "privados_estado": {
+     "ENTRE PRIVADOS": 32868,
+     "CON EL ESTADO": 17555
+    },
+    "gratis": {
+     "GRATUITO": 49982,
+     "NO GRATUITO": 441
+    },
+    "resultado_insolvencia": {
+     "NO ACUERDO": 21009,
+     "ACUERDO": 16218,
+     "SIN RESULTADO": 10494,
+     "OTRO": 2702
+    }
+   }
+  }
+ },
+ "brazil": {
+  "ipe": {
+   "2016": {
+    "docs": 31901,
+    "companies": 723,
+    "rj_docs": 221,
+    "rj_companies": 37,
+    "top_cats": {
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 5986,
+     "Comunicado ao Mercado": 5596,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 5243,
+     "Assembleia": 5124,
+     "Dados Econ\u00f4mico-Financeiros": 4304,
+     "Fato Relevante": 1684,
+     "Aviso aos Acionistas": 1182,
+     "Estatuto Social": 411,
+     "Aviso aos Debenturistas": 371,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 335,
+     "Termo de Securitiza\u00e7\u00e3o e Aditamentos de Direitos Credit\u00f3rios": 307,
+     "Calend\u00e1rio de Eventos Corporativos": 217,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 190,
+     "Escrituras e aditamentos de deb\u00eantures": 168,
+     "Informa\u00e7\u00e3o Prestada \u00e0s Bolsas Estrangeiras": 156,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 103,
+     "Pol\u00edtica de Divulga\u00e7\u00e3o de Ato ou Fato Relevante": 85,
+     "Ato Homologat\u00f3rio emitido pelo Banco Central": 58,
+     "Dados cadastrais de companhias incentivadas": 56,
+     "Acordo de Acionistas": 54,
+     "C\u00f3digo de Conduta": 42,
+     "Pol\u00edtica de Negocia\u00e7\u00e3o das A\u00e7\u00f5es da Companhia": 40,
+     "BDR N\u00e3o Patrocinado - Descritivo Operacional do Programa": 36,
+     "Relat\u00f3rio de Sustentabilidade": 30,
+     "Plano de Remunera\u00e7\u00e3o Baseado em A\u00e7\u00f5es": 25
+    }
+   },
+   "2017": {
+    "docs": 34365,
+    "companies": 699,
+    "rj_docs": 482,
+    "rj_companies": 35,
+    "top_cats": {
+     "Assembleia": 6214,
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 5999,
+     "Comunicado ao Mercado": 5854,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 5650,
+     "Dados Econ\u00f4mico-Financeiros": 4316,
+     "Fato Relevante": 2055,
+     "Aviso aos Acionistas": 1091,
+     "Estatuto Social": 418,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 400,
+     "Aviso aos Debenturistas": 359,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 343,
+     "Termo de Securitiza\u00e7\u00e3o e Aditamentos de Direitos Credit\u00f3rios": 342,
+     "Calend\u00e1rio de Eventos Corporativos": 234,
+     "Informa\u00e7\u00e3o Prestada \u00e0s Bolsas Estrangeiras": 221,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 207,
+     "Escrituras e aditamentos de deb\u00eantures": 200,
+     "Ato Homologat\u00f3rio emitido pelo Banco Central": 72,
+     "Pol\u00edtica de Divulga\u00e7\u00e3o de Ato ou Fato Relevante": 61,
+     "Dados cadastrais de companhias incentivadas": 49,
+     "Acordo de Acionistas": 39,
+     "Relat\u00f3rio de Sustentabilidade": 38,
+     "Pol\u00edtica de Negocia\u00e7\u00e3o das A\u00e7\u00f5es da Companhia": 32,
+     "Plano de Remunera\u00e7\u00e3o Baseado em A\u00e7\u00f5es": 32,
+     "C\u00f3digo de Conduta": 30,
+     "Pol\u00edtica de Transa\u00e7\u00f5es entre Partes Relacionadas": 19
+    }
+   },
+   "2018": {
+    "docs": 38092,
+    "companies": 702,
+    "rj_docs": 366,
+    "rj_companies": 31,
+    "top_cats": {
+     "Assembleia": 7977,
+     "Comunicado ao Mercado": 6633,
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 6440,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 5469,
+     "Dados Econ\u00f4mico-Financeiros": 4746,
+     "Fato Relevante": 2153,
+     "Aviso aos Acionistas": 1251,
+     "Estatuto Social": 471,
+     "Termo de Securitiza\u00e7\u00e3o e Aditamentos de Direitos Credit\u00f3rios": 334,
+     "Aviso aos Debenturistas": 302,
+     "Calend\u00e1rio de Eventos Corporativos": 252,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 245,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 239,
+     "Escrituras e aditamentos de deb\u00eantures": 237,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 208,
+     "Informa\u00e7\u00e3o Prestada \u00e0s Bolsas Estrangeiras": 189,
+     "Ato Homologat\u00f3rio emitido pelo Banco Central": 80,
+     "Pol\u00edtica de Divulga\u00e7\u00e3o de Ato ou Fato Relevante": 80,
+     "C\u00f3digo de Conduta": 74,
+     "Pol\u00edtica de Transa\u00e7\u00f5es entre Partes Relacionadas": 54,
+     "Acordo de Acionistas": 54,
+     "Regimento interno do Conselho de Administra\u00e7\u00e3o": 47,
+     "BDR N\u00e3o Patrocinado - Descritivo Operacional do Programa": 45,
+     "Pol\u00edtica de Gerenciamento de Riscos": 43,
+     "Relat\u00f3rio de Sustentabilidade": 42
+    }
+   },
+   "2019": {
+    "docs": 42670,
+    "companies": 691,
+    "rj_docs": 360,
+    "rj_companies": 40,
+    "top_cats": {
+     "Comunicado ao Mercado": 8647,
+     "Assembleia": 8389,
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 6304,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 6063,
+     "Dados Econ\u00f4mico-Financeiros": 4828,
+     "Fato Relevante": 2210,
+     "Aviso aos Acionistas": 1495,
+     "DF - Patrim\u00f4nio separado": 710,
+     "Estatuto Social": 432,
+     "Termo de Securitiza\u00e7\u00e3o e Aditamentos de Direitos Credit\u00f3rios": 350,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 337,
+     "Aviso aos Debenturistas": 320,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 258,
+     "Escrituras e aditamentos de deb\u00eantures": 249,
+     "Calend\u00e1rio de Eventos Corporativos": 246,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 235,
+     "Informe Mensal de CRA": 150,
+     "Contratos de Indenidade": 107,
+     "Regimento interno do Conselho de Administra\u00e7\u00e3o": 93,
+     "Ato Homologat\u00f3rio emitido pelo Banco Central": 90,
+     "Pol\u00edtica de Transa\u00e7\u00f5es entre Partes Relacionadas": 87,
+     "Informa\u00e7\u00e3o Prestada \u00e0s Bolsas Estrangeiras": 86,
+     "Pol\u00edtica de Divulga\u00e7\u00e3o de Ato ou Fato Relevante": 82,
+     "Regimento interno de Comit\u00eas": 81,
+     "Pol\u00edtica de Gerenciamento de Riscos": 79
+    }
+   },
+   "2020": {
+    "docs": 43280,
+    "companies": 730,
+    "rj_docs": 422,
+    "rj_companies": 40,
+    "top_cats": {
+     "Comunicado ao Mercado": 9069,
+     "Assembleia": 7459,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 6790,
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 6744,
+     "Dados Econ\u00f4mico-Financeiros": 4177,
+     "Fato Relevante": 2812,
+     "Aviso aos Acionistas": 1600,
+     "Estatuto Social": 526,
+     "Calend\u00e1rio de Eventos Corporativos": 327,
+     "Aviso aos Debenturistas": 315,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 309,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 307,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 299,
+     "Escrituras e aditamentos de deb\u00eantures": 230,
+     "Regimento interno de Comit\u00eas": 176,
+     "Regimento interno do Conselho de Administra\u00e7\u00e3o": 159,
+     "Contratos de Indenidade": 157,
+     "Pol\u00edtica de Gerenciamento de Riscos": 155,
+     "Pol\u00edtica de Transa\u00e7\u00f5es entre Partes Relacionadas": 154,
+     "Pol\u00edtica de Divulga\u00e7\u00e3o de Ato ou Fato Relevante": 151,
+     "C\u00f3digo de Conduta": 148,
+     "Acordo de Acionistas": 135,
+     "Pol\u00edtica de indica\u00e7\u00e3o": 120,
+     "Pol\u00edtica de Negocia\u00e7\u00e3o de Valores Mobili\u00e1rios": 117,
+     "Pol\u00edtica de Remunera\u00e7\u00e3o": 103
+    }
+   },
+   "2021": {
+    "docs": 52140,
+    "companies": 813,
+    "rj_docs": 291,
+    "rj_companies": 37,
+    "top_cats": {
+     "Comunicado ao Mercado": 10918,
+     "Assembleia": 8632,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 8361,
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 8115,
+     "Dados Econ\u00f4mico-Financeiros": 5116,
+     "Fato Relevante": 3227,
+     "Aviso aos Acionistas": 1804,
+     "Calend\u00e1rio de Eventos Corporativos": 793,
+     "Estatuto Social": 699,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 392,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 349,
+     "Aviso aos Debenturistas": 333,
+     "Regimento interno de Comit\u00eas": 268,
+     "Escrituras e aditamentos de deb\u00eantures": 259,
+     "Pol\u00edtica de Divulga\u00e7\u00e3o de Ato ou Fato Relevante": 233,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 233,
+     "Acordo de Acionistas": 228,
+     "C\u00f3digo de Conduta": 223,
+     "Pol\u00edtica de Gerenciamento de Riscos": 204,
+     "Pol\u00edtica de Transa\u00e7\u00f5es entre Partes Relacionadas": 193,
+     "Pol\u00edtica de Negocia\u00e7\u00e3o de Valores Mobili\u00e1rios": 187,
+     "Regimento interno do Conselho de Administra\u00e7\u00e3o": 175,
+     "Pol\u00edtica de indica\u00e7\u00e3o": 136,
+     "Pol\u00edtica de Remunera\u00e7\u00e3o": 126,
+     "Regimento Interno do Comit\u00ea de Auditoria Estatut\u00e1rio": 109
+    }
+   },
+   "2022": {
+    "docs": 49168,
+    "companies": 823,
+    "rj_docs": 280,
+    "rj_companies": 32,
+    "top_cats": {
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 9041,
+     "Assembleia": 8974,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 7847,
+     "Comunicado ao Mercado": 7440,
+     "Dados Econ\u00f4mico-Financeiros": 5580,
+     "Fato Relevante": 2670,
+     "Aviso aos Acionistas": 2122,
+     "Calend\u00e1rio de Eventos Corporativos": 1081,
+     "Estatuto Social": 606,
+     "Escrituras e aditamentos de deb\u00eantures": 350,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 331,
+     "Aviso aos Debenturistas": 321,
+     "Relat\u00f3rio Proventos": 242,
+     "Regimento interno de Comit\u00eas": 212,
+     "Relat\u00f3rio de Sustentabilidade": 206,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 195,
+     "C\u00f3digo de Conduta": 142,
+     "Contratos de Indenidade": 135,
+     "Pol\u00edtica de Gerenciamento de Riscos": 134,
+     "Pol\u00edtica de Divulga\u00e7\u00e3o de Ato ou Fato Relevante": 134,
+     "Regimento interno do Conselho de Administra\u00e7\u00e3o": 128,
+     "Pol\u00edtica de Negocia\u00e7\u00e3o de Valores Mobili\u00e1rios": 120,
+     "Acordo de Acionistas": 115,
+     "Pol\u00edtica de indica\u00e7\u00e3o": 103,
+     "Pol\u00edtica de Remunera\u00e7\u00e3o": 102
+    }
+   },
+   "2023": {
+    "docs": 49919,
+    "companies": 786,
+    "rj_docs": 376,
+    "rj_companies": 34,
+    "top_cats": {
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 9286,
+     "Assembleia": 8784,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 8206,
+     "Comunicado ao Mercado": 7106,
+     "Dados Econ\u00f4mico-Financeiros": 5823,
+     "Fato Relevante": 2646,
+     "Aviso aos Acionistas": 1756,
+     "Calend\u00e1rio de Eventos Corporativos": 1038,
+     "Relat\u00f3rio Proventos": 854,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 710,
+     "Estatuto Social": 548,
+     "Escrituras e aditamentos de deb\u00eantures": 389,
+     "Aviso aos Debenturistas": 310,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 265,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 242,
+     "Relat\u00f3rio de Sustentabilidade": 198,
+     "C\u00f3digo de Conduta": 155,
+     "Regimento interno de Comit\u00eas": 143,
+     "Contratos de Indenidade": 124,
+     "Pol\u00edtica de Gerenciamento de Riscos": 98,
+     "Acordo de Acionistas": 95,
+     "Regimento interno do Conselho de Administra\u00e7\u00e3o": 91,
+     "Pol\u00edtica de Negocia\u00e7\u00e3o de Valores Mobili\u00e1rios": 87,
+     "Pol\u00edtica de Divulga\u00e7\u00e3o de Ato ou Fato Relevante": 83,
+     "Ato Homologat\u00f3rio emitido pelo Banco Central": 81
+    }
+   },
+   "2024": {
+    "docs": 50125,
+    "companies": 776,
+    "rj_docs": 443,
+    "rj_companies": 39,
+    "top_cats": {
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 9328,
+     "Assembleia": 8350,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 8116,
+     "Comunicado ao Mercado": 6782,
+     "Dados Econ\u00f4mico-Financeiros": 6009,
+     "Fato Relevante": 2793,
+     "Aviso aos Acionistas": 1741,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 1150,
+     "Calend\u00e1rio de Eventos Corporativos": 913,
+     "Relat\u00f3rio Proventos": 903,
+     "Escrituras e aditamentos de deb\u00eantures": 661,
+     "Estatuto Social": 548,
+     "Aviso aos Debenturistas": 396,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 322,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 320,
+     "Relat\u00f3rio de Sustentabilidade": 195,
+     "C\u00f3digo de Conduta": 135,
+     "Contratos de Indenidade": 108,
+     "Regimento interno de Comit\u00eas": 99,
+     "Acordo de Acionistas": 98,
+     "Pol\u00edtica de Gerenciamento de Riscos": 94,
+     "Pol\u00edtica de Negocia\u00e7\u00e3o de Valores Mobili\u00e1rios": 85,
+     "Pol\u00edtica de Divulga\u00e7\u00e3o de Ato ou Fato Relevante": 84,
+     "Pol\u00edtica de Transa\u00e7\u00f5es entre Partes Relacionadas": 83,
+     "Regimento interno do Conselho de Administra\u00e7\u00e3o": 80
+    }
+   },
+   "2025": {
+    "docs": 49276,
+    "companies": 767,
+    "rj_docs": 336,
+    "rj_companies": 43,
+    "top_cats": {
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 9281,
+     "Assembleia": 8157,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 7819,
+     "Comunicado ao Mercado": 6367,
+     "Dados Econ\u00f4mico-Financeiros": 6042,
+     "Fato Relevante": 2773,
+     "Aviso aos Acionistas": 1892,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 1220,
+     "Calend\u00e1rio de Eventos Corporativos": 930,
+     "Relat\u00f3rio Proventos": 907,
+     "Escrituras e aditamentos de deb\u00eantures": 732,
+     "Estatuto Social": 568,
+     "Aviso aos Debenturistas": 412,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 291,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 221,
+     "Relat\u00f3rio de Sustentabilidade": 190,
+     "Contratos de Indenidade": 135,
+     "Regimento interno de Comit\u00eas": 123,
+     "C\u00f3digo de Conduta": 108,
+     "Acordo de Acionistas": 88,
+     "Pol\u00edtica de Gerenciamento de Riscos": 85,
+     "Pol\u00edtica de Transa\u00e7\u00f5es entre Partes Relacionadas": 81,
+     "Regimento interno do Conselho de Administra\u00e7\u00e3o": 75,
+     "Ato Homologat\u00f3rio emitido pelo Banco Central": 65,
+     "Informa\u00e7\u00e3o Prestada \u00e0s Bolsas Estrangeiras": 57
+    }
+   },
+   "2026": {
+    "docs": 38317,
+    "companies": 719,
+    "rj_docs": 387,
+    "rj_companies": 46,
+    "top_cats": {
+     "Valores Mobili\u00e1rios negociados e detidos (art. 11 da Instr. CVM n\u00ba 358)": 7367,
+     "Assembleia": 7237,
+     "Reuni\u00e3o da Administra\u00e7\u00e3o": 5813,
+     "Dados Econ\u00f4mico-Financeiros": 4877,
+     "Comunicado ao Mercado": 4789,
+     "Fato Relevante": 2105,
+     "Aviso aos Acionistas": 1392,
+     "Documentos de Oferta de Distribui\u00e7\u00e3o P\u00fablica": 619,
+     "Relat\u00f3rio Proventos": 557,
+     "Calend\u00e1rio de Eventos Corporativos": 534,
+     "Estatuto Social": 457,
+     "Escrituras e aditamentos de deb\u00eantures": 398,
+     "Aviso aos Debenturistas": 325,
+     "Informa\u00e7\u00f5es de Companhias em Recupera\u00e7\u00e3o Judicial ou Extrajudicial": 229,
+     "Comunica\u00e7\u00e3o sobre Transa\u00e7\u00e3o entre Partes Relacionadas": 195,
+     "Relat\u00f3rio de Sustentabilidade": 152,
+     "Contratos de Indenidade": 142,
+     "Regimento interno de Comit\u00eas": 111,
+     "Acordo de Acionistas": 81,
+     "C\u00f3digo de Conduta": 81,
+     "Informa\u00e7\u00e3o Prestada \u00e0s Bolsas Estrangeiras": 79,
+     "Pol\u00edtica de Gerenciamento de Riscos": 69,
+     "Ato Homologat\u00f3rio emitido pelo Banco Central": 59,
+     "Relato Integrado": 55,
+     "Pol\u00edtica de Transa\u00e7\u00f5es entre Partes Relacionadas": 53
+    }
+   }
+  },
+  "ipe_cols": [
+   "CNPJ_Companhia",
+   "Nome_Companhia",
+   "Codigo_CVM",
+   "Data_Referencia",
+   "Categoria",
+   "Tipo",
+   "Especie",
+   "Assunto",
+   "Data_Entrega",
+   "Tipo_Apresentacao",
+   "Protocolo_Entrega",
+   "Versao",
+   "Link_Download"
+  ],
+  "rj_companies_total": 144,
+  "rj_first_by_year": {
+   "2016": 37,
+   "2017": 11,
+   "2018": 10,
+   "2019": 12,
+   "2020": 9,
+   "2021": 10,
+   "2022": 6,
+   "2023": 12,
+   "2024": 15,
+   "2025": 10,
+   "2026": 12
+  },
+  "cad": {
+   "n": 2679,
+   "sit": {
+    "CANCELADA": 1916,
+    "ATIVO": 755,
+    "SUSPENSO(A) - DECIS\u00c3O ADM": 8
+   },
+   "sit_emissor": {
+    "FASE OPERACIONAL": 1119,
+    "FASE PR\u00c9-OPERACIONAL": 129,
+    "EM RECUPERA\u00c7\u00c3O JUDICIAL OU EQUIVALENTE": 46,
+    "FALIDA": 22,
+    "LIQUIDA\u00c7\u00c3O EXTRAJUDICIAL": 17,
+    "EM RECUPERA\u00c7\u00c3O EXTRAJUDICIAL": 8,
+    "PARALISADA": 5,
+    "EM LIQUIDA\u00c7\u00c3O JUDICIAL": 3
+   }
+  },
+  "dfp_2023_files": [
+   "dfp_cia_aberta_2023.csv",
+   "dfp_cia_aberta_BPA_con_2023.csv",
+   "dfp_cia_aberta_BPA_ind_2023.csv",
+   "dfp_cia_aberta_BPP_con_2023.csv",
+   "dfp_cia_aberta_BPP_ind_2023.csv",
+   "dfp_cia_aberta_composicao_capital_2023.csv",
+   "dfp_cia_aberta_DFC_MD_con_2023.csv",
+   "dfp_cia_aberta_DFC_MD_ind_2023.csv",
+   "dfp_cia_aberta_DFC_MI_con_2023.csv",
+   "dfp_cia_aberta_DFC_MI_ind_2023.csv",
+   "dfp_cia_aberta_DMPL_con_2023.csv",
+   "dfp_cia_aberta_DMPL_ind_2023.csv",
+   "dfp_cia_aberta_DRA_con_2023.csv",
+   "dfp_cia_aberta_DRA_ind_2023.csv",
+   "dfp_cia_aberta_DRE_con_2023.csv",
+   "dfp_cia_aberta_DRE_ind_2023.csv",
+   "dfp_cia_aberta_DVA_con_2023.csv",
+   "dfp_cia_aberta_DVA_ind_2023.csv",
+   "dfp_cia_aberta_parecer_2023.csv"
+  ],
+  "dfp_2023_bpp_con": {
+   "rows": 110540,
+   "companies": 474
+  }
+ }
+}
