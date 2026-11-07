@@ -1,4 +1,4 @@
 set -u
 mkdir -p em_probe_out
 pip install --quiet scikit-learn openpyxl
-python scripts/em_probe/deb_radar.py em_probe_out 2>&1 | tee em_probe_out/radar_log.txt
+python scripts/em_probe/co_insight.py em_probe_out 2>&1 | tee em_probe_out/insight_log.txt
