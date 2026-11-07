@@ -1,138 +1,159 @@
 {
  "years": {
   "2016": {
-   "fre_rows": 2193
+   "fre_rows": 2177
   },
   "2017": {
-   "fre_rows": 2463
+   "fre_rows": 2451
   },
   "2018": {
-   "fre_rows": 2910
+   "fre_rows": 2905
   },
   "2019": {
-   "fre_rows": 2960
+   "fre_rows": 2954
   },
   "2020": {
-   "fre_rows": 3414
+   "fre_rows": 3405
   },
   "2021": {
-   "fre_rows": 4207
+   "fre_rows": 4179
   },
   "2022": {
-   "err": "ParserError('Error tokenizing data. C error: Expected 24 fields in line 3813, saw 26\\n')"
+   "fre_rows": 4049
   },
   "2023": {
-   "err": "ParserError('Error tokenizing data. C error: Expected 24 fields in line 2463, saw 26\\n')"
+   "fre_rows": 2702
   },
   "2024": {
-   "err": "ParserError('Error tokenizing data. C error: Expected 24 fields in line 2547, saw 26\\n')"
+   "fre_rows": 2787
   },
   "2025": {
-   "err": "ParserError('Error tokenizing data. C error: Expected 24 fields in line 2531, saw 26\\n')"
+   "fre_rows": 2816
   }
  },
  "fre": {
-  "debt_rows": 8139,
-  "with_maturity": 7922,
-  "with_balance": 8139,
-  "companies": 496,
+  "debt_rows": 16534,
+  "with_maturity": 16279,
+  "with_balance": 16534,
+  "companies": 657,
   "companies_with_future_maturity_by_year": {
-   "2016": 257,
+   "2016": 256,
    "2017": 257,
    "2018": 272,
    "2019": 292,
    "2020": 322,
-   "2021": 372
+   "2021": 372,
+   "2022": 409,
+   "2023": 418,
+   "2024": 447,
+   "2025": 458
   },
   "instrument_types": {
-   "Debêntures": 6138,
-   "Certificado de Recebíveis do Agronegócio": 1123,
-   "Nota Comercial": 566,
-   "Letras Financeiras": 211,
-   "Debêntures Conversíveis": 101
+   "Debêntures": 13013,
+   "Certificado de Recebíveis do Agronegócio": 1605,
+   "Nota Comercial": 1370,
+   "Letras Financeiras": 396,
+   "Debêntures Conversíveis": 150
   }
  },
  "panel": {
-  "company_years": 3761,
-  "events": 45,
-  "base_rate": 0.012,
-  "companies": 881,
-  "with_fre_wall": 322
+  "company_years": 5681,
+  "events": 71,
+  "base_rate": 0.0125,
+  "companies": 954,
+  "with_fre_wall": 625
  },
  "auc_single": {
   "lev": {
-   "auc": 0.529,
-   "n": 3761,
-   "events": 45
+   "auc": 0.566,
+   "n": 5681,
+   "events": 71
   },
   "cd_cash": {
-   "auc": 0.672,
-   "n": 3424,
-   "events": 41
+   "auc": 0.653,
+   "n": 5200,
+   "events": 70
   },
   "cd_assets": {
-   "auc": 0.596,
-   "n": 3519,
-   "events": 45
+   "auc": 0.623,
+   "n": 5335,
+   "events": 71
   },
   "wall_cash": {
-   "auc": 0.493,
-   "n": 3651,
-   "events": 41
+   "auc": 0.501,
+   "n": 5525,
+   "events": 70
   },
   "wall_assets": {
-   "auc": 0.491,
-   "n": 3761,
-   "events": 45
+   "auc": 0.502,
+   "n": 5681,
+   "events": 71
   },
   "fre_wall12": {
-   "auc": 0.49,
-   "n": 3761,
-   "events": 45
+   "auc": 0.504,
+   "n": 5681,
+   "events": 71
   },
   "cur_ratio": {
-   "auc": 0.718,
-   "n": 3653,
-   "events": 45
+   "auc": 0.66,
+   "n": 5500,
+   "events": 71
   },
   "eq_a": {
    "auc": 0.66,
-   "n": 3761,
-   "events": 45
+   "n": 5681,
+   "events": 71
   }
  },
  "rate_wall_gt_cash": {
   "false": {
-   "count": 3338,
-   "sum": 38,
-   "mean": 0.0114
+   "count": 4915,
+   "sum": 62,
+   "mean": 0.0126
   },
   "true": {
-   "count": 313,
-   "sum": 3,
-   "mean": 0.0096
+   "count": 610,
+   "sum": 8,
+   "mean": 0.0131
   }
  },
  "rate_curdebt_gt_cash": {
   "false": {
-   "count": 2109,
-   "sum": 12,
-   "mean": 0.0057
+   "count": 3167,
+   "sum": 24,
+   "mean": 0.0076
   },
   "true": {
-   "count": 1542,
-   "sum": 29,
-   "mean": 0.0188
+   "count": 2358,
+   "sum": 46,
+   "mean": 0.0195
   }
  },
  "rate_among_with_fre_debt": {
-  "n": 1279,
-  "events": 12,
-  "rate_wall_gt_cash": 0.0096,
-  "rate_other": 0.0093
+  "n": 2344,
+  "events": 31,
+  "rate_wall_gt_cash": 0.0131,
+  "rate_other": 0.0133
  },
  "cv_auc": {
-  "dfp_only": 0.648,
-  "dfp_plus_fre_wall": 0.614
+  "dfp_only": 0.616,
+  "dfp_plus_fre_wall": 0.627
+ },
+ "current_table": {
+  "instruments": 2521,
+  "companies": 511,
+  "maturing_within_12m_companies": 207,
+  "fre_years_loaded": [
+   2016,
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ]
  }
 }

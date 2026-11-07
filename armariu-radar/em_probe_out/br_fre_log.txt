@@ -1,115 +1,115 @@
-2016 2193
-2017 2463
-2018 2910
-2019 2960
-2020 3414
-2021 4207
-2022 fail Error tokenizing data. C error: Expected 24 fields in line 3813, saw 26
-
-2023 fail Error tokenizing data. C error: Expected 24 fields in line 2463, saw 26
-
-2024 fail Error tokenizing data. C error: Expected 24 fields in line 2547, saw 26
-
-2025 fail Error tokenizing data. C error: Expected 24 fields in line 2531, saw 26
-
-{'debt_rows': 8139, 'with_maturity': 7922, 'with_balance': 8139, 'companies': 496, 'companies_with_future_maturity_by_year': {2016: 257, 2017: 257, 2018: 272, 2019: 292, 2020: 322, 2021: 372}, 'instrument_types': {'Debêntures': 6138, 'Certificado de Recebíveis do Agronegócio': 1123, 'Nota Comercial': 566, 'Letras Financeiras': 211, 'Debêntures Conversíveis': 101}}
+2016 2177
+2017 2451
+2018 2905
+2019 2954
+2020 3405
+2021 4179
+2022 4049
+2023 2702
+2024 2787
+2025 2816
+{'debt_rows': 16534, 'with_maturity': 16279, 'with_balance': 16534, 'companies': 657, 'companies_with_future_maturity_by_year': {2016: 256, 2017: 257, 2018: 272, 2019: 292, 2020: 322, 2021: 372, 2022: 409, 2023: 418, 2024: 447, 2025: 458}, 'instrument_types': {'Debêntures': 13013, 'Certificado de Recebíveis do Agronegócio': 1605, 'Nota Comercial': 1370, 'Letras Financeiras': 396, 'Debêntures Conversíveis': 150}}
 {
  "fre": {
-  "debt_rows": 8139,
-  "with_maturity": 7922,
-  "with_balance": 8139,
-  "companies": 496,
+  "debt_rows": 16534,
+  "with_maturity": 16279,
+  "with_balance": 16534,
+  "companies": 657,
   "companies_with_future_maturity_by_year": {
-   "2016": 257,
+   "2016": 256,
    "2017": 257,
    "2018": 272,
    "2019": 292,
    "2020": 322,
-   "2021": 372
+   "2021": 372,
+   "2022": 409,
+   "2023": 418,
+   "2024": 447,
+   "2025": 458
   },
   "instrument_types": {
-   "Deb\u00eantures": 6138,
-   "Certificado de Receb\u00edveis do Agroneg\u00f3cio": 1123,
-   "Nota Comercial": 566,
-   "Letras Financeiras": 211,
-   "Deb\u00eantures Convers\u00edveis": 101
+   "Deb\u00eantures": 13013,
+   "Certificado de Receb\u00edveis do Agroneg\u00f3cio": 1605,
+   "Nota Comercial": 1370,
+   "Letras Financeiras": 396,
+   "Deb\u00eantures Convers\u00edveis": 150
   }
  },
  "panel": {
-  "company_years": 3761,
-  "events": 45,
-  "base_rate": 0.012,
-  "companies": 881,
-  "with_fre_wall": 322
+  "company_years": 5681,
+  "events": 71,
+  "base_rate": 0.0125,
+  "companies": 954,
+  "with_fre_wall": 625
  },
  "auc_single": {
   "lev": {
-   "auc": 0.529,
-   "n": 3761,
-   "events": 45
+   "auc": 0.566,
+   "n": 5681,
+   "events": 71
   },
   "cd_cash": {
-   "auc": 0.672,
-   "n": 3424,
-   "events": 41
+   "auc": 0.653,
+   "n": 5200,
+   "events": 70
   },
   "cd_assets": {
-   "auc": 0.596,
-   "n": 3519,
-   "events": 45
+   "auc": 0.623,
+   "n": 5335,
+   "events": 71
   },
   "wall_cash": {
-   "auc": 0.493,
-   "n": 3651,
-   "events": 41
+   "auc": 0.501,
+   "n": 5525,
+   "events": 70
   },
   "wall_assets": {
-   "auc": 0.491,
-   "n": 3761,
-   "events": 45
+   "auc": 0.502,
+   "n": 5681,
+   "events": 71
   },
   "fre_wall12": {
-   "auc": 0.49,
-   "n": 3761,
-   "events": 45
+   "auc": 0.504,
+   "n": 5681,
+   "events": 71
   },
   "cur_ratio": {
-   "auc": 0.718,
-   "n": 3653,
-   "events": 45
+   "auc": 0.66,
+   "n": 5500,
+   "events": 71
   },
   "eq_a": {
    "auc": 0.66,
-   "n": 3761,
-   "events": 45
+   "n": 5681,
+   "events": 71
   }
  },
  "rate_wall_gt_cash": {
   "false": {
-   "count": 3338,
-   "sum": 38,
-   "mean": 0.0114
+   "count": 4915,
+   "sum": 62,
+   "mean": 0.0126
   },
   "true": {
-   "count": 313,
-   "sum": 3,
-   "mean": 0.0096
+   "count": 610,
+   "sum": 8,
+   "mean": 0.0131
   }
  },
  "rate_curdebt_gt_cash": {
   "false": {
-   "count": 2109,
-   "sum": 12,
-   "mean": 0.0057
+   "count": 3167,
+   "sum": 24,
+   "mean": 0.0076
   },
   "true": {
-   "count": 1542,
-   "sum": 29,
-   "mean": 0.0188
+   "count": 2358,
+   "sum": 46,
+   "mean": 0.0195
   }
  },
  "cv_auc": {
-  "dfp_only": 0.648,
-  "dfp_plus_fre_wall": 0.614
+  "dfp_only": 0.616,
+  "dfp_plus_fre_wall": 0.627
  }
 }
