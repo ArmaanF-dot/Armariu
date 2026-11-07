@@ -1,11 +1,47 @@
-{'debt_offering_rows': 5434, 'issuers_legacy': 1714, 'rows_with_maturity': 591, 'r160_debt_rows': 2736, 'issuers_r160': 1527, 'events_total': 6330, 'legacy_date_range': ['2000-07-17', '2024-01-19'], 'tenor_years_median': 5.87}
-Traceback (most recent call last):
-  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/em_probe/br_refi.py", line 95, in <module>
-    S = pd.concat(sc)
-        ^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/reshape/concat.py", line 426, in concat
-    objs, keys, ndims = _clean_keys_and_objs(objs, keys)
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/reshape/concat.py", line 842, in _clean_keys_and_objs
-    raise ValueError("No objects to concatenate")
-ValueError: No objects to concatenate
+{'debt_offering_rows': 5434, 'issuers_legacy': 1714, 'rows_with_maturity': 5434, 'r160_debt_rows': 2736, 'issuers_r160': 1527, 'events_total': 6330, 'legacy_date_range': ['2000-07-17', '2024-01-19'], 'tenor_years_median': 5.87}
+2017 {'n': 349, 'events': 100, 'p_naive': 0.684, 'p_nomat': 0.592, 'p_full': 0.581}
+2018 {'n': 540, 'events': 150, 'p_naive': 0.675, 'p_nomat': 0.752, 'p_full': 0.745}
+2019 {'n': 739, 'events': 189, 'p_naive': 0.692, 'p_nomat': 0.772, 'p_full': 0.769}
+2020 {'n': 946, 'events': 142, 'p_naive': 0.67, 'p_nomat': 0.739, 'p_full': 0.741}
+2021 {'n': 1023, 'events': 205, 'p_naive': 0.708, 'p_nomat': 0.765, 'p_full': 0.766}
+2022 {'n': 1225, 'events': 236, 'p_naive': 0.697, 'p_nomat': 0.786, 'p_full': 0.787}
+{
+ "rate_maturing_vs_not": {
+  "maturing_12m": 0.374,
+  "not": 0.2042,
+  "n_maturing": 123,
+  "n_not": 5050
+ },
+ "non_serial": {
+  "n": 4268,
+  "rate": 0.1612,
+  "maturing_12m": 0.2432,
+  "not": 0.1598,
+  "n_maturing": 74
+ },
+ "pooled_auc": {
+  "p_naive": 0.692,
+  "p_nomat": 0.734,
+  "p_full": 0.732
+ },
+ "top_buckets": {
+  "top5%": {
+   "rate": 0.616,
+   "lift": 2.91,
+   "capture": 0.146,
+   "n": 242
+  },
+  "top10%": {
+   "rate": 0.557,
+   "lift": 2.63,
+   "capture": 0.263,
+   "n": 483
+  },
+  "top25%": {
+   "rate": 0.434,
+   "lift": 2.05,
+   "capture": 0.512,
+   "n": 1206
+  }
+ }
+}

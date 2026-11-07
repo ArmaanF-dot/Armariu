@@ -1,0 +1,251 @@
+{
+ "debt_offering_rows": 5434,
+ "issuers_legacy": 1714,
+ "rows_with_maturity": 5434,
+ "r160_debt_rows": 2736,
+ "issuers_r160": 1527,
+ "events_total": 6330,
+ "legacy_date_range": [
+  "2000-07-17",
+  "2024-01-19"
+ ],
+ "tenor_years_median": 5.87,
+ "panel": {
+  "issuer_years": 5173,
+  "events": 1077,
+  "base_rate": 0.2082,
+  "by_year": {
+   "2014": {
+    "count": 85,
+    "sum": 7,
+    "mean": 0.082
+   },
+   "2015": {
+    "count": 90,
+    "sum": 8,
+    "mean": 0.089
+   },
+   "2016": {
+    "count": 176,
+    "sum": 40,
+    "mean": 0.227
+   },
+   "2017": {
+    "count": 349,
+    "sum": 100,
+    "mean": 0.287
+   },
+   "2018": {
+    "count": 540,
+    "sum": 150,
+    "mean": 0.278
+   },
+   "2019": {
+    "count": 739,
+    "sum": 189,
+    "mean": 0.256
+   },
+   "2020": {
+    "count": 946,
+    "sum": 142,
+    "mean": 0.15
+   },
+   "2021": {
+    "count": 1023,
+    "sum": 205,
+    "mean": 0.2
+   },
+   "2022": {
+    "count": 1225,
+    "sum": 236,
+    "mean": 0.193
+   }
+  }
+ },
+ "with_outstanding": {
+  "n": 5173,
+  "rate": 0.2082,
+  "share_with_any_maturity_known": 0.074
+ },
+ "rate_by_first_maturity": {
+  "0-3m": {
+   "count": 40,
+   "mean": 0.35
+  },
+  "3-6m": {
+   "count": 25,
+   "mean": 0.24
+  },
+  "6-12m": {
+   "count": 59,
+   "mean": 0.458
+  },
+  "12-24m": {
+   "count": 87,
+   "mean": 0.379
+  },
+  ">24m": {
+   "count": 174,
+   "mean": 0.31
+  }
+ },
+ "rate_maturing_vs_not": {
+  "maturing_12m": 0.374,
+  "not": 0.2042,
+  "n_maturing": 123,
+  "n_not": 5050
+ },
+ "non_serial": {
+  "n": 4268,
+  "rate": 0.1612,
+  "maturing_12m": 0.2432,
+  "not": 0.1598,
+  "n_maturing": 74
+ },
+ "walk_forward": {
+  "2017": {
+   "n": 349,
+   "events": 100,
+   "p_naive": 0.684,
+   "p_nomat": 0.592,
+   "p_full": 0.581
+  },
+  "2018": {
+   "n": 540,
+   "events": 150,
+   "p_naive": 0.675,
+   "p_nomat": 0.752,
+   "p_full": 0.745
+  },
+  "2019": {
+   "n": 739,
+   "events": 189,
+   "p_naive": 0.692,
+   "p_nomat": 0.772,
+   "p_full": 0.769
+  },
+  "2020": {
+   "n": 946,
+   "events": 142,
+   "p_naive": 0.67,
+   "p_nomat": 0.739,
+   "p_full": 0.741
+  },
+  "2021": {
+   "n": 1023,
+   "events": 205,
+   "p_naive": 0.708,
+   "p_nomat": 0.765,
+   "p_full": 0.766
+  },
+  "2022": {
+   "n": 1225,
+   "events": 236,
+   "p_naive": 0.697,
+   "p_nomat": 0.786,
+   "p_full": 0.787
+  }
+ },
+ "pooled_auc": {
+  "p_naive": 0.692,
+  "p_nomat": 0.734,
+  "p_full": 0.732
+ },
+ "deciles_full": [
+  {
+   "dec": 1,
+   "count": 483,
+   "sum": 24,
+   "mean": 0.05
+  },
+  {
+   "dec": 2,
+   "count": 482,
+   "sum": 41,
+   "mean": 0.085
+  },
+  {
+   "dec": 3,
+   "count": 482,
+   "sum": 57,
+   "mean": 0.118
+  },
+  {
+   "dec": 4,
+   "count": 482,
+   "sum": 66,
+   "mean": 0.137
+  },
+  {
+   "dec": 5,
+   "count": 482,
+   "sum": 64,
+   "mean": 0.133
+  },
+  {
+   "dec": 6,
+   "count": 482,
+   "sum": 84,
+   "mean": 0.174
+  },
+  {
+   "dec": 7,
+   "count": 482,
+   "sum": 104,
+   "mean": 0.216
+  },
+  {
+   "dec": 8,
+   "count": 482,
+   "sum": 130,
+   "mean": 0.27
+  },
+  {
+   "dec": 9,
+   "count": 482,
+   "sum": 183,
+   "mean": 0.38
+  },
+  {
+   "dec": 10,
+   "count": 483,
+   "sum": 269,
+   "mean": 0.557
+  }
+ ],
+ "top_buckets": {
+  "top5%": {
+   "rate": 0.616,
+   "lift": 2.91,
+   "capture": 0.146,
+   "n": 242
+  },
+  "top10%": {
+   "rate": 0.557,
+   "lift": 2.63,
+   "capture": 0.263,
+   "n": 483
+  },
+  "top25%": {
+   "rate": 0.434,
+   "lift": 2.05,
+   "capture": 0.512,
+   "n": 1206
+  }
+ },
+ "non_serial_pooled_auc": {
+  "p_naive": 0.675,
+  "p_nomat": 0.681,
+  "p_full": 0.679
+ },
+ "reissue_vs_first_maturity_months": {
+  "count": 41.0,
+  "mean": -1.3,
+  "std": 4.8,
+  "min": -11.1,
+  "25%": -4.9,
+  "50%": -2.1,
+  "75%": 1.3,
+  "max": 9.0
+ }
+}
