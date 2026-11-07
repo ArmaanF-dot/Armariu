@@ -97,9 +97,9 @@ for year in range(2016, 2026):
     if len(u):
         u["unit"] = u["valor"].str.lower().map(lambda s: 1e6 if "mill" in s else (1e3 if "mil" in s else 1.0))
         um = u.groupby("nit")["unit"].first()
-        if year == 2022: rep["unit_values_2022"] = u["valor"].value_counts().head(8).to_dict()
-        d["unit"] = d["nit"].map(um).fillna(1.0)
-    else: d["unit"] = 1.0
+        rep.setdefault("unit_values", {})[year] = u["valor"].value_counts().head(8).to_dict()
+        d["unit"] = d["nit"].map(um).fillna(1e3)
+    else: d["unit"] = 1e3  # assume thousands of pesos when the unit field is missing
     d["valor"] = d["valor"] * d["unit"]
     d = d.sort_values("indiv", ascending=False).drop_duplicates(["nit", "concepto"])
     fin.append(d[["nit", "year", "concepto", "valor"]])
@@ -121,6 +121,7 @@ if op_name: ren[op_name] = "OP"
 w = w.rename(columns=ren)
 for c in ["A", "L", "CL", "CA", "C", "E", "R", "FC", "NI", "OP"]:
     if c not in w: w[c] = np.nan
+for c in ["A", "L", "CL", "CA", "C", "E", "R", "FC", "NI", "OP"]: w[c] = pd.to_numeric(w[c], errors="coerce").astype(float)
 w["FC"] = w["FC"].abs()
 w = w[(w["A"] > 0)].copy()
 sf = lambda a, b: (a / b).replace([np.inf, -np.inf], np.nan)
