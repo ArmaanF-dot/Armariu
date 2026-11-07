@@ -1,0 +1,15 @@
+debentures_com_br 200 79813
+debentures_exploreosnd 200 95607
+anbima_data 200 3809
+anbima_api {'url': 'https://api.anbima.com.br/', 'err': "<HTTPError 404: 'Not Found'>"}
+anbima_api None None
+b3_debentures 200 45793
+gov_incentivadas 200 67261
+cvm_dfp_index 200 3972
+cvm_itr_index 200 3856
+cvm_fre_index 200 3972
+cvm_fca 200 3972
+cvm_inventario 200 266705
+brapi_deb {'url': 'https://brapi.dev/api/v2/debentures', 'err': "<HTTPError 404: 'Not Found'>"}
+brapi_deb None None
+done

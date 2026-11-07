@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+  <!-- Google Tag Manager -->
+  <script type="text">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NHZSKTD');</script>
+  <!-- End Google Tag Manager -->
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "url": "https://www.gov.br/economia",
+            "logo": "https://www.gov.br/economia/logo.png"
+        }</script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "url": "https://www.gov.br/economia",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://www.gov.br/economia/search?SearchableText={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+        }</script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    
+        <base href="https://www.gov.br/economia/" /><!--[if lt IE 7]></base><![endif]-->
+    
+
+    
+        
+<meta name="description" content="Portal institucional do Ministério da Economia. Aqui você encontra informações e serviços oferecidos pelo Ministério da Economia para o cidadão brasileiro." />
+<meta property="creator.productor" content="https://www.gov.br/gestao/pt-br" />
+
+
+
+  
+    <link rel="stylesheet" type="text/css" href="https://www.gov.br/economia/portal_css/Sunburst%20Theme/reset-cachekey-0f9538de14ed78b2251b3d98b331ab56.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="https://www.gov.br/economia/portal_css/Sunburst%20Theme/base-cachekey-057820d1a471f04520397679797d0233.css" />
+    <style type="text/css" media="screen">@import url(https://www.gov.br/economia/portal_css/Sunburst%20Theme/resourceplone.app.jquerytools.dateinput-cachekey-c141d15ae4232d26045c0fbf05439f43.css);</style>
+    <link rel="stylesheet" type="text/css" href="https://www.gov.br/economia/portal_css/Sunburst%20Theme/resourceplone.formwidget.datetimestyles-cachekey-d23297402fb23203c68ee6976d599c42.css" />
+    <style type="text/css" media="screen">@import url(https://www.gov.br/economia/portal_css/Sunburst%20Theme/jquery.autocomplete-cachekey-81ab1e3d4c451da17464de5611594d03.css);</style>
+    <link rel="stylesheet" type="text/css" href="https://www.gov.br/economia/portal_css/Sunburst%20Theme/embedder-cachekey-fba6287919556f7a22e8e174b03a6363.css" media="screen" />
+    <style type="text/css" media="screen">@import url(https://www.gov.br/economia/portal_css/Sunburst%20Theme/resourcecollective.pollscsscollective.polls-cachekey-a02f2cc947124d34ad2a8e28ed4dd281.css);</style>
+        <!--[if lt IE 8]>    
+    
+    <link rel="stylesheet" type="text/css" href="https://www.gov.br/economia/portal_css/Sunburst%20Theme/IEFixes-cachekey-cb2e3d9abc689ccee6dce3924211b18b.css" media="screen" />
+        <![endif]-->
+    
+    <style type="text/css" media="all">@import url(https://www.gov.br/economia/portal_css/Sunburst%20Theme/resourcepas.plugins.loginunicologinunico-cachekey-749d4b36ac84539a444a95371da562fa.css);</style>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" media="screen" />
+    <style type="text/css">@import url(https://www.gov.br/economia/portal_css/Sunburst%20Theme/anti-flicker-cachekey-fec82fe19ea4147adb9280db8b5fc59e.css);</style>
+    <link rel="stylesheet" type="text/css" href="https://www.gov.br/economia/portal_css/Sunburst%20Theme/resourcelgpd.plugindsgov.min-cachekey-d69c46ff6d82b41531c2a35147cca741.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="https://www.gov.br/economia/portal_css/Sunburst%20Theme/resourcegovbr.policycanais-cachekey-217fec08251e8d8c80dacc59604ebb07.css" />
+
+  
+  
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourceplone.app.jquery-cachekey-75f32a33e70cc460b31557834e221f70.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcegovbr.policyfolder_contents-cachekey-05330730407f357bffae1a950bbdfef2.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcegovbr.policycookiebar_1_3_57-cachekey-5b94a29dd2b63a52873cd76917ed36e7.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcegovbr.policyapplication_cookiebar_1_3_57-cachekey-16252b5d1bed170df28955c66367fa4c.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/register_function-cachekey-1ac1c999e83445ce7abf15022d0fcbdf.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourceplone.formwidget.recurrencejquery.tmpl-beta1-cachekey-3f72bb811c2fb5ded94cc9a09cc45ce1.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcecollective.js.bootstrapjsbootstrap.min-cachekey-1b58321c55197afca67dd0dd274b3e97.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcecollective.coverjsmain-cachekey-cc68e0156e955613a99863388bd98fa6.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcebrasil.gov.tilesvendorjquery.jplayer.min-cachekey-3b4b81acd3e78d98ae2cf1814ce28c28.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcedropdown-menu-cachekey-acd59c15dfe42c522a4be64f43713bdd.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/anti-flicker-cachekey-a3da098341f3fb338626203dba9ed5e1.js"></script>
+    <script type="text/javascript"></script>
+    <script type="text/javascript"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcelgpd.pluginchangeCookieImage-cachekey-1317d961fbcaa177aae159adabec5724.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcelgpd.pluginblock_cookies-cachekey-5da4f6877783b7eb45c2d51ff311052c.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/resourcegovbr.policyclipboard.min-cachekey-613c5101b3ec4a983519d57de970fc7a.js"></script>
+    <script type="text/javascript" src="https://www.gov.br/economia/portal_javascripts/Sunburst%20Theme/++resource++govbr.recomendacao/govbr.recom.c339e72c8ffbb2f6c087.js"></script>
+
+
+
+  <link rel="stylesheet" href="https://www.gov.br/economia/++resource++brasil.gov.agenda/brasilgovagenda-720c34e.css" />
+
+
+  <script defer="defer" src="https://www.gov.br/economia/++resource++brasil.gov.agenda/brasilgovagenda-720c34e.js"></script>
+
+
+
+  <link rel="stylesheet" href="https://www.gov.br/economia/++resource++brasil.gov.portal/brasilgovportal-ee510e4.css" />
+
+
+  <script defer="defer" src="https://www.gov.br/economia/++resource++brasil.gov.portal/brasilgovportal-ee510e4.js"></script>
+
+
+<title>Ministério da Economia</title>
+<link rel="http://purl.org/dc/terms/subject http://schema.org/about http://xmlns.com/foaf/0.1/primaryTopic" href="http://vocab.e.gov.br/2011/03/vcge#esquema" />
+        
+    <link rel="author" href="https://www.gov.br/economia" title="Informações do Autor" />
+
+    <link rel="canonical" href="https://www.gov.br/economia" />
+
+    
+    
+
+
+<script type="text/javascript">
+        jQuery(function($){
+            if (typeof($.datepicker) != "undefined"){
+              $.datepicker.setDefaults(
+                jQuery.extend($.datepicker.regional['pt-BR'],
+                {dateFormat: 'dd/mm/yy'}));
+            }
+        });
+        </script>
+
+
+
+    <link rel="alternate" href="https://www.gov.br/economia/RSS" title="Ministério da Economia - RSS 1.0" type="application/rss+xml" />
+
+    <link rel="alternate" href="https://www.gov.br/economia/rss.xml" title="Ministério da Economia - RSS 2.0" type="application/rss+xml" />
+
+    <link rel="alternate" href="https://www.gov.br/economia/atom.xml" title="Ministério da Economia - Atom" type="application/rss+xml" />
+
+
+    <link rel="search" href="https://www.gov.br/economia/@@search" title="Buscar neste site" />
+
+
+
+        
+        
+        
+        
+        
+
+        
+        <meta name="generator" content="Plone - http://plone.org" />
+    
+
+    
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/economia/++theme++padrao_govbr/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/economia/++theme++padrao_govbr/favicons/favicon-32x32.png" />
+    <link rel="shortcut icon" type="image/png" href="/economia/++theme++padrao_govbr/favicons/favicon-48x48.png" />
+    <link rel="mask-icon" href="/economia/++theme++padrao_govbr/favicons/safari-pinned-tab.svg" color="#00a300" />
+    <meta name="msapplication-config" content="favicons/browserconfig.xml" />
+    <meta name="theme-color" content="#00a300" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body.userrole-authenticated .btn.btn-success.fileinput-button span:after {
+            content: "Adicionar Arquivos" !important;
+        }
+    </style>
+    
+    <script type="module" id="barra-govbr-pro" src="https://barra.sistema.gov.br/v1/barra-govbr-wc.iife.js"></script>
+    <script type="module" src="/govbrportal/js/session.js" defer="defer"></script>
+<link href="/economia/++theme++padrao_govbr/govbrtheme-1b543ca.css" rel="stylesheet" /></head>
+
+<body id="" class="default-header-template portal-institucional template-insufficient_privileges portaltype-plone-site site-portalgovbreconomia userrole-anonymous" data-base-url="https://www.gov.br/economia" data-portal-url="https://www.gov.br/economia" dir="ltr">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe height="0" width="0" style="display:none;visibility:hidden" data-src="https://www.googletagmanager.com/ns.html?id=GTM-NHZSKTD"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <nav class="govbr-skip-menu" aria-label="Acesso rápido">
+    <a href="#wrapper" accesskey="1">
+      <span class="sr-only">Ir para o</span>
+      Conteúdo
+      <span class="access-key">1</span>
+    </a>
+    <a href="/" accesskey="2">
+      <span class="sr-only">Ir para a</span>
+      Página Inicial
+      <span class="access-key">2</span>
+    </a>
+    <a href="#main-navigation" accesskey="3">
+      <span class="sr-only">Ir para o menu de</span>
+      Navegação
+      <span class="access-key">3</span>
+    </a>
+    <a href="#govbr-busca-input" accesskey="4">
+      <span class="sr-only">Ir para a</span>
+      Busca
+      <span class="access-key">4</span>
+    </a>
+    <a href="#portal-footer" accesskey="5">
+      <span class="sr-only">Ir para o</span>
+      Mapa do site
+      <span class="access-key">5</span>
+    </a>
+  </nav>
+
+  <noscript aria-label="Aviso de Javascript desabilitado">
+    <dl class="portalMessage attention erro-javascript">
+      <dt>Atenção!</dt>
+      <dd>Seu navegador não pode executar javascript. Alguns recursos podem não funcionar corretamente.</dd>
+    </dl>
+  </noscript>
+<!-- modal session message --><!-- User --><!-- Header --><!--
+    Para habilitar o novo menu &#233; necess&#225;rio descoment&#225;-lo em:
+    govbr/institucional/viewlets/institucional_menu_govbr.pt
+    --><!-- <header id="site-header" class="has-navigation-swipe"> --><header id="site-header" class="has-navigation-dropdown" style="z-index: 999;">
+        <div class="header-wrapper secondary">
+            <barra-govbr class="width100 shadow-none show-contrast-toggle" style="width: 100%;" id="barra-govbr" titulo="Ministério da Gestão e da Inovação em Serviços Públicos" signinhref="/govbrportal/inicializacao-autenticacao-openid.html" signouthref="/govbrportal/logout.html" linktitulo="https://www.gov.br/gestao/pt-br" linklogo="https://www.gov.br/pt-br" idiomas="" idiomaativo="" linksdosistema="[{&quot;title&quot;:&quot;Órgãos do Governo&quot;,&quot;href&quot;:&quot;https://www.gov.br/pt-br/orgaos-do-governo&quot;},{&quot;title&quot;:&quot;Acesso à Informação&quot;,&quot;href&quot;:&quot;https://www.gov.br/acessoainformacao/pt-br&quot;},{&quot;title&quot;:&quot;Legislação&quot;,&quot;href&quot;:&quot;http://www4.planalto.gov.br/legislacao&quot;},{&quot;title&quot;:&quot;Acessibilidade&quot;,&quot;href&quot;:&quot;https://www.gov.br/governodigital/pt-br/acessibilidade-digital&quot;}]" contrastactive="false">
+            </barra-govbr>
+        </div>
+
+        <div class="main">
+            <div class="header-wrapper">
+
+                <div class="site-name-wrapper">
+                    <a class="ico-navegacao toggle-main-navigation" href="#">
+                        <span class="sr-only">Abrir menu principal de navegação</span>
+                        <span class="fa fa-bars" aria-hidden="true"></span>
+                        <span class="fa fa-times" aria-hidden="true"></span>
+                    </a>
+
+                    <!-- <a href="/" class="site-name">Nome do site</a> -->
+                    <!-- Usar nome completo -->
+                    
+                    <div class="site-name">
+                        <a href="https://www.gov.br/economia">Ministério da Economia</a>
+                    </div>
+                </div>
+
+                
+            <div class="termos-mais-buscados desktop">
+                <section class="source-termos-mais-buscados">
+                    <div class="source-header-termos-mais-buscados">
+                        Termos mais buscados
+                    </div>
+                    <ul class="list-termos-mais-buscados">
+                        
+                            <li class="item-termos-mais-buscados">
+                                <a href="https://www.gov.br/economia/search?origem=termos&amp;SearchableText=Desenrola Brasil">
+                                   <span class="fa-solid fa-arrow-trend-up"></span>
+                                   Desenrola Brasil
+                                </a>
+                            </li>
+                        
+                            <li class="item-termos-mais-buscados">
+                                <a href="https://www.gov.br/economia/search?origem=termos&amp;SearchableText=assinatura">
+                                   <span class="fa-solid fa-arrow-trend-up"></span>
+                                   assinatura
+                                </a>
+                            </li>
+                        
+                            <li class="item-termos-mais-buscados">
+                                <a href="https://www.gov.br/economia/search?origem=termos&amp;SearchableText=mei">
+                                   <span class="fa-solid fa-arrow-trend-up"></span>
+                                   mei
+                                </a>
+                            </li>
+                        
+                            <li class="item-termos-mais-buscados">
+                                <a href="https://www.gov.br/economia/search?origem=termos&amp;SearchableText=enem">
+                                   <span class="fa-solid fa-arrow-trend-up"></span>
+                                   enem
+                                </a>
+                            </li>
+                        
+                            <li class="item-termos-mais-buscados">
+                                <a href="https://www.gov.br/economia/search?origem=termos&amp;SearchableText=imposto de renda">
+                                   <span class="fa-solid fa-arrow-trend-up"></span>
+                                   imposto de renda
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </section>
+            </div>
+            <div class="termos-mais-buscados mobile">
+                <section class="source-termos-mais-buscados">
+                    <div class="source-header-termos-mais-buscados">
+                        Termos mais buscados
+                    </div>                                
+                    <ul class="list-termos-mais-buscados">
+                        
+                            <li class="item-termos-mais-buscados">
+                                <a href="https://www.gov.br/economia/search?origem=termos&amp;SearchableText=Desenrola Brasil">
+                                    <span class="fa-solid fa-arrow-trend-up"></span>
+                                    Desenrola Brasil
+                                </a>
+                            </li>
+                        
+                            <li class="item-termos-mais-buscados">
+                                <a href="https://www.gov.br/economia/search?origem=termos&amp;SearchableText=assinatura">
+                                    <span class="fa-solid fa-arrow-trend-up"></span>
+                                    assinatura
+                                </a>
+                            </li>
+                        
+                            <li class="item-termos-mais-buscados">
+                                <a href="https://www.gov.br/economia/search?origem=termos&amp;SearchableText=mei">
+                                    <span class="fa-solid fa-arrow-trend-up"></span>
+                                    mei
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </section>
+            </div>
+        <div class="govbr-busca-header">
+                    <div id="govbr-busca-input">
+                    </div>
+                </div>
+
+                <script>
+                    $(document).ready(function() {                
+                        $('#searchtext-label button').appendTo(".aa-InputWrapperPrefix");
+                        $('#searchtext-label').remove();
+                    });
+                </script>
+
+            </div>
+        </div>
+
+        <!-- Main Menu -->
+        <nav class="navigation-wrapper navigation-dropdown" aria-label="Menu Principal">
+            <div class="navigation-content">
+                <div id="main-navigation" class="navigation-cell">
+                    <ul class="list-navigation"><li class="plain"><a href="https://eagendas.cgu.gov.br/?_token=1ONyP8dlsRIUXdk7Qe0s3XL1o6sj6QocKg8lf0IM&amp;filtro_orgao=854&amp;filtro_cargo=MINISTRO%28A%29+DA+ECONOMIA&amp;filtro_servidor=2423#divcalendar" class="plain">Agenda do Ministro</a></li><li class="plain"><a href="https://www.canva.com/design/DAEyAEBJvOA/VeArlDr2IXWupCnAXyhgNw/view?utm_content=DAEyAEBJvOA&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=publishpresent" class="plain">Apresentação</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/acesso-a-informacao/institucional/quem-e-quem/assessoria-especial-de-assuntos-estrategicos/quem-e-quem-da-assessoria-especial-de-comunicacao-social" class="plain">Ascom</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/centrais-de-conteudo/capacitacao" class="plain">Capacitação</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/assuntos/gestao/central-de-compras/compra-direta-de-passagens" class="plain">compradireta</a></li><li class="plain"><a href="https://www.gov.br/produtividade-e-comercio-exterior/pt-br/ambiente-de-negocios/competitividade-industrial/construa-brasil" class="plain">Construa Brasil</a></li><li class="plain dropdown-submenu"><a href="https://www.gov.br/economia/estatisticas" class="plain">Estatísticas</a>
+                <ul class="submenu">
+                    <li>
+
+    
+
+        <a href="https://www.gov.br/economia/estatisticas/noticias" class="state-published">
+            
+            Estatísticas das Notícias
+        </a>
+
+        
+    
+</li>
+
+<li>
+
+    
+
+        <a href="https://extranet.economia.gov.br/publicacao/relatorios-ascom/" class="state-published">
+            
+            Relatório de Atividades
+        </a>
+
+        
+    
+</li>
+                </ul>
+            </li><li class="plain"><a href="https://www.gov.br/economia/pt-br/centrais-de-conteudo/imagens/fundo-de-tela-1.png/view" class="plain">Fundo de tela para o teams</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/acesso-a-informacao/acoes-e-programas/incorpora-brasil/apresentacao" class="plain">incorporabr</a></li><li class="plain"><a href="https://www.gov.br/produtividade-e-comercio-exterior/pt-br/comercio-exterior-e-assuntos-internacionais/investimentos" class="plain">investimentos</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/acesso-a-informacao/licitacoes-e-contratos" class="plain">licitações</a></li><li class="plain"><a href="https://www.gov.br/produtividade-e-comercio-exterior/pt-br/mdic" class="plain">Ministério do Desenvolvimento, Indústria, Comércio e Serviços</a></li><li class="plain"><a href="https://www.gov.br/gestao/pt-br" class="plain">Ministério da Gestão e Inovação em Serviços Públicos</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/planejamento" class="plain">Ministério do Planejamento e Orçamento</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/assuntos/planejamento-e-orcamento/orcamento/orcamentos-anuais/2023/ploa/Orcamento_Cidadao_2023.pdf" class="plain">Ploa-cidadao2023</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/assuntos/planejamento-e-orcamento/orcamento/orcamentos-anuais/2023/ploa/projeto-de-lei-orcamentaria-anual-ploa" class="plain">ploa2023</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/assuntos/planejamento-e-orcamento/orcamento/orcamentos-anuais/2023/ploa/Mensagem_Presidencial_2023.pdf" class="plain">Ploa presidencial2023</a></li><li class="plain"><a href="https://www.gov.br/pt-br/propriedade-intelectual/semana-da-propriedade-intelectual" class="plain">Semana da Propriedade Intelectual</a></li><li class="plain"><a href="https://sistema.patrimoniodetodos.gov.br/" class="plain">taxapatrimonial202</a></li><li id="portaltab-govbr-root" class="plain dropdown-submenu menu-govbr-root">
+            <a class="plain" href="https://www.gov.br/economia">
+                <span>GOV.BR</span>
+            </a>
+            <!-- Menu nivel1 -->
+            <ul class="submenu navTree">
+                
+                    <li class="dropdown-submenu">
+                        <a href="https://www.gov.br/pt-br/servicos" class="hasDropDown">Serviços</a>
+                        
+                            
+    <ul class="submenu navTree">
+        
+            <li class="dropdown-submenu">
+                <a href="https://www.gov.br/pt-br/servicos/buscar-servicos-por">Buscar serviços por</a>
+                
+                    
+    <ul class="submenu navTree">
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/categorias">Categorias</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/servicos/listar_orgaos">Órgãos</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/servicos-estaduais">Estados</a>
+                
+            </li>
+        
+    </ul>
+
+                
+            </li>
+        
+            <li class="dropdown-submenu">
+                <a href="https://www.gov.br/pt-br/servicos/servicos-por-publico-alvo">Serviços por público alvo</a>
+                
+                    
+    <ul class="submenu navTree">
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/servicos/listar_servicos_segmento?segmento=publico_alvo_cidadaos">Cidadãos</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/servicos/listar_servicos_segmento?segmento=publico_alvo_empresas">Empresas</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/servicos/listar_servicos_segmento?segmento=publico_alvo_orgaos">Órgãos e Entidades Públicas</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/servicos/listar_servicos_segmento?segmento=publico_alvo_outros">Demais segmentos (ONGs, organizações sociais, etc)</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/servicos/listar_servicos_segmento?segmento=publico_alvo_servidor">Servidor Público</a>
+                
+            </li>
+        
+    </ul>
+
+                
+            </li>
+        
+    </ul>
+
+                        
+                    </li>
+                
+                    <li class="dropdown-submenu">
+                        <a href="https://www.gov.br/pt-br/temas-em-destaque" class="hasDropDown">Temas em Destaque</a>
+                        
+                            
+    <ul class="submenu navTree">
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/transparencia-fiscal-orcamento-nacional">Orçamento Nacional</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/redes-civis-de-unidades-de-atendimento-do-governo-federal">Redes de Atendimento da Administração Pública Federal</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/protecao-de-dados-pessoais">Proteção de Dados Pessoais</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/servicos-para-imigrantes">Serviços para Imigrantes</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/politica-e-orcamento-educacional">Política e Orçamento Educacionais</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/educacao-profissional-e-tecnologica-1">Educação Profissional e Tecnológica</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/habilidades-online-para-jovens-e-adultos">Educação Profissional para Jovens e Adultos</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/trabalho-emprego">Trabalho e Emprego</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/acesso-a-educacao-para-pessoas-com-deficiencia">Serviços para Pessoas com Deficiência</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/politica-e-legislacao-contra-a-discriminacao-racial">Combate à Discriminação Racial</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/politica-e-orcamento-de-protecao-social">Política de Proteção Social</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/politica-para-mulheres">Política para Mulheres</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/saude-reprodutiva-da-mulher">Saúde Reprodutiva da Mulher</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/desenvolvimento-cuidados-e-educacao-pre-escolar">Cuidados na Primeira Infância</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/habitacao-popular">Habitação Popular</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/temas/controle-da-poluicao-e-outras-medidas-de-precaucao">Controle de Poluição e Resíduos Sólidos</a>
+                
+            </li>
+        
+    </ul>
+
+                        
+                    </li>
+                
+                    <li class="dropdown-submenu">
+                        <a href="https://www.gov.br/pt-br/noticias" class="hasDropDown">Notícias</a>
+                        
+                            
+    <ul class="submenu navTree">
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/saude-e-vigilancia-sanitaria">Saúde</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/agricultura-e-pecuaria">Agricultura e Pecuária</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/assistencia-social">Cidadania e Assistência Social</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/ciencia-e-tecnologia">Ciência e Tecnologia</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/comunicacao">Comunicação</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/cultura-artes-historia-e-esportes">Cultura e Esporte</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/financas-impostos-e-gestao-publica">Economia e Gestão Pública</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/educacao-e-pesquisa">Educação e Pesquisa</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/energia-minerais-e-combustiveis">Energia</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/forcas-armadas">Forças Armadas e Defesa Civil</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/transito-e-transportes">Infraestrutura</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/justica-e-seguranca">Justiça e Segurança</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/meio-ambiente-e-clima">Meio Ambiente</a>
+                
+            </li>
+        
+            <li class="dropdown-submenu">
+                <a href="https://www.gov.br/pt-br/noticias/trabalho-e-previdencia">Trabalho e Previdência</a>
+                
+                    
+    <ul class="submenu navTree">
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/trabalho-e-previdencia/fgts">FGTS</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/trabalho-e-previdencia/direitos-do-trabalhador">Direitos do Trabalhador</a>
+                
+            </li>
+        
+    </ul>
+
+                
+            </li>
+        
+            <li class="dropdown-submenu">
+                <a href="https://www.gov.br/pt-br/noticias/viagens-e-turismo">Turismo</a>
+                
+                    
+    <ul class="submenu navTree">
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/viagens-e-turismo/direitos-do-viajante">Direitos do Viajante</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/noticias/viagens-e-turismo/viaje-o-brasil">Viaje o Brasil</a>
+                
+            </li>
+        
+    </ul>
+
+                
+            </li>
+        
+    </ul>
+
+                        
+                    </li>
+                
+                    <li class="plain">
+                        <a href="https://www.gov.br/pt-br/apps/@@galeria-de-aplicativos" class="hasDropDown">Galeria de Aplicativos</a>
+                        
+                    </li>
+                
+                    <li class="plain">
+                        <a href="/planalto" class="hasDropDown">Acompanhe o Planalto</a>
+                        
+                    </li>
+                
+                    <li class="dropdown-submenu">
+                        <a href="https://www.gov.br/pt-br/navegacao" class="hasDropDown">Navegação</a>
+                        
+                            
+    <ul class="submenu navTree">
+        
+            <li class="plain">
+                <a href="https://www.gov.br/governodigital/pt-br/acessibilidade-digital">Acessibilidade</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/sitemap">Mapa do Site</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="/pt-br/termos-de-uso">Termo de Uso e Aviso de Privacidade</a>
+                
+            </li>
+        
+    </ul>
+
+                        
+                    </li>
+                
+                    <li class="plain">
+                        <a href="https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/atendimento-gov.br/duvidas-na-plataforma-de-automacao/cidadao/consultar-as-minhas-solicitacoes" class="hasDropDown">Consultar minhas solicitações</a>
+                        
+                    </li>
+                
+                    <li class="plain">
+                        <a href="https://www.gov.br/pt-br/orgaos-do-governo" class="hasDropDown">Órgãos do Governo</a>
+                        
+                    </li>
+                
+                    <li class="dropdown-submenu">
+                        <a href="https://www.gov.br/pt-br/por-dentro-do-govbr" class="hasDropDown">Por dentro do Gov.br</a>
+                        
+                            
+    <ul class="submenu navTree">
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/por-dentro-do-govbr/perguntas-frequentes">Dúvidas Frequentes em relação ao Portal gov.br</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="http://faq-login-unico.servicos.gov.br/en/latest/">Dúvidas Frequentes da conta gov.br</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/por-dentro-do-govbr/ajuda-para-navegar-o-portal">Ajuda para Navegar o Portal</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/por-dentro-do-govbr/conheca-os-elementos-do-portal">Conheça os elementos do Portal</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/participamaisbrasil/sobre">Política de e-participação</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="/pt-br/termos-de-uso">Termos de Uso</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/governodigital/pt-br">Governo Digital</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/pt-br/guia-de-edicao-de-servicos-do-gov.br/bem-vindo-editor">Guia de Edição de Serviços do Portal Gov.br</a>
+                
+            </li>
+        
+    </ul>
+
+                        
+                    </li>
+                
+                    <li class="plain">
+                        <a href="https://www.gov.br/pt-br/canais-do-executivo-federal" class="hasDropDown">Canais do Executivo Federal</a>
+                        
+                    </li>
+                
+                    <li class="dropdown-submenu">
+                        <a href="https://www.gov.br/pt-br/dados-da-administracao-publica-federal" class="hasDropDown">Dados da Administração Pública Federal</a>
+                        
+                            
+    <ul class="submenu navTree">
+        
+            <li class="plain">
+                <a href="/governodigital/pt-br/dados-abertos">Dados Abertos</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/gestao/pt-br/acesso-a-informacao/servidores/servidores-publicos/painel-estatistico-de-pessoal">Painel Estatístico de Pessoal</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="http://paineldecompras.economia.gov.br">Painel de Compras da Administração Pública Federal</a>
+                
+            </li>
+        
+            <li class="plain">
+                <a href="https://www.gov.br/acessoainformacao/pt-br">Acesso à Informação</a>
+                
+            </li>
+        
+    </ul>
+
+                        
+                    </li>
+                
+                    <li class="plain">
+                        <a href="https://www.gov.br/empresas-e-negocios/pt-br" class="hasDropDown">Empresas e Negócios</a>
+                        
+                    </li>
+                
+            </ul>
+        </li></ul>
+                </div>
+            </div>
+
+            <div class="navigation-content-extra">
+                <div class="links-redes-wrap">
+            <div class="links-uteis">
+              <div class="titulo">Links Úteis</div>
+              <ul>
+                <!-- <li>
+                  <a href="#">Órgãos do Governo</a>
+                </li> -->
+                <li>
+                  <a href="https://www.gov.br/pt-br/apps/@@galeria-de-aplicativos">Galeria de Aplicativos</a>
+                </li>
+                <li>
+                  <a href="https://www.gov.br/pt-br/participacao-social">Participe</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="header-accessibility">
+              <ul>
+                <!--li>
+                  <a
+                    href="https://www.gov.br/pt-br/orgaos-do-governo"
+                    class="orgaos-de-governo"
+                    i18n:translate="orgaos_do_governo"
+                    >Órgãos do Governo</a
+                  >
+                </li-->
+                <li>
+                  <a href="https://www.gov.br/pt-br/apps/@@galeria-de-aplicativos">Galeria de Aplicativos</a>
+                </li>
+                <!--li>
+                  <a href="http://www4.planalto.gov.br/legislacao" i18n:translate="legislacao"
+                    >Legislação</a
+                  >
+                </li>
+                <li>
+                  <a href="https://www.gov.br/acessoainformacao/pt-br" i18n:translate="acesso_a_informacao"
+                    >Acesso à Informação</a
+                  >
+                </li-->
+                <li>
+                  <a href="https://www.gov.br/pt-br/participacao-social">Participe</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="govbr-escuta-link">
+              <a href="#">Ajude a melhorar o gov.br</a>
+            </div>
+          
+                    <div class="redes-sociais">
+                        <div class="titulo">Redes sociais</div>
+                    <ul class="portal-redes">
+            
+                <li class="portalredes-twitter portalredes-item">
+                    <a href="https://www.twitter.com/mineconomia">Twitter</a>
+                </li>
+            
+                <li class="portalredes-youtube portalredes-item">
+                    <a href="https://www.youtube.com//c/MinisteriodaEconomia">YouTube</a>
+                </li>
+            
+                <li class="portalredes-flickr portalredes-item">
+                    <a href="https://www.flickr.com/photos/ministeriodaeconomia/">Flickr</a>
+                </li>
+            
+                <li class="portalredes-facebook portalredes-item">
+                    <a href="https://www.facebook.com/ministeriodaeconomia">Facebook</a>
+                </li>
+            
+                <li class="portalredes-instagram portalredes-item">
+                    <a href="https://www.instagram.com/ministeriodaeconomia">Instagram</a>
+                </li>
+            
+                <li class="portalredes-soundcloud portalredes-item">
+                    <a href="https://soundcloud.com/user-67382743">SoundCloud</a>
+                </li>
+            
+        </ul></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Menu -->
+        
+    </header><div id="portal-breadcrumbs-wrapper"></div><!-- <div class="video"></div> --><div id="wrapper">
+        <!-- Columns -->
+
+        <div id="main">
+            
+
+            <div class="viewlet-institucionais-servicos-govbr linha-recom">
+
+    <script type="text/javascript">window.mais_acessados=["10796","62","13151","12350","10418","10694"];</script>
+
+    <script type="text/javascript">window.destaques=["24130","10942","24076","13362","12169"];</script>
+
+    <script type="text/javascript">window.quantidade_servicos_destaque="5";</script>
+
+    <script type="text/javascript">window.quantidade_mais_acessados="6";</script>
+
+    <div class="desktop">
+        <div class="row links-destaque-desktop headerDestaquesSwiper">
+            <div class="row-content">
+                <div class="column col-md-4">
+                    <a class="desktop-toggle-btn tile-name recomendado" href="#" data-slider="0">Serviços recomendados para você</a>
+                </div>
+
+                <div class="column col-md-4">
+                    <a class="desktop-toggle-btn tile-name mais-acessados" href="#" data-slider="1">Serviços mais acessados do govbr</a>
+                </div>
+
+                <div class="column col-md-4">
+                    <a class="desktop-toggle-btn tile-name destaque" href="#" data-slider="2">Serviços em destaque do govbr</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="swiper-container headerDestaquesSwiper swiper-mobile-recom">
+        <div class="swiper-wrapper">            
+            <a class="tile-name swiper-slide mobile-recom-toggle-btn recomendado" href="#" data-slider="0">Serviços recomendados para você</a>
+            <a class="tile-name swiper-slide mobile-recom-toggle-btn mais-acessados" href="#" data-slider="1">Serviços mais acessados do govbr</a>
+            <a class="tile-name swiper-slide mobile-recom-toggle-btn destaque" href="#" data-slider="2">Serviços em destaque do govbr</a>
+            <div class="swiper-slide fillin"></div>
+        </div>
+    </div>
+    
+    <div class="swiper-container headerDestaquesSwiper swiper-mobile-no-recom">
+        <div class="swiper-wrapper">                
+            <a class="tile-name swiper-slide mobile-no-recom-toggle-btn mais-acessados" href="#" data-slider="1">Serviços mais acessados do govbr</a>
+            <a class="tile-name swiper-slide mobile-no-recom-toggle-btn destaque" href="#" data-slider="2">Serviços em destaque do govbr</a>
+        </div>
+    </div>    
+
+    <div class="row linha-recom swiper-container destaquesSwiper">
+        <div class="row-content swiper-wrapper">
+            <div class="column col-md-4 swiper-slide govbr-recom-wrapper">
+                <div class="tile tile-default">
+                    <div class="govbr-recom-render" data-recom-title="Serviços recomendados para você" data-recom-size="6">
+                        <div class="header-mobile"><span>Serviços recomendados para você</span></div>
+                        <div class="govbr-recom-api" data-recom-uri="https://api.recomgov.df-1.estaleiro.serpro.gov.br/api/v1" data-recom-url-portal="https://www.gov.br" data-recom-timeout="3000">
+                        </div>
+
+                    </div>  
+                </div>
+            </div>
+
+            <div class="column col-md-4 swiper-slide">
+                <div class="tile tile-default">
+                    <div class="cover-list-tile tile-content servicos-mais-acessados">
+                        <div class="tile-header header-mobile">
+                            <span>Serviços mais acessados do govbr</span>
+                        </div>
+                        <div class="itens">
+                            
+                                <a class="item-tile-servico-mais-acessados" href="https://www.gov.br/pt-br/servicos/assinatura-eletronica?origem=maisacessado_inst">
+                                    <span class="ranking">1</span>
+                                    <span class="texto">Assinatura Eletrônica</span>
+                                </a>
+                            
+                                <a class="item-tile-servico-mais-acessados" href="https://www.gov.br/pt-br/servicos/obter-passaporte-comum-para-brasileiro?origem=maisacessado_inst">
+                                    <span class="ranking">2</span>
+                                    <span class="texto">Obter passaporte e outros documentos de viagem</span>
+                                </a>
+                            
+                                <a class="item-tile-servico-mais-acessados" href="https://www.gov.br/pt-br/servicos/consultar-meu-imposto-de-renda?origem=maisacessado_inst">
+                                    <span class="ranking">3</span>
+                                    <span class="texto">Consultar Meu Imposto de Renda</span>
+                                </a>
+                            
+                                <a class="item-tile-servico-mais-acessados" href="https://www.gov.br/pt-br/servicos/consultar-dados-do-cadastro-unico-cadunico?origem=maisacessado_inst">
+                                    <span class="ranking">4</span>
+                                    <span class="texto">Consultar dados do Cadastro Único</span>
+                                </a>
+                            
+                                <a class="item-tile-servico-mais-acessados" href="https://www.gov.br/pt-br/servicos/consultar-cadastro-de-pessoas-fisicas?origem=maisacessado_inst">
+                                    <span class="ranking">5</span>
+                                    <span class="texto">Consultar CPF</span>
+                                </a>
+                            
+                                <a class="item-tile-servico-mais-acessados" href="https://www.gov.br/pt-br/servicos/emitir-das-para-pagamento-de-tributos-do-mei?origem=maisacessado_inst">
+                                    <span class="ranking">6</span>
+                                    <span class="texto">Emitir DAS do MEI</span>
+                                </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>                
+
+            <div class="column col-md-4 swiper-slide">
+                <div class="tile tile-default">
+                    <div class="cover-list-tile tile-content servicos-em-destaque-govbr">
+                        <div class="tile-header header-mobile">
+                            <span>Serviços em destaque do govbr</span>
+                        </div>
+
+                        <div class="itens">
+                            
+                                <a class="item-tile-servico-destaque" href="https://www.gov.br/pt-br/servicos/assistir-a-obras-audiovisuais-brasileiras-na-plataforma-tela-brasil?origem=destaque_inst">
+                                    <span class="categoria-container">
+                                        <span class="categoria">Outros</span>
+                                        
+                                    </span>
+                                    <span class="texto">Tela Brasil</span>
+                                    
+                                </a>
+                            
+                                <a class="item-tile-servico-destaque" href="https://www.gov.br/pt-br/servicos/declarar-meu-imposto-de-renda?origem=destaque_inst">
+                                    <span class="categoria-container">
+                                        <span class="categoria">Imposto de Renda e Malha Fiscal</span>
+                                        
+                                    </span>
+                                    <span class="texto">Entregar Meu Imposto de Renda</span>
+                                    <span> (DIRPF)</span>
+                                </a>
+                            
+                                <a class="item-tile-servico-destaque" href="https://www.gov.br/pt-br/servicos/solicitar-renegociacao-de-dividas-familias?origem=destaque_inst">
+                                    <span class="categoria-container">
+                                        <span class="categoria">Vida Financeira</span>
+                                        <span class="badge novo">Novo</span>
+                                    </span>
+                                    <span class="texto">Renegociação de Dívidas - Famílias</span>
+                                    
+                                </a>
+                            
+                                <a class="item-tile-servico-destaque" href="https://www.gov.br/pt-br/servicos/comunicar-roubo-furto-de-aparelho-pelo-aplicativo-celular-seguro?origem=destaque_inst">
+                                    <span class="categoria-container">
+                                        <span class="categoria">Crimes</span>
+                                        
+                                    </span>
+                                    <span class="texto">Celular Seguro</span>
+                                    
+                                </a>
+                            
+                                <a class="item-tile-servico-destaque" href="https://www.gov.br/pt-br/servicos/receber-o-bolsa-familia?origem=destaque_inst">
+                                    <span class="categoria-container">
+                                        <span class="categoria">Assistência Direta</span>
+                                        <span class="badge novo">Novo</span>
+                                    </span>
+                                    <span class="texto">Bolsa Família</span>
+                                    <span> (PBF)</span>
+                                </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination-destaques"></div>
+
+        <nav class="close-btn desktop-close-btn">
+            <a href="#">
+                <span class="fa fa-chevron-up">
+                    <span class="sr-only">Fechar</span>
+                </span>
+            </a>
+        </nav>
+
+        <nav class="close-btn mobile-close-btn">
+            <a href="#">
+                <span class="fa fa-chevron-up">
+                    <span class="sr-only">Fechar</span>
+                </span>            
+            </a>
+        </nav>
+
+        <nav class="close-btn mobile-close-btn-no-recom">
+            <a href="#">
+                <span class="fa fa-chevron-up">
+                    <span class="sr-only">Fechar</span>
+                </span>
+            </a>
+        </nav>
+
+        <div class="linha-no-recom-btn-close-mobile"></div>
+        <div class="linha-recom-btn-close-mobile"></div>
+    </div>
+</div><main id="main-content">
+
+            <div id="viewlet-above-content">
+
+
+
+
+
+
+
+    
+</div>
+
+            
+                <div class="">
+
+                    
+
+                    
+
+    <dl class="portalMessage info" id="kssPortalMessage" style="display:none">
+        <dt>Info</dt>
+        <dd></dd>
+    </dl>
+
+    
+
+
+                    
+                        <div id="content">
+
+                            
+
+                            
+      <div class="error_container">
+            <div class="error_image site_error"></div>
+            <div class="error_message">
+                  <h1 class="documentFirstHeading">Conteúdo Restrito</h1>
+                  <div>
+                  <p>É necessário autenticar para visualizar essa página. Se você acredita que está recebendo essa mensagem incorretamente, por favor contate a <span>
+                        
+                        <a href="https://www.gov.br/economia/pt-br/canais_atendimento/fale_conosco">administração do site</a></span>.</p>
+                  </div>
+            </div>
+      </div>
+      <a href="https://www.gov.br/economia" class="gohome">
+            Ir para a página inicial
+      </a>
+
+                        </div>
+                    
+
+                    
+                </div>
+            
+
+            <div id="viewlet-below-content">
+
+
+
+
+  
+
+
+<div class="govbr-recom-config" data-recom-history-title="Serviços que você acessou">
+
+
+            
+    
+
+</div>
+
+
+</div>
+        </main>
+
+            
+        </div>
+
+        <div class="conteudo-relacionado"></div>
+
+        <div class="govbr-history-render"></div>
+
+        <footer id="portal-footer" class="portal-footer">
+            <div class="footer-wrapper">
+                <div class="govbr-logo"></div>
+                <!--<div class="colunas-rodape">
+              <div class="coluna-menu">-->
+                <ul class="list-navigation"><li class="plain"><a href="https://eagendas.cgu.gov.br/?_token=1ONyP8dlsRIUXdk7Qe0s3XL1o6sj6QocKg8lf0IM&amp;filtro_orgao=854&amp;filtro_cargo=MINISTRO%28A%29+DA+ECONOMIA&amp;filtro_servidor=2423#divcalendar" class="plain">Agenda do Ministro</a></li><li class="plain"><a href="https://www.canva.com/design/DAEyAEBJvOA/VeArlDr2IXWupCnAXyhgNw/view?utm_content=DAEyAEBJvOA&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=publishpresent" class="plain">Apresentação</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/acesso-a-informacao/institucional/quem-e-quem/assessoria-especial-de-assuntos-estrategicos/quem-e-quem-da-assessoria-especial-de-comunicacao-social" class="plain">Ascom</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/centrais-de-conteudo/capacitacao" class="plain">Capacitação</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/assuntos/gestao/central-de-compras/compra-direta-de-passagens" class="plain">compradireta</a></li><li class="plain"><a href="https://www.gov.br/produtividade-e-comercio-exterior/pt-br/ambiente-de-negocios/competitividade-industrial/construa-brasil" class="plain">Construa Brasil</a></li><li class="plain dropdown-submenu"><a href="https://www.gov.br/economia/estatisticas" class="plain">Estatísticas</a>
+                <ul class="submenu">
+                    <li>
+
+    
+
+        <a href="https://www.gov.br/economia/estatisticas/noticias" class="state-published">
+            
+            Estatísticas das Notícias
+        </a>
+
+        
+    
+</li>
+
+<li>
+
+    
+
+        <a href="https://extranet.economia.gov.br/publicacao/relatorios-ascom/" class="state-published">
+            
+            Relatório de Atividades
+        </a>
+
+        
+    
+</li>
+                </ul>
+            </li><li class="plain"><a href="https://www.gov.br/economia/pt-br/centrais-de-conteudo/imagens/fundo-de-tela-1.png/view" class="plain">Fundo de tela para o teams</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/acesso-a-informacao/acoes-e-programas/incorpora-brasil/apresentacao" class="plain">incorporabr</a></li><li class="plain"><a href="https://www.gov.br/produtividade-e-comercio-exterior/pt-br/comercio-exterior-e-assuntos-internacionais/investimentos" class="plain">investimentos</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/acesso-a-informacao/licitacoes-e-contratos" class="plain">licitações</a></li><li class="plain"><a href="https://www.gov.br/produtividade-e-comercio-exterior/pt-br/mdic" class="plain">Ministério do Desenvolvimento, Indústria, Comércio e Serviços</a></li><li class="plain"><a href="https://www.gov.br/gestao/pt-br" class="plain">Ministério da Gestão e Inovação em Serviços Públicos</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/planejamento" class="plain">Ministério do Planejamento e Orçamento</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/assuntos/planejamento-e-orcamento/orcamento/orcamentos-anuais/2023/ploa/Orcamento_Cidadao_2023.pdf" class="plain">Ploa-cidadao2023</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/assuntos/planejamento-e-orcamento/orcamento/orcamentos-anuais/2023/ploa/projeto-de-lei-orcamentaria-anual-ploa" class="plain">ploa2023</a></li><li class="plain"><a href="https://www.gov.br/economia/pt-br/assuntos/planejamento-e-orcamento/orcamento/orcamentos-anuais/2023/ploa/Mensagem_Presidencial_2023.pdf" class="plain">Ploa presidencial2023</a></li><li class="plain"><a href="https://www.gov.br/pt-br/propriedade-intelectual/semana-da-propriedade-intelectual" class="plain">Semana da Propriedade Intelectual</a></li><li class="plain"><a href="https://sistema.patrimoniodetodos.gov.br/" class="plain">taxapatrimonial202</a></li></ul>
+                <!--</div>
+            </div>-->
+
+                
+        <div class="lgpd-reset-cookies">
+        <a href="#" class="reset-cookies" onclick="_redefinirCookies(); return false;">Redefinir Cookies</a>
+    </div>
+    <div class="redes-e-logos">
+                    <div class="redes-sociais">
+                        <div class="titulo">Redes sociais</div>
+                    <ul class="portal-redes">
+            
+                <li class="portalredes-twitter portalredes-item">
+                    <a href="https://www.twitter.com/mineconomia">Twitter</a>
+                </li>
+            
+                <li class="portalredes-youtube portalredes-item">
+                    <a href="https://www.youtube.com//c/MinisteriodaEconomia">YouTube</a>
+                </li>
+            
+                <li class="portalredes-flickr portalredes-item">
+                    <a href="https://www.flickr.com/photos/ministeriodaeconomia/">Flickr</a>
+                </li>
+            
+                <li class="portalredes-facebook portalredes-item">
+                    <a href="https://www.facebook.com/ministeriodaeconomia">Facebook</a>
+                </li>
+            
+                <li class="portalredes-instagram portalredes-item">
+                    <a href="https://www.instagram.com/ministeriodaeconomia">Instagram</a>
+                </li>
+            
+                <li class="portalredes-soundcloud portalredes-item">
+                    <a href="https://soundcloud.com/user-67382743">SoundCloud</a>
+                </li>
+            
+        </ul></div>
+                    <div id="footer-govbr">
+                        <div id="wrapper-footer-brasil">
+                            <a class="logo-acesso-footer" href="https://www.gov.br/acessoainformacao/pt-br" title="Acesse o portal sobre o acesso à informação">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 117 49" height="49" width="117" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><defs><style type="text/css"><![CDATA[.a {font: normal bold 11px Open Sans, sans-serif;}]]></style></defs><circle cx="22" cy="23" r="22" fill="#222"></circle><path style="stroke:#fff;stroke-width:9;stroke-linecap:round;" d="m 22,23 v 13"></path><path style="stroke:#222;stroke-width:4;stroke-linejoin:round;" d="m 4,43 3,-6 4,3 z"></path><circle r="4.5" cy="11" cx="22" fill="#fff"></circle><g fill="#222"><text x="47" y="22"><tspan class="a" y="18">Acesso à</tspan><tspan class="a" x="47" y="31">Informação</tspan></text></g></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="texto-copyright">
+    Todo o conteúdo deste site está publicado sob a licença <a rel="license" href="https://creativecommons.org/licenses/by-nd/3.0/deed.pt_BR">Creative Commons Atribuição-SemDerivações 3.0 Não Adaptada</a>.
+  </div>
+        </footer>
+
+        <nav class="back-to-top" aria-label="Voltar ao topo da página">
+            <a href="#wrapper">
+                <span class="fa fa-chevron-up"></span>
+                <span class="sr-only">Voltar ao topo da página</span>
+            </a>
+        </nav>
+    <div id="govbr-busca-input-data" style="display: none" data-autocomplete-api="https://portalunico.estaleiro.serpro.gov.br/api/" data-autocomplete-index="//www.gov.br/economia" data-autocomplete-orgao="" data-autocomplete-search="https://www.gov.br/economia/pt-br" data-autocomplete-portal="https://www.gov.br" data-historico-title="Histórico de buscas" data-servicos-title="Serviços e Apps" data-sugestoes-title="Você quis dizer?" data-input-placeholder="O que você procura?"></div></div><div id="main-navigation-overlay"></div><div class="redefinir-cookies">
+
+    
+
+</div><div class="dsgov">
+    <div class="br-cookiebar default d-none" tabindex="-1">
+      <div class="br-modal">
+        <div class="br-card">
+          <div class="container">
+            <div class="wrapper">
+              <div class="br-modal-header entry-content">
+                <div class="br-modal-title"></div>
+                <div class="last-update"></div>
+                <div class="entry-text"></div>
+              </div>
+              <div class="br-modal-body">
+                <div class="info-text"></div>
+                <div class="br-list main-content">
+                </div>
+              </div>
+            </div>
+            <div class="br-modal-footer actions">
+              <button class="br-button small btn-manage" type="button" aria-label="Definir Cookies"></button>
+              <button class="br-button secondary small reject-all" type="button" aria-label="Rejeitar cookies">Rejeitar</button>
+              <button class="br-button secondary small btn-accept" type="button" aria-label="Aceitar"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><script id="lgpd-cookie-handling" type="text/javascript" src="https://www.gov.br/economia/++resource++govbr.policy/lgpd_cookie_handling_1_3_91.js"></script><div id="govbr-login-overlay-wrapper"></div><div id="govbr-busca-por-voz-overlay-wrapper">
+        <div class="busca-por-voz">
+            <span class="transcpt-text">Fale Agora</span>
+            <a href="#" id="btn-refazer-busca" class="refazer-busca">
+                Refazer a busca
+            </a>
+            
+            <a href="#" id="btn-ouvindo" class="btn-microfone ouvindo">
+                <span class="fas fa-microphone"></span>
+            </a>
+
+            <a href="#" id="btn-nao-entendi" class="btn-microfone nao-entendi">
+                <span class="fas fa-microphone"></span>
+            </a>
+
+            <a href="#" id="btn-fechar">
+                <span class="fas fa-times"></span>
+            </a>
+        </div>
+    </div><div vw="" class="enabled">
+        <div vw-access-button="" class="active"></div>
+        <div vw-plugin-wrapper="">
+          <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div><div class="escuta-govbr-popup-wrapper">
+        <a href="#" class="escuta-govbr-popup-fechar" id="escuta-govbr-popup-fechar">
+            <span class="fas fa-times"></span>
+        </a>
+
+        <div class="title">Ajude a melhorar o gov.br</div>
+
+        <p>Ao compartilhar sua opinião, você nos ajuda a identificar problemas e a melhorar a navegação para você.</p>
+        
+        <div class="buttons">
+            <button class="escuta-govbr-popup-agora-nao" id="escuta-govbr-popup-agora-nao">Agora não</button>
+            <button class="escuta-govbr-popup-responder" id="escuta-govbr-popup-responder">Responder pesquisa</button>            
+        </div>
+
+        <div class="footer">
+            <input type="checkbox" id="escuta-govbr-popup-nao-exibir" />
+            <label for="escuta-govbr-popup-nao-exibir">Não exibir esta mensagem novamente.</label>
+        </div>
+    </div><!-- relato 4118176 --><script>
+        window.onbeforeunload = null;
+    </script><script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script><script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app', 'https://vlibras.gov.br/config/default_logo.json');
+    </script><script>        
+        window.addEventListener('troca-contraste', function() {            
+            if ($("body").hasClass("contraste")) {
+                setCookie("contraste", "");
+                $("body").removeClass("contraste");
+                $("barra-govbr").attr('contrastActive', 'false');
+            } else {
+                setCookie("contraste", "on");
+                $("body").addClass("contraste");
+                $("barra-govbr").attr('contrastActive', 'true');
+            }
+            return false;
+        });
+        window.addEventListener('abrir-cookie-config', function() {
+            _redefinirCookies(); return false;
+        });
+        window.addEventListener('ACCESSTOKEN_ERROR', function() {
+            window.location.href = "/govbrportal/logout.html";
+        });
+    </script><script type="text/javascript" src="/economia/++theme++padrao_govbr/govbrtheme-1b543ca.js"></script><div id="plone-analytics"><!-- Pesquisa do Google Regulations GOV-->
+<!--script async src="https://cse.google.com/cse.js?cx=8612c3213f282eded"></script-->
+
+</div></body>
+</html>

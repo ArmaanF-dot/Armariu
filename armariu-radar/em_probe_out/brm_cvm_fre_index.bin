@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <link rel="stylesheet" href="/.theme/style.css">
+        <link rel="stylesheet" href="/.theme/icon.css">
+    </head>
+    <body>
+	<div class="wrapper">
+		<h1 class="titulo"><a href="/">Portal Dados Abertos CVM</a></h1>
+	<!-- we open the `wrapper` element here, but close it in the `footer.html` file -->
+	<br/>
+<html>
+<head><title>Index of /dados/CIA_ABERTA/DOC/FRE/DADOS/</title></head>
+<body>
+<h1>Index of /dados/CIA_ABERTA/DOC/FRE/DADOS/</h1><hr><pre><a href="../">../</a>
+<a href="fre_cia_aberta_2010.zip">fre_cia_aberta_2010.zip</a>                            18-Feb-2026 20:38      6M
+<a href="fre_cia_aberta_2011.zip">fre_cia_aberta_2011.zip</a>                            18-Feb-2026 20:35      7M
+<a href="fre_cia_aberta_2012.zip">fre_cia_aberta_2012.zip</a>                            18-Feb-2026 20:33      7M
+<a href="fre_cia_aberta_2013.zip">fre_cia_aberta_2013.zip</a>                            18-Feb-2026 20:30      7M
+<a href="fre_cia_aberta_2014.zip">fre_cia_aberta_2014.zip</a>                            18-Feb-2026 20:27      8M
+<a href="fre_cia_aberta_2015.zip">fre_cia_aberta_2015.zip</a>                            18-Feb-2026 20:24      7M
+<a href="fre_cia_aberta_2016.zip">fre_cia_aberta_2016.zip</a>                            18-Feb-2026 20:21      7M
+<a href="fre_cia_aberta_2017.zip">fre_cia_aberta_2017.zip</a>                            18-Feb-2026 20:19      7M
+<a href="fre_cia_aberta_2018.zip">fre_cia_aberta_2018.zip</a>                            18-Feb-2026 20:16      7M
+<a href="fre_cia_aberta_2019.zip">fre_cia_aberta_2019.zip</a>                            18-Feb-2026 20:13      8M
+<a href="fre_cia_aberta_2020.zip">fre_cia_aberta_2020.zip</a>                            18-Feb-2026 20:10      9M
+<a href="fre_cia_aberta_2021.zip">fre_cia_aberta_2021.zip</a>                            18-Feb-2026 20:07     10M
+<a href="fre_cia_aberta_2022.zip">fre_cia_aberta_2022.zip</a>                            01-Nov-2026 07:12     10M
+<a href="fre_cia_aberta_2023.zip">fre_cia_aberta_2023.zip</a>                            01-Nov-2026 07:09      8M
+<a href="fre_cia_aberta_2024.zip">fre_cia_aberta_2024.zip</a>                            01-Nov-2026 07:07      8M
+<a href="fre_cia_aberta_2025.zip">fre_cia_aberta_2025.zip</a>                            01-Nov-2026 07:05      8M
+<a href="fre_cia_aberta_2026.zip">fre_cia_aberta_2026.zip</a>                            01-Nov-2026 07:02      8M
+</pre><hr><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"13d6c72ee5ca404785c61963c65b5e05","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
+	<div class="block">
+		Os arquivos de dados serão atualizados conforme a política publicada na página do respectivo <a href="/dataset">conjunto de dados</a>.
+	</div><!--/.postlisting-->
+
+</div><!--/.wrapper-->
+
+<div class="footer">
+	Apaxy by <a href="https://twitter.com/adamwhitcroft">@adamwhitcroft</a><br/>
+    <a href="https://github.com/manala/nginx-autoindex-theme">Manala Nginx Autoindex Theme</a>
+</div><!--/.footer-->
+
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  // ga('create', 'UA-33619506-8', 'auto', {});
+     
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+</script>
+

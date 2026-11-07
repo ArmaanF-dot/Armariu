@@ -1,0 +1,378 @@
+{
+ "debentures_com_br": {
+  "url": "https://www.debentures.com.br/",
+  "status": 200,
+  "ctype": "text/html",
+  "bytes": 79813,
+  "secs": 1.5
+ },
+ "debentures_exploreosnd": {
+  "url": "https://www.debentures.com.br/exploreosnd/consultaadados/emissoesdedebentures/caracteristicas_f.asp",
+  "status": 200,
+  "ctype": "text/html",
+  "bytes": 95607,
+  "secs": 0.5
+ },
+ "anbima_data": {
+  "url": "https://data.anbima.com.br/debentures",
+  "status": 200,
+  "ctype": "text/html; charset=utf-8",
+  "bytes": 3809,
+  "secs": 0.6
+ },
+ "anbima_api": {
+  "url": "https://api.anbima.com.br/",
+  "err": "<HTTPError 404: 'Not Found'>"
+ },
+ "b3_debentures": {
+  "url": "https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-fixa/debentures.htm",
+  "status": 200,
+  "ctype": "text/html; charset=UTF-8",
+  "bytes": 45793,
+  "secs": 0.4
+ },
+ "gov_incentivadas": {
+  "url": "https://www.gov.br/economia/pt-br/centrais-de-conteudo/publicacoes/boletins/boletim-de-debentures-incentivadas",
+  "status": 200,
+  "ctype": "text/html;charset=utf-8",
+  "bytes": 67261,
+  "secs": 1.8
+ },
+ "cvm_dfp_index": {
+  "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/",
+  "status": 200,
+  "ctype": "text/html",
+  "bytes": 3972,
+  "secs": 0.6
+ },
+ "cvm_itr_index": {
+  "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/ITR/DADOS/",
+  "status": 200,
+  "ctype": "text/html",
+  "bytes": 3856,
+  "secs": 0.5
+ },
+ "cvm_fre_index": {
+  "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/FRE/DADOS/",
+  "status": 200,
+  "ctype": "text/html",
+  "bytes": 3972,
+  "secs": 0.2
+ },
+ "cvm_fca": {
+  "url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/FCA/DADOS/",
+  "status": 200,
+  "ctype": "text/html",
+  "bytes": 3972,
+  "secs": 0.2
+ },
+ "cvm_inventario": {
+  "url": "https://dados.cvm.gov.br/misc/InventarioBasesCVM.pdf",
+  "status": 200,
+  "ctype": "application/pdf",
+  "bytes": 266705,
+  "secs": 0.9
+ },
+ "brapi_deb": {
+  "url": "https://brapi.dev/api/v2/debentures",
+  "err": "<HTTPError 404: 'Not Found'>"
+ },
+ "dfp2024": {
+  "files": [
+   "dfp_cia_aberta_2024.csv",
+   "dfp_cia_aberta_BPA_con_2024.csv",
+   "dfp_cia_aberta_BPA_ind_2024.csv",
+   "dfp_cia_aberta_BPP_con_2024.csv",
+   "dfp_cia_aberta_BPP_ind_2024.csv",
+   "dfp_cia_aberta_composicao_capital_2024.csv",
+   "dfp_cia_aberta_DFC_MD_con_2024.csv",
+   "dfp_cia_aberta_DFC_MD_ind_2024.csv",
+   "dfp_cia_aberta_DFC_MI_con_2024.csv",
+   "dfp_cia_aberta_DFC_MI_ind_2024.csv",
+   "dfp_cia_aberta_DMPL_con_2024.csv",
+   "dfp_cia_aberta_DMPL_ind_2024.csv",
+   "dfp_cia_aberta_DRA_con_2024.csv",
+   "dfp_cia_aberta_DRA_ind_2024.csv",
+   "dfp_cia_aberta_DRE_con_2024.csv",
+   "dfp_cia_aberta_DRE_ind_2024.csv",
+   "dfp_cia_aberta_DVA_con_2024.csv",
+   "dfp_cia_aberta_DVA_ind_2024.csv",
+   "dfp_cia_aberta_parecer_2024.csv"
+  ],
+  "note_like": [
+   "dfp_cia_aberta_DMPL_con_2024.csv",
+   "dfp_cia_aberta_DMPL_ind_2024.csv",
+   "dfp_cia_aberta_DVA_con_2024.csv",
+   "dfp_cia_aberta_DVA_ind_2024.csv"
+  ],
+  "debt_lines": "{('2.01.04', 'Capitalização'): 4, ('2.01.04', 'Empréstimos e Financiamentos'): 902, ('2.01.04.01', 'Empréstimos e Financiamentos'): 900, ('2.01.04.02', 'Debêntures'): 900, ('2.02.01', 'Depósitos'): 20, ('2.02.01', 'Empréstimos e Financiamentos'): 902, ('2.02.01', 'Passivo Exigível a Longo Prazo'): 4, ('2.02.01.01', 'Contas a Pagar'): 4, ('2.02.01.01', 'Depósitos de Clientes'): 2, ('2.02.01.01', 'Depósitos à Vista'): 2, ('2.02.01.01', 'Depósitos à Vista e Outros Depósitos'): 2, ('2.02.01.01', 'Depósitos à vista'): 2, ('2.02.01.01', 'Empréstimos e Financiamentos'): 900, ('2.02.01.02', 'Debêntures'): 900, ('2.02.01.02', 'Depósitos Poupança'): 2, ('2.02.01.02', 'Depósitos a Prazo e Interfinanceiros'): 2, ('2.02.01.02', 'Depósitos de instituições de crédito'): 2, ('2.02.01.02', 'Depósitos à prazo'): 2, ('2.02.01.02', 'Passivos da Atividade Seguradora/Resseguradora'): 4}",
+  "companies_with_debt_split": 461,
+  "companies_total": 467
+ },
+ "fre2024": {
+  "files": [
+   "fre_cia_aberta_2024.csv",
+   "fre_cia_aberta_acao_entregue_2024.csv",
+   "fre_cia_aberta_administrador_declaracao_genero_2024.csv",
+   "fre_cia_aberta_administrador_declaracao_raca_2024.csv",
+   "fre_cia_aberta_administrador_membro_conselho_fiscal_2024.csv",
+   "fre_cia_aberta_administrador_PCD_2024.csv",
+   "fre_cia_aberta_auditor_2024.csv",
+   "fre_cia_aberta_capital_social_2024.csv",
+   "fre_cia_aberta_capital_social_classe_acao_2024.csv",
+   "fre_cia_aberta_capital_social_titulo_conversivel_2024.csv",
+   "fre_cia_aberta_distribuicao_capital_2024.csv",
+   "fre_cia_aberta_distribuicao_capital_classe_acao_2024.csv",
+   "fre_cia_aberta_empregado_local_declaracao_genero_2024.csv",
+   "fre_cia_aberta_empregado_local_declaracao_raca_2024.csv",
+   "fre_cia_aberta_empregado_local_faixa_etaria_2024.csv",
+   "fre_cia_aberta_empregado_PCD_2024.csv",
+   "fre_cia_aberta_empregado_posicao_declaracao_genero_2024.csv",
+   "fre_cia_aberta_empregado_posicao_declaracao_raca_2024.csv",
+   "fre_cia_aberta_empregado_posicao_faixa_etaria_2024.csv",
+   "fre_cia_aberta_empregado_posicao_local_2024.csv",
+   "fre_cia_aberta_membro_comite_2024.csv",
+   "fre_cia_aberta_mercado_estrangeiro_2024.csv",
+   "fre_cia_aberta_outro_valor_mobiliario_2024.csv",
+   "fre_cia_aberta_participacao_sociedade_2024.csv",
+   "fre_cia_aberta_posicao_acionaria_2024.csv",
+   "fre_cia_aberta_posicao_acionaria_classe_acao_2024.csv",
+   "fre_cia_aberta_relacao_familiar_2024.csv",
+   "fre_cia_aberta_relacao_subordinacao_2024.csv",
+   "fre_cia_aberta_remuneracao_acao_2024.csv",
+   "fre_cia_aberta_remuneracao_maxima_minima_media_2024.csv",
+   "fre_cia_aberta_remuneracao_total_orgao_2024.csv",
+   "fre_cia_aberta_remuneracao_variavel_2024.csv",
+   "fre_cia_aberta_responsavel_2024.csv",
+   "fre_cia_aberta_titular_valor_mobiliario_2024.csv",
+   "fre_cia_aberta_titulo_exterior_2024.csv",
+   "fre_cia_aberta_transacao_parte_relacionada_2024.csv"
+  ],
+  "fre_cia_aberta_capital_social_titulo_conversivel_2024.csv": {
+   "cols": [
+    "CNPJ_Companhia",
+    "Data_Referencia",
+    "Versao",
+    "ID_Documento",
+    "Nome_Companhia",
+    "ID_Capital_Social",
+    "Titulo_Conversivel_Acao",
+    "Condicoes_Conversao"
+   ],
+   "sample": [
+    {
+     "CNPJ_Companhia": "00.001.180/0001-26",
+     "Data_Referencia": "2024-12-31",
+     "Versao": "22",
+     "ID_Documento": "147675",
+     "Nome_Companhia": "AXIA ENERGIA S.A.",
+     "ID_Capital_Social": "333086",
+     "Titulo_Conversivel_Acao": NaN,
+     "Condicoes_Conversao": "Não aplicável, tendo em vista que não há títulos conversíveis em ações emitidos pela Companhia."
+    },
+    {
+     "CNPJ_Companhia": "00.776.574/0001-56",
+     "Data_Referencia": "2024-12-31",
+     "Versao": "19",
+     "ID_Documento": "148226",
+     "Nome_Companhia": "AMERICANAS S.A. - EM RECUPERAÇÃO JUDICIAL",
+     "ID_Capital_Social": "333756",
+     "Titulo_Conversivel_Acao": "Bônus de Subscrição",
+     "Condicoes_Conversao": "Foram emitidos 62.719.722 Bônus de Subscrição (AMER11), atribuídos como vantagem adicional aos subscritores das novas ações, na proporção de 1 bônus de subscrição para cada grupo de 3 ações subscritas."
+    }
+   ]
+  },
+  "fre_cia_aberta_outro_valor_mobiliario_2024.csv": {
+   "cols": [
+    "CNPJ_Companhia",
+    "Data_Referencia",
+    "Versao",
+    "ID_Documento",
+    "Nome_Companhia",
+    "Valor_Mobiliario",
+    "Identificacao_Valor_Mobiliario",
+    "Data_Emissao",
+    "Data_Vencimento",
+    "Quantidade",
+    "Valor",
+    "Quantidade_Pessoa_Fisica",
+    "Quantidade_Pessoa_Juridica",
+    "Quantidade_Investidor_Institucional",
+    "Saldo_Devedor",
+    "Restricao_Circulacao",
+    "Descricao_Restricao_Circulacao",
+    "Conversibilidade",
+    "Condicao_Conversibilidade_Efeito_Capital_Social",
+    "Resgatavel",
+    "Hipotese_Resgate_Formula_Calculo",
+    "Caracteristicas_Valores_Mobiliarios_Divida",
+    "Condicao_Alteracao_Direitos",
+    "Outras_Caracteristicas_Relevantes"
+   ],
+   "sample": [
+    {
+     "CNPJ_Companhia": "00.001.180/0001-26",
+     "Data_Referencia": "2024-12-31",
+     "Versao": "22",
+     "ID_Documento": "147675",
+     "Nome_Companhia": "AXIA ENERGIA S.A.",
+     "Valor_Mobiliario": "Debêntures",
+     "Identificacao_Valor_Mobiliario": "2ª Emissão Dbt. Simples, Não Conversíveis, Quirografária, 4 Séries, Dist. Pública, Esf. Restritos.",
+     "Data_Emissao": "2019-04-25",
+     "Data_Vencimento": "2029-05-15",
+     "Quantidade": "5000000",
+     "Valor": "5000000000.00",
+     "Quantidade_Pessoa_Fisica": NaN,
+     "Quantidade_Pessoa_Juridica": NaN,
+     "Quantidade_Investidor_Institucional": NaN,
+     "Saldo_Devedor": "4160978000.00",
+     "Restricao_Circulacao": "Sim",
+     "Descricao_Restricao_Circulacao": "As debêntures somente poderão ser negociadas nos mercados regulamentados de valores mobiliários entre Investidores Qualificados depois de decorridos 90 dias de cada subscrição ou aquisição por um Investidor Profissional, salvo na hipótese do lote objeto de garantia firme de colocação pelo Coordenador Líder, observados, na negociação subsequente, os limites e condições previstos na regulamentação vigente e, em todos os casos, observado o cumprimento, pela Eletrobras, do artigo 17 da Instrução CVM 476, sendo que a negociação das Debêntures deverá sempre respeitar as disposições legais e regulamentares aplicáveis.",
+     "Conversibilidade": NaN,
+     "Condicao_Conversibilidade_Efeito_Capital_Social": NaN,
+     "Resgatavel": "Sim",
+     "Hipotese_Resgate_Formula_Calculo": "As debêntures da 2ª série estarão sujeitas ao resgate antecipado facultativo total pela Eletrobras, após decorridos 24 meses contados da data de emissão, ou seja, a partir de 25/04/2021 (inclusive), mediante o pagamento do valor do resgate antecipado facultativo das debêntures não incentivadas.As debêntures da 3ª série estarão sujeitas ao resgate antecipado facultativo total pela Eletrobras, após decorridos 36 meses contados da data de emissão, ou seja, a partir de 25/04/2022 (inclusive), mediante o pagamento do valor do resgate antecipado facultativo das debêntures não incentivadas.As debêntures da 4ª série não estarão sujeitas ao resgate antecipado facultativo pela Eletrobras, seja ele total ou parcial.A Companhia poderá realizar oferta de resgate antecipado facultativo das debêntures (observado que, no caso das debêntures incentivadas, desde que permitido pela legislação vigente à época), contemplando a totalidade de debêntures da respectiva série objeto da oferta de resgate antecipado, a ser endereçada a todos os titulares das debêntures da primeira série e/ou das debêntures da segunda série e/ou das debêntures da terceira série e/ou das debêntures da quarta série, conforme o caso, sem distinção, sendo assegurado a todos os titulares das debêntures da primeira série e/ou das debêntures da segunda série e/ou das debêntures da terceira série e/ou das debêntures da quarta série, conforme o caso, igualdade de condições para aceitar ou recusar, a seu exclusivo critério, a oferta de resgate antecipado das debêntures por eles detidas das respectivas séries, observados os termos da escritura de emissão e da Lei das Sociedades por Ações, e observadas as regras que vierem a ser expedidas pelo CMN e as demais regulamentações aplicáveis, inclusive em relação ao eventual prazo mínimo entre a data de emissão e a data da oferta de resgate antecipado, se houver.",
+     "Caracteristicas_Valores_Mobiliarios_Divida": "Vencimento de cada série (ressalvadas hipóteses de vencimento e resgate antecipado e Oferta de Resgate Antecipado): 25.04.22 25.04.24 25.04.26 15.05.29. As obrigações podem ser declaradas antecipadamente vencidas nas seguintes hipóteses, dentre outras (e observadas as exceções previstas): (i) alteração no controle direto ou indireto de determinadas subsidiárias relevantes (\"Subsidiárias\") (ii) fusão, cisão, incorporação, incorporação de ações ou outra reorganização envolvendo Companhia e/ou Subsidiárias (iii) venda, cessão, locação ou outra forma de alienação de bens e ativos, inclusive participações, pela Companhia e/ou Subsidiárias, cujo valor individual ou agregado seja igual ou superior, no período dos últimos 12 meses contados do evento, a 5% das receitas consolidadas da Companhia dos últimos 12 meses ou 2% do PL da Companhia (iv) resgate, recompra, amortização ou bonificação de ações, pagamento de dividendos (incluindo antecipação), JCP ou outros pagamentos pela Companhia a seus acionistas caso a Companhia esteja em mora com qualquer obrigação (ressalvado o dividendo mínimo obrigatório e A parcela do lucro líquido destinada à Reserva Especial de Dividendos Retidos) e (v) falha da manutenção do índice obtido da divisão da Dívida Líquida pelo EBITDA Ajustado inferior a 3,75x a partir do exercício de 2020. Observados os termos definidos da Escritura, caso ocorra Evento de Alteração de Risco em decorrência de uma Alteração de Controle dentro do Período de Alteração de Controle e/ou após a conclusão de Alteração de Controle (sem que o Evento de Alteração de Risco seja curado até o término do Período de Alteração de Controle), a Companhia será obrigada a realizar oferta para adquirir as debêntures dos debenturistas que optarem por aliená-las por valor equivalente ao valor nominal unitário ou valor nominal unitário atualizado acrescido dos juros remuneratórios devidos até a Data de Aquisição (exclusive). O valor nominal unitário ou saldo do valor nominal unitário das debêntures da segunda série não será atualizado monetariamente. Sobre tais valores incidirão juros remuneratórios correspondentes a 100% da variação da Taxa DI, acrescida de sobretaxa de 1% a.a., base 252 Dias Úteis, calculados de forma exponencial e cumulativa pro rata temporis por Dias Úteis. O valor nominal unitário ou saldo do valor nominal unitário das debêntures terceira série não será atualizado monetariamente. Sobre tais valores incidirão juros remuneratórios correspondentes a 100% da variação da Taxa DI, acrescida de sobretaxa de 1,2% a.a., base 252 Dias Úteis, calculados de forma exponencial e cumulativa pro rata temporis por Dias Úteis. O valor nominal unitário ou saldo do valor nominal unitário das debêntures da quarta série será atualizado pela variação acumulada do IPCA/IBGE desde a primeira integralização da série até seu efetivo pagamento, sendo o produto da atualização automaticamente incorporado ao valor nominal unitário das debêntures ou saldo do valor nominal unitário, calculado de forma pro rata temporis por Dias Úteis. Sobre tais valores incidirão juros remuneratórios correspondentes a 5,1814% a.a., base 252 Dias Úteis a partir da data da primeira integralização da série ou pagamento dos juros remuneratórios das debêntures da série imediatamente anterior, conforme o caso, e pagos ao final de cada período de capitalização das debêntures, calculado em regime de capitalização composta pro rata temporis por Dias Úteis. Não há. Quirografária. As restrições existentes decorrem exclusivamente das hipóteses de vencimento antecipado. Simplific Pavarini Distribuidora de Títulos e Valores Mobiliários LTDA., instituição financeira com sede na cidade e Estado do Rio de Janeiro, Rua Sete de Setembro 99, 24º andar, CEP 20.050-005, CNPJ/ME 15.227.994/0001-50. As condições de sua remuneração estão descritas na Escritura, conforme regulamentação aplicável.",
+     "Condicao_Alteracao_Direitos": "A modificação relativa às características e condições das debêntures da respectiva série que implique em alteração de: (1)(i) Atualização Monetária ou Juros Remuneratórios (ii) datas de pagamento de Juros Remuneratórios ou quaisquer valores previstos na escritura de emissão (iii) data de vencimento ou prazo de vigência das debêntures (iv) valores, montantes e datas de amortização do principal das debêntures (v) valor nominal unitário (vi) condições para o resgate antecipado facultativo (vii) condições para a amortização extraordinária facultativa (viii) condições para a oferta de resgate antecipado (ix) condições para a aquisição facultativa somente poderá ser aprovada pela assembleia geral de debenturistas mediante deliberação favorável de debenturistas, conforme abaixo: (i) no caso das debêntures da primeira, segunda e terceira séries, em qualquer convocação, pelos titulares das debêntures da primeira série e/ou das debêntures da segunda série e/ou das debêntures da terceira série, conforme o caso, que representem, no mínimo, 90% das debêntures da primeira série em circulação e/ou das debêntures da segunda série em circulação e/ou das debêntures da terceira série em circulação, conforme o caso e (ii)no caso das debêntures da quarta série, em qualquer convocação, pelos titulares das debêntures da quarta série que representem, no mínimo, 75% das debêntures da quarta série em circulação.",
+     "Outras_Caracteristicas_Relevantes": "Os recursos líquidos captados pela Eletrobras por meio da emissão das debêntures da primeira, segunda e terceira Série serão utilizados para o refinanciamento do passivo da Emissora incluindo, mas não se limitando, a quitação do Bônus de US$1,000,000.00 (1 bilhão de dólares americanos) com vencimento para julho de 2019 e reforço de caixa. Outras características das debêntures podem ser consultadas na Escritura de Emissão. A íntegra da Escritura de Emissão das Debêntures e eventuais aditamentos poderão ser consultados no website da CVM (https://www.gov.br/cvm/pt-br) e do Agente Fiduciário."
+    },
+    {
+     "CNPJ_Companhia": "00.001.180/0001-26",
+     "Data_Referencia": "2024-12-31",
+     "Versao": "22",
+     "ID_Documento": "147675",
+     "Nome_Companhia": "AXIA ENERGIA S.A.",
+     "Valor_Mobiliario": "Debêntures",
+     "Identificacao_Valor_Mobiliario": "3ª Emissão Dbt., Não Conversíveis, Quirografária, 2 Séries, Dist. Pública, Esf. Restritos.",
+     "Data_Emissao": "2021-04-14",
+     "Data_Vencimento": "2031-04-15",
+     "Quantidade": "2700000",
+     "Valor": "2700000000.00",
+     "Quantidade_Pessoa_Fisica": NaN,
+     "Quantidade_Pessoa_Juridica": NaN,
+     "Quantidade_Investidor_Institucional": NaN,
+     "Saldo_Devedor": "3019231000.00",
+     "Restricao_Circulacao": "Sim",
+     "Descricao_Restricao_Circulacao": "As debêntures somente poderão ser negociadas nos mercados regulamentados de valores mobiliários entre Investidores Qualificados depois de decorridos 90 dias de cada subscrição ou aquisição por um Investidor Profissional, salvo na hipótese do lote objeto de garantia firme de colocação pelo Coordenador Líder, observados, na negociação subsequente, os limites e condições previstos na regulamentação vigente e, em todos os casos, observado o cumprimento, pela Eletrobras, do artigo 17 da Instrução CVM 476, sendo que a negociação das Debêntures deverá sempre respeitar as disposições legais e regulamentares aplicáveis",
+     "Conversibilidade": NaN,
+     "Condicao_Conversibilidade_Efeito_Capital_Social": NaN,
+     "Resgatavel": NaN,
+     "Hipotese_Resgate_Formula_Calculo": NaN,
+     "Caracteristicas_Valores_Mobiliarios_Divida": "Vencimento de cada série (ressalvadas as hipóteses de vencimento e resgate antecipado, e Oferta de Resgate Antecipado): 15.04.26 15.04.31. As obrigações podem ser declaradas antecipadamente vencidas nas seguintes hipóteses, dentre outras (e observadas as exceções previstas): (i) alteração no controle direto ou indireto de determinadas subsidiárias relevantes (\"Subsidiárias\") (ii) fusão, cisão, incorporação, incorporação de ações ou outra forma de reorganização envolvendo a Companhia e/ou Subsidiárias (iii) venda, cessão, locação ou outra forma de alienação de bens e ativos, inclusive participações, pela Companhia e/ou Subsidiárias, cujo valor individual ou agregado seja igual ou superior, no período dos últimos 12 meses contados do evento, a 5% das receitas consolidadas da Companhia dos últimos 12 meses ou (b) 2% do PL da Companhia (iv) resgate, recompra, amortização ou bonificação de ações, pagamento de dividendos (incluindo antecipação), JCP ou qualquer outro pagamento pela Companhia a seus acionistas caso a Companhia esteja em mora com qualquer obrigação (ressalvado o dividendo mínimo obrigatório e a parcela do lucro líquido destinada à Reserva Especial de Dividendos Retidos) e (v) falha na manutenção do índice obtido da divisão da Dívida Líquida pelo EBITDA Ajustado inferior a 3,75x ao final de cada exercício social, sendo a primeira apuração com base no exercício encerrado em 31.12.21. Observados os termos definidos da Escritura, caso ocorra um Evento de Alteração de Risco em decorrência de uma Alteração de Controle dentro do Período de Alteração de Controle e/ou após a conclusão de Alteração de Controle (sem que o Evento de Alteração de Risco seja curado até o término do Período de Alteração de Controle), a Companhia deverá realizar oferta para adquirir as debêntures dos debenturistas que optarem por aliená-las por valor equivalente ao valor nominal unitário ou valor nominal unitário atualizado, acrescido dos juros remuneratórios devidos até a Data de Aquisição (exclusive). O valor nominal unitário ou saldo do valor nominal unitário das debêntures da primeira série não será atualizado monetariamente. Sobre tais valores incidirão juros remuneratórios correspondentes a 100% da variação acumulada das taxas médias diárias dos DI - Depósitos Interfinanceiros de um dia, \"over extra-grupo\", expressas na forma percentual ao ano, base 252 Dias Úteis, calculadas e divulgadas diariamente pela B3, acrescida de sobretaxa de 1,8% a.a., base 252 Dias Úteis, calculados de forma exponencial e cumulativa pro rata temporis por Dias Úteis. O valor nominal unitário ou saldo do valor nominal unitário das debêntures da segunda série será atualizado pela variação acumulada do IPCA/IBGE desde a data da primeira integralização das debêntures da segunda série até seu efetivo pagamento, sendo o produto da atualização automaticamente incorporado ao valor nominal unitário ou saldo do valor nominal unitário, calculado de forma pro rata temporis por Dias Úteis. Sobre tais valores incidirão juros remuneratórios correspondentes a 4,9126% a.a., base 252 Dias Úteis. Os juros remuneratórios serão incidentes sobre o valor nominal atualizado a partir da primeira integralização das debêntures da segunda série ou do pagamento dos juros remuneratórios da série imediatamente anterior, e pagos ao final de cada período de capitalização das debêntures, calculado em regime de capitalização composta pro rata temporis por Dias Úteis. Não há. Quirografária. As restrições existentes decorrem exclusivamente das hipóteses de vencimento antecipado. Pentágono S.A. Distribuidora de Títulos e Valores Mobiliários, instituição financeira, com sede na Cidade e Estado do Rio de Janeiro, Avenida das Américas, n.º 4.200, bloco 08, ala B, salas 302 a 304, Barra da Tijuca, CEP 22630-011, CNPJ/ME 17.343.682/0001-38. As condições de sua remuneração estão descritas na escritura de emissão, conforme regulamentação aplicável.",
+     "Condicao_Alteracao_Direitos": "A modificação relativa às características e condições das debêntures da respectiva série que implique em alteração de (1) (i) Atualização Monetária ou juros remuneratórios (ii) datas de pagamento de juros remuneratórios ou quaisquer valores previstos na escritura de emissão (iii) data de vencimento ou prazo de vigência das debêntures (iv) valores, montantes e datas de amortização do principal das debêntures (v) valor nominal unitário (vi) condições para a aquisição facultativa ou (vii) inclusão de condições para resgate antecipado facultativo ou amortização extraordinária somente poderá ser aprovada pela assembleia geral de debenturistas mediante deliberação favorável de debenturistas, conforme abaixo: (i) no caso das debêntures da primeira série, em qualquer convocação, pelos titulares das debêntures que representem, no mínimo, 90% das debêntures da primeira série em circulação (ii) no caso das debêntures da segunda série, em qualquer convocação, pelos titulares das debêntures que representem, no mínimo, 75% das debêntures da segunda série em circulação",
+     "Outras_Caracteristicas_Relevantes": "Os recursos líquidos captados pela Companhia por meio da emissão das debêntures da primeira série serão utilizados para reforço de caixa para fazer frente aos diversos compromissos da Companhia previstos no PDNG. Outras características das debêntures podem ser consultadas na escritura de emissão. A íntegra da Escritura de Emissão das Debêntures e eventuais aditamentos poderão ser consultados no website da CVM (https://www.gov.br/cvm/pt-br) e do Agente Fiduciário."
+    }
+   ]
+  },
+  "fre_cia_aberta_titular_valor_mobiliario_2024.csv": {
+   "cols": [
+    "CNPJ_Companhia",
+    "Data_Referencia",
+    "Versao",
+    "ID_Documento",
+    "Nome_Companhia",
+    "Valor_Mobiliario",
+    "Quantidade_Pessoa_Fisica",
+    "Quantidade_Pessoa_Juridica",
+    "Quantidade_Investidor"
+   ],
+   "sample": [
+    {
+     "CNPJ_Companhia": "00.001.180/0001-26",
+     "Data_Referencia": "2024-12-31",
+     "Versao": "22",
+     "ID_Documento": "147675",
+     "Nome_Companhia": "AXIA ENERGIA S.A.",
+     "Valor_Mobiliario": "Debêntures",
+     "Quantidade_Pessoa_Fisica": "25053",
+     "Quantidade_Pessoa_Juridica": "201",
+     "Quantidade_Investidor": "1862"
+    },
+    {
+     "CNPJ_Companhia": "00.192.769/0001-59",
+     "Data_Referencia": "2024-12-31",
+     "Versao": "1",
+     "ID_Documento": "138409",
+     "Nome_Companhia": "NEUMARKT TRADE AND FINANCIAL CENTER S/A",
+     "Valor_Mobiliario": "Debêntures",
+     "Quantidade_Pessoa_Fisica": "0",
+     "Quantidade_Pessoa_Juridica": "1",
+     "Quantidade_Investidor": "0"
+    }
+   ]
+  },
+  "fre_cia_aberta_titulo_exterior_2024.csv": {
+   "cols": [
+    "CNPJ_Companhia",
+    "Data_Referencia",
+    "Versao",
+    "ID_Documento",
+    "Nome_Companhia",
+    "Valor_Mobiliario",
+    "Identificacao_Valor_Mobiliario",
+    "Data_Emissao",
+    "Data_Vencimento",
+    "Quantidade",
+    "Valor_Nominal",
+    "Saldo_Devedor",
+    "Restricao_Circulacao",
+    "Descricao_Restricao_Circulacao",
+    "Conversibilidade",
+    "Condicao_Conversibilidade",
+    "Possibilidade_Resgate",
+    "Hipotese_Calculo_Resgate",
+    "Caracteristicas_Divida",
+    "Condicao_Alteracao_Direitos",
+    "Outras_Caracteristicas"
+   ],
+   "sample": [
+    {
+     "CNPJ_Companhia": "00.000.000/0001-91",
+     "Data_Referencia": "2024-12-31",
+     "Versao": "14",
+     "ID_Documento": "147862",
+     "Nome_Companhia": "BCO BRASIL S.A.",
+     "Valor_Mobiliario": "Letras Financeiras",
+     "Identificacao_Valor_Mobiliario": "Bônus Perpétuo 2013",
+     "Data_Emissao": "2013-01-31",
+     "Data_Vencimento": "2023-04-15",
+     "Quantidade": "1",
+     "Valor_Nominal": "8344464680.00",
+     "Saldo_Devedor": "8344464680.00",
+     "Restricao_Circulacao": "S",
+     "Descricao_Restricao_Circulacao": "Os títulos só poderão ser adquiridos por investidores qualificados.",
+     "Conversibilidade": NaN,
+     "Condicao_Conversibilidade": NaN,
+     "Possibilidade_Resgate": "S",
+     "Hipotese_Calculo_Resgate": "i) Hipóteses a) Não há hipótese de resgate antecipado a ser exercido pelo investidor.b) O Banco detém opção de resgate da totalidade dos títulos (mas não de parte deles), em 15/04/2024 e em cada data de pagamento de cupom a partir desta data, sujeita à aprovação prévia do Banco Central ou outra autoridade governamental brasileira.c) Na ocorrência de eventos fiscais ou regulatórios, o Banco poderá resgatar antecipadamente a totalidade dos títulos (mas não parte deles), em qualquer data de pagamento de cupom antes de 15/04/2024. Nesse caso, deverá formal e antecipadamente encaminhar notificação ao trustee, contendo opinião jurídica de consultoria brasileira, atestando as condições legais para o exercício da opção.ii) Fórmula de cálculoa) No resgate consequente de evento fiscal, o preço será 100% do principal mais juros acumulados e não pagos (\"preço base de resgate\").b) No resgate consequente de evento regulatório, o preço será determinado por banco de investimento independente, sendo o maior entre o \"preço base de resgate\" e o preço resultante da soma de: i) valor presente do principal e ii) valor presente dos juros semestrais acumulados, de acordo com fórmula constante da escritura dos títulos",
+     "Caracteristicas_Divida": NaN,
+     "Condicao_Alteracao_Direitos": "O Banco poderá proceder a \"alterações qualificadas\" nos títulos, sem o consentimento dos investidores, a qualquer momento e quando necessário, na medida estrita para atender novo normativo do Banco Central do Brasil, cumprindo requisitos para manter a qualificação da dívida como Capital de Nível 1 ou Nível 2, devido à implementação de Basileia III. O Banco poderá também proceder a outras alterações (\"alterações não qualificadas\"), desde que não causem qualquer prejuízo material aos detentores dos títulos, conforme formalmente certificado pelo Banco ao trustee.As \"alterações qualificadas\" consistem em:a) alterações para absorção de perdas (nos estritos limites necessários à adequação da dívida como Capital de Nível 1 ou de Nível 2) eb) alterações de pagamento de juros e de não principal (sendo previsto que o Banco se compromete a recomendar o não pagamento de dividendos a seus acionistas até que haja o pagamento dos juros e não principal dos títulos relativos a um período).A ocorrência das alterações qualificadas (a) e (b) implicará na eliminação, nos termos e condições dos títulos, da obrigatoriedade de o Banco pagar juros e não principal caso pague dividendos a seus acionistas.",
+     "Outras_Caracteristicas": "Qualquer pagamento de não principal não será devido e não acumulará se o emissor não distribuir dividendos aos detentores de ações ordinárias com relação ao período correspondente ao período de juros dos títulos."
+    },
+    {
+     "CNPJ_Companhia": "00.000.000/0001-91",
+     "Data_Referencia": "2024-12-31",
+     "Versao": "14",
+     "ID_Documento": "147862",
+     "Nome_Companhia": "BCO BRASIL S.A.",
+     "Valor_Mobiliario": "Letras Financeiras",
+     "Identificacao_Valor_Mobiliario": "IECE - Bônus Perpétuo 2014",
+     "Data_Emissao": "2014-06-18",
+     "Data_Vencimento": "2024-06-18",
+     "Quantidade": "1",
+     "Valor_Nominal": "6639058659.40",
+     "Saldo_Devedor": "6639058659.40",
+     "Restricao_Circulacao": "S",
+     "Descricao_Restricao_Circulacao": "Os títulos só poderão ser adquiridos por Investidores qualificados.",
+     "Conversibilidade": NaN,
+     "Condicao_Conversibilidade": NaN,
+     "Possibilidade_Resgate": "S",
+     "Hipotese_Calculo_Resgate": "i) Hipóteses a) Não há hipótese de resgate antecipado a ser exercido pelo Investidorb) O Banco detém opção de resgate da totalidade dos títulos (mas não de parte deles), em 18/06/2024 e em cada data de cupom a partir desta data, sujeita à aprovação prévia do Banco Central ou outra autoridade governamental brasileirac) Após um período de 05 anos a partir da data de emissão, na ocorrência de eventos fiscais ou regulatórios, o Banco poderá resgatar antecipadamente os títulos.ii) Fórmula de cálculo No resgate em consequência de evento fiscal ou regulatório, o preço será o \"preço base de resgate\" (principal mais juros acumulados e não pagos).",
+     "Caracteristicas_Divida": NaN,
+     "Condicao_Alteracao_Direitos": "Não há.",
+     "Outras_Caracteristicas": "O Banco poderá proceder a alterações nos termos e condições dos títulos, sem o consentimento dos investidores, no prazo de um ano da data de emissão, quando necessário, exclusivamente para atender novos normativos do Banco Central do Brasil, cumprindo requisitos para manter a qualificação da dívida como Capital de Nível 1, de acordo com Res. 4.192 e regulamentações subsequentes."
+    }
+   ]
+  }
+ }
+}
