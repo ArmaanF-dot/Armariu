@@ -1,0 +1,115 @@
+{
+ "union_files": 6,
+ "union_firms": 5857,
+ "union_by_year": {
+  "2008": 4,
+  "2009": 20,
+  "2010": 23,
+  "2011": 34,
+  "2012": 39,
+  "2013": 64,
+  "2014": 83,
+  "2015": 106,
+  "2016": 116,
+  "2017": 193,
+  "2018": 286,
+  "2019": 309,
+  "2020": 482,
+  "2021": 423,
+  "2022": 465,
+  "2023": 557,
+  "2024": 826,
+  "2025": 986,
+  "2026": 841
+ },
+ "concepts_2021": {
+  "bs": {
+   "Total de activos": 61180,
+   "Patrimonio total": 61169,
+   "Activos corrientes totales": 61169,
+   "Total pasivos": 61153,
+   "Efectivo y equivalentes al efectivo": 60932,
+   "Pasivos corrientes totales": 60680
+  },
+  "inc": {
+   "Ingresos de actividades ordinarias": 60646,
+   "Costos financieros": 44788
+  }
+ },
+ "concepts_2022": {
+  "bs": {
+   "Total de activos": 126679,
+   "Patrimonio total": 126664,
+   "Activos corrientes totales": 126652,
+   "Total pasivos": 126598,
+   "Efectivo y equivalentes al efectivo": 126172,
+   "Pasivos corrientes totales": 125517
+  },
+  "inc": {
+   "Ingresos de actividades ordinarias": 125594,
+   "Costos financieros": 92280
+  }
+ },
+ "backtest_fy2021": {
+  "firms": 28081,
+  "events_12m": 128,
+  "insolv_in_window_total": 484,
+  "share_of_window_events_covered": 0.264,
+  "leverage L/A": {
+   "auc": 0.79,
+   "n": 28078,
+   "events": 128
+  },
+  "neg current ratio": {
+   "auc": 0.634,
+   "n": 27740,
+   "events": 127
+  },
+  "neg cash/A": {
+   "auc": 0.738,
+   "n": 28078,
+   "events": 128
+  },
+  "neg log assets": {
+   "auc": 0.407,
+   "n": 28081,
+   "events": 128
+  },
+  "combined_auc": 0.81,
+  "base_rate": 0.0046,
+  "top10_rate": 0.0189,
+  "top10_lift": 4.15,
+  "top10_capture": 0.414
+ },
+ "backtest_fy2022": {
+  "firms": 29893,
+  "events_12m": 192,
+  "insolv_in_window_total": 661,
+  "share_of_window_events_covered": 0.29,
+  "leverage L/A": {
+   "auc": 0.776,
+   "n": 29890,
+   "events": 192
+  },
+  "neg current ratio": {
+   "auc": 0.636,
+   "n": 29496,
+   "events": 187
+  },
+  "neg cash/A": {
+   "auc": 0.701,
+   "n": 29890,
+   "events": 192
+  },
+  "neg log assets": {
+   "auc": 0.508,
+   "n": 29893,
+   "events": 192
+  },
+  "combined_auc": 0.789,
+  "base_rate": 0.0064,
+  "top10_rate": 0.0268,
+  "top10_lift": 4.17,
+  "top10_capture": 0.417
+ }
+}
