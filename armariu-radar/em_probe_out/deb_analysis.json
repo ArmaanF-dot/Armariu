@@ -1,5 +1,6 @@
 {
  "rows": 10069,
+ "note": "mat_reliable excludes early exits",
  "columns": [
   "Codigo do Ativo",
   "Empresa",
@@ -107,14 +108,14 @@
   },
   "examples_fre_much_larger": [
    {
-    "cnpj": "51136974000138",
-    "fre_bal": 876220013.0,
+    "cnpj": "75315333000109",
+    "fre_bal": 3117844271.0,
     "reg_bal": 0.0,
     "ratio": Infinity
    },
    {
-    "cnpj": "43335774000186",
-    "fre_bal": 53686691.0,
+    "cnpj": "62063177000194",
+    "fre_bal": 25893376151.0,
     "reg_bal": 0.0,
     "ratio": Infinity
    },
@@ -125,29 +126,29 @@
     "ratio": Infinity
    },
    {
-    "cnpj": "40480481000102",
-    "fre_bal": 1433124376.0,
+    "cnpj": "51136974000138",
+    "fre_bal": 876220013.0,
     "reg_bal": 0.0,
     "ratio": Infinity
    },
    {
-    "cnpj": "38456921000136",
-    "fre_bal": 2133549002.0,
+    "cnpj": "09305994000129",
+    "fre_bal": 1890792164.0,
     "reg_bal": 0.0,
     "ratio": Infinity
    }
   ],
   "examples_fre_much_smaller": [
    {
-    "cnpj": "44854238000150",
-    "fre_bal": 0.0,
-    "reg_bal": 3200000000.0,
-    "ratio": 0.0
-   },
-   {
     "cnpj": "44067725000172",
     "fre_bal": 0.0,
     "reg_bal": 1054750136.0,
+    "ratio": 0.0
+   },
+   {
+    "cnpj": "44854238000150",
+    "fre_bal": 0.0,
+    "reg_bal": 3200000000.0,
     "ratio": 0.0
    },
    {
@@ -179,194 +180,194 @@
  },
  "panel": {
   "issuer_years": 10888,
-  "with_outstanding": 9599,
-  "events": 2081,
-  "base_rate": 0.2168,
-  "issuers": 2034
+  "with_outstanding": 5519,
+  "events": 1346,
+  "base_rate": 0.2439,
+  "issuers": 1406
  },
  "rate_by_first_maturity": {
   "0-3m": {
-   "count": 538,
-   "mean": 0.37
+   "count": 179,
+   "mean": 0.475
   },
   "3-6m": {
-   "count": 628,
-   "mean": 0.369
+   "count": 184,
+   "mean": 0.462
   },
   "6-12m": {
-   "count": 1081,
-   "mean": 0.309
+   "count": 341,
+   "mean": 0.399
   },
   "12-24m": {
-   "count": 1659,
-   "mean": 0.273
+   "count": 657,
+   "mean": 0.339
   },
   ">24m": {
-   "count": 5693,
-   "mean": 0.152
+   "count": 4158,
+   "mean": 0.196
   }
  },
  "rate_wall12_vs_not": {
-  "wall12": 0.3405,
-  "no_wall": 0.179,
-  "n_wall": 2247,
-  "n_no": 7352
+  "wall12": 0.4347,
+  "no_wall": 0.216,
+  "n_wall": 704,
+  "n_no": 4815
  },
  "non_serial": {
-  "n": 7917,
-  "rate": 0.1676,
-  "wall12": 0.2317,
-  "no_wall": 0.1531,
-  "n_wall": 1463
+  "n": 4198,
+  "rate": 0.1667,
+  "wall12": 0.3379,
+  "no_wall": 0.1467,
+  "n_wall": 441
  },
  "walk_forward": {
   "2018": {
-   "n": 636,
-   "events": 146,
-   "p_naive": 0.664,
-   "p_cad": 0.789,
-   "p_full": 0.794
+   "n": 236,
+   "events": 65,
+   "p_naive": 0.67,
+   "p_cad": 0.791,
+   "p_full": 0.81
   },
   "2019": {
-   "n": 637,
-   "events": 160,
-   "p_naive": 0.675,
-   "p_cad": 0.775,
-   "p_full": 0.791
+   "n": 215,
+   "events": 67,
+   "p_naive": 0.698,
+   "p_cad": 0.834,
+   "p_full": 0.838
   },
   "2020": {
-   "n": 705,
-   "events": 102,
-   "p_naive": 0.605,
-   "p_cad": 0.726,
-   "p_full": 0.74
+   "n": 283,
+   "events": 43,
+   "p_naive": 0.648,
+   "p_cad": 0.781,
+   "p_full": 0.829
   },
   "2021": {
-   "n": 720,
-   "events": 173,
-   "p_naive": 0.657,
-   "p_cad": 0.747,
-   "p_full": 0.751
+   "n": 355,
+   "events": 88,
+   "p_naive": 0.681,
+   "p_cad": 0.828,
+   "p_full": 0.819
   },
   "2022": {
-   "n": 922,
-   "events": 210,
-   "p_naive": 0.638,
-   "p_cad": 0.769,
-   "p_full": 0.763
+   "n": 552,
+   "events": 117,
+   "p_naive": 0.688,
+   "p_cad": 0.816,
+   "p_full": 0.81
   },
   "2023": {
-   "n": 1040,
-   "events": 180,
-   "p_naive": 0.684,
-   "p_cad": 0.818,
-   "p_full": 0.817
+   "n": 737,
+   "events": 128,
+   "p_naive": 0.699,
+   "p_cad": 0.833,
+   "p_full": 0.84
   },
   "2024": {
-   "n": 1013,
-   "events": 285,
+   "n": 824,
+   "events": 230,
    "p_naive": 0.715,
-   "p_cad": 0.813,
-   "p_full": 0.809
+   "p_cad": 0.833,
+   "p_full": 0.835
   },
   "2025": {
-   "n": 1046,
-   "events": 280,
-   "p_naive": 0.69,
-   "p_cad": 0.786,
-   "p_full": 0.789
+   "n": 982,
+   "events": 274,
+   "p_naive": 0.685,
+   "p_cad": 0.792,
+   "p_full": 0.805
   }
  },
  "pooled_auc": {
-  "p_naive": 0.667,
-  "p_cad": 0.777,
-  "p_full": 0.779
+  "p_naive": 0.684,
+  "p_cad": 0.812,
+  "p_full": 0.817
  },
  "non_serial_pooled_auc": {
-  "p_naive": 0.613,
-  "p_cad": 0.718,
-  "p_full": 0.722
+  "p_naive": 0.612,
+  "p_cad": 0.735,
+  "p_full": 0.754
  },
  "deciles": [
   {
    "dec": 1,
-   "count": 672,
-   "sum": 13,
+   "count": 419,
+   "sum": 8,
    "mean": 0.019
   },
   {
    "dec": 2,
-   "count": 672,
-   "sum": 30,
-   "mean": 0.045
+   "count": 418,
+   "sum": 12,
+   "mean": 0.029
   },
   {
    "dec": 3,
-   "count": 672,
-   "sum": 53,
-   "mean": 0.079
+   "count": 418,
+   "sum": 20,
+   "mean": 0.048
   },
   {
    "dec": 4,
-   "count": 672,
-   "sum": 85,
-   "mean": 0.126
+   "count": 419,
+   "sum": 55,
+   "mean": 0.131
   },
   {
    "dec": 5,
-   "count": 672,
-   "sum": 125,
-   "mean": 0.186
+   "count": 418,
+   "sum": 63,
+   "mean": 0.151
   },
   {
    "dec": 6,
-   "count": 671,
-   "sum": 147,
-   "mean": 0.219
+   "count": 418,
+   "sum": 77,
+   "mean": 0.184
   },
   {
    "dec": 7,
-   "count": 672,
-   "sum": 170,
-   "mean": 0.253
+   "count": 419,
+   "sum": 130,
+   "mean": 0.31
   },
   {
    "dec": 8,
-   "count": 672,
-   "sum": 203,
-   "mean": 0.302
+   "count": 418,
+   "sum": 148,
+   "mean": 0.354
   },
   {
    "dec": 9,
-   "count": 672,
-   "sum": 283,
-   "mean": 0.421
+   "count": 418,
+   "sum": 204,
+   "mean": 0.488
   },
   {
    "dec": 10,
-   "count": 672,
-   "sum": 427,
-   "mean": 0.635
+   "count": 419,
+   "sum": 295,
+   "mean": 0.704
   }
  ],
  "top": {
   "top5%": {
-   "rate": 0.714,
-   "lift": 3.12,
-   "capture": 0.156,
-   "n": 336
+   "rate": 0.781,
+   "lift": 3.23,
+   "capture": 0.162,
+   "n": 210
   },
   "top10%": {
-   "rate": 0.635,
-   "lift": 2.78,
-   "capture": 0.278,
-   "n": 672
+   "rate": 0.704,
+   "lift": 2.91,
+   "capture": 0.292,
+   "n": 419
   },
   "top25%": {
-   "rate": 0.492,
-   "lift": 2.15,
-   "capture": 0.538,
-   "n": 1680
+   "rate": 0.552,
+   "lift": 2.28,
+   "capture": 0.57,
+   "n": 1046
   }
  },
  "acceleration_events": {
@@ -403,32 +404,18 @@
   }
  },
  "distress_panel": {
-  "n": 9487,
-  "events": 15
- },
- "distress_auc_single": {
-  "w12": 0.885,
-  "lw12": 0.885,
-  "share12": 0.894,
-  "first_mat": 0.911,
-  "m_last": 0.212,
-  "n5": 0.523,
-  "lo": 0.585
- },
- "distress_rate_wall": {
-  "wall12": 0.0068,
-  "no_wall": 0.0,
-  "n_wall": 2198
+  "n": 5441,
+  "events": 5
  },
  "recovery_panel": {
-  "n": 9507,
-  "events": 33
+  "n": 5443,
+  "events": 16
  },
  "recovery_auc_single": {
-  "w12": 0.553,
-  "lw12": 0.553,
-  "share12": 0.541,
-  "lo": 0.725,
-  "n5": 0.649
+  "w12": 0.498,
+  "lw12": 0.498,
+  "share12": 0.499,
+  "lo": 0.656,
+  "n5": 0.623
  }
 }
