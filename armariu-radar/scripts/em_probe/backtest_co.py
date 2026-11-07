@@ -59,7 +59,7 @@ for l in links:
         yc = next((c for c in v.columns if c.startswith("AÑO_DE_APERTURA")), None)
         d = pd.DataFrame({"nit": v["NIT"].map(clean_nit), "snap": sd, "proceso": v.get("PROCESO"),
                           "adm": pd.to_datetime(v[adm], errors="coerce") if adm else pd.NaT,
-                          "open_year": pd.to_numeric(v[yc], errors="coerce") if yc else np.nan,
+                          "open_year": pd.to_numeric(v[yc], errors="coerce").where(lambda x: x.between(1990, 2026)) if yc else np.nan,
                           "cat": v.get("CATEGORIA"), "activo": v.get("ACTIVO"), "nombre": v.get("NOMBRE"), "ciiu": v.get("CIIU"), "macro": v.get("MACROSECTOR")})
         recs.append(d)
     log("ok", name, sd.date(), len(recs[-1]))
