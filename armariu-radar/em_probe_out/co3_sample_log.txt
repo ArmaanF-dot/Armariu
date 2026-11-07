@@ -1,80 +1,397 @@
-sampled nits 7031 event nits 1031
-chunk 0 1045
-chunk 150 3030
-chunk 300 3414
-chunk 450 2210
-chunk 600 4753
-chunk 750 1876
-chunk 900 1825
-chunk 1050 1630
-chunk 1200 6416
-chunk 1350 1694
-chunk 1500 2260
-chunk 1650 3861
-chunk 1800 3161
-chunk 1950 1785
-chunk 2100 7244
-chunk 2250 2013
-chunk 2400 2429
-chunk 2550 3779
-chunk 2700 646
-chunk 2850 2268
-chunk 3000 1662
-chunk 3150 686
-chunk 3300 2534
-chunk 3450 319
-chunk 3600 1281
-chunk 3750 728
-chunk 3900 657
-chunk 4050 351
-chunk 4200 4563
-chunk 4350 1356
-chunk 4500 1511
-chunk 4650 793
-chunk 4800 848
-chunk 4950 224
-chunk 5100 119
-chunk 5250 452
-chunk 5400 308
-chunk 5550 799
-chunk 5700 351
-chunk 5850 1585
-chunk 6000 413
-chunk 6150 20016
-chunk 6300 236
-chunk 6450 49
-chunk 6600 1317
-chunk 6750 229
-chunk 6900 2370
-raw invoices (103096, 7)
-payment panel (3036, 10)
-coverage: firm-years with any payment-plan record 0.0708 events covered 0.0999 n 2328
-Traceback (most recent call last):
-  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/em_probe/co3_sample.py", line 73, in <module>
-    S["age"] = ((pd.to_datetime(S.year.astype(str) + "-12-31") - S.fm).dt.days / 365).clip(0, 80); S["age"] = S.age.fillna(S.age.median()); S["young"] = (S.age < 5).astype(int)
-                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/ops/common.py", line 140, in new_method
-    return method(self, other)
-           ^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/arraylike.py", line 219, in __sub__
-    return self._arith_method(other, operator.sub)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/series.py", line 7388, in _arith_method
-    return base.IndexOpsMixin._arith_method(self, other, op)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/base.py", line 1717, in _arith_method
-    result = ops.arithmetic_op(lvalues, rvalues, op)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/ops/array_ops.py", line 282, in arithmetic_op
-    res_values = op(left, right)
-                 ^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/arrays/datetimelike.py", line 2017, in __array_ufunc__
-    return super().__array_ufunc__(ufunc, method, *inputs, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/arrays/base.py", line 2984, in __array_ufunc__
-    return arraylike.default_array_ufunc(self, ufunc, method, *inputs, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/core/arraylike.py", line 530, in default_array_ufunc
-    return getattr(ufunc, method)(*new_inputs, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-numpy._core._exceptions._UFuncBinaryResolutionError: ufunc 'subtract' cannot use operands with types dtype('<M8[us]') and dtype('float64')
+sampled nits 35695 event nits 1031
+chunk 0 9377
+chunk 150 1498
+chunk 300 1427
+chunk 450 1228
+chunk 600 2513
+chunk 750 5624
+chunk 900 12555
+chunk 1050 3106
+chunk 1200 2572
+chunk 1350 1263
+chunk 1500 1021
+chunk 1650 1168
+chunk 1800 1973
+chunk 1950 3732
+chunk 2100 1095
+chunk 2250 1075
+chunk 2400 2523
+chunk 2550 593
+chunk 2700 2265
+chunk 2850 5599
+chunk 3000 1907
+chunk 3150 2874
+chunk 3300 1349
+chunk 3450 4822
+chunk 3600 2933
+chunk 3750 1170
+chunk 3900 1536
+chunk 4050 3853
+chunk 4200 2396
+chunk 4350 1164
+chunk 4500 2013
+chunk 4650 899
+chunk 4800 2902
+chunk 4950 1306
+chunk 5100 2521
+chunk 5250 1791
+chunk 5400 5660
+chunk 5550 2189
+chunk 5700 1423
+chunk 5850 2380
+chunk 6000 233
+chunk 6150 2725
+chunk 6300 2541
+chunk 6450 7008
+chunk 6600 2951
+chunk 6750 1909
+chunk 6900 11934
+chunk 7050 4032
+chunk 7200 2350
+chunk 7350 1233
+chunk 7500 8818
+chunk 7650 2588
+chunk 7800 6081
+chunk 7950 2684
+chunk 8100 5838
+chunk 8250 3778
+chunk 8400 5891
+chunk 8550 1176
+chunk 8700 1995
+chunk 8850 1687
+chunk 9000 1706
+chunk 9150 1661
+chunk 9300 2721
+chunk 9450 3580
+chunk 9600 1843
+chunk 9750 1677
+chunk 9900 1284
+chunk 10050 2044
+chunk 10200 6265
+chunk 10350 1271
+chunk 10500 1056
+chunk 10650 1390
+chunk 10800 4688
+chunk 10950 11053
+chunk 11100 9030
+chunk 11250 1748
+chunk 11400 3164
+chunk 11550 3771
+chunk 11700 1907
+chunk 11850 1195
+chunk 12000 3255
+chunk 12150 1511
+chunk 12300 2635
+chunk 12450 2521
+chunk 12600 1386
+chunk 12750 3128
+chunk 12900 4184
+chunk 13050 1089
+chunk 13200 3252
+chunk 13350 2227
+chunk 13500 1782
+chunk 13650 6144
+chunk 13800 178
+chunk 13950 1227
+chunk 14100 5066
+chunk 14250 3007
+chunk 14400 4662
+chunk 14550 7950
+chunk 14700 2906
+chunk 14850 4265
+chunk 15000 1565
+chunk 15150 708
+chunk 15300 1546
+chunk 15450 1632
+chunk 15600 1136
+chunk 15750 1533
+chunk 15900 821
+chunk 16050 1942
+chunk 16200 647
+chunk 16350 843
+chunk 16500 698
+chunk 16650 1825
+chunk 16800 683
+chunk 16950 5451
+chunk 17100 440
+chunk 17250 1056
+chunk 17400 8042
+chunk 17550 171
+chunk 17700 5583
+chunk 17850 1863
+chunk 18000 1959
+chunk 18150 950
+chunk 18300 1200
+chunk 18450 1615
+chunk 18600 2099
+chunk 18750 857
+chunk 18900 1654
+chunk 19050 948
+chunk 19200 596
+chunk 19350 1542
+chunk 19500 1875
+chunk 19650 581
+chunk 19800 996
+chunk 19950 2818
+chunk 20100 1032
+chunk 20250 571
+chunk 20400 782
+chunk 20550 482
+chunk 20700 861
+chunk 20850 4573
+chunk 21000 944
+chunk 21150 2591
+chunk 21300 692
+chunk 21450 1429
+chunk 21600 1246
+chunk 21750 800
+chunk 21900 212
+chunk 22050 617
+chunk 22200 812
+chunk 22350 720
+chunk 22500 1447
+chunk 22650 3285
+chunk 22800 444
+chunk 22950 365
+chunk 23100 274
+chunk 23250 690
+chunk 23400 721
+chunk 23550 1371
+chunk 23700 1020
+chunk 23850 561
+chunk 24000 460
+chunk 24150 1025
+chunk 24300 974
+chunk 24450 348
+chunk 24600 460
+chunk 24750 1732
+chunk 24900 1322
+chunk 25050 196
+chunk 25200 138
+chunk 25350 190
+chunk 25500 543
+chunk 25650 130
+chunk 25800 1448
+chunk 25950 728
+chunk 26100 1193
+chunk 26250 725
+chunk 26400 328
+chunk 26550 286
+chunk 26700 247
+chunk 26850 13383
+chunk 27000 460
+chunk 27150 1899
+chunk 27300 352
+chunk 27450 969
+chunk 27600 6883
+chunk 27750 152
+chunk 27900 473
+chunk 28050 341
+chunk 28200 425
+chunk 28350 1575
+chunk 28500 634
+chunk 28650 187
+chunk 28800 9711
+chunk 28950 262
+chunk 29100 310
+chunk 29250 9044
+chunk 29400 757
+chunk 29550 736
+chunk 29700 444
+chunk 29850 315
+chunk 30000 361
+chunk 30150 490
+chunk 30300 121
+chunk 30450 3553
+chunk 30600 2981
+chunk 30750 250
+chunk 30900 19682
+chunk 31050 1078
+chunk 31200 1074
+chunk 31350 450
+chunk 31500 107
+chunk 31650 649
+chunk 31800 201
+chunk 31950 335
+chunk 32100 293
+chunk 32250 2481
+chunk 32400 3551
+chunk 32550 162
+chunk 32700 522
+chunk 32850 136
+chunk 33000 295
+chunk 33150 1603
+chunk 33300 95
+chunk 33450 84
+chunk 33600 449
+chunk 33750 54
+chunk 33900 2447
+chunk 34050 177
+chunk 34200 16
+chunk 34350 438
+chunk 34500 90
+chunk 34650 224
+chunk 34800 219
+chunk 34950 506
+chunk 35100 110
+chunk 35250 629
+chunk 35400 160
+chunk 35550 2275
+raw invoices (508726, 7)
+payment panel (13462, 10)
+coverage: firm-years with any payment-plan record 0.0644 events covered 0.0999 n 11238
+          n     cov   ev
+year                    
+2019  25086  0.0340  223
+2020  29170  0.0448  188
+2021  29018  0.0606  117
+2022  30970  0.0729  149
+2023  30841  0.0808  215
+2024  29475  0.0873  139
+all base {2022: 0.8359, 2023: 0.8557, 2024: 0.8525, 'pooled': 0.8481, 'top10x': np.float64(5.31), 'n': 91286, 'events': 503}
+all +payments {2022: 0.8379, 2023: 0.861, 2024: 0.8526, 'pooled': 0.8511, 'top10x': np.float64(5.29), 'n': 91286, 'events': 503}
+covered base {2022: 0.8948, 2023: 0.871, 2024: 0.8677, 'pooled': 0.8736, 'top10x': np.float64(6.51), 'n': 7321, 'events': 72}
+covered +payments {2022: 0.8957, 2023: 0.8816, 2024: 0.8643, 'pooled': 0.8775, 'top10x': np.float64(6.37), 'n': 7321, 'events': 72}
+paid>=3 base {2022: 0.9395, 2023: 0.8444, 2024: 0.8532, 'pooled': 0.8699, 'top10x': np.float64(5.91), 'n': 3915, 'events': 32}
+paid>=3 +payments {2022: 0.948, 2023: 0.8469, 2024: 0.8648, 'pooled': 0.8782, 'top10x': np.float64(5.6), 'n': 3915, 'events': 32}
+{
+ "all|base": {
+  "2022": 0.8359,
+  "2023": 0.8557,
+  "2024": 0.8525,
+  "pooled": 0.8481,
+  "top10x": 5.31,
+  "n": 91286,
+  "events": 503
+ },
+ "all|+payments": {
+  "2022": 0.8379,
+  "2023": 0.861,
+  "2024": 0.8526,
+  "pooled": 0.8511,
+  "top10x": 5.29,
+  "n": 91286,
+  "events": 503
+ },
+ "covered|base": {
+  "2022": 0.8948,
+  "2023": 0.871,
+  "2024": 0.8677,
+  "pooled": 0.8736,
+  "top10x": 6.51,
+  "n": 7321,
+  "events": 72
+ },
+ "covered|+payments": {
+  "2022": 0.8957,
+  "2023": 0.8816,
+  "2024": 0.8643,
+  "pooled": 0.8775,
+  "top10x": 6.37,
+  "n": 7321,
+  "events": 72
+ },
+ "paid3|base": {
+  "2022": 0.9395,
+  "2023": 0.8444,
+  "2024": 0.8532,
+  "pooled": 0.8699,
+  "top10x": 5.91,
+  "n": 3915,
+  "events": 32
+ },
+ "paid3|+payments": {
+  "2022": 0.948,
+  "2023": 0.8469,
+  "2024": 0.8648,
+  "pooled": 0.8782,
+  "top10x": 5.6,
+  "n": 3915,
+  "events": 32
+ },
+ "rate_by_overdue": [
+  {
+   "od_b": "none",
+   "mean": 0.0089,
+   "count": 3362,
+   "sum": 30
+  },
+  {
+   "od_b": "<=10%",
+   "mean": 0.0097,
+   "count": 411,
+   "sum": 4
+  },
+  {
+   "od_b": "10-30%",
+   "mean": 0.0046,
+   "count": 1298,
+   "sum": 6
+  },
+  {
+   "od_b": ">30%",
+   "mean": 0.0102,
+   "count": 6167,
+   "sum": 63
+  }
+ ],
+ "rate_by_delay": [
+  {
+   "dl_b": "on time/early",
+   "mean": 0.0077,
+   "count": 4425,
+   "sum": 34
+  },
+  {
+   "dl_b": "<=15d late",
+   "mean": 0.0102,
+   "count": 1764,
+   "sum": 18
+  },
+  {
+   "dl_b": "15-45d late",
+   "mean": 0.0073,
+   "count": 1370,
+   "sum": 10
+  },
+  {
+   "dl_b": ">45d late",
+   "mean": 0.0014,
+   "count": 702,
+   "sum": 1
+  }
+ ],
+ "base_rate_covered": 0.0092,
+ "overdue_within_score_quintile": [
+  [
+   0,
+   0.0,
+   1477,
+   0.0013
+  ],
+  [
+   1,
+   0.0027,
+   1477,
+   0.0013
+  ],
+  [
+   2,
+   0.0007,
+   1496,
+   0.0
+  ],
+  [
+   3,
+   0.0082,
+   1472,
+   0.0116
+  ],
+  [
+   4,
+   0.0337,
+   1543,
+   0.0326
+  ]
+ ]
+}
