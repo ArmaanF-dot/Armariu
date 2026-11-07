@@ -44,16 +44,16 @@ ok Base-Soporte-Insolvencia-2026-CORTE-NOVIEMBRE.xlsx 2026-11-30 5767
 ok Base-Soporte-Insolvencia-2026-CORTE-OCTUBRE.xlsx 2026-10-31 5699
 ok Base-Soporte-Insolvencia-2026-CORTE-SEPTIEMBRE.xlsx 2026-09-30 5669
 {'firms': 8506, 'files': 45, 'by_year': {1999: 1, 2001: 1, 2002: 2, 2004: 2, 2005: 1, 2006: 1, 2008: 8, 2009: 33, 2010: 40, 2011: 70, 2012: 84, 2013: 120, 2014: 147, 2015: 171, 2016: 232, 2017: 434, 2018: 770, 2019: 802, 2020: 885, 2021: 769, 2022: 697, 2023: 729, 2024: 922, 2025: 928, 2026: 657}, 'closed_before_latest': 2741, 'with_true_adm_date': 5857}
-pulled 2016 415212 293684 0 84
-pulled 2017 43548 252320 0 42
-pulled 2018 244415 246110 0 33
-pulled 2019 320067 320490 0 51
-pulled 2020 363336 372695 0 46
-pulled 2021 366283 363935 0 73
-pulled 2022 758282 752846 0 186
-pulled 2023 396756 393814 0 71
-pulled 2024 367600 364393 0 64
-pulled 2025 349436 342415 29161 51
+pulled 2016 415212 293684 0 96
+pulled 2017 43548 252320 0 31
+pulled 2018 244415 246110 0 27
+pulled 2019 320067 320490 0 56
+pulled 2020 363336 372695 0 50
+pulled 2021 366283 363935 0 59
+pulled 2022 758282 752846 0 143
+pulled 2023 396756 393814 0 63
+pulled 2024 367600 364393 0 71
+pulled 2025 349436 342415 29161 66
 {'net': 'Ganancia (p�rdida)', 'op': 'Ganancia (p�rdida) por actividades de operaci�n', 'ganancia_like': {'Ganancia (p�rdida), antes de impuestos': 268237, 'Ganancia (p�rdida) procedente de operaciones continuadas': 268237, 'Ganancia (p�rdida)': 268237, 'Ganancia (p�rdida) por actividades de operaci�n': 268214, 'Ganancia (p�rdida) procedente de operaciones discontinuadas': 44917, 'Ganancia (p�rdida), atribuible a los propietarios de la controladora': 8767, 'Ganancia (p�rdida) acumulada anteriormente reconocida en otro resultado integral que surge de la reclasificaci�n de activos financieros de la categor�a de medici�n de valor razonable con cambios en otro resultado integral a la de valor razonable con camb': 5549, 'Ganancia (p�rdida), atribuible a participaciones no controladoras': 5199}}
 features (247752, 38)
 2019 {'firms': 24271, 'events': 217, 'auc_base': 0.738, 'auc_lr': 0.811, 'auc_gb': 0.862, 'auc_ens': 0.852}
@@ -62,42 +62,69 @@ features (247752, 38)
 2022 {'firms': 29370, 'events': 137, 'auc_base': 0.749, 'auc_lr': 0.813, 'auc_gb': 0.856, 'auc_ens': 0.844}
 2023 {'firms': 29535, 'events': 197, 'auc_base': 0.74, 'auc_lr': 0.818, 'auc_gb': 0.863, 'auc_ens': 0.85}
 2024 {'firms': 27371, 'events': 129, 'auc_base': 0.754, 'auc_lr': 0.833, 'auc_gb': 0.873, 'auc_ens': 0.863}
-retry https://www.datos.gov.co/resource/jbjy-vk9h.json?%24select=documento_proveedor+as+nit%2C+date_extract_y%28fech <HTTPError 400: 'Bad Request'>
-retry https://www.datos.gov.co/resource/jbjy-vk9h.json?%24select=documento_proveedor+as+nit%2C+date_extract_y%28fech <HTTPError 400: 'Bad Request'>
-retry https://www.datos.gov.co/resource/jbjy-vk9h.json?%24select=documento_proveedor+as+nit%2C+date_extract_y%28fech <HTTPError 400: 'Bad Request'>
-retry https://www.datos.gov.co/resource/jbjy-vk9h.json?%24select=documento_proveedor+as+nit%2C+date_extract_y%28fech <HTTPError 400: 'Bad Request'>
-secop failed https://www.datos.gov.co/resource/jbjy-vk9h.json?%24select=documento_proveedor+as+nit%2C+date_extract_y%28fecha_de_firma%29+as+y%2C+sum%28valor_del_contrato%29+as+v%2C+count%28%2A%29+as+n&%24where=tipodocproveedor%3D%27NIT%27+AND+fecha_de_firma%3E%3D%272016-01-01T00%3A00%3A00%27&%24group=documento_proveedor%2C+y&%24limit=50000&%24offset=0&%24order=%3Aid
-Traceback (most recent call last):
-  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/em_probe/backtest_co.py", line 272, in <module>
-    fmt(watch).to_excel(xw, "Distress watchlist", index=False)
-TypeError: NDFrame.to_excel() takes 2 positional arguments but 3 positional arguments (and 1 keyword-only argument) were given
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/em_probe/backtest_co.py", line 271, in <module>
-    with pd.ExcelWriter(f"{OUT}/colombia-lead-list.xlsx") as xw:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 1458, in __exit__
-    self.close()
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 1462, in close
-    self._save()
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/pandas/io/excel/_openpyxl.py", line 109, in _save
-    self.book.save(self._handles.handle)
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/openpyxl/workbook/workbook.py", line 386, in save
-    save_workbook(self, filename)
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/openpyxl/writer/excel.py", line 294, in save_workbook
-    writer.save()
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/openpyxl/writer/excel.py", line 275, in save
-    self.write_data()
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/openpyxl/writer/excel.py", line 89, in write_data
-    archive.writestr(ARC_WORKBOOK, writer.write())
-                                   ^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/openpyxl/workbook/_writer.py", line 150, in write
-    self.write_views()
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/openpyxl/workbook/_writer.py", line 137, in write_views
-    active = get_active_sheet(self.wb)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/openpyxl/workbook/_writer.py", line 35, in get_active_sheet
-    raise IndexError("At least one sheet must be visible")
-IndexError: At least one sheet must be visible
+secop 278580 71
+{'share_firms_with_public_contracts': np.float64(0.077), 'event_rate_with_pub': np.float64(0.008), 'event_rate_without_pub': np.float64(0.0056), 'auc_stage1': 0.85, 'auc_with_public_contracts': 0.851}
+done
+{
+ "pooled": {
+  "base": 0.749,
+  "lr": 0.823,
+  "gb": 0.861,
+  "ens": 0.85
+ },
+ "by_band": {
+  "<$5m": {
+   "firms": 111064,
+   "events": 551,
+   "base_rate": 0.005,
+   "auc_base": 0.765,
+   "auc_lr": 0.825,
+   "auc_gb": 0.857,
+   "auc_ens": 0.849
+  },
+  "$5-20m": {
+   "firms": 37982,
+   "events": 287,
+   "base_rate": 0.0076,
+   "auc_base": 0.726,
+   "auc_lr": 0.814,
+   "auc_gb": 0.862,
+   "auc_ens": 0.846
+  },
+  ">$20m": {
+   "firms": 16475,
+   "events": 123,
+   "base_rate": 0.0075,
+   "auc_base": 0.714,
+   "auc_lr": 0.817,
+   "auc_gb": 0.86,
+   "auc_ens": 0.855
+  }
+ },
+ "top_buckets_pooled": {
+  "top1%": {
+   "rate": 0.067,
+   "lift": 11.54,
+   "capture": 0.116,
+   "n": 1656
+  },
+  "top5%": {
+   "rate": 0.0424,
+   "lift": 7.3,
+   "capture": 0.365,
+   "n": 8277
+  },
+  "top10%": {
+   "rate": 0.0304,
+   "lift": 5.23,
+   "capture": 0.523,
+   "n": 16553
+  },
+  "top25%": {
+   "rate": 0.0181,
+   "lift": 3.13,
+   "capture": 0.781,
+   "n": 41381
+  }
+ }
+}

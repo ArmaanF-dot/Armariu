@@ -1,0 +1,329 @@
+{
+ "by_year": {
+  "2019": {
+   "firms": 24271,
+   "events": 217,
+   "auc_base": 0.738,
+   "auc_lr": 0.811,
+   "auc_gb": 0.862,
+   "auc_ens": 0.852
+  },
+  "2020": {
+   "firms": 27517,
+   "events": 172,
+   "auc_base": 0.757,
+   "auc_lr": 0.826,
+   "auc_gb": 0.854,
+   "auc_ens": 0.851
+  },
+  "2021": {
+   "firms": 27457,
+   "events": 109,
+   "auc_base": 0.761,
+   "auc_lr": 0.823,
+   "auc_gb": 0.845,
+   "auc_ens": 0.843
+  },
+  "2022": {
+   "firms": 29370,
+   "events": 137,
+   "auc_base": 0.749,
+   "auc_lr": 0.813,
+   "auc_gb": 0.856,
+   "auc_ens": 0.844
+  },
+  "2023": {
+   "firms": 29535,
+   "events": 197,
+   "auc_base": 0.74,
+   "auc_lr": 0.818,
+   "auc_gb": 0.863,
+   "auc_ens": 0.85
+  },
+  "2024": {
+   "firms": 27371,
+   "events": 129,
+   "auc_base": 0.754,
+   "auc_lr": 0.833,
+   "auc_gb": 0.873,
+   "auc_ens": 0.863
+  }
+ },
+ "pooled": {
+  "base": 0.749,
+  "lr": 0.823,
+  "gb": 0.861,
+  "ens": 0.85
+ },
+ "by_band": {
+  "<$5m": {
+   "firms": 111064,
+   "events": 551,
+   "base_rate": 0.005,
+   "auc_base": 0.765,
+   "auc_lr": 0.825,
+   "auc_gb": 0.857,
+   "auc_ens": 0.849
+  },
+  "$5-20m": {
+   "firms": 37982,
+   "events": 287,
+   "base_rate": 0.0076,
+   "auc_base": 0.726,
+   "auc_lr": 0.814,
+   "auc_gb": 0.862,
+   "auc_ens": 0.846
+  },
+  ">$20m": {
+   "firms": 16475,
+   "events": 123,
+   "base_rate": 0.0075,
+   "auc_base": 0.714,
+   "auc_lr": 0.817,
+   "auc_gb": 0.86,
+   "auc_ens": 0.855
+  }
+ },
+ "deciles_pooled": [
+  {
+   "dec": 1,
+   "count": 16553,
+   "events": 2,
+   "rate": 0.0001,
+   "lift": 0.0208
+  },
+  {
+   "dec": 2,
+   "count": 16552,
+   "events": 1,
+   "rate": 0.0001,
+   "lift": 0.0104
+  },
+  {
+   "dec": 3,
+   "count": 16552,
+   "events": 8,
+   "rate": 0.0005,
+   "lift": 0.0832
+  },
+  {
+   "dec": 4,
+   "count": 16552,
+   "events": 11,
+   "rate": 0.0007,
+   "lift": 0.1145
+  },
+  {
+   "dec": 5,
+   "count": 16552,
+   "events": 27,
+   "rate": 0.0016,
+   "lift": 0.281
+  },
+  {
+   "dec": 6,
+   "count": 16552,
+   "events": 51,
+   "rate": 0.0031,
+   "lift": 0.5307
+  },
+  {
+   "dec": 7,
+   "count": 16552,
+   "events": 57,
+   "rate": 0.0034,
+   "lift": 0.5931
+  },
+  {
+   "dec": 8,
+   "count": 16552,
+   "events": 106,
+   "rate": 0.0064,
+   "lift": 1.103
+  },
+  {
+   "dec": 9,
+   "count": 16552,
+   "events": 195,
+   "rate": 0.0118,
+   "lift": 2.0291
+  },
+  {
+   "dec": 10,
+   "count": 16552,
+   "events": 503,
+   "rate": 0.0304,
+   "lift": 5.2342
+  }
+ ],
+ "top_buckets_pooled": {
+  "top1%": {
+   "rate": 0.067,
+   "lift": 11.54,
+   "capture": 0.116,
+   "n": 1656
+  },
+  "top5%": {
+   "rate": 0.0424,
+   "lift": 7.3,
+   "capture": 0.365,
+   "n": 8277
+  },
+  "top10%": {
+   "rate": 0.0304,
+   "lift": 5.23,
+   "capture": 0.523,
+   "n": 16553
+  },
+  "top25%": {
+   "rate": 0.0181,
+   "lift": 3.13,
+   "capture": 0.781,
+   "n": 41381
+  }
+ },
+ "deciles_over20m": [
+  {
+   "dec": 1,
+   "count": 1648,
+   "events": 0,
+   "rate": 0.0,
+   "lift": 0.0
+  },
+  {
+   "dec": 2,
+   "count": 1647,
+   "events": 0,
+   "rate": 0.0,
+   "lift": 0.0
+  },
+  {
+   "dec": 3,
+   "count": 1648,
+   "events": 3,
+   "rate": 0.0018,
+   "lift": 0.2438
+  },
+  {
+   "dec": 4,
+   "count": 1647,
+   "events": 1,
+   "rate": 0.0006,
+   "lift": 0.0813
+  },
+  {
+   "dec": 5,
+   "count": 1648,
+   "events": 1,
+   "rate": 0.0006,
+   "lift": 0.0813
+  },
+  {
+   "dec": 6,
+   "count": 1647,
+   "events": 5,
+   "rate": 0.003,
+   "lift": 0.4066
+  },
+  {
+   "dec": 7,
+   "count": 1647,
+   "events": 3,
+   "rate": 0.0018,
+   "lift": 0.244
+  },
+  {
+   "dec": 8,
+   "count": 1648,
+   "events": 21,
+   "rate": 0.0127,
+   "lift": 1.7068
+  },
+  {
+   "dec": 9,
+   "count": 1647,
+   "events": 26,
+   "rate": 0.0158,
+   "lift": 2.1145
+  },
+  {
+   "dec": 10,
+   "count": 1648,
+   "events": 63,
+   "rate": 0.0382,
+   "lift": 5.1204
+  }
+ ],
+ "top_buckets_over20m": {
+  "top5%": {
+   "rate": 0.0473,
+   "lift": 6.34,
+   "capture": 0.317,
+   "n": 824
+  },
+  "top10%": {
+   "rate": 0.0382,
+   "lift": 5.12,
+   "capture": 0.512,
+   "n": 1648
+  },
+  "top25%": {
+   "rate": 0.024,
+   "lift": 3.22,
+   "capture": 0.805,
+   "n": 4119
+  }
+ },
+ "event_timing_months_after_Jan_of_Y+1": {
+  "count": 961.0,
+  "mean": 10.1,
+  "std": 3.6,
+  "min": 5.0,
+  "25%": 6.6,
+  "50%": 9.2,
+  "75%": 13.4,
+  "max": 17.0
+ },
+ "secop": {
+  "share_firms_with_public_contracts": 0.077,
+  "event_rate_with_pub": 0.008,
+  "event_rate_without_pub": 0.0056,
+  "auc_stage1": 0.85,
+  "auc_with_public_contracts": 0.851
+ },
+ "lr_coefficients_std": {
+  "lev": 0.89,
+  "cur": -0.103,
+  "cash_a": -1.178,
+  "cash_cl": -0.225,
+  "roa": -0.251,
+  "opm": 0.01,
+  "int_burden": -0.004,
+  "icr": -0.339,
+  "cl_share": -0.126,
+  "neg_eq": -0.21,
+  "loss": 0.281,
+  "asset_turn": -0.137,
+  "fin_a": 0.163,
+  "log_a": 0.19,
+  "rev_growth": -0.112,
+  "asset_growth": -0.017,
+  "lev_chg": -0.007,
+  "loss_prev": -0.165,
+  "roa_prev": -0.142
+ },
+ "lead_universe": {
+  "firms_2025_total": 29165,
+  "firms_over_20m_not_in_insolvency": 3415
+ },
+ "lead_counts": {
+  "watchlist": 150,
+  "borrower_candidates": 150
+ },
+ "watchlist_top_decile_rate_backtest": {
+  "rate": 0.0382,
+  "lift": 5.12,
+  "capture": 0.512,
+  "n": 1648
+ }
+}
