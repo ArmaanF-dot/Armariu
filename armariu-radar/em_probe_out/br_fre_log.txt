@@ -86,14 +86,14 @@
  },
  "rate_wall_gt_cash": {
   "false": {
-   "count": 4915,
-   "sum": 62,
-   "mean": 0.0126
+   "count": 5267,
+   "sum": 66,
+   "mean": 0.0125
   },
   "true": {
-   "count": 610,
-   "sum": 8,
-   "mean": 0.0131
+   "count": 258,
+   "sum": 4,
+   "mean": 0.0155
   }
  },
  "rate_curdebt_gt_cash": {
@@ -110,6 +110,6 @@
  },
  "cv_auc": {
   "dfp_only": 0.616,
-  "dfp_plus_fre_wall": 0.627
+  "dfp_plus_fre_wall": 0.614
  }
 }
