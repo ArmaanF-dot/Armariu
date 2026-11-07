@@ -1,0 +1,138 @@
+{
+ "years": {
+  "2016": {
+   "fre_rows": 2193
+  },
+  "2017": {
+   "fre_rows": 2463
+  },
+  "2018": {
+   "fre_rows": 2910
+  },
+  "2019": {
+   "fre_rows": 2960
+  },
+  "2020": {
+   "fre_rows": 3414
+  },
+  "2021": {
+   "fre_rows": 4207
+  },
+  "2022": {
+   "err": "ParserError('Error tokenizing data. C error: Expected 24 fields in line 3813, saw 26\\n')"
+  },
+  "2023": {
+   "err": "ParserError('Error tokenizing data. C error: Expected 24 fields in line 2463, saw 26\\n')"
+  },
+  "2024": {
+   "err": "ParserError('Error tokenizing data. C error: Expected 24 fields in line 2547, saw 26\\n')"
+  },
+  "2025": {
+   "err": "ParserError('Error tokenizing data. C error: Expected 24 fields in line 2531, saw 26\\n')"
+  }
+ },
+ "fre": {
+  "debt_rows": 8139,
+  "with_maturity": 7922,
+  "with_balance": 8139,
+  "companies": 496,
+  "companies_with_future_maturity_by_year": {
+   "2016": 257,
+   "2017": 257,
+   "2018": 272,
+   "2019": 292,
+   "2020": 322,
+   "2021": 372
+  },
+  "instrument_types": {
+   "Debêntures": 6138,
+   "Certificado de Recebíveis do Agronegócio": 1123,
+   "Nota Comercial": 566,
+   "Letras Financeiras": 211,
+   "Debêntures Conversíveis": 101
+  }
+ },
+ "panel": {
+  "company_years": 3761,
+  "events": 45,
+  "base_rate": 0.012,
+  "companies": 881,
+  "with_fre_wall": 322
+ },
+ "auc_single": {
+  "lev": {
+   "auc": 0.529,
+   "n": 3761,
+   "events": 45
+  },
+  "cd_cash": {
+   "auc": 0.672,
+   "n": 3424,
+   "events": 41
+  },
+  "cd_assets": {
+   "auc": 0.596,
+   "n": 3519,
+   "events": 45
+  },
+  "wall_cash": {
+   "auc": 0.493,
+   "n": 3651,
+   "events": 41
+  },
+  "wall_assets": {
+   "auc": 0.491,
+   "n": 3761,
+   "events": 45
+  },
+  "fre_wall12": {
+   "auc": 0.49,
+   "n": 3761,
+   "events": 45
+  },
+  "cur_ratio": {
+   "auc": 0.718,
+   "n": 3653,
+   "events": 45
+  },
+  "eq_a": {
+   "auc": 0.66,
+   "n": 3761,
+   "events": 45
+  }
+ },
+ "rate_wall_gt_cash": {
+  "false": {
+   "count": 3338,
+   "sum": 38,
+   "mean": 0.0114
+  },
+  "true": {
+   "count": 313,
+   "sum": 3,
+   "mean": 0.0096
+  }
+ },
+ "rate_curdebt_gt_cash": {
+  "false": {
+   "count": 2109,
+   "sum": 12,
+   "mean": 0.0057
+  },
+  "true": {
+   "count": 1542,
+   "sum": 29,
+   "mean": 0.0188
+  }
+ },
+ "rate_among_with_fre_debt": {
+  "n": 1279,
+  "events": 12,
+  "rate_wall_gt_cash": 0.0096,
+  "rate_other": 0.0093
+ },
+ "cv_auc": {
+  "dfp_only": 0.648,
+  "dfp_plus_fre_wall": 0.614
+ }
+}
