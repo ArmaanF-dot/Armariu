@@ -28,7 +28,7 @@ PP = "uymx-8p3j"
 #log("share with real pay date and due date among paid", soda(PP, {"$select": "count(*) as n", "$where": "estado='Pagado' AND fecha_real_de_pago IS NOT NULL AND fecha_de_vencimiento IS NOT NULL"}))
 S0 = pd.read_csv(f"{OUT}/co_backtest_scored.csv.gz"); S0["nit"] = S0["nit"].astype("int64").astype(str)
 ev_nits = set(S0[S0.y == 1].nit); rng = np.random.RandomState(7)
-others = np.array(sorted(set(S0.nit) - ev_nits)); samp = set(rng.choice(others, 6000, replace=False))
+others = np.array(sorted(set(S0.nit) - ev_nits)); samp = set(others)
 nits = sorted(ev_nits | samp); log("sampled nits", len(nits), "event nits", len(ev_nits))
 cols = "documento_proveedor,fecha_de_emision,fecha_de_vencimiento,fecha_real_de_pago,estado,valor_total_de_la_factura,nit_entidad"
 rows = []
@@ -70,7 +70,6 @@ S["log_od_v"] = np.log1p(S.od_v / 4e6)  # USD
 S["log_inv_v"] = np.log1p(S.inv_v / 4e6)
 S["gov_rev_ratio"] = (S.inv_v / 4e6) / (S.usd_assets_m * 1e6).clip(1)
 S["lgr"] = np.log1p(S.gov_rev_ratio.clip(0, 20))
-S["age"] = ((pd.to_datetime(S.year.astype(str) + "-12-31") - S.fm).dt.days / 365).clip(0, 80); S["age"] = S.age.fillna(S.age.median()); S["young"] = (S.age < 5).astype(int)
 S["is_sas"] = S.ts.fillna("").str.contains("SIMPLIFICADA|SAS", case=False).astype(int)
 # sanity on leakage: payments flag by year
 log(S.groupby("year").agg(n=("y", "size"), cov=("has_pay", "mean"), ev=("y", "sum")).round(4).to_string())
@@ -85,7 +84,7 @@ def run(feats, name, mask=None, years=(2022, 2023, 2024)):
         p = m.predict_proba((te[feats] - mu) / sd)[:, 1]
         res[T] = round(roc_auc_score(te.y, p), 4); allp.append(pd.DataFrame({"y": te.y.values, "p": p, "year": T}))
     a = pd.concat(allp); res["pooled"] = round(roc_auc_score(a.y, a.p), 4)
-    top = a[a.p >= a.groupby("year").p.transform(lambda s: s.quantile(.9))]; res["n"] = len(a); res["events"] = int(a.y.sum())
+    top = a[a.p >= a.groupby("year").p.transform(lambda s: s.quantile(.9))]; res["top10x"] = round(top.y.mean() / a.y.mean(), 2); res["n"] = len(a); res["events"] = int(a.y.sum())
     log(name, res); return res
 R_ = {}
 pay = ["mean_delay", "late_share", "od_share", "log_od_v", "log_inv_v", "lgr", "has_pay"]
