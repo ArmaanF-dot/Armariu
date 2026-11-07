@@ -1,0 +1,136 @@
+{
+ "panel": 5519,
+ "events": 1346,
+ "walk_forward": {
+  "2019": {
+   "n": 215,
+   "base": 0.312,
+   "auc": 0.838,
+   "top25_hit": 0.76,
+   "top50_hit": 0.64,
+   "top100_hit": 0.57,
+   "top50_ex_securitisers_hit": 0.64
+  },
+  "2020": {
+   "n": 283,
+   "base": 0.152,
+   "auc": 0.829,
+   "top25_hit": 0.56,
+   "top50_hit": 0.44,
+   "top100_hit": 0.34,
+   "top50_ex_securitisers_hit": 0.44
+  },
+  "2021": {
+   "n": 355,
+   "base": 0.248,
+   "auc": 0.819,
+   "top25_hit": 0.68,
+   "top50_hit": 0.68,
+   "top100_hit": 0.57,
+   "top50_ex_securitisers_hit": 0.66
+  },
+  "2022": {
+   "n": 552,
+   "base": 0.212,
+   "auc": 0.81,
+   "top25_hit": 0.76,
+   "top50_hit": 0.74,
+   "top100_hit": 0.55,
+   "top50_ex_securitisers_hit": 0.74
+  },
+  "2023": {
+   "n": 737,
+   "base": 0.174,
+   "auc": 0.84,
+   "top25_hit": 0.56,
+   "top50_hit": 0.62,
+   "top100_hit": 0.58,
+   "top50_ex_securitisers_hit": 0.62
+  },
+  "2024": {
+   "n": 824,
+   "base": 0.279,
+   "auc": 0.835,
+   "top25_hit": 0.88,
+   "top50_hit": 0.88,
+   "top100_hit": 0.81,
+   "top50_ex_securitisers_hit": 0.88
+  },
+  "2025": {
+   "n": 982,
+   "base": 0.279,
+   "auc": 0.805,
+   "top25_hit": 0.92,
+   "top50_hit": 0.86,
+   "top100_hit": 0.79,
+   "top50_ex_securitisers_hit": 0.84
+  }
+ },
+ "calibration_by_decile": [
+  {
+   "dec": 1,
+   "avg_p": 0.014,
+   "hit": 0.02,
+   "n": 395
+  },
+  {
+   "dec": 2,
+   "avg_p": 0.029,
+   "hit": 0.028,
+   "n": 395
+  },
+  {
+   "dec": 3,
+   "avg_p": 0.054,
+   "hit": 0.048,
+   "n": 395
+  },
+  {
+   "dec": 4,
+   "avg_p": 0.095,
+   "hit": 0.135,
+   "n": 394
+  },
+  {
+   "dec": 5,
+   "avg_p": 0.139,
+   "hit": 0.144,
+   "n": 395
+  },
+  {
+   "dec": 6,
+   "avg_p": 0.189,
+   "hit": 0.187,
+   "n": 395
+  },
+  {
+   "dec": 7,
+   "avg_p": 0.252,
+   "hit": 0.302,
+   "n": 394
+  },
+  {
+   "dec": 8,
+   "avg_p": 0.331,
+   "hit": 0.339,
+   "n": 395
+  },
+  {
+   "dec": 9,
+   "avg_p": 0.442,
+   "hit": 0.491,
+   "n": 395
+  },
+  {
+   "dec": 10,
+   "avg_p": 0.645,
+   "hit": 0.704,
+   "n": 395
+  }
+ ],
+ "scored_today": {
+  "issuers": 1088,
+  "operating": 1037,
+  "with_12m_maturity": 242
+ }
+}

@@ -1,0 +1,149 @@
+{
+ "panel": 5519,
+ "events": 1346,
+ "walk_forward": {
+  "2019": {
+   "n": 215,
+   "base": 0.312,
+   "auc": 0.838,
+   "top25_hit": 0.76,
+   "top50_hit": 0.64,
+   "top100_hit": 0.57,
+   "top50_ex_securitisers_hit": 0.64
+  },
+  "2020": {
+   "n": 283,
+   "base": 0.152,
+   "auc": 0.829,
+   "top25_hit": 0.56,
+   "top50_hit": 0.44,
+   "top100_hit": 0.34,
+   "top50_ex_securitisers_hit": 0.44
+  },
+  "2021": {
+   "n": 355,
+   "base": 0.248,
+   "auc": 0.819,
+   "top25_hit": 0.68,
+   "top50_hit": 0.68,
+   "top100_hit": 0.57,
+   "top50_ex_securitisers_hit": 0.66
+  },
+  "2022": {
+   "n": 552,
+   "base": 0.212,
+   "auc": 0.81,
+   "top25_hit": 0.76,
+   "top50_hit": 0.74,
+   "top100_hit": 0.55,
+   "top50_ex_securitisers_hit": 0.74
+  },
+  "2023": {
+   "n": 737,
+   "base": 0.174,
+   "auc": 0.84,
+   "top25_hit": 0.56,
+   "top50_hit": 0.62,
+   "top100_hit": 0.58,
+   "top50_ex_securitisers_hit": 0.62
+  },
+  "2024": {
+   "n": 824,
+   "base": 0.279,
+   "auc": 0.835,
+   "top25_hit": 0.88,
+   "top50_hit": 0.88,
+   "top100_hit": 0.81,
+   "top50_ex_securitisers_hit": 0.88
+  },
+  "2025": {
+   "n": 982,
+   "base": 0.279,
+   "auc": 0.805,
+   "top25_hit": 0.92,
+   "top50_hit": 0.86,
+   "top100_hit": 0.79,
+   "top50_ex_securitisers_hit": 0.84
+  }
+ },
+ "calibration_by_decile": [
+  {
+   "dec": 1,
+   "avg_p": 0.014,
+   "hit": 0.02,
+   "n": 395
+  },
+  {
+   "dec": 2,
+   "avg_p": 0.029,
+   "hit": 0.028,
+   "n": 395
+  },
+  {
+   "dec": 3,
+   "avg_p": 0.054,
+   "hit": 0.048,
+   "n": 395
+  },
+  {
+   "dec": 4,
+   "avg_p": 0.095,
+   "hit": 0.135,
+   "n": 394
+  },
+  {
+   "dec": 5,
+   "avg_p": 0.139,
+   "hit": 0.144,
+   "n": 395
+  },
+  {
+   "dec": 6,
+   "avg_p": 0.189,
+   "hit": 0.187,
+   "n": 395
+  },
+  {
+   "dec": 7,
+   "avg_p": 0.252,
+   "hit": 0.302,
+   "n": 394
+  },
+  {
+   "dec": 8,
+   "avg_p": 0.331,
+   "hit": 0.339,
+   "n": 395
+  },
+  {
+   "dec": 9,
+   "avg_p": 0.442,
+   "hit": 0.491,
+   "n": 395
+  },
+  {
+   "dec": 10,
+   "avg_p": 0.645,
+   "hit": 0.704,
+   "n": 395
+  }
+ ],
+ "scored_today": {
+  "issuers": 1088,
+  "operating": 1037,
+  "with_12m_maturity": 242
+ }
+}
+                                                 issuer     p                                                                                                                           reasons                                  lead
+84                                           HYPERA S/A  0.88    first maturity in 3 months; BRL 500m of issue size matures within 12 months; issues about every 5 months; 10 series in 5 years                BANCO BRADESCO BBI S/A
+54            EDP SAO PAULO DISTRIBUICAO DE ENERGIA S/A  0.87    first maturity in 1 months; BRL 900m of issue size matures within 12 months; issues about every 7 months; 11 series in 5 years                BANCO BRADESCO BBI S/A
+258               ECORODOVIAS CONCESSOES E SERVICOS S/A  0.87  first maturity in 9 months; BRL 1,050m of issue size matures within 12 months; issues about every 5 months; 10 series in 5 years  BTG PACTUAL INVESTMENT BANKING LTDA.
+1048                     UNIDAS LOCACOES E SERVICOS S/A  0.87    first maturity in 1 months; BRL 550m of issue size matures within 12 months; issues about every 5 months; 12 series in 5 years                      UBS BB CCTVM S/A
+554                                   VIBRA ENERGIA S.A  0.86                                                                                 issues about every 6 months; 10 series in 5 years             ITAU UNIBANCO HOLDING S.A
+381   COMPANHIA DE SANEAMENTO DE MINAS GERAIS COPASA MG  0.86                                                                                 issues about every 5 months; 12 series in 5 years                BANCO BRADESCO BBI S/A
+336         ASCENTY DATA CENTERS E TELECOMUNICACOES S/A  0.86                                                                                 issues about every 4 months; 10 series in 5 years                BANCO BRADESCO BBI S/A
+300            COMPANHIA ENERGETICA DE PERNAMBUCO-CELPE  0.86    first maturity in 5 months; BRL 470m of issue size matures within 12 months; issues about every 4 months; 12 series in 5 years  BTG PACTUAL INVESTMENT BANKING LTDA.
+125                             COPEL  DISTRIBUICAO S/A  0.86  first maturity in 6 months; BRL 1,701m of issue size matures within 12 months; issues about every 6 months; 13 series in 5 years            XP INVESTIMENTOS CCTVM S/A
+199            SMARTFIT ESCOLA DE GINASTICA E DANCA S/A  0.86                                                                                 issues about every 3 months; 15 series in 5 years             ITAU UNIBANCO HOLDING S.A
+205               GIGA MAIS FIBRA TELECOMUNICACOES S.A.  0.86    first maturity in 7 months; BRL 180m of issue size matures within 12 months; issues about every 6 months; 12 series in 5 years                      UBS BB CCTVM S/A
+178                              CEMIG DISTRIBUICAO S/A  0.85    first maturity in 7 months; BRL 500m of issue size matures within 12 months; issues about every 5 months; 16 series in 5 years            XP INVESTIMENTOS CCTVM S/A
