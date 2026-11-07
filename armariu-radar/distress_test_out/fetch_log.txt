@@ -33,3 +33,24 @@
 05:22:47 live: 15,500 fetched, 15,537 calls
 05:27:56 live: 16,000 fetched, 16,039 calls
 05:33:03 live: 16,500 fetched, 16,542 calls
+05:37:40 dissolved: 0 days done, 0 companies checked
+05:37:43 day 2023-12-13: 137 dissolved, 26 kept, 9 with charges; total checked 26
+05:37:45 day 2023-07-28: 42 dissolved, 7 kept, 3 with charges; total checked 33
+05:37:47 day 2026-05-06: 114 dissolved, 18 kept, 3 with charges; total checked 51
+05:37:47 day 2025-10-27: 0 dissolved, 0 kept, 0 with charges; total checked 51
+05:37:50 day 2025-11-26: 154 dissolved, 22 kept, 7 with charges; total checked 73
+05:37:52 day 2023-02-10: 90 dissolved, 19 kept, 5 with charges; total checked 92
+05:37:54 day 2022-12-09: 62 dissolved, 12 kept, 4 with charges; total checked 104
+05:37:54 day 2023-10-08: 1 dissolved, 0 kept, 0 with charges; total checked 104
+05:37:54 day 2022-07-17: 0 dissolved, 0 kept, 0 with charges; total checked 104
+05:37:54 day 2023-12-06: 23 dissolved, 3 kept, 0 with charges; total checked 107
+05:37:54 day 2025-04-25: 0 dissolved, 0 kept, 0 with charges; total checked 107
+05:37:56 day 2025-01-09: 90 dissolved, 13 kept, 4 with charges; total checked 120
+05:37:59 day 2026-07-04: 144 dissolved, 23 kept, 4 with charges; total checked 143
+05:37:59 day 2022-10-10: 0 dissolved, 0 kept, 0 with charges; total checked 143
+05:38:04 day 2025-09-11: 210 dissolved, 37 kept, 14 with charges; total checked 180
+05:38:04 day 2023-09-03: 0 dissolved, 0 kept, 0 with charges; total checked 180
+05:38:07 day 2024-05-27: 96 dissolved, 18 kept, 4 with charges; total checked 198
+05:38:11 day 2024-08-16: 155 dissolved, 32 kept, 12 with charges; total checked 230
+05:38:14 day 2022-10-13: 85 dissolved, 20 kept, 7 with charges; total checked 250
+05:38:14 day 2025-04-26: 0 dissolved, 0 kept, 0 with charges; total checked 250
