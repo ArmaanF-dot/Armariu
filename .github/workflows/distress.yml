@@ -1,0 +1,89 @@
+# Borrower risk score data pull and scoring (radar/distress.py, radar/distress_fetch.py). Run by hand from the
+# Actions tab: "distress" -> "Run workflow". Not scheduled.
+#   1. Starts from the data saved on the `distress-data` branch (or, the first time, the earlier test data on
+#      the claude/project-thread-vxxk9s branch), so every run resumes where the last one stopped.
+#   2. Fetches Companies House filing histories: the radar's own companies first, then more dissolved firms
+#      (corrects survivorship), then more of the random sample. Pauses while the radar job runs.
+#   3. Saves progress to the `distress-data` branch every 30 minutes, then scores today's firms and uploads
+#      risk_list.csv as the "risk-list" artifact. Needs the CH_REST_KEY secret.
+# Companies House rate limit is shared with the radar: about 440 calls in 5 minutes. A full run uses most of it.
+name: distress
+
+on:
+  workflow_dispatch:
+    inputs:
+      steps:
+        description: "Steps to run, in order (radar dissolved live). Blank = all three."
+        default: ""
+      minutes:
+        description: "Minutes to fetch before stopping (the job limit is 355)"
+        default: "330"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: distress
+  cancel-in-progress: false
+
+jobs:
+  distress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    defaults:
+      run:
+        working-directory: armariu-radar
+    env:
+      CH_REST_KEY: ${{ secrets.CH_REST_KEY }}
+      PYTHONUNBUFFERED: "1"
+      GITHUB_TOKEN: ${{ github.token }}
+      JOB_MINUTES: ${{ inputs.minutes }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          pip install --quiet -r requirements.txt -r requirements-gbm.txt
+          git config user.name "armariu-radar[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Check secret
+        run: '[ -n "$CH_REST_KEY" ] || { echo "CH_REST_KEY is not set"; exit 1; }'
+      - name: Databases
+        run: |
+          python -m radar.dbsync pull
+          python -m radar.dbsync pull --backfill
+      - name: Earlier data
+        run: |
+          mkdir -p output/distress
+          if git ls-remote --exit-code --heads origin distress-data >/dev/null 2>&1; then
+            git fetch -q origin distress-data
+            git checkout -q origin/distress-data -- output/distress
+          else
+            git fetch -q origin claude/project-thread-vxxk9s
+            for f in diss_companies.jsonl.gz diss_days.jsonl.gz live_filings.jsonl.gz; do
+              git show origin/claude/project-thread-vxxk9s:armariu-radar/distress_test_out/$f > output/distress/$f
+            done
+          fi
+          git reset -q
+          ls -la output/distress
+      - name: Fetch
+        run: python -m radar.distress_fetch ${{ inputs.steps }}
+      - name: Score
+        run: python -m radar.distress score
+      - name: Save the risk list to the data branch
+        if: ${{ !cancelled() }}
+        run: |
+          git add -f output/distress
+          git commit -q -m "distress data: final run ${{ github.run_id }}" || exit 0
+          git push -q --force origin HEAD:refs/heads/distress-data
+      - uses: actions/upload-artifact@v4
+        with:
+          name: risk-list
+          path: armariu-radar/output/distress/risk_list.csv
+          retention-days: 14
