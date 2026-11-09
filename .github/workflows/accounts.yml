@@ -1,0 +1,43 @@
+# One-off: fetch balance-sheet facts (bank loans, total assets) for the radar's companies from
+# Companies House's free bulk accounts data, which cloud sessions cannot reach. Run by hand from the
+# Actions tab: "accounts" -> "Run workflow". Download the "accounts-facts" artifact and unzip it into
+# armariu-radar/output/accounts/, then `python -m radar.refi_watch` adds loan size to each lead
+# (radar/lead_size.py). It writes nothing to the repo and touches no branch. Not yet run.
+name: accounts
+
+on:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "First month to read (YYYY-MM)"
+        default: "2023-01"
+
+permissions:
+  contents: read
+
+jobs:
+  accounts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    defaults:
+      run:
+        working-directory: armariu-radar
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet -r requirements.txt
+      - name: Get the database
+        run: python -m radar.dbsync pull
+      - name: Fetch accounts facts
+        run: python -m radar.accounts fetch --since "${{ inputs.since }}" --workers 12
+      - run: python -m radar.accounts status
+      - uses: actions/upload-artifact@v4
+        with:
+          name: accounts-facts
+          path: armariu-radar/output/accounts/
+          retention-days: 14

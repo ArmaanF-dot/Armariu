@@ -39,7 +39,7 @@ from dataclasses import replace
 from datetime import date, timedelta
 from pathlib import Path
 
-from . import config
+from . import config, locked
 from .charge_history import Company
 from .refi_watch import CLUES, MODEL_VERSION, Model, _d, _start, features, lender_volumes
 
@@ -177,13 +177,14 @@ def monthly(rows, model, keep, tier: float = 0.10) -> dict:
 
 
 def evaluate(companies, vol=None, window: int = WINDOW, reps: int = REPS, seed: int = 7,
-             stop: date | None = None, learn_on=None) -> dict:
+             stop: date | None = None, learn_on=None, use_locked: bool = False) -> dict:
     """`learn_on`: companies to learn the points and odds from (default: the same companies). The random
     population sample (radar.population) learns on the radar's own data, as the live list does."""
     vol = vol or lender_volumes(learn_on or companies)
     train = [(f, o["any"]) for _, f, o, _ in build_rows(learn_on or companies, train_dates(window), vol, window)]
     model = Model(train, CLUES)
     dates = test_dates(companies, window, stop)
+    locked.guard(dates, use_locked)
     rows = build_rows(companies, dates, vol, window)
     rng = random.Random(seed)
     everyone = {o: sum(r[2][o] for r in rows) / len(rows) for o in OUTCOMES} if rows else {}
@@ -292,6 +293,7 @@ def main(argv=None):
     p.add_argument("--window", type=int, default=WINDOW, help="days: 90 (default), 180 or 365")
     p.add_argument("--population", choices=("live", "sample"), default="live",
                    help="live: companies the radar has seen (default); sample: the random backfill sample")
+    p.add_argument("--use-locked", action="store_true", help="allow test dates in the locked window (final check only)")
     a = p.parse_args(argv)
     conn = connect()
     if a.population == "sample":
@@ -301,14 +303,14 @@ def main(argv=None):
         if not companies:
             raise SystemExit("No sample fetched yet (data/backfill.db): run `python -m radar.dbsync pull --backfill`.")
         # Outcomes are fully seen up to the first fetch, and nothing selected these firms on the future.
-        res = evaluate(companies, window=a.window, reps=a.reps, stop=backfill.first_fetched(bconn))
+        res = evaluate(companies, window=a.window, reps=a.reps, stop=backfill.first_fetched(bconn), use_locked=a.use_locked)
         res["population"], res["caveat"] = "random sample", SAMPLE_CAVEAT
         if a.out == p.get_default("out"):
             a.out = str(Path(a.out) / "sample")
     else:
         from .lender_view import coverage_start
         res = evaluate(load_companies(conn, Resolver(conn)), window=a.window, reps=a.reps,
-                       stop=coverage_start(conn))
+                       stop=coverage_start(conn), use_locked=a.use_locked)
     print(render_md(res))
     print("->", *write(res, a.out))
 

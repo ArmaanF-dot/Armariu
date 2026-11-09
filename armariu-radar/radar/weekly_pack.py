@@ -25,6 +25,7 @@ from . import config
 from .charge_history import load_companies
 from .charge_signals import RULE_VERSION, all_signals, in_window
 from .lender_view import CAVEAT, build, render_md, week_of, write_csv
+from .drift import line as drift_line
 from .scorecard import scorecard_line
 
 NOT_ADVICE = ("Armariu publishes company-level facts from public Companies House filings. It is not investment, "
@@ -71,7 +72,8 @@ def build_pack(companies, week_start: date, coverage_start, backtest_rows, run_d
               f"{s['explanation']} [filing]({s['filing_url']})"]
     L += ["", "## 4. One exhibit", "", "_Pick the table or chart from section 2 that supports your view._", "",
           "## 5. Scorecard line", "", scorecard_line(backtest_rows), "",
-          "## 6. Footer", "",
+          "## 6. Model health", "", drift_line(), "",
+          "## 7. Footer", "",
           "Data: UK Companies House charges register (open licence; attribute Companies House). "
           f"{CAVEAT} {NOT_ADVICE}", ""]
     return "\n".join(L)

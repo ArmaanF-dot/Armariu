@@ -378,6 +378,11 @@ class Model:
         out, k = [], max(1, len(scored) // n)
         for i in range(0, len(scored), k):
             part = scored[i:i + k]
+            if len(part) < k and out:   # a short last chunk would be a tiny, noisy top band: fold it in
+                part = scored[i - k:]
+                out.pop()
+                out.append((part[0][0], sum(y for _, y in part) / len(part)))
+                break
             out.append((part[0][0], sum(y for _, y in part) / len(part)))
         return out
 
@@ -409,10 +414,33 @@ def learn(companies, as_of: date, vol=None, filed: Filed | None = None) -> Model
     return Model(examples(companies, _cutoffs(as_of - timedelta(days=WINDOW + 1)), vol, filed))
 
 
+def recalibrate(model: Model, sample, as_of: date, vol, filed: Filed | None = None) -> Model:
+    """Re-read the odds bands from a random sample of companies, keeping the model's points.
+
+    The radar's own data is every company with a charge filing after 20 Oct 2026, so odds learned from it
+    read about 3x too high (random-sample check, 9 Nov 2026: ordinary top bin shown 14.3% vs actual 8.0%,
+    serial 39.0% vs 24.9%; bands learned on the sample were within 2 points). Same cutoffs and outcome as
+    learn(); only the score-to-odds table changes, so the list order does not."""
+    rows = examples(sample, _cutoffs(as_of - timedelta(days=WINDOW + 1)), vol, filed)
+    if len(rows) < 2000:
+        return model
+    scored = [(model.score(x), y, bool(x.get("_serial"))) for x, y in rows]
+    model.bands = Model._bands([(sc, y) for sc, y, _ in scored])
+    model.base = sum(y for _, y, _ in scored) / len(scored)
+    model.seg_bands = {}
+    for seg in (False, True):
+        part = [(sc, y) for sc, y, sg in scored if sg == seg]
+        if len(part) >= 400:
+            model.seg_bands[seg] = Model._bands(part)
+    return model
+
+
 def watchlist(companies, as_of: date, top: int = 200, model: Model | None = None,
-              filed: Filed | None = None) -> tuple[list[dict], Model]:
+              filed: Filed | None = None, calibration_sample=None) -> tuple[list[dict], Model]:
     vol = lender_volumes(companies)
     model = model or learn(companies, as_of, vol, filed)
+    if calibration_sample:
+        model = recalibrate(model, calibration_sample, as_of, vol, filed)
     rows = []
     for co in companies.values():
         f = features(co, as_of, vol, filed)
@@ -432,7 +460,15 @@ def watchlist(companies, as_of: date, top: int = 200, model: Model | None = None
             "filing_url": f"https://find-and-update.company-information.service.gov.uk/company/{co.number}/charges",
         })
     rows.sort(key=lambda r: (-r["score"], r["company_number"]))
-    return rows[:top], model
+    rows = rows[:top]
+    try:
+        from . import accounts, lead_size
+        have = accounts.load()
+        if have:
+            print(f"Accounts size on {lead_size.add_sizes(rows, as_of, have):.0%} of {len(rows)} leads.")
+    except Exception as e:  # noqa: BLE001  (no accounts on this machine: size columns left out)
+        print(f"No loan size added ({e}).")
+    return rows, model
 
 
 def backtest(companies, train_end: date = date(2025, 1, 1), test_start: date = date(2025, 4, 1),
@@ -519,6 +555,7 @@ def main(argv=None):
     p.add_argument("--as-of", default=date.today().isoformat())
     p.add_argument("--top", type=int, default=200)
     p.add_argument("--out", default=str(config.OUTPUT_DIR / "refi_watch"))
+    p.add_argument("--no-calibrate", action="store_true", help="skip re-reading the odds from the random sample")
     a = p.parse_args(argv)
     conn = connect()
     companies = load_companies(conn, Resolver(conn))
@@ -529,7 +566,15 @@ def main(argv=None):
     if a.cmd == "backtest":
         print(render_md([], bt, date.fromisoformat(a.as_of)))
         return
-    rows, model = watchlist(companies, date.fromisoformat(a.as_of), a.top)
+    sample = None
+    if not a.no_calibrate:
+        try:
+            from . import backfill
+            bconn = backfill.connect()
+            sample = backfill.load_companies(conn, bconn, Resolver(conn)) or None
+        except Exception as e:  # noqa: BLE001  (no sample on this machine: odds stay as learned)
+            print(f"Odds not recalibrated on the random sample ({e}).")
+    rows, model = watchlist(companies, date.fromisoformat(a.as_of), a.top, calibration_sample=sample)
     paths = write(rows, bt, a.out, date.fromisoformat(a.as_of))
     print(f"{len(rows)} companies, base rate {model.base:.1%} -> {paths[0]}")
 
