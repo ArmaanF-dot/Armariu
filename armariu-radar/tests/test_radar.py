@@ -791,6 +791,59 @@ class DbSyncTests(TempDirTest):
         # The working folder and current branch are untouched.
         self.assertEqual(self.git("status", "--porcelain"), "?? data/")
 
+    def test_push_refuses_corrupt_database(self):
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)
+        saved = self.git("rev-parse", "radar-data", cwd=self.remote)
+        data = bytearray(self.db.read_bytes())
+        data[100:4096] = b"\xff" * (4096 - 100)          # trash the first page's b-tree
+        self.db.write_bytes(bytes(data))
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), dbsync.CORRUPT)
+        self.assertEqual(self.git("rev-parse", "radar-data", cwd=self.remote), saved)
+
+    def test_push_refuses_big_row_loss_unless_allowed(self):
+        conn = connect(self.db)
+        conn.execute("CREATE TABLE bulk (x INTEGER)")
+        conn.executemany("INSERT INTO bulk VALUES (?)", [(i,) for i in range(2000)])
+        conn.commit(); conn.close()
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)
+        saved = self.git("rev-parse", "radar-data", cwd=self.remote)
+        conn = connect(self.db)
+        conn.execute("DELETE FROM bulk WHERE x < 1500"); conn.commit(); conn.close()
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), dbsync.SHRUNK)
+        self.assertEqual(self.git("rev-parse", "radar-data", cwd=self.remote), saved)
+        with mock.patch.dict("os.environ", {"RADAR_ALLOW_SHRINK": "1"}):
+            self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)
+        self.assertNotEqual(self.git("rev-parse", "radar-data", cwd=self.remote), saved)
+
+    def test_push_allows_small_changes_and_small_tables(self):
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)
+        conn = connect(self.db)
+        conn.execute("DELETE FROM charges")                 # 10 rows: below the guard's floor
+        conn.commit(); conn.close()
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)
+
+    def test_shrink_problems(self):
+        old = {"a": 10_000, "b": 5_000, "tiny": 10, "gone": 2_000}
+        new = {"a": 9_500, "b": 4_000, "tiny": 0}
+        problems = dbsync.shrink_problems(old, new)
+        self.assertEqual(len(problems), 2)
+        self.assertTrue(problems[0].startswith("b:"))
+        self.assertIn("gone: table missing", problems[1])
+
+    def test_pull_keeps_local_copy_when_saved_copy_is_corrupt(self):
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)
+        good = self.db.read_bytes()
+        bad = self.tmp / "bad.db"; bad.write_bytes(b"not a database" * 100)
+        self.assertEqual(self.run_quiet(dbsync.push, bad, "origin", dbsync.BRANCH, dbsync.FILE, False), 0)
+        self.assertEqual(self.run_quiet(dbsync.pull, self.db), dbsync.CORRUPT)
+        self.assertEqual(self.db.read_bytes(), good)
+        # ...and a later save refuses to build on it without a restore or the override.
+        self.assertEqual(self.run_quiet(dbsync.push, self.db), dbsync.CORRUPT)
+
+    def test_pull_reports_unreachable_remote(self):
+        self.git("remote", "set-url", "origin", str(self.tmp / "missing.git"))
+        self.assertEqual(self.run_quiet(dbsync.pull, self.db), dbsync.GIT_ERROR)
+
     def test_fetch_if_changed_skips_unchanged_copy(self):
         self.assertEqual(self.run_quiet(dbsync.push, self.db), 0)
         self.db.unlink()

@@ -78,18 +78,41 @@ jobs:
           fi
 
       - name: Restore database
+        # Exit code 1 means the branch doesn't exist yet (first run): start fresh. Anything else
+        # (download failed, saved copy corrupt) stops the run, so a fresh empty database never
+        # gets the chance to replace the real one. See armariu-radar/docs/backups.md.
         run: |
-          python -m radar.dbsync pull || echo "Starting with a fresh database"
-          python -m radar.dbsync pull --backfill || echo "Starting the older-data backfill fresh"
+          for flag in "" "--backfill"; do
+            rc=0; python -m radar.dbsync pull $flag || rc=$?
+            if [ "$rc" -eq 1 ]; then echo "Starting fresh ($flag)";
+            elif [ "$rc" -ne 0 ]; then exit "$rc"; fi
+          done
+
+      - name: Back up the saved database
+        # Copies what is on radar-data / radar-backfill now into a dated release asset, unless it is
+        # already there (normally the end of the previous run did it), so the copy this run is about
+        # to replace is never the only one. A failure here only warns: missing a run loses stream data.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m radar.dbbackup save || echo "::warning::Backup before the run failed (see above)"
+          python -m radar.dbbackup save --backfill || echo "::warning::Backfill backup before the run failed"
 
       - name: Pipeline
         run: python -m radar.pipeline run --minutes "${{ inputs.stream_minutes || '2' }}" --enrich-limit 2000 --rest-minutes 12 --backfill-minutes "${{ inputs.backfill_minutes || vars.BACKFILL_EXTRA_MINUTES || '0' }}"
 
       - name: Save database
+        # dbsync refuses to overwrite the saved copy with a database that fails the integrity check
+        # or has lost a big share of its rows (the step then fails and GitHub emails you). To save a
+        # smaller database on purpose, set the repository variable RADAR_ALLOW_SHRINK to 1 for one run.
         if: ${{ !cancelled() }}
+        env:
+          RADAR_ALLOW_SHRINK: ${{ vars.RADAR_ALLOW_SHRINK || '0' }}
         run: |
-          if [ -f data/radar.db ]; then python -m radar.dbsync push; fi
-          if [ -f data/backfill.db ]; then python -m radar.dbsync push --backfill; fi
+          status=0
+          if [ -f data/radar.db ]; then python -m radar.dbsync push || status=1; fi
+          if [ -f data/backfill.db ]; then python -m radar.dbsync push --backfill || status=1; fi
+          exit $status
 
       - name: Commit queue and digests
         if: ${{ !cancelled() }}
@@ -138,6 +161,18 @@ jobs:
             bash scripts/run_agent.sh "$a" || { echo "::warning::$a agent failed, see the logs artifact"; status=1; }
             echo "::endgroup::"
           done
+          exit $status
+
+      - name: Back up the new database
+        # Dated copy of what this run saved. Last, so a backup problem never blocks the agents; it
+        # still fails the run, so GitHub emails you.
+        if: ${{ !cancelled() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          status=0
+          python -m radar.dbbackup save || status=1
+          python -m radar.dbbackup save --backfill || status=1
           exit $status
 
       - name: Upload logs
