@@ -47,3 +47,16 @@ class DistressTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FacilityTargetTests(unittest.TestCase):
+    def test_target_window_and_history(self):
+        from datetime import date
+        from radar import facility_backtest as F
+        co = ds.Co("1", 1.0, date(2015, 1, 1), None, [], [], [
+            {"created_on": "2024-03-01", "delivered_on": "2024-03-05", "persons": ["Some Invoice Ltd"]}], "live")
+        cats = {ds.normalise_name("Some Invoice Ltd"): "abl_specialist"}
+        self.assertTrue(F.had_target(co, date(2024, 6, 1), cats))
+        self.assertFalse(F.had_target(co, date(2024, 1, 1), cats))
+        self.assertEqual(F.target_in_window(co, date(2024, 1, 1), cats), 1)
+        self.assertEqual(F.target_in_window(co, date(2025, 1, 1), cats), 0)
