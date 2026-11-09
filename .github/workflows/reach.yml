@@ -1,0 +1,28 @@
+# One-off check: which free data hosts can the Actions runner reach? (plan tasks 13 and 14). Run by hand:
+# Actions tab -> "reach" -> Run workflow. Writes only a summary table on the run page. No secrets, no repo writes.
+name: reach
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reach:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe hosts
+        run: |
+          probe() {
+            code=$(curl -sS -m 30 -o /tmp/body -w "%{http_code}" -A "Mozilla/5.0 (research probe)" "$2" 2>/dev/null || echo "fail")
+            echo "| $1 | $code | $(head -c 60 /tmp/body 2>/dev/null | tr -d '\n|' ) |" >> "$GITHUB_STEP_SUMMARY"
+          }
+          echo "| Host | HTTP status | Start of reply |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          probe "Gazette insolvency notices (Atom feed)" "https://www.thegazette.co.uk/insolvency/notice/data.feed?results-page-size=1"
+          probe "Gazette all notices (JSON)" "https://www.thegazette.co.uk/all-notices/notice/data.json?results-page-size=1"
+          probe "datos.gov.co (Supersociedades NIIF)" "https://www.datos.gov.co/resource/3h6k-3bk2.json?\$limit=1"
+          probe "Supersociedades insolvency page" "https://www.supersociedades.gov.co/"
+          probe "Companies House bulk accounts" "https://download.companieshouse.gov.uk/en_accountsdata.html"
