@@ -89,6 +89,7 @@ python -m radar.refi_watch compare    # BACKTEST: Refinance watch rw1 against rw
 python -m radar.profile fetch         # free Basic Company Data (size, postcode district, name changes) for our companies
 python -m radar.backfill status       # older-data backfill: sample size, fetched so far, days to go
 python -m radar.dbsync pull --backfill   # download the backfill sample the cloud workflow saved
+python -m radar.dbbackup list         # dated backups of the saved database (release assets); restore: docs/backups.md
 python -m radar.refi_accuracy --population sample   # BACKTEST on the random sample, not the live firms
 python -m radar.refi_ml               # BACKTEST: ML model, one free dataset at a time (needs scikit-learn; docs/refi_datasets.md)
 python -m radar.lender_view           # Module C: lender league, sectors, flows, syndication

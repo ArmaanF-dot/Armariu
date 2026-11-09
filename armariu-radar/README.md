@@ -66,7 +66,9 @@ classifier interval in `install_tasks.ps1` or lower `CLASSIFIER_BATCH` in `radar
 `.github/workflows/radar.yml` (at the top level of the repo) runs everything on GitHub's servers
 every 3 hours: restore the database, run the pipeline, save the database, commit the outputs, then
 run whichever agents have work. The database lives on a separate branch called `radar-data`
-(one compressed file, overwritten each run, so the repo doesn't grow).
+(one compressed file, overwritten each run, so the repo doesn't grow). A run only overwrites it
+if the new database passes an integrity check and hasn't lost rows, and every saved copy is also
+kept as a dated backup on the repo's Releases page. To restore one, see `docs/backups.md`.
 
 **One-time setup:**
 
