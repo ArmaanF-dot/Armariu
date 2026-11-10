@@ -1,4 +1,4 @@
-# One-off diagnostic for the Gazette per-notice lookups (plan task 13). Prints timings and status codes to the job log.
+# One-off diagnostic: does the Gazette search find notices by company number, and how fast? (plan task 13)
 name: probe2
 
 on:
@@ -10,18 +10,28 @@ permissions:
 jobs:
   probe2:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
-      - name: Timings
+      - name: Search by company number
         run: |
-          B="https://www.thegazette.co.uk"
-          echo "=== 12 sequential lookups"
-          for id in 4897752 4900672 4892828 4897000 4898000 4899000 4890000 4891000 4895000 4896000 4901000 4902000; do
-            curl -sS -m 60 -o /tmp/o -w "%{http_code} %{time_total}s size=%{size_download}\n" -A "Mozilla/5.0" "$B/notice/$id/data.json?view=linked-data"
-            grep -o '"companyNumber":"[^"]*"' /tmp/o | head -1
+          B="https://www.thegazette.co.uk/insolvency/notice/data.json"
+          echo "=== known petition company 11796457 (notice 4900672)"
+          curl -sS -m 60 -A "Mozilla/5.0" "$B?text=11796457&start-publish-date=2021-10-01&results-page-size=5" -o /tmp/o -w "%{http_code} %{time_total}s\n"
+          python3 - <<'PY'
+          import json
+          d = json.load(open("/tmp/o"))
+          print("total", d.get("f:total"))
+          for e in d.get("entry", [])[:5] if isinstance(d.get("entry"), list) else [d.get("entry")]:
+              print(e.get("f:notice-code"), e.get("published"), e.get("title"))
+          PY
+          echo "=== 40 sequential searches by number (rate check)"
+          ok=0; bad=0
+          for n in 14324165 02673059 06840843 11796457 SC761413 10605023 11919519 SC077619 NC000103 12345678 \
+                   00000086 00000100 00000200 00000300 00000400 00000500 00000600 00000700 00000800 00000900 \
+                   01000001 01000002 01000003 01000004 01000005 01000006 01000007 01000008 01000009 01000010 \
+                   02000001 02000002 02000003 02000004 02000005 02000006 02000007 02000008 02000009 02000010; do
+            code=$(curl -sS -m 30 -A "Mozilla/5.0" -o /tmp/p -w "%{http_code}" "$B?text=$n&start-publish-date=2021-10-01&results-page-size=100")
+            tot=$(python3 -c "import json;print(json.load(open('/tmp/p')).get('f:total'))" 2>/dev/null || echo "?")
+            echo "$n $code total=$tot"
+            sleep 0.3
           done
-          echo "=== 12 parallel lookups"
-          seq 4903000 4903011 | xargs -P 12 -I{} curl -sS -m 60 -o /dev/null -w "%{http_code} %{time_total}s\n" -A "Mozilla/5.0" "$B/notice/{}/data.json?view=linked-data"
-          echo "=== ttl variant (smaller?)"
-          curl -sS -m 60 -o /tmp/t -w "%{http_code} %{time_total}s size=%{size_download}\n" -A "Mozilla/5.0" "$B/notice/4897752/data.ttl"
-          grep -io "companyNumber[^;.]*" /tmp/t | head -2
