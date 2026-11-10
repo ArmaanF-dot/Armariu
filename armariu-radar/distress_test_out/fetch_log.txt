@@ -83,3 +83,8 @@
 01:28:30 live: 1,500 fetched, 1,508 calls
 01:33:38 live: 2,000 fetched, 2,008 calls
 01:38:45 live: 2,500 fetched, 2,509 calls
+01:44:00 live: 3,000 fetched, 3,009 calls
+01:49:08 live: 3,500 fetched, 3,509 calls
+01:58:29 live: 4,000 fetched, 4,012 calls
+02:03:36 live: 4,500 fetched, 4,512 calls
+02:08:44 live: 5,000 fetched, 5,012 calls
