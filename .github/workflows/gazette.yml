@@ -1,0 +1,32 @@
+# Pull Gazette notices that mention a petition, 2022 to today (radar/gazette_fetch.py), for the UK risk score test.
+# Public data, no secrets. Run by hand: Actions -> "gazette" -> Run workflow. Saves to the `gazette-data` branch.
+name: gazette
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  gazette:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: armariu-radar
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet requests
+      - run: python -m radar.gazette_fetch
+      - name: Save to the data branch
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "armariu-radar[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f output/gazette
+          git commit -q -m "gazette data: run ${{ github.run_id }}" || exit 0
+          git push -q --force origin HEAD:refs/heads/gazette-data
