@@ -1,0 +1,23 @@
+# One-off: look at what the Gazette and datos.gov.co actually return, so the petition and Colombia
+# tests (plan tasks 13 and 14) can be written against real data. Run by hand: Actions -> "probe2".
+# Prints short samples to the run summary. No secrets, no repo writes.
+name: probe2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Samples
+        run: |
+          S="$GITHUB_STEP_SUMMARY"
+          show() { echo "### $1" >> "$S"; echo '```' >> "$S"; curl -sS -m 60 -A "Mozilla/5.0 (research probe)" "$2" 2>&1 | head -c "$3" >> "$S"; echo >> "$S"; echo '```' >> "$S"; }
+          show "Gazette: winding-up petition search, 1 notice (JSON)" "https://www.thegazette.co.uk/all-notices/notice/data.json?text=winding-up+petition&results-page-size=1" 3500
+          show "Gazette: insolvency feed, 1 notice (Atom)" "https://www.thegazette.co.uk/insolvency/notice/data.feed?results-page-size=1&start-publish-date=2024-06-03&end-publish-date=2024-06-03" 3500
+          show "datos.gov.co catalogue: Supersociedades financial statements" "https://api.us.socrata.com/api/catalog/v1?domains=www.datos.gov.co&q=supersociedades+estados+financieros&limit=8" 3500
