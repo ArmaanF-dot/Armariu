@@ -1,0 +1,56 @@
+loaded {"frame_size": 831742, "fetched_charges": 16695, "live_with_filings": 16695, "w_live": 49.81982629529799, "diss_days": 42, "diss_with_charges": 466}
+companies Counter({'live': 16695, 'dissolved': 466}) with an insolvency date Counter({'live': 1257, 'dissolved': 147}) solvent liq 169
+
+== insolvency: train 52,112 rows 447 events; test 56,726 rows 738 events
+overdue_rule           auc 0.636  base 1.39%  top1   3.3%  top5   3.3%  top10   3.0% (captures 21.7%)  top20 captures 36.5%
+public_logit           auc 0.673  base 1.39%  top1   2.4%  top5   4.5%  top10   3.7% (captures 26.6%)  top20 captures 41.2%
+public_gbm             auc 0.660  base 1.39%  top1   4.3%  top5   4.3%  top10   3.3% (captures 24.1%)  top20 captures 35.8%
+public+activity_gbm    auc 0.674  base 1.39%  top1   6.7%  top5   3.8%  top10   3.6% (captures 25.9%)  top20 captures 41.0%
+all_logit              auc 0.684  base 1.39%  top1   5.4%  top5   5.2%  top10   4.0% (captures 29.1%)  top20 captures 44.4%
+all_gbm                auc 0.696  base 1.39%  top1   8.7%  top5   5.5%  top10   4.0% (captures 29.1%)  top20 captures 46.6%
+charges_only_gbm       auc 0.630  base 1.39%  top1   5.9%  top5   3.4%  top10   2.8% (captures 20.5%)  top20 captures 31.9%
+public_gbm {'ci_auc': [np.float64(0.627005976033152), np.float64(0.6923065175397137)], 'ci_top10': [np.float64(0.024934919422030518), np.float64(0.04242155864765395)]}
+all_gbm {'ci_auc': [np.float64(0.6641436303750876), np.float64(0.7324657592717199)], 'ci_top10': [np.float64(0.030667091487090875), np.float64(0.05109130499284955)]}
+all_logit {'ci_auc': [np.float64(0.6552499678268721), np.float64(0.7250886794364548)], 'ci_top10': [np.float64(0.032244797869100186), np.float64(0.049371107797649784)]}
+gain_all_vs_public_auc_ci [np.float64(0.010795967788746896), np.float64(0.06440611086377371)]
+deciles ['4.04%', '2.43%', '1.74%', '1.41%', '0.99%', '0.82%', '0.74%', '0.56%', '0.44%', '0.70%']
+  acc_overdue     3.78% vs  1.20%  (7.3% of firms, 4080 rows)
+  cs_overdue      1.76% vs  1.37%  (3.7% of firms, 2045 rows)
+  gaz_comp_2y     3.75% vs  1.27%  (4.7% of firms, 2609 rows)
+  aa01_ext_12m    2.18% vs  1.37%  (2.0% of firms, 1136 rows)
+  new_alt         3.33% vs  1.38%  (0.2% of firms, 120 rows)
+  new_abl         6.69% vs  1.34%  (0.9% of firms, 485 rows)
+  new_asset       8.86% vs  1.38%  (0.1% of firms, 79 rows)
+  new_person      3.68% vs  1.37%  (0.5% of firms, 298 rows)
+  out_person      1.81% vs  1.37%  (4.7% of firms, 2668 rows)
+  out_abl         4.83% vs  1.23%  (4.2% of firms, 2401 rows)
+  out_alt         3.49% vs  1.37%  (0.6% of firms, 372 rows)
+  ch_sat_12m      2.29% vs  1.34%  (4.5% of firms, 2567 rows)
+  sh01_12m        5.46% vs  1.30%  (2.0% of firms, 1173 rows)
+
+== insolvency_or_strikeoff: train 52,112 rows 583 events; test 56,726 rows 749 events
+overdue_rule           auc 0.649  base 1.49%  top1   5.1%  top5   3.8%  top10   3.4% (captures 22.6%)  top20 captures 36.5%
+public_logit           auc 0.658  base 1.49%  top1   6.7%  top5   4.4%  top10   3.6% (captures 24.5%)  top20 captures 39.9%
+public_gbm             auc 0.649  base 1.49%  top1   2.6%  top5   3.6%  top10   3.3% (captures 22.3%)  top20 captures 39.7%
+public+activity_gbm    auc 0.656  base 1.49%  top1   4.0%  top5   3.6%  top10   3.4% (captures 23.1%)  top20 captures 38.7%
+all_logit              auc 0.663  base 1.49%  top1   7.3%  top5   5.1%  top10   4.4% (captures 29.6%)  top20 captures 43.7%
+all_gbm                auc 0.680  base 1.49%  top1   6.1%  top5   4.4%  top10   3.8% (captures 25.5%)  top20 captures 42.9%
+charges_only_gbm       auc 0.641  base 1.49%  top1   6.3%  top5   4.1%  top10   3.5% (captures 23.3%)  top20 captures 35.4%
+public_gbm {'ci_auc': [np.float64(0.6187846039804874), np.float64(0.6855002937615153)], 'ci_top10': [np.float64(0.023642023820283912), np.float64(0.040645312639366674)]}
+all_gbm {'ci_auc': [np.float64(0.6428707839912835), np.float64(0.7110765089725135)], 'ci_top10': [np.float64(0.030093403106771395), np.float64(0.04724606286927134)]}
+all_logit {'ci_auc': [np.float64(0.6276998482104762), np.float64(0.7018049489325898)], 'ci_top10': [np.float64(0.03228906688018273), np.float64(0.05355781288828882)]}
+gain_all_vs_public_auc_ci [np.float64(-0.0010382870061833554), np.float64(0.06085402174086419)]
+deciles ['3.80%', '2.58%', '1.80%', '1.52%', '1.37%', '1.20%', '0.82%', '0.68%', '0.55%', '0.54%']
+  acc_overdue     4.39% vs  1.25%  (7.3% of firms, 4080 rows)
+  cs_overdue      1.76% vs  1.47%  (3.7% of firms, 2045 rows)
+  gaz_comp_2y     4.32% vs  1.34%  (4.7% of firms, 2609 rows)
+  aa01_ext_12m    2.18% vs  1.47%  (2.0% of firms, 1136 rows)
+  new_alt         3.33% vs  1.48%  (0.2% of firms, 120 rows)
+  new_abl         6.69% vs  1.44%  (0.9% of firms, 485 rows)
+  new_asset       8.86% vs  1.47%  (0.1% of firms, 79 rows)
+  new_person      3.68% vs  1.47%  (0.5% of firms, 298 rows)
+  out_person      1.81% vs  1.47%  (4.7% of firms, 2668 rows)
+  out_abl         4.83% vs  1.34%  (4.2% of firms, 2401 rows)
+  out_alt         3.49% vs  1.47%  (0.6% of firms, 372 rows)
+  ch_sat_12m      2.29% vs  1.45%  (4.5% of firms, 2567 rows)
+  sh01_12m        5.46% vs  1.40%  (2.0% of firms, 1173 rows)

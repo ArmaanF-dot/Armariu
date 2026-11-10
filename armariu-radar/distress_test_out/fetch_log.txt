@@ -1,0 +1,121 @@
+02:25:51 live: 16,695 companies, 0 done
+02:25:52 radar job running: pausing
+02:32:01 live: 500 fetched, 503 calls
+02:37:08 live: 1,000 fetched, 1,006 calls
+02:42:15 live: 1,500 fetched, 1,507 calls
+02:47:22 live: 2,000 fetched, 2,008 calls
+02:52:29 live: 2,500 fetched, 2,509 calls
+02:57:41 live: 3,000 fetched, 3,009 calls
+03:02:48 live: 3,500 fetched, 3,511 calls
+03:12:12 live: 4,000 fetched, 4,012 calls
+03:17:19 live: 4,500 fetched, 4,512 calls
+03:22:26 live: 5,000 fetched, 5,012 calls
+03:27:33 live: 5,500 fetched, 5,512 calls
+03:32:40 live: 6,000 fetched, 6,014 calls
+03:37:47 live: 6,500 fetched, 6,514 calls
+03:42:55 live: 7,000 fetched, 7,015 calls
+03:52:18 live: 7,500 fetched, 7,516 calls
+03:57:25 live: 8,000 fetched, 8,017 calls
+04:02:33 live: 8,500 fetched, 8,517 calls
+04:07:40 live: 9,000 fetched, 9,017 calls
+04:12:47 live: 9,500 fetched, 9,518 calls
+04:17:53 live: 10,000 fetched, 10,019 calls
+04:23:00 live: 10,500 fetched, 10,520 calls
+04:32:24 live: 11,000 fetched, 11,021 calls
+04:37:31 live: 11,500 fetched, 11,522 calls
+04:42:39 live: 12,000 fetched, 12,025 calls
+04:47:46 live: 12,500 fetched, 12,527 calls
+04:52:53 live: 13,000 fetched, 13,027 calls
+04:58:02 live: 13,500 fetched, 13,531 calls
+05:03:10 live: 14,000 fetched, 14,033 calls
+05:12:33 live: 14,500 fetched, 14,535 calls
+05:17:41 live: 15,000 fetched, 15,037 calls
+05:22:47 live: 15,500 fetched, 15,537 calls
+05:27:56 live: 16,000 fetched, 16,039 calls
+05:33:03 live: 16,500 fetched, 16,542 calls
+05:37:40 dissolved: 0 days done, 0 companies checked
+05:37:43 day 2023-12-13: 137 dissolved, 26 kept, 9 with charges; total checked 26
+05:37:45 day 2023-07-28: 42 dissolved, 7 kept, 3 with charges; total checked 33
+05:37:47 day 2026-05-06: 114 dissolved, 18 kept, 3 with charges; total checked 51
+05:37:47 day 2025-10-27: 0 dissolved, 0 kept, 0 with charges; total checked 51
+05:37:50 day 2025-11-26: 154 dissolved, 22 kept, 7 with charges; total checked 73
+05:37:52 day 2023-02-10: 90 dissolved, 19 kept, 5 with charges; total checked 92
+05:37:54 day 2022-12-09: 62 dissolved, 12 kept, 4 with charges; total checked 104
+05:37:54 day 2023-10-08: 1 dissolved, 0 kept, 0 with charges; total checked 104
+05:37:54 day 2022-07-17: 0 dissolved, 0 kept, 0 with charges; total checked 104
+05:37:54 day 2023-12-06: 23 dissolved, 3 kept, 0 with charges; total checked 107
+05:37:54 day 2025-04-25: 0 dissolved, 0 kept, 0 with charges; total checked 107
+05:37:56 day 2025-01-09: 90 dissolved, 13 kept, 4 with charges; total checked 120
+05:37:59 day 2026-07-04: 144 dissolved, 23 kept, 4 with charges; total checked 143
+05:37:59 day 2022-10-10: 0 dissolved, 0 kept, 0 with charges; total checked 143
+05:38:04 day 2025-09-11: 210 dissolved, 37 kept, 14 with charges; total checked 180
+05:38:04 day 2023-09-03: 0 dissolved, 0 kept, 0 with charges; total checked 180
+05:38:07 day 2024-05-27: 96 dissolved, 18 kept, 4 with charges; total checked 198
+05:38:11 day 2024-08-16: 155 dissolved, 32 kept, 12 with charges; total checked 230
+05:38:14 day 2022-10-13: 85 dissolved, 20 kept, 7 with charges; total checked 250
+05:38:14 day 2025-04-26: 0 dissolved, 0 kept, 0 with charges; total checked 250
+06:03:06 day 2026-03-10: 13556 dissolved, 2020 kept, 47 with charges; total checked 2,270
+06:03:08 day 2024-09-16: 44 dissolved, 10 kept, 4 with charges; total checked 2,280
+06:27:53 day 2024-02-13: 13223 dissolved, 1937 kept, 61 with charges; total checked 4,217
+06:27:55 day 2024-05-01: 85 dissolved, 12 kept, 6 with charges; total checked 4,229
+06:48:31 day 2023-10-10: 11225 dissolved, 1968 kept, 58 with charges; total checked 6,197
+06:48:32 day 2025-05-24: 40 dissolved, 6 kept, 4 with charges; total checked 6,203
+07:13:24 day 2024-05-07: 10213 dissolved, 2025 kept, 66 with charges; total checked 8,228
+07:13:29 day 2024-07-26: 92 dissolved, 23 kept, 5 with charges; total checked 8,251
+07:13:32 day 2026-01-22: 125 dissolved, 23 kept, 5 with charges; total checked 8,274
+07:13:35 day 2026-03-23: 91 dissolved, 16 kept, 9 with charges; total checked 8,290
+07:13:44 day 2023-04-17: 180 dissolved, 37 kept, 9 with charges; total checked 8,327
+07:13:44 day 2023-02-20: 1 dissolved, 0 kept, 0 with charges; total checked 8,327
+07:13:46 day 2024-11-13: 131 dissolved, 23 kept, 2 with charges; total checked 8,350
+07:18:00 day 2025-01-02: 190 dissolved, 50 kept, 11 with charges; total checked 8,400
+07:18:04 day 2022-08-03: 110 dissolved, 24 kept, 5 with charges; total checked 8,424
+07:18:11 day 2025-02-26: 161 dissolved, 28 kept, 8 with charges; total checked 8,452
+07:18:15 day 2023-03-22: 154 dissolved, 32 kept, 11 with charges; total checked 8,484
+07:18:18 day 2026-03-30: 134 dissolved, 27 kept, 2 with charges; total checked 8,511
+07:18:19 day 2025-11-30: 3 dissolved, 1 kept, 1 with charges; total checked 8,512
+07:18:25 day 2022-10-20: 249 dissolved, 49 kept, 15 with charges; total checked 8,561
+07:18:25 day 2025-08-11: 1 dissolved, 0 kept, 0 with charges; total checked 8,561
+07:43:07 day 2024-05-28: 13800 dissolved, 1951 kept, 61 with charges; total checked 10,512
+07:43:15 day 2023-11-01: 121 dissolved, 29 kept, 7 with charges; total checked 10,541
+01:13:05 live: 27,216 companies, 16,695 done
+01:18:14 live: 500 fetched, 502 calls
+01:23:22 live: 1,000 fetched, 1,007 calls
+01:28:30 live: 1,500 fetched, 1,508 calls
+01:33:38 live: 2,000 fetched, 2,008 calls
+01:38:45 live: 2,500 fetched, 2,509 calls
+01:44:00 live: 3,000 fetched, 3,009 calls
+01:49:08 live: 3,500 fetched, 3,509 calls
+01:58:29 live: 4,000 fetched, 4,012 calls
+02:03:36 live: 4,500 fetched, 4,512 calls
+02:08:44 live: 5,000 fetched, 5,012 calls
+02:13:55 live: 5,500 fetched, 5,513 calls
+02:19:03 live: 6,000 fetched, 6,014 calls
+02:24:10 live: 6,500 fetched, 6,516 calls
+02:29:18 live: 7,000 fetched, 7,020 calls
+02:38:39 live: 7,500 fetched, 7,523 calls
+02:43:47 live: 8,000 fetched, 8,023 calls
+02:48:55 live: 8,500 fetched, 8,527 calls
+02:54:03 live: 9,000 fetched, 9,027 calls
+02:59:11 live: 9,500 fetched, 9,528 calls
+03:04:18 live: 10,000 fetched, 10,029 calls
+03:09:25 live: 10,500 fetched, 10,531 calls
+Traceback (most recent call last):
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/distress_test/fetch.py", line 281, in <module>
+    main()
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/distress_test/fetch.py", line 273, in main
+    step_dissolved()
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/distress_test/fetch.py", line 211, in step_dissolved
+    done_days = read_done(pd, "day")
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/distress_test/fetch.py", line 163, in read_done
+    for line in f:
+                ^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/gzip.py", line 351, in read1
+    return self._buffer.read1(size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/_compression.py", line 68, in readinto
+    data = self.read(len(byte_view))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/gzip.py", line 564, in read
+    raise EOFError("Compressed file ended before the "
+EOFError: Compressed file ended before the end-of-stream marker was reached

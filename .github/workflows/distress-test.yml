@@ -1,0 +1,44 @@
+# One-off research job for the borrower distress test (thread "Strengthen Alex pitch with risk score").
+# Runs only on pushes to its own branch. Safe to delete once the test is done.
+name: distress-test
+on:
+  push:
+    branches: [claude/project-thread-vxxk9s]
+    paths: [".github/workflows/distress-test.yml", "armariu-radar/scripts/distress_test/**"]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: distress-test
+  cancel-in-progress: true
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    defaults:
+      run:
+        working-directory: armariu-radar
+    env:
+      CH_REST_KEY: ${{ secrets.CH_REST_KEY }}
+      PYTHONUNBUFFERED: "1"
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/project-thread-vxxk9s
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          pip install --quiet -r requirements.txt
+          git config user.name "armariu-radar[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Run
+        run: bash scripts/distress_test/run.sh
+      - name: Save results to this branch
+        if: ${{ !cancelled() }}
+        run: |
+          git add -f distress_test_out
+          git commit -q -m "distress-test: results from run ${{ github.run_id }}" || exit 0
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
