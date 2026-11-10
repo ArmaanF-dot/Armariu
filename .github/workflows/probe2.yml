@@ -18,8 +18,8 @@ jobs:
         run: |
           show() { echo "=== $1"; curl -sS -m 60 -A "Mozilla/5.0 (research probe)" "$2" 2>&1 | head -c "$3"; echo; }
           B="https://www.thegazette.co.uk"
-          show "A insolvency json, no filters" "$B/insolvency/notice/data.json?results-page-size=2" 3000
-          show "B insolvency json, one day" "$B/insolvency/notice/data.json?results-page-size=2&start-publish-date=2024-06-03&end-publish-date=2024-06-07" 3000
-          show "C all-notices, petition type code 2441" "$B/all-notices/notice/data.json?noticetype=2441&results-page-size=2&start-publish-date=2024-06-03&end-publish-date=2024-06-07" 3000
-          show "D insolvency, text petition, 2024 week" "$B/insolvency/notice/data.json?text=petition&results-page-size=2&start-publish-date=2024-06-03&end-publish-date=2024-06-07" 3000
-          show "E insolvency notice types page" "$B/insolvency/notice" 1500
+          B="https://www.thegazette.co.uk"
+          show "A notice 4897752 json (linked data)" "$B/notice/4897752/data.json?view=linked-data" 2500
+          show "B notice 4897752 xml" "$B/notice/4897752/data.xml" 2500
+          show "C notice 4897752 html text" "$B/notice/4897752" 100
+          curl -sS -m 60 -A "Mozilla/5.0" "$B/notice/4897752" | grep -io -m5 "company number[^<]\{0,40\}" || echo "no company number in html"
