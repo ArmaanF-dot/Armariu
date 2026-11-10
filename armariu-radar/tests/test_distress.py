@@ -60,3 +60,14 @@ class FacilityTargetTests(unittest.TestCase):
         self.assertFalse(F.had_target(co, date(2024, 1, 1), cats))
         self.assertEqual(F.target_in_window(co, date(2024, 1, 1), cats), 1)
         self.assertEqual(F.target_in_window(co, date(2025, 1, 1), cats), 0)
+
+
+class PetitionFeatureTests(unittest.TestCase):
+    def test_no_lookahead(self):
+        from datetime import date
+        from radar.petition_test import pet_feats
+        d = [date(2024, 3, 1), date(2024, 9, 1)]
+        self.assertEqual(pet_feats(d, date(2024, 2, 1)), {"pet_6m": 0, "pet_3m": 0})   # not yet published
+        self.assertEqual(pet_feats(d, date(2024, 4, 1)), {"pet_6m": 1, "pet_3m": 1})
+        self.assertEqual(pet_feats(d, date(2024, 8, 1)), {"pet_6m": 1, "pet_3m": 0})   # March petition is 5 months old
+        self.assertEqual(pet_feats(d, date(2025, 6, 1)), {"pet_6m": 0, "pet_3m": 0})   # too old
