@@ -2,7 +2,8 @@
 
     python -m radar.petition_test [--codes 2450] [--out FILE]
 
-Input: output/gazette/petitions.jsonl.gz from `python -m radar.gazette_fetch` (the "gazette" workflow). Adds two
+Input: output/gazette/by_number.jsonl.gz from `python -m radar.gazette_fetch --by-number` (the "gazette" workflow:
+a Gazette search for each company in the sample, in random order, so a partial file is a random subset). Adds two
 features to radar.distress, "a petition notice for this company number published in the last 6 / 3 months", using
 only notices published on or before the cutoff, and compares the same model with and without them on the same strict
 time split (learn on 2022-23 cutoffs, test on 2024-25). Gazette data starts in Jan 2022, so only 6- and 3-month
@@ -24,18 +25,21 @@ import numpy as np
 from . import config
 from . import distress as D
 
-GAZ = config.OUTPUT_DIR / "gazette" / "petitions.jsonl.gz"
+GAZ = config.OUTPUT_DIR / "gazette" / "by_number.jsonl.gz"
 
 
 def load_petitions(path=GAZ, codes=("2450",)):
-    by = defaultdict(list)
+    """(dates of petition notices by company number, set of company numbers searched so far)."""
+    by, done = defaultdict(list), set()
     for line in gzip.open(path, "rt"):
         r = json.loads(line)
-        if r.get("number") and str(r.get("code")) in codes and r.get("published"):
-            by[r["number"]].append(date.fromisoformat(r["published"]))
+        done.add(r["n"])
+        for e in r["notices"]:
+            if str(e.get("code")) in codes and e.get("published"):
+                by[r["n"]].append(date.fromisoformat(e["published"]))
     for v in by.values():
         v.sort()
-    return by
+    return by, done
 
 
 def pet_feats(dates, C: date) -> dict:
@@ -51,7 +55,7 @@ def pet_feats(dates, C: date) -> dict:
 def with_petitions(cos, pets, cats, cutoffs):
     rows, y, w, gid, cut, first_pet = [], [], [], [], [], []
     for i, co in enumerate(cos):
-        key = co.n.zfill(8) if str(co.n).isdigit() else str(co.n).upper()
+        key = str(co.n).upper()
         for C in cutoffs:
             f = D.features(co, C, cats)
             if f is None:
@@ -69,8 +73,11 @@ def main(argv=None):
     a = p.parse_args(argv)
     cats = D.load_lender_cats()
     cos, info = D.load()
-    pets = load_petitions(codes=tuple(a.codes.split(",")))
-    print("companies with a petition notice:", len(pets), "of", len(cos), "loaded")
+    pets, done = load_petitions(codes=tuple(a.codes.split(",")))
+    # The Gazette search ran over the sample in random order, so the companies searched so far are a random subset:
+    # keep only those. Rates are weighted averages, so a random subset still describes the whole population.
+    cos = [co for co in cos if str(co.n).upper() in done]
+    print("companies searched:", len(cos), "with a petition notice:", sum(1 for co in cos if str(co.n).upper() in pets))
     tr, ytr, wtr, gtr, ctr = with_petitions(cos, pets, cats, D.TRAIN)
     te, yte, wte, gte, cte = with_petitions(cos, pets, cats, D.TEST)
     allcols = sorted({k for r in tr + te for k in r})

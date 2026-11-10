@@ -24,12 +24,11 @@ jobs:
       - name: Earlier data
         run: |
           if git ls-remote --exit-code --heads origin gazette-data >/dev/null 2>&1; then
-            git fetch -q origin gazette-data:refs/remotes/origin/gazette-data
-            git checkout -q origin/gazette-data -- armariu-radar/output/gazette || true
+            git fetch -q origin +gazette-data:refs/remotes/origin/gazette-data
+            git checkout -q origin/gazette-data -- output/gazette || true
             git reset -q
           fi
-      - run: python -m radar.gazette_fetch
-      - run: python -m radar.gazette_fetch --numbers --minutes 320
+      - run: python -m radar.gazette_fetch --by-number --minutes 320
       - name: Save to the data branch
         if: ${{ !cancelled() }}
         run: |

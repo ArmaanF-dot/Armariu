@@ -133,15 +133,81 @@ def fill_numbers(f: Path, codes=("2450",), workers: int = 2, limit_minutes: floa
         g.writelines(json.dumps(r) + "\n" for r in rows)
 
 
+def search_number(num: str, gap: float = 0.25):
+    """Gazette insolvency notices that mention this company number since Oct 2021 (full-text search).
+    Returns a list of {id, code, published}, or None if the lookup failed."""
+    for i in range(2):
+        _pace(gap)
+        try:
+            r = requests.get(BASE, params={"text": num, "start-publish-date": "2021-10-01", "results-page-size": 100},
+                             headers=UA, timeout=45)
+            if r.status_code == 200:
+                d = r.json()
+                ent = d.get("entry") or []
+                if isinstance(ent, dict):
+                    ent = [ent]
+                return [{"id": str(e.get("id", "")).rsplit("/", 1)[-1], "code": e.get("f:notice-code"),
+                         "published": (e.get("published") or "")[:10]} for e in ent]
+        except (requests.RequestException, ValueError):
+            pass
+        time.sleep(2)
+    return None
+
+
+def by_number(pop_path: Path, f: Path, workers: int = 4, limit_minutes: float = 320, gap: float = 0.25):
+    """Search the Gazette for each company in the risk-score sample (random order, so any prefix is a random
+    sample). Resumable; saves every 400. Output rows: {"n": number, "notices": [...]}."""
+    import random
+    from concurrent.futures import ThreadPoolExecutor
+    nums = [x.strip() for x in gzip.open(pop_path, "rt") if x.strip()]
+    random.Random(7).shuffle(nums)
+    have = {}
+    if f.exists():
+        for line in gzip.open(f, "rt"):
+            r = json.loads(line); have[r["n"]] = r["notices"]
+    todo = [n for n in nums if n not in have]
+    print(f"{len(have)} already done, {len(todo)} to search", flush=True)
+
+    def save():
+        with gzip.open(f, "wt") as g:
+            g.writelines(json.dumps({"n": k, "notices": v}) + "\n" for k, v in have.items())
+
+    t0 = time.time()
+    for i in range(0, len(todo), 100):
+        if time.time() - t0 > limit_minutes * 60:
+            print("time limit, stopping; rerun to continue", flush=True)
+            break
+        batch = todo[i:i + 100]
+        with ThreadPoolExecutor(workers) as ex:
+            res = list(ex.map(lambda n: search_number(n, gap), batch))
+        fails = 0
+        for n, r in zip(batch, res):
+            if r is None:
+                fails += 1
+            else:
+                have[n] = r
+        if i % 400 == 300 or fails:
+            save()
+        print(f"done {len(have)} of {len(nums)}, failed in this batch {fails}, {(time.time() - t0) / 60:.0f} min", flush=True)
+        if fails > 20:
+            print("many failures: pausing 3 minutes", flush=True)
+            time.sleep(180)
+    save()
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(prog="python -m radar.gazette_fetch")
     p.add_argument("--numbers", action="store_true", help="second pass: company numbers for petition notices")
+    p.add_argument("--by-number", action="store_true", help="search the Gazette for each company in data/petition_population.txt.gz")
     p.add_argument("--minutes", type=float, default=90, help="time limit for the second pass")
     p.add_argument("--from", dest="start", default="2022-01-01")
     p.add_argument("--out", default="output/gazette")
     a = p.parse_args(argv)
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     f = out / "petitions.jsonl.gz"
+    if a.by_number:
+        from . import config
+        return by_number(config.ROOT / "data" / "petition_population.txt.gz", out / "by_number.jsonl.gz", limit_minutes=a.minutes)
     if a.numbers:
         return fill_numbers(f, limit_minutes=a.minutes)
     done, rows = set(), []
