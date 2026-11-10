@@ -11,7 +11,7 @@ permissions:
 jobs:
   gazette:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 355
     defaults:
       run:
         working-directory: armariu-radar
@@ -21,7 +21,14 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install --quiet requests
-      - run: python -m radar.gazette_fetch
+      - name: Earlier data
+        run: |
+          if git ls-remote --exit-code --heads origin gazette-data >/dev/null 2>&1; then
+            git fetch -q origin +gazette-data:refs/remotes/origin/gazette-data
+            git checkout -q origin/gazette-data -- output/gazette || true
+            git reset -q
+          fi
+      - run: python -m radar.gazette_fetch --by-number --minutes 320
       - name: Save to the data branch
         if: ${{ !cancelled() }}
         run: |
