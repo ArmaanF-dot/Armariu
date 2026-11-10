@@ -1,6 +1,4 @@
-# One-off: look at what the Gazette and datos.gov.co actually return, so the petition and Colombia
-# tests (plan tasks 13 and 14) can be written against real data. Run by hand: Actions -> "probe2".
-# Prints short samples to the job log. No secrets, no repo writes.
+# One-off diagnostic for the Gazette per-notice lookups (plan task 13). Prints timings and status codes to the job log.
 name: probe2
 
 on:
@@ -14,12 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Samples
+      - name: Timings
         run: |
-          show() { echo "=== $1"; curl -sS -m 60 -A "Mozilla/5.0 (research probe)" "$2" 2>&1 | head -c "$3"; echo; }
           B="https://www.thegazette.co.uk"
-          B="https://www.thegazette.co.uk"
-          show "A notice 4897752 json (linked data)" "$B/notice/4897752/data.json?view=linked-data" 2500
-          show "B notice 4897752 xml" "$B/notice/4897752/data.xml" 2500
-          show "C notice 4897752 html text" "$B/notice/4897752" 100
-          curl -sS -m 60 -A "Mozilla/5.0" "$B/notice/4897752" | grep -io -m5 "company number[^<]\{0,40\}" || echo "no company number in html"
+          echo "=== 12 sequential lookups"
+          for id in 4897752 4900672 4892828 4897000 4898000 4899000 4890000 4891000 4895000 4896000 4901000 4902000; do
+            curl -sS -m 60 -o /tmp/o -w "%{http_code} %{time_total}s size=%{size_download}\n" -A "Mozilla/5.0" "$B/notice/$id/data.json?view=linked-data"
+            grep -o '"companyNumber":"[^"]*"' /tmp/o | head -1
+          done
+          echo "=== 12 parallel lookups"
+          seq 4903000 4903011 | xargs -P 12 -I{} curl -sS -m 60 -o /dev/null -w "%{http_code} %{time_total}s\n" -A "Mozilla/5.0" "$B/notice/{}/data.json?view=linked-data"
+          echo "=== ttl variant (smaller?)"
+          curl -sS -m 60 -o /tmp/t -w "%{http_code} %{time_total}s size=%{size_download}\n" -A "Mozilla/5.0" "$B/notice/4897752/data.ttl"
+          grep -io "companyNumber[^;.]*" /tmp/t | head -2
