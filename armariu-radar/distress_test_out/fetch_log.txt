@@ -99,3 +99,23 @@
 02:59:11 live: 9,500 fetched, 9,528 calls
 03:04:18 live: 10,000 fetched, 10,029 calls
 03:09:25 live: 10,500 fetched, 10,531 calls
+Traceback (most recent call last):
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/distress_test/fetch.py", line 281, in <module>
+    main()
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/distress_test/fetch.py", line 273, in main
+    step_dissolved()
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/distress_test/fetch.py", line 211, in step_dissolved
+    done_days = read_done(pd, "day")
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Armariu/Armariu/armariu-radar/scripts/distress_test/fetch.py", line 163, in read_done
+    for line in f:
+                ^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/gzip.py", line 351, in read1
+    return self._buffer.read1(size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/_compression.py", line 68, in readinto
+    data = self.read(len(byte_view))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/gzip.py", line 564, in read
+    raise EOFError("Compressed file ended before the "
+EOFError: Compressed file ended before the end-of-stream marker was reached
