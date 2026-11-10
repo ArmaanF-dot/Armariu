@@ -60,12 +60,28 @@ def week_rows(start: date, end: date) -> list[dict]:
         time.sleep(0.3)
 
 
-def notice_number(nid: str):
-    """Company number from the notice's own linked-data record (the feed excerpt usually cuts it off)."""
-    for i in range(3):
+_gate = {"lock": None, "last": 0.0}
+
+
+def _pace(gap: float):
+    import threading
+    if _gate["lock"] is None:
+        _gate["lock"] = threading.Lock()
+    with _gate["lock"]:
+        wait = _gate["last"] + gap - time.time()
+        if wait > 0:
+            time.sleep(wait)
+        _gate["last"] = time.time()
+
+
+def notice_number(nid: str, gap: float = 0.8):
+    """Company number from the notice's own linked-data record (the feed excerpt usually cuts it off).
+    Returns the number, "" if the notice has none, None if the lookup failed (try again later)."""
+    for i in range(2):
+        _pace(gap)
         try:
             r = requests.get(f"https://www.thegazette.co.uk/notice/{nid}/data.json", params={"view": "linked-data"},
-                             headers=UA, timeout=60)
+                             headers=UA, timeout=30)
             if r.status_code == 200:
                 about = (r.json().get("result", {}).get("primaryTopic", {}) or {}).get("isAbout", {}) or {}
                 comp = about.get("company") or {}
@@ -77,42 +93,57 @@ def notice_number(nid: str):
                 return ""
         except (requests.RequestException, ValueError):
             pass
-        time.sleep(3 * (i + 1))
+        time.sleep(2)
     return None
 
 
-def fill_numbers(f: Path, codes=("2450",), workers: int = 8, limit_minutes: float = 90):
-    """Second pass: look up company numbers for petition notices that lack one. Resumable ('' = looked up, none)."""
+def fill_numbers(f: Path, codes=("2450",), workers: int = 2, limit_minutes: float = 90, gap: float = 0.8):
+    """Second pass: look up company numbers for petition notices that lack one. Resumable ('' = looked up, none).
+    The Gazette stopped answering after a few hundred fast requests, so this paces itself (one request per `gap`
+    seconds in total) and pauses for three minutes whenever several lookups in a row fail."""
     from concurrent.futures import ThreadPoolExecutor
     rows = [json.loads(x) for x in gzip.open(f, "rt")]
     todo = [r for r in rows if str(r.get("code")) in codes and r.get("number") is None]
     print("notices to look up:", len(todo), flush=True)
-    t0, done = time.time(), 0
-    for i in range(0, len(todo), 400):
+    t0, done, ok, pauses = time.time(), 0, 0, 0
+    for i in range(0, len(todo), 100):
         if time.time() - t0 > limit_minutes * 60:
             print("time limit, stopping; rerun to continue", flush=True)
             break
-        batch = todo[i:i + 400]
+        batch = todo[i:i + 100]
         with ThreadPoolExecutor(workers) as ex:
-            for r, n in zip(batch, ex.map(lambda r: notice_number(r["id"]), batch)):
-                if n is not None:
-                    r["number"] = n or ""
+            res = list(ex.map(lambda r: notice_number(r["id"], gap), batch))
+        fails = 0
+        for r, n in zip(batch, res):
+            if n is None:
+                fails += 1
+            else:
+                r["number"] = n; ok += 1
         done += len(batch)
-        with gzip.open(f, "wt") as g:
-            g.writelines(json.dumps(r) + "\n" for r in rows)
-        print("looked up", done, "of", len(todo), flush=True)
+        if i % 400 == 300 or fails:
+            with gzip.open(f, "wt") as g:
+                g.writelines(json.dumps(r) + "\n" for r in rows)
+        print(f"tried {done} of {len(todo)}, answered {ok}, failed in this batch {fails}, "
+              f"{(time.time() - t0) / 60:.0f} min", flush=True)
+        if fails > 20:
+            pauses += 1
+            print("many failures: pausing 3 minutes", flush=True)
+            time.sleep(180)
+    with gzip.open(f, "wt") as g:
+        g.writelines(json.dumps(r) + "\n" for r in rows)
 
 
 def main(argv=None):
     p = argparse.ArgumentParser(prog="python -m radar.gazette_fetch")
     p.add_argument("--numbers", action="store_true", help="second pass: company numbers for petition notices")
+    p.add_argument("--minutes", type=float, default=90, help="time limit for the second pass")
     p.add_argument("--from", dest="start", default="2022-01-01")
     p.add_argument("--out", default="output/gazette")
     a = p.parse_args(argv)
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     f = out / "petitions.jsonl.gz"
     if a.numbers:
-        return fill_numbers(f)
+        return fill_numbers(f, limit_minutes=a.minutes)
     done, rows = set(), []
     if f.exists():
         for line in gzip.open(f, "rt"):
