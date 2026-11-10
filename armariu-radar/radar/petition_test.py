@@ -98,6 +98,16 @@ def main(argv=None):
     res["auc_gain_ci"] = [float(diff[0, 0]), float(diff[1, 0])]
     res["auc_gain"] = res["with_petitions"]["auc"] - res["without_petitions"]["auc"]
     pet6 = D.matrix(te, ["pet_6m"])[:, 0] > 0
+    # The model cannot learn a clue this rare (its leaves need 80 rows), so also test a plain rule: any firm with a
+    # petition notice in the last 6 months goes to the top of the list, ranked by the model score within each group.
+    sr = sb + 10.0 * pet6
+    res["rule_petition_to_top"] = D.metrics(sr, yte, wte, cte)
+    d2 = D.bootstrap(lambda i: [D.auc(sr[i], yte[i], wte[i]) - D.auc(sb[i], yte[i], wte[i])], gte, n=150)
+    res["rule_auc_gain"] = res["rule_petition_to_top"]["auc"] - res["without_petitions"]["auc"]
+    res["rule_auc_gain_ci"] = [float(d2[0, 0]), float(d2[1, 0])]
+    res["rule_top1_vs_model"] = [res["rule_petition_to_top"]["top1"], res["without_petitions"]["top1"]]
+    res["petition_rows_unweighted"] = int(pet6.sum())
+    res["petition_events_unweighted"] = int(yte[pet6].sum())
     res["petition_6m_rate"] = {"with": float((wte[pet6] * yte[pet6]).sum() / max(1e-9, wte[pet6].sum())),
                                 "without": float((wte[~pet6] * yte[~pet6]).sum() / wte[~pet6].sum()),
                                 "rows_with": int(pet6.sum()),
