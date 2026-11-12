@@ -1,0 +1,40 @@
+# One-off EXPERIMENT (12 Nov 2026): fetch profit and loss lines (operating profit, depreciation, turnover,
+# interest) from Companies House's free bulk accounts for the radar's companies and the random sample, to test
+# whether EBITDA helps the Refinance watch. Run by hand: Actions -> "pl-facts". Writes nothing to the repo;
+# download the "pl-facts" artifact. Not used by any live score.
+name: pl-facts
+
+on:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "First month to read (YYYY-MM)"
+        default: "2021-06"
+
+permissions:
+  contents: read
+
+jobs:
+  pl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    defaults:
+      run:
+        working-directory: armariu-radar
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet -r requirements.txt
+      - run: python -m radar.dbsync pull && python -m radar.dbsync pull --backfill
+      - run: python scripts/pl_facts.py --since "${{ inputs.since }}" --workers 16
+        timeout-minutes: 320
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pl-facts
+          path: armariu-radar/output/pl/
+          retention-days: 14
