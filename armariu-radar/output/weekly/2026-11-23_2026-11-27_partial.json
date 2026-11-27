@@ -6,11 +6,11 @@
   "coverage_note": "The stream position expired around 2026-11-27 (the radar was offline too long), so some filings in this window were missed.",
   "counts": {
     "A": 0,
-    "B": 0,
-    "C": 2,
-    "D": 0,
-    "E": 0
+    "B": 16,
+    "C": 105,
+    "D": 22,
+    "E": 66
   },
-  "total": 2,
-  "satisfactions": 0
+  "total": 209,
+  "satisfactions": 19
 }
