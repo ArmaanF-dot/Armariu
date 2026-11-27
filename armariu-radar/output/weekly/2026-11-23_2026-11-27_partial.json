@@ -1,0 +1,16 @@
+{
+  "start": "2026-11-23",
+  "end": "2026-11-27",
+  "partial": true,
+  "coverage": "incomplete",
+  "coverage_note": "The stream position expired around 2026-11-27 (the radar was offline too long), so some filings in this window were missed.",
+  "counts": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 0,
+    "E": 0
+  },
+  "total": 0,
+  "satisfactions": 0
+}
